@@ -47,4 +47,53 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+	
+	public function isAdmin(): bool
+    {
+		foreach($this->roles as $role)
+		{
+			if($role->name == 'Admin' ) return true;
+		}
+		return false;
+    }
+	public function isTrader(): bool
+    {
+		foreach($this->roles as $role)
+		{
+			if($role->name == 'Trader' ) return true;
+		}
+		return false;
+    }
+	public function isOps(): bool
+    {
+		foreach($this->roles as $role)
+		{
+			if($role->name == 'Ops' ) return true;
+		}
+		return false;
+    }
+	public function isBackoffice(): bool
+    {
+		foreach($this->roles as $role)
+		{
+			if($role->name == 'Backoffice' ) return true;
+		}
+		return false;
+    }
+	public function isDealer(): bool
+    {
+		foreach($this->roles as $role)
+		{
+			if($role->name == 'Dealer' ) return true;
+		}
+		return false;
+    }
+	public function isAccounts(): bool
+    {
+		foreach($this->roles as $role)
+		{
+			if($role->name == 'Accounts' ) return true;
+		}
+		return false;
+    }
 }
