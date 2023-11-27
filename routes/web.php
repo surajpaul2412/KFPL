@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Middleware\isAdmin;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,10 +14,12 @@ use App\Http\Middleware\isAdmin;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-})->middleware('isAdmin');
+    echo "TEST";
+	//return view('welcome');
+});
+//->middleware('isAdmin');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
