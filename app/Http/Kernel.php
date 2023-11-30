@@ -21,13 +21,12 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-		
-		\App\Http\Middleware\isAdmin::class,
- 		\App\Http\Middleware\isDealer::class,
-		\App\Http\Middleware\isAccounts::class,
-		\App\Http\Middleware\isTrader::class,
-		\App\Http\Middleware\isOps::class,
-		\App\Http\Middleware\isBackoffice::class
+    		\App\Http\Middleware\isAdmin::class,
+     		\App\Http\Middleware\isDealer::class,
+    		\App\Http\Middleware\isAccounts::class,
+    		\App\Http\Middleware\isTrader::class,
+    		\App\Http\Middleware\isOps::class,
+    		\App\Http\Middleware\isBackoffice::class
     ];
 
     /**
@@ -71,11 +70,11 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-		'isAdmin' => \App\Http\Middleware\isAdmin::class,
-		'isAccounts' => \App\Http\Middleware\isAccounts::class,
-		'isTrader' => \App\Http\Middleware\isTrader::class,
-		'isOps' => \App\Http\Middleware\isOps::class,
-		'isBackoffice' => \App\Http\Middleware\isBackoffice::class,
-		'isDealer' => \App\Http\Middleware\isDealer::class,
+    		'isAdmin' => \App\Http\Middleware\isAdmin::class,
+    		'isAccounts' => \App\Http\Middleware\isAccounts::class,
+    		'isTrader' => \App\Http\Middleware\isTrader::class,
+    		'isOps' => \App\Http\Middleware\isOps::class,
+    		'isBackoffice' => \App\Http\Middleware\isBackoffice::class,
+    		'isDealer' => \App\Http\Middleware\isDealer::class,
     ];
 }
