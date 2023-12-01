@@ -7,6 +7,7 @@ use App\Http\Controllers\Account\DashboardController as AccountDashboardControll
 use App\Http\Controllers\Trader\DashboardController as TraderDashboardController;
 use App\Http\Controllers\Ops\DashboardController as OpsDashboardController;
 use App\Http\Controllers\BackOffice\DashboardController as BackOfficeDashboardController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,8 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    // User (Employee) Management
+    Route::resource('/admin/employees', UserController::class);
 });
 
 Route::middleware(['auth', 'isDealer'])->group(function () {

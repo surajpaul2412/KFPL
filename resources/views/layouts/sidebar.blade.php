@@ -7,28 +7,28 @@
             <ul class="nav nav-sidebar">
                 @if(auth()->user()->isAdmin())
                 <li class="nav-item">
-                    <a href="{{ url('/dashboard/finance') }}" class="nav-link"><i class="ri-pie-chart-2-line"></i> <span>Dashboard</span></a>
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link active"><i class="ri-pie-chart-2-line"></i> <span>Dashboard</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/dashboard/product') }}" class="nav-link active"><i class="ri-suitcase-2-fill"></i> <span>Employee Management</span></a>
+                    <a href="{{ route('employees.index') }}" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Employee Management</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/dashboard/product') }}" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Tickets</span></a>
+                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Tickets</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/dashboard/product') }}" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>AMC Manager</span></a>
+                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>AMC Manager</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/dashboard/product') }}" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Alerts</span></a>
+                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Alerts</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/dashboard/product') }}" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Disputes</span></a>
+                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Disputes</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/dashboard/product') }}" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Reports</span></a>
+                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Reports</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/dashboard/product') }}" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Templates</span></a>
+                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Templates</span></a>
                 </li>
                 @endif
             </ul>
