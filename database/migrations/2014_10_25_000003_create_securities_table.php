@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name');
 			$table->string('symbol')->nullable();
 			$table->string('isin')->nullable();
+			$table->biginteger('basket_size')->default(0);
+			$table->double('markup_percentage')->default(0);		
 			$table->double('price')->default(0);
 			$table->integer('status')->default(1);      // 1 -- Active, 0 -- Inactive
             $table->timestamps();
