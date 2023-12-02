@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('amcs', function (Blueprint $table) {
+        Schema::create('ticketstatus', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-			$table->string('email');
-			$table->string('pdf')->nullable();
-			$table->integer('status')->default(1);      // 1 -- Active, 0 -- Inactive
+            $table->integer('ticket_id');
+			$table->integer('employee_id');
+			$table->string('stage')->nullable();  //  Current Stage, 1 - Raised TIcket 
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('amcs');
+        Schema::dropIfExists('ticketstatus');
     }
 };
