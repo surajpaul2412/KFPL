@@ -7,10 +7,10 @@
             <ul class="nav nav-sidebar">
                 @if(auth()->user()->isAdmin())
                 <li class="nav-item">
-                    <a href="{{ route('admin.dashboard') }}" class="nav-link active"><i class="ri-pie-chart-2-line"></i> <span>Dashboard</span></a>
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ Request::is('admin/dashboard*') ? 'active' : '' }}"><i class="ri-pie-chart-2-line"></i> <span>Dashboard</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('employees.index') }}" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Employee Management</span></a>
+                    <a href="{{ route('employees.index') }}" class="nav-link {{ Request::is('admin/employees*') ? 'active' : '' }}"><i class="ri-suitcase-2-fill"></i> <span>Employee Management</span></a>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Tickets</span></a>
