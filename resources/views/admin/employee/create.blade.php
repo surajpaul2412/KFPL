@@ -16,44 +16,61 @@ Employee Management
 </div>
 
 <div class="row g-3">
-    <div class="col-xl-5">
+    <div class="col-xl-12">
         <div class="row g-3">
-            <div class="col-6 col-md-3 col-xl-6">
+
+            <form class="col-12 col-md-12 col-xl-12 pt-3">
                 <div class="card card-one card-product">
                     <div class="card-body p-3">
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="card-icon"><i class="ri-shopping-bag-fill"></i></div>
-                            <h6 class="fw-normal ff-numerals text-success mb-0">+28.5%</h6>
+                        <div class="row px-md-4">
+                            <div class="w-25">
+                                Name
+                            </div>
+                            <div class="w-75">
+                                <input type="text" class="form-control w-100" placeholder="Enter Name" required>
+                            </div>
                         </div>
-                        <h2 class="card-value ls--1"><span>$</span>14,803.80</h2>
-                        <label class="card-label fw-medium text-dark">Total Sales</label>
-                        <span class="d-flex gap-1 fs-xs">
-                            <span class="d-flex align-items-center text-success">
-                                <span class="ff-numerals">2.3%</span><i class="ri-arrow-up-line"></i>
-                            </span>
-                            <span class="text-secondary">than last week</span>
-                        </span>
+                        <hr/>
+                        <div class="row px-md-4">
+                            <div class="w-25">
+                                Department
+                            </div>
+                            <div class="w-75">
+                                <select id="select2D" class="form-select mobile-w-100" multiple>
+                                  <option value="Firefox">Firefox</option>
+                                  <option value="Chrome">Chrome</option>
+                                  <option value="Safari">Safari</option>
+                                  <option value="Opera">Opera</option>
+                                  <option value="Internet Explorer">Internet Explorer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row px-md-4">
+                            <div class="w-25">
+                                Email
+                            </div>
+                            <div class="w-75">
+                                <input type="email" class="form-control w-100" placeholder="Enter Email Address" required>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row px-md-4">
+                            <div class="w-25">
+                                Phone Number
+                            </div>
+                            <div class="w-75">
+                                <input type="text" class="form-control w-100" placeholder="Enter Phone Number" required>
+                            </div>
+                        </div>
+                        <div class="text-align-center">
+                            <button type="button" class="btn btn-primary active my-5 px-5 text-ali">Add employee </button>
+                        </div>
                     </div><!-- card-body -->
                 </div><!-- card -->
-            </div><!-- col -->
-            <div class="col-6 col-md-3 col-xl-6">
-                <div class="card card-one card-product">
-                    <div class="card-body p-3">
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="card-icon"><i class="ri-shopping-basket-fill"></i></div>
-                            <h6 class="fw-normal ff-numerals text-success mb-0">+20.9%</h6>
-                        </div>
-                        <h2 class="card-value ls--1">18,060</h2>
-                        <label class="card-label fw-medium text-dark">Products Sold</label>
-                        <span class="d-flex gap-1 fs-xs">
-                            <span class="d-flex align-items-center text-success">
-                                <span class="ff-numerals">5.8%</span><i class="ri-arrow-up-line"></i>
-                            </span>
-                            <span class="text-secondary">than last week</span>
-                        </span>
-                    </div><!-- card-body -->
-                </div><!-- card -->
-            </div><!-- col -->
+            </form><!-- col -->
+
+
         </div><!-- row -->
     </div><!-- col -->
 </div><!-- row -->

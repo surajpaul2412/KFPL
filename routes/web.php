@@ -20,13 +20,11 @@ use App\Http\Controllers\Admin\UserController;
 |
 */
 
-Route::get('/', function () {
-    echo "TEST";
-	//return view('welcome');
-});
-//->middleware('isAdmin');
+
 
 Auth::routes();
+Route::redirect('/register', '/login');
+Route::redirect('/', '/login');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

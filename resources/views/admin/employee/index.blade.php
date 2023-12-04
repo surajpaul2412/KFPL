@@ -17,45 +17,51 @@ Employee Management
     </div>
 </div>
 
-<div class="row g-3">
-    <div class="col-xl-5">
+<div class="row justify-content-center g-3">
+    <div class="col-xl-12">
         <div class="row g-3">
-            <div class="col-6 col-md-3 col-xl-6">
-                <div class="card card-one card-product">
+            <div class="col-12 col-md-12 col-xl-12 pt-3">
+                <div class="card card-one card-product text-center"> <!-- Added text-center class -->
                     <div class="card-body p-3">
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="card-icon"><i class="ri-shopping-bag-fill"></i></div>
-                            <h6 class="fw-normal ff-numerals text-success mb-0">+28.5%</h6>
-                        </div>
-                        <h2 class="card-value ls--1"><span>$</span>14,803.80</h2>
-                        <label class="card-label fw-medium text-dark">Total Sales</label>
-                        <span class="d-flex gap-1 fs-xs">
-                            <span class="d-flex align-items-center text-success">
-                                <span class="ff-numerals">2.3%</span><i class="ri-arrow-up-line"></i>
-                            </span>
-                            <span class="text-secondary">than last week</span>
-                        </span>
-                    </div><!-- card-body -->
-                </div><!-- card -->
-            </div><!-- col -->
-            <div class="col-6 col-md-3 col-xl-6">
-                <div class="card card-one card-product">
-                    <div class="card-body p-3">
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="card-icon"><i class="ri-shopping-basket-fill"></i></div>
-                            <h6 class="fw-normal ff-numerals text-success mb-0">+20.9%</h6>
-                        </div>
-                        <h2 class="card-value ls--1">18,060</h2>
-                        <label class="card-label fw-medium text-dark">Products Sold</label>
-                        <span class="d-flex gap-1 fs-xs">
-                            <span class="d-flex align-items-center text-success">
-                                <span class="ff-numerals">5.8%</span><i class="ri-arrow-up-line"></i>
-                            </span>
-                            <span class="text-secondary">than last week</span>
-                        </span>
-                    </div><!-- card-body -->
-                </div><!-- card -->
-            </div><!-- col -->
+                        <!-- table -->
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Phone Number</th>
+                                    <th>Department</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div><!-- row -->
     </div><!-- col -->
 </div><!-- row -->

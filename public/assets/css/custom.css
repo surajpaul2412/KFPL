@@ -1,0 +1,21 @@
+hr {
+	stroke-width: 0.5px;
+	stroke: rgba(0, 0, 0, 0.30);
+	opacity: 0.1;
+}
+.text-align-center {
+	text-align: center;
+}
+.btn {
+	border-radius: 7px;
+}
+
+/*mobile only*/
+@media only screen and (max-width: 767px) {
+	.w-25, .w-75{
+		width: 100% !important;
+	}
+	.mobile-w-100{
+		width: 100%;
+	}
+}
