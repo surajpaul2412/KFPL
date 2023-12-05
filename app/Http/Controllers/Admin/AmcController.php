@@ -55,7 +55,7 @@ class AmcController extends Controller
 
     public function edit($id)
     {
-        $amc = Amc::find($id);
+        $amc = Amc::findOrFail($id);
 
         return view('admin.amcs.edit', compact('amc'));
     }
@@ -69,7 +69,7 @@ class AmcController extends Controller
             'status' => 'nullable|in:0,1',
         ]);
 
-        $amc = Amc::find($id);
+        $amc = Amc::findOrFail($id);
 
         // Handle file upload if necessary
         if ($request->hasFile('pdf')) {
@@ -93,7 +93,7 @@ class AmcController extends Controller
 
     public function destroy($id)
     {
-        $amc = Amc::find($id);
+        $amc = Amc::findOrFail($id);
 
         // Delete the associated file
         if ($amc->pdf) {
