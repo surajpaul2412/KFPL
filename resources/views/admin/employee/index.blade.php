@@ -6,8 +6,13 @@ Employee Management
 
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <div>
-        Status // department
+    <div class="d-flex">
+        <select class="form-select mx-2">
+            <option value="status">Status</option>
+        </select>
+        <select class="form-select mx-2">
+            <option value="department">Department</option>
+        </select>
     </div>
 
     <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
@@ -22,7 +27,7 @@ Employee Management
         <div class="row g-3">
             <div class="col-12 col-md-12 col-xl-12 pt-3">
                 <div class="card card-one card-product text-center"> <!-- Added text-center class -->
-                    <div class="card-body p-3">
+                    <div class="card-body p-0">
                         <!-- table -->
                         <table class="table">
                             <thead>
@@ -36,6 +41,106 @@ Employee Management
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
+                                <tr>
+                                    <td>Data 1</td>
+                                    <td>Data 2</td>
+                                    <td>
+                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                    </td>
+                                    <td>Data 4</td>
+                                    <td>Data 5</td>
+                                    <td>Data 6</td>
+                                </tr>
                                 <tr>
                                     <td>Data 1</td>
                                     <td>Data 2</td>

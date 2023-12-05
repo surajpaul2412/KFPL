@@ -40,8 +40,9 @@
                 <img src="{{ asset('assets/img/img1.jpg') }}" alt="">
             </div><!-- sidebar-footer-thumb -->
             <div class="sidebar-footer-body">
-                <h6><a href="{{ url('/pages/profile') }}">Shaira Diaz</a></h6>
-                <p>Premium Member</p>
+                <p>{{Auth::user()->roles[0]->name}}</p>
+                <h6><a class="text-capitalize" href="{{ url('/pages/profile') }}">{{Auth::user()->name}}</a></h6>
+                
             </div><!-- sidebar-footer-body -->
             <a id="sidebarFooterMenu" href="" class="dropdown-link"><i class="ri-arrow-down-s-line"></i></a>
         </div><!-- sidebar-footer-top -->

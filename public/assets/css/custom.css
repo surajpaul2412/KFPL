@@ -9,6 +9,18 @@ hr {
 .btn {
 	border-radius: 7px;
 }
+.badge {
+	width: 100px;
+	padding: 8px 0 !important;
+	align-items: center;
+	border-radius: 32px;
+}
+th {
+	background: #F8F8F8 !important;
+}
+thead, tbody, tfoot, tr, td, th {
+	padding: 14px !important;
+}
 
 /*mobile only*/
 @media only screen and (max-width: 767px) {

@@ -40,7 +40,6 @@ class DatabaseSeeder extends Seeder
 		   'name'     => 'admin',
 		   'email'    => 'admin@kfpl.com',
 		   'password' => Hash::make('admin123'),
-		   'role_id'  => 1,
 		   'phone'    => null
 		]);
 		
