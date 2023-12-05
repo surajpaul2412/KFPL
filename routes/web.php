@@ -8,6 +8,7 @@ use App\Http\Controllers\Trader\DashboardController as TraderDashboardController
 use App\Http\Controllers\Ops\DashboardController as OpsDashboardController;
 use App\Http\Controllers\BackOffice\DashboardController as BackOfficeDashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AmcController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,36 +21,51 @@ use App\Http\Controllers\Admin\UserController;
 |
 */
 
-
-
 Auth::routes();
+
+// Redirects
 Route::redirect('/register', '/login');
 Route::redirect('/', '/login');
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Home
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// AMC Route
+Route::get('/amcs', [AmcController::class, 'index']);
+
+// Admin Routes
 Route::middleware(['auth', 'isAdmin'])->group(function () {
+    // Admin Dashboard
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    
     // User (Employee) Management
     Route::resource('/admin/employees', UserController::class);
+    
+    // AMC Management
+    Route::resource('/admin/amcs', AmcController::class);
 });
 
+// Dealer Dashboard
 Route::middleware(['auth', 'isDealer'])->group(function () {
     Route::get('/dealer/dashboard', [DealerDashboardController::class, 'index'])->name('dealer.dashboard');
 });
 
+// Accounts Dashboard
 Route::middleware(['auth', 'isAccounts'])->group(function () {
     Route::get('/accounts/dashboard', [AccountDashboardController::class, 'index'])->name('accounts.dashboard');
 });
 
+// Trader Dashboard
 Route::middleware(['auth', 'isTrader'])->group(function () {
     Route::get('/trader/dashboard', [TraderDashboardController::class, 'index'])->name('trader.dashboard');
 });
 
+// Ops Dashboard
 Route::middleware(['auth', 'isOps'])->group(function () {
     Route::get('/ops/dashboard', [OpsDashboardController::class, 'index'])->name('ops.dashboard');
 });
 
+// Backoffice Dashboard
 Route::middleware(['auth', 'isBackoffice'])->group(function () {
     Route::get('/backoffice/dashboard', [BackOfficeDashboardController::class, 'index'])->name('backOffice.dashboard');
 });
