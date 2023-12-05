@@ -13,7 +13,7 @@
 
         <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
             <a type="button" href="{{ route('amcs.create') }}" class="btn btn-primary d-flex align-items-center gap-2">
-                <i class="ri-bar-chart-2-line fs-18 lh-1"></i><span class="d-none d-sm-inline"> Add AMC</span>
+                <i class="ri-add-circle-line fs-18 lh-1"></i><span class="d-none d-sm-inline"> Add AMC</span>
             </a>
         </div>
     </div>
