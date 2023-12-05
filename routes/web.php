@@ -30,9 +30,6 @@ Route::redirect('/', '/login');
 // Home
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// AMC Route
-Route::get('/amcs', [AmcController::class, 'index']);
-
 // Admin Routes
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     // Admin Dashboard
