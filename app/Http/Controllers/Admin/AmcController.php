@@ -5,26 +5,26 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Amc;
+use App\Models\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class AmcController extends Controller
 {
     public function index(Request $request)
     {
-        // Retrieve the search query from the request
         $search = $request->input('search');
-
-        // Query to fetch AMC records with optional search
         $amcs = Amc::when($search, function ($query) use ($search) {
             $query->where('name', 'like', '%' . $search . '%')
                 ->orWhere('email', 'like', '%' . $search . '%');
-        })->paginate(10); // You can adjust the pagination value as needed
+        })->paginate(10);
 
-        return view('admin.amcs.index', compact('amcs', 'search')); // Pass 'amcs' and 'search' as variables to the view
+        return view('admin.amcs.index', compact('amcs', 'search'));
     }
 
     public function create()
     {
-        return view('admin.amcs.create');
+        $pdfs = Pdf::all();
+        return view('admin.amcs.create', compact('pdfs'));
     }
 
     public function store(Request $request)
@@ -32,32 +32,20 @@ class AmcController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'pdf' => 'nullable|mimes:pdf',
+            'pdf_id' => 'nullable|exists:pdfs,id', // Validate that the selected PDF exists in the 'pdfs' table
             'status' => 'nullable|in:0,1',
         ]);
 
-        // Handle file upload if necessary
-        if ($request->hasFile('pdf')) {
-            $pdfPath = $request->file('pdf')->store('pdfs');
-        } else {
-            $pdfPath = null;
-        }
+        Amc::create($request->all());
 
-        Amc::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'pdf' => $pdfPath,
-            'status' => $request->input('status', 1),
-        ]);
-
-        return redirect()->route('admin.amcs.index')->with('success', 'AMC created successfully.');
+        return redirect()->route('amcs.index')->with('success', 'AMC created successfully.');
     }
 
     public function edit($id)
     {
         $amc = Amc::findOrFail($id);
-
-        return view('admin.amcs.edit', compact('amc'));
+        $pdfs = Pdf::all();
+        return view('admin.amcs.edit', compact('amc','pdfs'));
     }
 
     public function update(Request $request, $id)
@@ -65,43 +53,22 @@ class AmcController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'pdf' => 'nullable|mimes:pdf',
+            'pdf_id' => 'nullable|exists:pdfs,id', // Validate that the selected PDF exists in the 'pdfs' table
             'status' => 'nullable|in:0,1',
         ]);
 
         $amc = Amc::findOrFail($id);
 
-        // Handle file upload if necessary
-        if ($request->hasFile('pdf')) {
-            // Delete the existing file
-            if ($amc->pdf) {
-                Storage::delete($amc->pdf);
-            }
+        // Update amc attributes with validated data
+        $amc->update($request->all());
 
-            // Upload the new file
-            $pdfPath = $request->file('pdf')->store('pdfs');
-            $amc->pdf = $pdfPath;
-        }
-
-        $amc->name = $request->input('name');
-        $amc->email = $request->input('email');
-        $amc->status = $request->input('status', 1);
-        $amc->save();
-
-        return redirect()->route('admin.amcs.index')->with('success', 'AMC updated successfully.');
+        return redirect()->route('amcs.index')->with('success', 'AMC updated successfully.');
     }
 
     public function destroy($id)
     {
         $amc = Amc::findOrFail($id);
-
-        // Delete the associated file
-        if ($amc->pdf) {
-            Storage::delete($amc->pdf);
-        }
-
         $amc->delete();
-
-        return redirect()->route('admin.amcs.index')->with('success', 'AMC deleted successfully.');
+        return redirect()->route('amcs.index')->with('success', 'AMC deleted successfully.');
     }
 }

@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('amcs', function (Blueprint $table) {
+        Schema::create('pdfs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-			$table->string('email');
-            $table->foreignId('pdf_id')->constrained();
-			$table->integer('status')->default(1);      // 1 -- Active, 0 -- Inactive
+            $table->integer('status')->default(1);      // 1 -- Active, 0 -- Inactive
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('amcs');
+        Schema::dropIfExists('pdfs');
     }
 };

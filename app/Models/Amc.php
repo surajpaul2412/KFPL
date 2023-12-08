@@ -9,7 +9,12 @@ class Amc extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'pdf', 'status'];
+    protected $fillable = ['name', 'email', 'pdf_id', 'status'];
+
+    public function pdf()
+    {
+        return $this->belongsTo(Pdf::class);
+    }
 
     public function securities()
     {

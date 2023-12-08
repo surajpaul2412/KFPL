@@ -9,6 +9,7 @@ use App\Http\Controllers\Ops\DashboardController as OpsDashboardController;
 use App\Http\Controllers\BackOffice\DashboardController as BackOfficeDashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AmcController;
+use App\Http\Controllers\Admin\SecurityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,12 +35,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     // Admin Dashboard
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    
     // User (Employee) Management
     Route::resource('/admin/employees', UserController::class);
-    
     // AMC Management
     Route::resource('/admin/amcs', AmcController::class);
+    Route::resource('/admin/securities', SecurityController::class);
 });
 
 // Dealer Dashboard

@@ -30,7 +30,7 @@
     @include('layouts.sidebar')
     @include('layouts.header')
 
-    <div class="main main-app p-3 p-lg-4">
+    <div class="main main-app px-3 px-lg-4 py-2 py-lg-2">
         @yield('content')
         @include('layouts.footer')
     </div><!-- main -->
