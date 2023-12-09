@@ -43,6 +43,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     // AMC Management
     Route::resource('/admin/amcs', AmcController::class);
+    Route::post('/admin/upload-securities', [SecurityController::class, 'uploadCSV']);
     Route::resource('/admin/securities', SecurityController::class);
 });
 

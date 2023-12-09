@@ -5,7 +5,10 @@
 @endsection
 
 @section('breadcrum-btn')
-<a href="" class="btn btn-outline-primary mx-3"><i class="ri-upload-line pe-2"></i> Upload rates via Excel</a>
+<button type="button" class="btn btn-outline-primary mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <i class="ri-upload-line pe-2"></i> Upload rates via Excel
+</button>
+
 <a href="" class="btn btn-outline-primary"><i class="ri-download-2-line pe-2"></i>Download via Excel</a>
 @endsection
 
@@ -87,4 +90,26 @@
             </div>
         </div>
     </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+
+    <form action="{{ url('/admin/upload-securities') }}" method="post" enctype="multipart/form-data" class="modal-content">
+        @csrf
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Upload Excel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="file" name="csv_file" accept=".csv" required>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Upload CSV</button>
+      </div>
+    </form>
+
+  </div>
+</div>
 @endsection
