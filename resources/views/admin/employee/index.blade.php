@@ -5,6 +5,9 @@ Employee Management
 @endsection
 
 @section('content')
+
+@include('topmessages')
+
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
 
         <!--
@@ -49,8 +52,10 @@ Employee Management
                                 <tr>
                                     <th>ID #</th>
                                     <th>Name</th>
+                                    <th>Email</th>
                                     <th>Phone Number</th>
                                     <th>Department</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -60,11 +65,7 @@ Employee Management
                                 <tr>
                                     <td>{{$employee->id}}</td>
                                     <td>{{$employee->name}}</td>
-                                    <!--
-                                    <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
-                                    </td>
-                                    -->
+                                    <td>{{$employee->email}}</td>
                                     <td>{{$employee->phone??'N/A'}}</td>
                                     <td>
                                      @php
@@ -77,20 +78,32 @@ Employee Management
                                      echo $str;
                                      @endphp
                                     </td>
+
                                     <td>
-                                      <a href="{{url('/admin/employees/edit/' . $employee->id)}}" title="Edit">
+                                        <a type="button" href="javascript:void(0)" onclick="togglestatus({{$employee->id}})"
+                                        @php
+                                        if( $employee->status )
+                                        {
+                                           echo 'class="badge badge-pill bg-success px-4" title="Click to Disable User">Active';
+                                        }
+                                        else
+                                        {
+                                           echo 'class="badge badge-pill bg-danger px-4" title="Click to Enable User">Inactive';
+                                        }
+                                        @endphp
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                      <a href="{{url('/admin/employees/' . $employee->id . '/edit')}}" title="Edit">
                                         <i class="ri-pencil-line"></i>
-                                      </a>
-                                      &nbsp;
-                                      <a href="javascript:void(0)" title="Delete">
-                                        <i class="ri-delete-bin-line"></i>
                                       </a>
                                     </td>
                                 </tr>
                                 @endforeach
                                @else
                                 <tr style="text-align:center">
-                                   <td colspan="5" style="text-align:center">
+                                   <td colspan="6" style="text-align:center">
                                       No Data Found
                                    </td>
                                 </tr>
@@ -104,6 +117,11 @@ Employee Management
         </div><!-- row -->
     </div><!-- col -->
 </div><!-- row -->
+<!-- toggle status form : starts -->
+<form id="toggleStatusForm" style="display:none" action="{{route('admin.employee.togglestatus')}}">
+  <input name="item" value="">
+  <input name="action" value="togglestatus">
+</form>
 
 <script>
 	    var base_url = "@php echo url('/admin/employees'); @endphp";

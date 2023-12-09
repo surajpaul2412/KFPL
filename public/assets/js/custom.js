@@ -45,3 +45,13 @@ function search(mode)
  {
     location.href = base_url;
  }
+
+ function togglestatus(id)
+ {
+   var frm = document.getElementById("toggleStatusForm");
+   if(frm && frm.elements[0])
+   {
+     frm.elements[0].value=id;
+     frm.submit();
+   }
+ }

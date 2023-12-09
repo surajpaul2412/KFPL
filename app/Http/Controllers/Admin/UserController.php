@@ -21,6 +21,25 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function togglestatus(Request $request)
+    {
+      // Toggle status
+      if(isset($request['action']) && $request['action'] == 'togglestatus' &&
+         isset($request['item']) && $request['item']!='')
+      {
+         $user = User::find($request['item']);
+         if($user)
+         {
+            $user->status = $user->status ? 0 : 1;
+            $user->save();
+            return back()->with('success', 'User Status was changed successfully!');
+         }
+      }
+
+      return back()->withErrors(['Error occurred while changing status']);
+    }
+
+    // Listing
     public function index(Request $request)
     {
         $role_id = $request['role_id'];
@@ -76,8 +95,8 @@ class UserController extends Controller
               'name' => $request['name'],
               'email' => $request['email'],
               'password' => Hash::make('1qaz2wsx'),
-              'phone' => $request['phone'],
-
+              'phone'  => $request['phone'],
+              'status' => $request['status'] ?? 0
             ]);
 
             if( $user->id )
@@ -85,7 +104,7 @@ class UserController extends Controller
               // Save Roles
               $user->roles()->sync($request['role_id']);
 
-              return back()->with('success', 'User has been added successfully!');
+              return back()->with('success', 'User Added Successfully!');
             }
 
             return back()->withErrors(['User Creation Error']);
@@ -110,7 +129,12 @@ class UserController extends Controller
     public function edit(Request $request, string $id)
     {
         //
-        echo "MAJU jabo";
+        $roles = Role::where('id', '<>', 1)->get();
+
+        $employee = User::findOrFail($id);
+
+        return view('admin.employee.edit', compact('roles', 'employee'));
+
     }
 
     /**
@@ -118,7 +142,39 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try
+        {
+          //
+          // Validate Request
+          $rules = [
+            'name'      => 'required',
+            'email'     => 'required|email|unique:users,email,'.$id.',id',
+            'role_id'   => 'required|array|min:1',
+          ];
+
+          $validator = Validator::make($request->all(),$rules);
+
+          if($validator->fails())
+          {
+              return back()->withErrors(['Name, Valid/Unique Email and Role Needed'])->withInput();
+          }
+
+          $user = User::findOrFail($id);
+          $user->name = $request['name'];
+          $user->email = $request['email'];
+          $user->phone = $request['phone'];
+          $user->status = $request['status'] ?? 0;
+          $user->save();
+
+          // Sync Roles
+          $user->roles()->sync($request['role_id']);
+
+          return back()->with('success', 'User Updated Successfully!');
+        }
+        catch (Exception $e)
+        {
+          return back()->withErrors(['User Updation Error : ' . $e->getMessage()]);
+        }
     }
 
     /**
