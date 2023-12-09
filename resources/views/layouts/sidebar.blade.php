@@ -7,28 +7,32 @@
             <ul class="nav nav-sidebar">
                 @if(auth()->user()->isAdmin())
                 <li class="nav-item">
-                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ Request::is('admin/dashboard*') ? 'active' : '' }}"><i class="ri-pie-chart-2-line"></i> <span>Dashboard</span></a>
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ Request::is('admin/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('employees.index') }}" class="nav-link {{ Request::is('admin/employees*') ? 'active' : '' }}"><i class="ri-suitcase-2-fill"></i> <span>Employee Management</span></a>
+                    <a href="{{ route('employees.index') }}" class="nav-link {{ Request::is('admin/employees*') ? 'active' : '' }}"><i class="ri-group-line"></i> <span>Employee Management</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Tickets</span></a>
+                    <a href="" class="nav-link"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>AMC Manager</span></a>
+                    <a href="" class="nav-link has-sub {{ Request::is('admin/amcs*') ? 'active' : '' }} {{ Request::is('admin/securities*') ? 'active' : '' }}"><i class="ri-user-2-line"></i> <span>AMC Manager</span></a>
+                    <nav class="nav nav-sub" style="{{ Request::is('admin/amcs*') || Request::is('admin/securities*') ? 'display: block;' : 'display: none;' }}">
+                        <a href="{{ route('amcs.index') }}" class="nav-sub-link">AMC</a>
+                        <a href="{{ route('securities.index') }}" class="nav-sub-link">Security</a>
+                    </nav>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Alerts</span></a>
+                    <a href="" class="nav-link"><i class="ri-notification-4-line"></i> <span>Alerts</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Disputes</span></a>
+                    <a href="" class="nav-link"><i class="ri-alarm-warning-line"></i> <span>Disputes</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Reports</span></a>
+                    <a href="" class="nav-link"><i class="ri-funds-box-line"></i> <span>Reports</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link"><i class="ri-suitcase-2-fill"></i> <span>Templates</span></a>
+                    <a href="" class="nav-link"><i class="ri-article-fill"></i> <span>Templates</span></a>
                 </li>
                 @endif
             </ul>
