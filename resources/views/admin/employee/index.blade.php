@@ -6,14 +6,29 @@ Employee Management
 
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <div class="d-flex">
+
+        <!--
         <select class="form-select mx-2">
             <option value="status">Status</option>
         </select>
-        <select class="form-select mx-2">
-            <option value="department">Department</option>
-        </select>
-    </div>
+        -->
+        <form>
+          <div style="display:inline-block;margin-right:10px;">
+            <select class="form-select mx-2" name="role_id">
+                <option value="">All Departments </option>
+                @foreach($roles as $role)
+                  <option value="{{$role->id}}" {!! $role_id==$role->id?"selected='selected'":""!!}>{{$role->name}}</option>
+                @endforeach
+            </select>
+          </div>
+          <button type="submit" class="actn-bttn" title="Search">
+            <i class="ri-search-line"></i>
+          </button>
+          <button type="reset" class="actn-bttn" title="Reset Search" onclick="resetsearch()">
+            <i class="ri-refresh-line"></i>
+          </button>
+        </form>
+
 
     <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
         <a type="button" href="{{route('employees.create')}}" class="btn btn-primary d-flex align-items-center gap-2">
@@ -32,135 +47,54 @@ Employee Management
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>ID #</th>
                                     <th>Name</th>
-                                    <th>Status</th>
                                     <th>Phone Number</th>
                                     <th>Department</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                              @if(count($employees))
+                               @foreach($employees as $employee)
                                 <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
+                                    <td>{{$employee->id}}</td>
+                                    <td>{{$employee->name}}</td>
+                                    <!--
                                     <td>
                                         <a type="button" class="badge badge-pill bg-success px-4">Active</a>
                                     </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
-                                </tr>
-                                <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
+                                    -->
+                                    <td>{{$employee->phone??'N/A'}}</td>
                                     <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                     @php
+                                     $str = '';
+                                     foreach($employee->roles as $role)
+                                     {
+                                       $str .= $role->name . ", ";
+                                     }
+                                     $str = rtrim(trim($str), ",");
+                                     echo $str;
+                                     @endphp
                                     </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
-                                </tr>
-                                <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
                                     <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
+                                      <a href="{{url('/admin/employees/edit/' . $employee->id)}}" title="Edit">
+                                        <i class="ri-pencil-line"></i>
+                                      </a>
+                                      &nbsp;
+                                      <a href="javascript:void(0)" title="Delete">
+                                        <i class="ri-delete-bin-line"></i>
+                                      </a>
                                     </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
                                 </tr>
-                                <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
-                                    <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
-                                    </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
+                                @endforeach
+                               @else
+                                <tr style="text-align:center">
+                                   <td colspan="5" style="text-align:center">
+                                      No Data Found
+                                   </td>
                                 </tr>
-                                <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
-                                    <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
-                                    </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
-                                </tr>
-                                <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
-                                    <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
-                                    </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
-                                </tr>
-                                <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
-                                    <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
-                                    </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
-                                </tr>
-                                <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
-                                    <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
-                                    </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
-                                </tr>
-                                <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
-                                    <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
-                                    </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
-                                </tr>
-                                <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
-                                    <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
-                                    </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
-                                </tr>
-                                <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
-                                    <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
-                                    </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
-                                </tr>
-                                <tr>
-                                    <td>Data 1</td>
-                                    <td>Data 2</td>
-                                    <td>
-                                        <a type="button" class="badge badge-pill bg-success px-4">Active</a>
-                                    </td>
-                                    <td>Data 4</td>
-                                    <td>Data 5</td>
-                                    <td>Data 6</td>
-                                </tr>
+                               @endif
                                 <!-- Add more rows as needed -->
                             </tbody>
                         </table>
@@ -170,4 +104,8 @@ Employee Management
         </div><!-- row -->
     </div><!-- col -->
 </div><!-- row -->
+
+<script>
+	    var base_url = "@php echo url('/admin/employees'); @endphp";
+</script>
 @endsection

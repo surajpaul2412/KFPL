@@ -34,3 +34,6 @@ tr:last-child {
 		width: 100%;
 	}
 }
+span.required {
+	color:red;
+}

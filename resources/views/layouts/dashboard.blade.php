@@ -13,7 +13,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.png') }}">
     @yield('meta')
 
-    <title>DashByte - Premium Dashboard Template</title>
+    <title>KFPL</title>
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="{{ asset('lib/remixicon/fonts/remixicon.css') }}">
@@ -41,7 +41,7 @@
     <script src="{{ asset('lib/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('lib/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('lib/select2/js/select2.full.min.js') }}"></script>
-
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/db.product.js') }}"></script>
     <script>

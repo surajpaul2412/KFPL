@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('ticketstatus', function (Blueprint $table) {
             $table->id();
             $table->integer('ticket_id');
-			$table->integer('employee_id');
-			$table->string('stage')->nullable();  //  Current Stage, 1 - Raised TIcket 
+      			$table->integer('employee_id');
+      			$table->string('stage')->nullable();  //  Current Stage, 1 - Raised TIcket
             $table->timestamps();
         });
     }
