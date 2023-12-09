@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center justify-content-between">
         <form class="d-flex" method="GET" action="{{ route('securities.index') }}">
             <input class="form-control me-2" type="search" name="search" value="{{$search}}" placeholder="Search AMC" aria-label="Search AMC">
             <button class="btn btn-primary" type="submit">Search</button>

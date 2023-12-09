@@ -8,7 +8,7 @@ Employee Management
 
 @include('topmessages')
 
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
+<div class="d-sm-flex align-items-center justify-content-between">
 
         <!--
         <select class="form-select mx-2">
