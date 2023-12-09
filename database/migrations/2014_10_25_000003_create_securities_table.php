@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('securities', function (Blueprint $table) {
             $table->id();
-      			$table->foreignId('amc_id')->constrained(); // Add foreign key constraint
+      		$table->foreignId('amc_id')->constrained(); // Add foreign key constraint
             $table->string('name');
             $table->string('symbol')->nullable();
-            $table->string('isin')->nullable();
-      			$table->bigInteger('basket_size')->default(0);
+            $table->string('isin')->unique();
+      		$table->bigInteger('basket_size')->default(0);
             $table->decimal('markup_percentage', 8, 2)->default(0); // Use decimal for percentage
             $table->decimal('price', 10, 2)->default(0); // Use decimal for price
             $table->boolean('status')->default(1);      // 1 -- Active, 0 -- Inactive

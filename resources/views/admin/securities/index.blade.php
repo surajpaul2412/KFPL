@@ -4,6 +4,11 @@
     AMC Securities
 @endsection
 
+@section('breadcrum-btn')
+<a href="" class="btn btn-outline-primary mx-3"><i class="ri-upload-line pe-2"></i> Upload rates via Excel</a>
+<a href="" class="btn btn-outline-primary"><i class="ri-download-2-line pe-2"></i>Download via Excel</a>
+@endsection
+
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between">
         <form class="d-flex" method="GET" action="{{ route('securities.index') }}">
