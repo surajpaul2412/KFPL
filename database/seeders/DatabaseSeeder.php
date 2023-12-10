@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Pdf;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -36,14 +37,31 @@ class DatabaseSeeder extends Seeder
         }
 		
 		// CREATE ADMIN User 
-		$user = User::create([
-		   'name'     => 'admin',
-		   'email'    => 'admin@kfpl.com',
-		   'password' => Hash::make('admin123'),
-		   'phone'    => null
-		]);
-		
-		$user->roles()->sync([1]);
-		
+        if (User::count() === 0) {
+    		$user = User::create([
+    		   'name'     => 'admin',
+    		   'email'    => 'admin@kfpl.com',
+    		   'password' => Hash::make('admin123'),
+    		   'phone'    => null
+    		]);
+    		
+    		$user->roles()->sync([1]);
+        }
+
+        // PDF
+        if (Pdf::count() === 0) {
+            $arr = [
+                ['name' => 'Sample PDF 1', 'status' => 1],
+                ['name' => 'Sample PDF 2', 'status' => 1],
+                ['name' => 'Inactive PDF', 'status' => 0],
+            ];
+
+            foreach ($arr as $row) {
+                Pdf::create($row);
+            }
+            $this->command->info('Pdf table seeded successfully!');
+        } else {
+            $this->command->info('Pdf table already has data. No need to seed.');
+        }
     }
 }

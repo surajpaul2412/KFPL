@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Security;
 use App\Models\Amc;
+use League\Csv\Reader;
 
 class SecurityController extends Controller
 {
@@ -106,5 +107,28 @@ class SecurityController extends Controller
         $security->delete();
 
         return redirect()->route('securities.index')->with('success', 'Security deleted successfully.');
+    }
+
+    public function uploadCSV(Request $request)
+    {
+        $request->validate([
+            'csv_file' => 'required|mimes:csv,txt',
+        ]);
+
+        $file = $request->file('csv_file');
+        $csv = Reader::createFromPath($file->getPathname());
+
+        // Assuming CSV structure: isin,price
+        $records = $csv->getRecords();
+
+        foreach ($records as $record) {
+            $isin = $record[0];
+            $price = $record[1];
+
+            // Update securities table based on ISIN
+            Security::where('isin', $isin)->update(['price' => $price]);
+        }
+
+        return redirect()->back()->with('success', 'Prices updated successfully.');
     }
 }

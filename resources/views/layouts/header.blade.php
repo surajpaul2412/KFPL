@@ -4,6 +4,9 @@
     <div class="me-auto thc-breadcrum">
         @yield('breadcrum')
     </div>
+    <div class="dropdown dropdown-skin d-flex">
+        @yield('breadcrum-btn')
+    </div>
 
     <div class="dropdown dropdown-profile ms-3 ms-xl-4 d-none">
         <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside">
