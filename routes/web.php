@@ -10,7 +10,7 @@ use App\Http\Controllers\BackOffice\DashboardController as BackOfficeDashboardCo
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AmcController;
 use App\Http\Controllers\Admin\SecurityController;
-
+use App\Http\Controllers\Admin\TicketController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,6 +44,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     // AMC Management
     Route::resource('/admin/amcs', AmcController::class);
     Route::resource('/admin/securities', SecurityController::class);
+    Route::resource('/admin/tickets', TicketController::class);
 });
 
 // Dealer Dashboard

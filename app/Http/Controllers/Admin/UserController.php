@@ -52,11 +52,11 @@ class UserController extends Controller
             }
         })
         ->orderBy('users.name')
-        ->get();
+        ->paginate(10);
 
         $roles = Role::where('id', '<>', 1)->get();
 
-        return view('admin.employee.index', compact('employees', 'roles', 'role_id'));
+        return view('admin.employees.index', compact('employees', 'roles', 'role_id'));
     }
 
     /**
@@ -66,7 +66,7 @@ class UserController extends Controller
     {
         $roles = Role::where('id', '<>', 1)->get();
 
-        return view('admin.employee.create', compact('roles'));
+        return view('admin.employees.create', compact('roles'));
     }
 
     /**
@@ -133,7 +133,7 @@ class UserController extends Controller
 
         $employee = User::findOrFail($id);
 
-        return view('admin.employee.edit', compact('roles', 'employee'));
+        return view('admin.employees.edit', compact('roles', 'employee'));
 
     }
 

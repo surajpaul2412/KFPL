@@ -111,6 +111,11 @@ Employee Management
                                 <!-- Add more rows as needed -->
                             </tbody>
                         </table>
+
+                        <!-- Pagination links -->
+                        <div class="d-flex justify-content-center my-3">
+                            {{ $employees->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

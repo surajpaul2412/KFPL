@@ -13,7 +13,7 @@
                     <a href="{{ route('employees.index') }}" class="nav-link {{ Request::is('admin/employees*') ? 'active' : '' }}"><i class="ri-group-line"></i> <span>Employee Management</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
+                    <a href="{{ route('tickets.index') }}" class="nav-link"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link has-sub {{ Request::is('admin/amcs*') ? 'active' : '' }} {{ Request::is('admin/securities*') ? 'active' : '' }}"><i class="ri-user-2-line"></i> <span>AMC Manager</span></a>
