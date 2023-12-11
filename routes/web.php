@@ -10,7 +10,8 @@ use App\Http\Controllers\BackOffice\DashboardController as BackOfficeDashboardCo
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AmcController;
 use App\Http\Controllers\Admin\SecurityController;
-use App\Http\Controllers\Admin\TicketController;
+use App\Http\Controllers\Admin\TicketController as AdminTicketController;
+use App\Http\Controllers\Trader\TicketController as TraderTicketController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,15 +38,17 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     // User (Employee) Management
     Route::resource('/admin/employees', UserController::class);
-
     // Toggle Employee STatus
     Route::get('/admin/toggle/status', [UserController::class, 'togglestatus'])->name('admin.employee.togglestatus');
-
+    // Ticket
+    Route::resource('/admin/tickets', AdminTicketController::class)->names([
+        'index' => 'admin.tickets.index',
+        'create' => 'admin.tickets.create',
+    ]);
     // AMC Management
     Route::resource('/admin/amcs', AmcController::class);
     Route::post('/admin/upload-securities', [SecurityController::class, 'uploadCSV']);
     Route::resource('/admin/securities', SecurityController::class);
-    Route::resource('/admin/tickets', TicketController::class);
 });
 
 // Dealer Dashboard
@@ -61,6 +64,10 @@ Route::middleware(['auth', 'isAccounts'])->group(function () {
 // Trader Dashboard
 Route::middleware(['auth', 'isTrader'])->group(function () {
     Route::get('/trader/dashboard', [TraderDashboardController::class, 'index'])->name('trader.dashboard');
+    Route::resource('/trader/tickets', TraderTicketController::class)->names([
+        'index' => 'trader.tickets.index',
+        'create' => 'trader.tickets.create',
+    ]);
 });
 
 // Ops Dashboard
