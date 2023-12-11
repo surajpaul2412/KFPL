@@ -7,7 +7,9 @@ use Illuminate\Database\Seeder;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Pdf;
+use App\Models\Amc;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -44,8 +46,47 @@ class DatabaseSeeder extends Seeder
     		   'password' => Hash::make('admin123'),
     		   'phone'    => null
     		]);
-    		
     		$user->roles()->sync([1]);
+
+            $user = User::create([
+               'name'     => 'trader',
+               'email'    => 'trader@kfpl.com',
+               'password' => Hash::make('trader123'),
+               'phone'    => null
+            ]);
+            $user->roles()->sync([2]);
+
+            $user = User::create([
+               'name'     => 'ops',
+               'email'    => 'ops@kfpl.com',
+               'password' => Hash::make('ops123'),
+               'phone'    => null
+            ]);
+            $user->roles()->sync([3]);
+
+            $user = User::create([
+               'name'     => 'backoffice',
+               'email'    => 'backoffice@kfpl.com',
+               'password' => Hash::make('backoffice123'),
+               'phone'    => null
+            ]);
+            $user->roles()->sync([4]);
+
+            $user = User::create([
+               'name'     => 'dealer',
+               'email'    => 'dealer@kfpl.com',
+               'password' => Hash::make('dealer123'),
+               'phone'    => null
+            ]);
+            $user->roles()->sync([5]);
+
+            $user = User::create([
+               'name'     => 'accounts',
+               'email'    => 'accounts@kfpl.com',
+               'password' => Hash::make('accounts123'),
+               'phone'    => null
+            ]);
+            $user->roles()->sync([6]);
         }
 
         // PDF
@@ -62,6 +103,33 @@ class DatabaseSeeder extends Seeder
             $this->command->info('Pdf table seeded successfully!');
         } else {
             $this->command->info('Pdf table already has data. No need to seed.');
+        }
+
+        // AMCs
+        if (Amc::count() === 0) {
+            $amcs = [
+                ['name' => 'Aditya Birla Mutual Fund', 'email' => 'aditya@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'AXIS Mutual Fund', 'email' => 'axis@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'DSP Mutual Fund', 'email' => 'dsp@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'HDFC Mutual Fund', 'email' => 'hdfc@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'ICICI Prudential Mutual Fund', 'email' => 'icici@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Invesco Mutual Fund', 'email' => 'invesco@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Kotak Mutual Fund', 'email' => 'kotak@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'LIC Mutual Fund', 'email' => 'lic@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Mirae Mutual Fund', 'email' => 'mirae@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Motilal Mutual Fund', 'email' => 'motilal@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Navi Mutual Fund', 'email' => 'navi@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Nippon Mutual Fund', 'email' => 'nippon@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Quantum Nifty', 'email' => 'quantum@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'SBI Mutual Fund', 'email' => 'sbi@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'TATA Mutual Fund', 'email' => 'tata@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'UTI Mutual Fund', 'email' => 'uti@example.com', 'pdf_id' => 1, 'status' => 1],
+            ];
+
+            DB::table('amcs')->insert($amcs);
+            $this->command->info('AMC table seeded successfully!');
+        } else {
+            $this->command->info('AMC table already has data. No need to seed.');
         }
     }
 }

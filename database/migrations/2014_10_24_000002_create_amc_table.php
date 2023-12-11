@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('amcs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-			      $table->string('email');
+			$table->string('email');
             $table->foreignId('pdf_id')->constrained();
-			      $table->integer('status')->default(1);      // 1 -- Active, 0 -- Inactive
+			$table->integer('status')->default(1);      // 1 -- Active, 0 -- Inactive
             $table->timestamps();
         });
     }
