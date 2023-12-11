@@ -30,7 +30,8 @@ Ticket Management
                                     Name
                                 </div>
                                 <div class="">
-                                    <input type="text" name="name" class="form-control w-100 @error('name') is-invalid @enderror" value="{{ old('name') }}" placeholder="Enter Name" required>
+                                    <input type="text" name="name" class="form-control w-100 @error('name') is-invalid @enderror"
+                                    value="{{ old('name') }}" placeholder="Enter Name" required>
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -41,11 +42,13 @@ Ticket Management
 
                             <div class="col-6 my-3">
                                 <div class="pb-1">
-                                    Automailer Mail ID
+                                    Ticket Type
                                 </div>
                                 <div class="">
-                                    <input type="email" name="email" class="form-control w-100 @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Enter Email Id" required>
-                                    @error('email')
+                                    <input type="hidden" name="type" value="" required>
+                                    <span class='ticketType' onclick="setTicketType(0,1)">Buy</span>
+                                    <span class='ticketType' onclick="setTicketType(1,2)">Sell</span>
+                                    @error('type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -55,15 +58,14 @@ Ticket Management
 
                             <div class="col-6 my-3">
                                 <div class="pb-1">
-                                    Demat Account PDF
+                                    Payment Type
                                 </div>
                                 <div class="">
-                                    <select name="pdf_id" class="form-select mobile-w-100 @error('pdf_id') is-invalid @enderror">
-                                        @foreach($pdfs as $pdf)
-                                            <option value="{{ $pdf->id }}">{{ $pdf->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('pdf_id')
+                                    <input type="hidden" name="pay_mode" value="" required>
+                                    <span class='payMode' onclick="setPaymode(0,1)">Cash</span>
+                                    <span class='payMode' onclick="setPaymode(1,2)">Basket</span>
+                                    <span class='payMode' onclick="setPaymode(2,3)">Net Settlement</span>
+                                    @error('pay_mode')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -73,24 +75,87 @@ Ticket Management
 
                             <div class="col-6 my-3">
                                 <div class="pb-1">
-                                    Status
+
                                 </div>
                                 <div class="">
-                                    <select name="status" class="form-select mb-3">
-                                        <option value="">Choose Status</option>
-                                        <option value="1" selected>Active</option>
-                                        <option value="0">Inactive</option>
-                                    </select>
+
                                 </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                                <div class="pb-1">
+                                    Enter No. of Basket
+                                </div>
+                                <div class="">
+                                    <input style="width:150px;" type="text" name="no_basket" class="form-control w-100 @error('no_basket') is-invalid @enderror"
+                                    value="{{ old('no_basket') }}" placeholder="Enter No. of Basket" required>
+                                    @error('no_basket')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                                <div class="pb-1">
+                                  Basket Size
+                                </div>
+                                <div class="calcField">
+
+                                </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                                <div class="pb-1">
+                                    Enter Rate
+                                </div>
+                                <div class="">
+                                    <input style="width:150px;" type="text" name="rate" class="form-control w-100 @error('rate') is-invalid @enderror"
+                                    value="{{ old('rate') }}" placeholder="Enter Rate" required>
+                                    @error('rate')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                                <div class="pb-1">
+                                  Current Rate
+                                </div>
+                                <div class="calcField">
+
+                                </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                               <div style='width:49%;float:left;'>
+                                <div class="pb-1">
+                                  Total Amount
+                                </div>
+                                <div class="calcField">
+
+                                </div>
+                              </div>
+                              <div style='width:49%;float:right;'>
+                                <div class="pb-1">
+                                  Marup Percentage
+                                </div>
+                                <div class="calcField">
+
+                                </div>
+                              </div>
                             </div>
                         </div>
 
                         <div class="text-align-center">
-                            <button type="submit" class="btn btn-primary active mb-4 px-5 text-ali">Create AMC</button>
+                            <button type="submit" class="btn btn-primary active mb-4 px-5 text-ali">Create Ticket</button>
                         </div>
                     </div><!-- card-body -->
                 </div><!-- card -->
-                
+
             </form><!-- col -->
 
 

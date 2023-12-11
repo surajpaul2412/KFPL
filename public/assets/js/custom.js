@@ -55,3 +55,19 @@ function search(mode)
      frm.submit();
    }
  }
+
+function setTicketType(x,y)
+{
+	var t = document.querySelector("[name=type]");
+	if( t ) t.value = y;
+  jQuery(".ticketType").removeClass('selected');
+	jQuery(jQuery(".ticketType")[x]).addClass('selected');
+}
+
+function setPaymode(x,y)
+{
+	var t = document.querySelector("[name=pay_mode]");
+	if( t ) t.value = y;
+  jQuery(".payMode").removeClass('selected');
+	jQuery(jQuery(".payMode")[x]).addClass('selected');
+}

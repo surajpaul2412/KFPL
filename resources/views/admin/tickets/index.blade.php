@@ -13,7 +13,7 @@ Ticket Management
         <form>
           <div style="display:inline-block;margin-right:10px;">
             <select class="form-select mx-2" name="role_id">
-                <option value="">All Departments </option>
+                <option value="">All Stages </option>
             </select>
           </div>
           <button type="submit" class="actn-bttn" title="Search">

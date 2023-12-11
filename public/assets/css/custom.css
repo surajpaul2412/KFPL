@@ -37,3 +37,27 @@ tr:last-child {
 span.required {
 	color:red;
 }
+
+.ticketType, .payMode
+{
+	display:inline-block;
+	padding:6px 20px;
+	border:1px solid grey;
+	color:black;
+	cursor:pointer;
+}
+
+.ticketType.selected, .payMode.selected
+{
+	background: #193c62;
+	color:white;
+}
+
+div.calcField
+{
+	background-color: #e3e3e3;
+  display: inline-block;
+  width: 194px;
+  height: 35px;
+  border-radius: 5px;
+}
