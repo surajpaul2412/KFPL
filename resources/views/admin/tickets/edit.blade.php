@@ -7,9 +7,9 @@ Employee Management
 
 
 @section('content')
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
+<div class="d-sm-flex align-items-center justify-content-between">
     <div>
-        <ol class="breadcrumb fs-sm mb-1">
+        <ol class="breadcrumb fs-sm mb-3">
             <li class="breadcrumb-item"><a href="/admin/employees">Employee Management</a></li>
             <li class="breadcrumb-item active" aria-current="page">Edit Employee</li>
         </ol>

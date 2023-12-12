@@ -8,7 +8,7 @@ Ticket Management
 <div class="d-sm-flex align-items-center justify-content-between">
     <div>
         <ol class="breadcrumb fs-sm mb-3">
-            <li class="breadcrumb-item"><a href="/admin/tickets">Ticket Management</a></li>
+            <li class="breadcrumb-item"><a href="/trader/tickets">Ticket Management</a></li>
             <li class="breadcrumb-item active" aria-current="page">Add Ticket</li>
         </ol>
         <h4 class="main-title mb-0">Add Ticket</h4>
@@ -30,9 +30,13 @@ Ticket Management
                                     Name
                                 </div>
                                 <div class="">
-                                    <input type="text" name="name" class="form-control w-100 @error('name') is-invalid @enderror"
-                                    value="{{ old('name') }}" placeholder="Enter Name" required>
-                                    @error('name')
+                                    <select name="security_id" class="form-select mobile-w-100 @error('security_id') is-invalid @enderror">
+                                        @foreach($securities as $security)
+                                            <option value="">--Select Security--</option>
+                                            <option value="{{ $security->id }}">{{ $security->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('security_id')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -155,11 +159,36 @@ Ticket Management
                         </div>
                     </div><!-- card-body -->
                 </div><!-- card -->
-
             </form><!-- col -->
-
 
         </div><!-- row -->
     </div><!-- col -->
 </div><!-- row -->
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function () {
+        // Change event handler for the security select
+        $('select[name="security_id"]').change(function () {
+            var securityId = $(this).val();
+
+            // Make an Ajax request to fetch security details
+            $.ajax({
+                url: '/get-security-details/' + securityId, // Replace with your actual route
+                type: 'GET',
+                success: function (data) {
+                    // Fill the fields with the fetched data
+                    // $('input[name="no_basket"]').val(data.basket_size);
+                    console.log("hii");
+                    console.log(data.security.basket_size);
+                    // Update other fields similarly
+                },
+                error: function () {
+                    console.log('Error fetching security details');
+                }
+            });
+        });
+    });
+</script>
 @endsection

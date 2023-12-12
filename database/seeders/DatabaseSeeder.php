@@ -108,22 +108,22 @@ class DatabaseSeeder extends Seeder
         // AMCs
         if (Amc::count() === 0) {
             $amcs = [
-                ['name' => 'Aditya Birla Mutual Fund', 'email' => 'aditya@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'AXIS Mutual Fund', 'email' => 'axis@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'DSP Mutual Fund', 'email' => 'dsp@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'HDFC Mutual Fund', 'email' => 'hdfc@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'ICICI Prudential Mutual Fund', 'email' => 'icici@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'Invesco Mutual Fund', 'email' => 'invesco@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'Kotak Mutual Fund', 'email' => 'kotak@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'LIC Mutual Fund', 'email' => 'lic@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'Mirae Mutual Fund', 'email' => 'mirae@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'Motilal Mutual Fund', 'email' => 'motilal@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'Navi Mutual Fund', 'email' => 'navi@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'Nippon Mutual Fund', 'email' => 'nippon@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'Quantum Nifty', 'email' => 'quantum@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'SBI Mutual Fund', 'email' => 'sbi@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'TATA Mutual Fund', 'email' => 'tata@example.com', 'pdf_id' => 1, 'status' => 1],
-                ['name' => 'UTI Mutual Fund', 'email' => 'uti@example.com', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Aditya Birla Mutual Fund', 'email' => 'darpan.oberoi@axismf.com, geeta.parulekar@axismf.com, transactmumbai@axismf.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'AXIS Mutual Fund', 'email' => 'abslamc.west@adityabirlacapital.com, abslamc_settlement@adityabirlacapital.com, haresh.mehta@adityabirlacapital.com, lovelish.solanki@adityabirlacapital.com, pranav.gupta1@adityabirlacapital.com, priya.palan@adityabirlacapital.com, reena.singh3@adityabirlacapital.com, rupesh.gurav@adityabirlacapital.com, samyak.jain1@adityabirlacapital.com, satilekha.dey@adityabirlacapital.com, shashank.bidye@adityabirlacapital.com, shashank.bidye@adityabirlacapital.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'DSP Mutual Fund', 'email' => 'etf.trade@dspim.com, etf@dspim.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'HDFC Mutual Fund', 'email' => 'abhishekm@hdfcfund.com, amor11@bloomberg.net, rajeevr@hdfcfund.com, aruna@hdfcfund.com, corptransact@hdfcfund.com, gloriad@hdfcfund.com, goldetf@hdfcfund.com, kashok@hdfcfund.com, nirmanm@hdfcfund.com, pareenazm@hdfcfund.com, ramkumarkm@hdfcfund.com, satkumart@hdfcfund.com, servicesandheri@hdfcfund.com, servicespanvel@hdfcfund.com, servicespowai@hdfc.com,servicesvashi@hdfcfund.com, shyamalib@hdfcfund.com, snehald@hdfcfund.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'ICICI Prudential Mutual Fund', 'email' => 'etftxn@icicipruamc.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Invesco Mutual Fund', 'email' => 'Haresh.Sadani@invesco.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Kotak Mutual Fund', 'email' => 'equity.ops@kotak.com, salgaonkar.mukul@kotak.com, satish.dondapati@kotak.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'LIC Mutual Fund', 'email' => 'a.khot@licmf.com, transaction@licmf.com, rta@licmf.com, h.shivalkar@licmf.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Mirae Mutual Fund', 'email' => 'fas@miraeasset.com, insti.care@miraeasset.com, operations@miraeassetmf.co.in, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Motilal Mutual Fund', 'email' => 'ajaykumar.saroj@motilaloswal.com, dishant.mehta@motilaloswal.com, opsamc@motilaloswal.com, swapnil.mayekar@motilaloswal.com, fundsinvestment@motilaloswal, passive.fundsinvestment@motilaloswal.com, motmf@motilaloswal.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Navi Mutual Fund', 'email' => 'contact.mf@navi.com; mfops@navi.com; mf.investment@navi.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Nippon Mutual Fund', 'email' => 'aditi.kundu@nipponindiaim.com, dinesh.r.kotian@nipponindiaim.com,etfops@nipponindiaim.com, rajdeep.basu@nipponindiaim.com, tridib.das@nipponindiaim.com, viraj.raje@nipponindiaim.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'Quantum Nifty', 'email' => 'hitendra@quantumamc.com, operations@quantumamc.com, prasadm@quantumamc.com, qamc@bloomberg.net, transact@quantumamc.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'SBI Mutual Fund', 'email' => 'aditya.gangal@sbimf.com, bidesh.biswas@sbimf.com, cs.instimumbai@sbimf.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'TATA Mutual Fund', 'email' => 'cshetty@tataamc.com, agulati@tataamc.com, avardarajan@tataamc.com, jshetty@tataamc.com, kmenon@tataamc.com, rahulsingh@tataamc.com, saileshjain@tataamc.com, sgang@tataamc.com, sparekh@tataamc.com, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
+                ['name' => 'UTI Mutual Fund', 'email' => 'corporate@uti.co.in, etfgroup@uti.co.in, etf@kcpl.ind.in, instst@kcpl.ind.in', 'pdf_id' => 1, 'status' => 1],
             ];
 
             DB::table('amcs')->insert($amcs);

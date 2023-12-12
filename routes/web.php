@@ -68,6 +68,8 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
         'index' => 'trader.tickets.index',
         'create' => 'trader.tickets.create',
     ]);
+    Route::get('/trader/get-security-details/{id}', [TraderTicketController::class, 'getSecurityDetails'])
+    ->name('trader.get-security-details');
 });
 
 // Ops Dashboard
@@ -79,3 +81,8 @@ Route::middleware(['auth', 'isOps'])->group(function () {
 Route::middleware(['auth', 'isBackoffice'])->group(function () {
     Route::get('/backoffice/dashboard', [BackOfficeDashboardController::class, 'index'])->name('backOffice.dashboard');
 });
+
+
+
+Route::get('/get-security-details/{id}', [TraderTicketController::class, 'getSecurityDetails'])
+    ->name('get-security-details');
