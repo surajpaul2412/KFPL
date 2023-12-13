@@ -67,6 +67,7 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
     Route::resource('/trader/tickets', TraderTicketController::class)->names([
         'index' => 'trader.tickets.index',
         'create' => 'trader.tickets.create',
+        'store' => 'trader.tickets.store',
     ]);
     Route::get('/trader/get-security-details/{id}', [TraderTicketController::class, 'getSecurityDetails'])
     ->name('trader.get-security-details');
@@ -83,6 +84,5 @@ Route::middleware(['auth', 'isBackoffice'])->group(function () {
 });
 
 
-
-Route::get('/get-security-details/{id}', [TraderTicketController::class, 'getSecurityDetails'])
-    ->name('get-security-details');
+// Ajax
+Route::get('/get-security-details/{id}', [TraderTicketController::class, 'getSecurityDetails'])->name('get-security-details');

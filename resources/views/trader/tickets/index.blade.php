@@ -61,7 +61,7 @@ Ticket Management
                                @foreach($tickets as $ticket)
                                 <tr>
                                     <td>{{$ticket->id}}</td>
-                                    <td></td>
+                                    <td>{{$ticket->security->name}}</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>

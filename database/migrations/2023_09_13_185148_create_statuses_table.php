@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticketstatus', function (Blueprint $table) {
+        Schema::create('statuses', function (Blueprint $table) {
             $table->id();
-            $table->integer('ticket_id');
-      			$table->integer('employee_id');
-      			$table->string('stage')->nullable();  //  Current Stage, 1 - Raised TIcket
+            $table->string('stage');
+            $table->foreignId('assigned_role_id')->constrained('roles')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticketstatus');
+        Schema::dropIfExists('statuses');
     }
 };

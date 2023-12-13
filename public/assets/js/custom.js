@@ -66,7 +66,7 @@ function setTicketType(x,y)
 
 function setPaymode(x,y)
 {
-	var t = document.querySelector("[name=pay_mode]");
+	var t = document.querySelector("[name=payment_type]");
 	if( t ) t.value = y;
   jQuery(".payMode").removeClass('selected');
 	jQuery(jQuery(".payMode")[x]).addClass('selected');

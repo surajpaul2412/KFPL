@@ -13,24 +13,32 @@ class Ticket extends Model
 
     protected $fillable = [
         'security_id',
-        'employee_id',
-        'stage',
+        'user_id',
+        'status_id',
         'type',
-        'pay_mode',
-        'no_basket',
-        'total_share',
-        'trade_value',
+        'payment_type',
+        'basket_no',
         'rate',
-        'total_amt'
+        'total_amt',
+        'utr_no',
+        'screenshot',
     ];
 
+    // Define the relationship with Security
     public function security()
     {
         return $this->belongsTo(Security::class);
     }
 
-    public function employee()
+    // Define the relationship with User
+    public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Define the relationship with Status
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
     }
 }

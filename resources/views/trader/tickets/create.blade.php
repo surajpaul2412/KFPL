@@ -20,7 +20,7 @@ Ticket Management
 <div class="row g-3">
     <div class="col-xl-12">
         <div class="row g-3">
-            <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{ route('tickets.store') }}">
+            <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{ route('trader.tickets.store') }}">
                 @csrf
                 <div class="card card-one card-product">
                     <div class="card-body p-3">
@@ -30,9 +30,9 @@ Ticket Management
                                     Name
                                 </div>
                                 <div class="">
-                                    <select name="security_id" class="form-select mobile-w-100 @error('security_id') is-invalid @enderror">
+                                    <select name="security_id" class="form-select mobile-w-100 @error('security_id') is-invalid @enderror" required>
+                                        <option value="">--Select Security--</option>
                                         @foreach($securities as $security)
-                                            <option value="">--Select Security--</option>
                                             <option value="{{ $security->id }}">{{ $security->name }}</option>
                                         @endforeach
                                     </select>
@@ -65,11 +65,11 @@ Ticket Management
                                     Payment Type
                                 </div>
                                 <div class="">
-                                    <input type="hidden" name="pay_mode" value="" required>
+                                    <input type="hidden" name="payment_type" value="" required>
                                     <span class='payMode' onclick="setPaymode(0,1)">Cash</span>
                                     <span class='payMode' onclick="setPaymode(1,2)">Basket</span>
                                     <span class='payMode' onclick="setPaymode(2,3)">Net Settlement</span>
-                                    @error('pay_mode')
+                                    @error('payment_type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -91,9 +91,8 @@ Ticket Management
                                     Enter No. of Basket
                                 </div>
                                 <div class="">
-                                    <input style="width:150px;" type="text" name="no_basket" class="form-control w-100 @error('no_basket') is-invalid @enderror"
-                                    value="{{ old('no_basket') }}" placeholder="Enter No. of Basket" required>
-                                    @error('no_basket')
+                                    <input type="text" name="basket_no" class="form-control w-100 @error('no_basket') is-invalid @enderror" value="{{ old('no_basket') }}" placeholder="Enter No. of Basket" id="no_basket" required>
+                                    @error('basket_no')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -106,7 +105,13 @@ Ticket Management
                                   Basket Size
                                 </div>
                                 <div class="calcField">
-
+                                    <input type="text" name="basket_size" class="form-control w-100 @error('basket_size') is-invalid @enderror" value="{{ old('basket_size') }}" placeholder="Basket Size" disabled>
+                                    <input type="hidden" name="basket_size" class="form-control w-100 @error('basket_size') is-invalid @enderror" value="{{ old('basket_size') }}" placeholder="Basket Size">
+                                    @error('basket_size')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -115,7 +120,7 @@ Ticket Management
                                     Enter Rate
                                 </div>
                                 <div class="">
-                                    <input style="width:150px;" type="text" name="rate" class="form-control w-100 @error('rate') is-invalid @enderror"
+                                    <input type="text" name="rate" class="form-control w-100 @error('rate') is-invalid @enderror"
                                     value="{{ old('rate') }}" placeholder="Enter Rate" required>
                                     @error('rate')
                                         <span class="invalid-feedback" role="alert">
@@ -127,10 +132,18 @@ Ticket Management
 
                             <div class="col-6 my-3">
                                 <div class="pb-1">
-                                  Current Rate
+                                  Current Price
                                 </div>
                                 <div class="calcField">
-
+                                    <input type="text" name="price" class="form-control w-100 @error('price') is-invalid @enderror"
+                                    value="{{ old('price') }}" placeholder="Enter Price" disabled>
+                                    <input type="hidden" name="price" class="form-control w-100 @error('price') is-invalid @enderror"
+                                    value="{{ old('price') }}" placeholder="Enter Price" disabled>
+                                    @error('price')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -140,7 +153,13 @@ Ticket Management
                                   Total Amount
                                 </div>
                                 <div class="calcField">
-
+                                    <input type="text" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ old('total_amt') }}" placeholder="Enter Total Amt" disabled>
+                                    <input type="hidden" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ old('total_amt') }}" placeholder="Enter Total Amt">
+                                    @error('total_amt')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                               </div>
                               <div style='width:49%;float:right;'>
@@ -148,7 +167,13 @@ Ticket Management
                                   Marup Percentage
                                 </div>
                                 <div class="calcField">
-
+                                    <input type="text" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ old('markup_percentage') }}" placeholder="Enter Markup Percentage" disabled>
+                                    <input type="hidden" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ old('markup_percentage') }}" placeholder="Enter Markup Percentage" disabled>
+                                    @error('markup_percentage')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                               </div>
                             </div>
@@ -179,8 +204,10 @@ Ticket Management
                 type: 'GET',
                 success: function (data) {
                     // Fill the fields with the fetched data
-                    // $('input[name="no_basket"]').val(data.basket_size);
-                    console.log("hii");
+                    $('input[name="basket_size"]').val(data.security.basket_size);
+                    $('input[name="price"]').val(data.security.price);
+                    $('input[name="markup_percentage"]').val(data.security.markup_percentage);
+                    $('input[name="total_amt"]').val('10');
                     console.log(data.security.basket_size);
                     // Update other fields similarly
                 },

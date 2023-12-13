@@ -17,7 +17,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::whereEmployeeId(Auth::user()->id)
+        $tickets = Ticket::whereUserId(Auth::user()->id)
          ->orderBy('id')
          ->paginate(10);
 
@@ -37,8 +37,21 @@ class TicketController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {    
+        $validatedData = $request->validate([
+            'security_id' => 'required|exists:securities,id',
+            'type' => 'required|integer|in:1,2',
+            'payment_type' => 'required|integer|in:1,2,3',
+            'basket_no' => 'required|integer',
+            'rate' => 'required|numeric',
+            'total_amt' => 'required|numeric',
+        ]);
+
+        $validatedData['user_id'] = Auth::user()->id;
+        $validatedData['status_id'] = 1;
+        $ticket = Ticket::create($validatedData);
+
+        return redirect()->route('trader.tickets.index')->with('success', 'Ticket created successfully.');
     }
 
     /**
@@ -80,7 +93,6 @@ class TicketController extends Controller
             return response()->json(['error' => 'Security not found'], 404);
         }
 
-        // Return security details in JSON format
         return response()->json([
             'security' => $security
         ]);

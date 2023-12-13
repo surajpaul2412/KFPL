@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Pdf;
 use App\Models\Amc;
+use App\Models\Status;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {		
-		// ROLE SEEDER
+		// Role
 		if (Role::count() === 0) {
             // ROLE SEEDER
             $arr = [
@@ -36,6 +37,33 @@ class DatabaseSeeder extends Seeder
             $this->command->info('Roles table seeded successfully!');
         } else {
             $this->command->info('Roles table already has data. No need to seed.');
+        }
+
+        // Status
+        if (Status::count() === 0) {
+            $arr = [
+                ['stage' => 'Order Initiated', 'assigned_role_id' => '2'],
+                ['stage' => 'Order Check', 'assigned_role_id' => '3'],
+                ['stage' => 'Fund Remitted', 'assigned_role_id' => '6'],
+                ['stage' => 'Share Transfer', 'assigned_role_id' => '4'],
+                ['stage' => 'ETF Transfer', 'assigned_role_id' => '3'],
+                ['stage' => 'Mail to AMC', 'assigned_role_id' => '3'],
+                ['stage' => 'Order Received', 'assigned_role_id' => '5'],
+                ['stage' => 'Order Executed', 'assigned_role_id' => '5'],
+                ['stage' => 'Deal Slip Received', 'assigned_role_id' => '3'],
+                ['stage' => 'ETF Transfer', 'assigned_role_id' => '3'],
+                ['stage' => 'Refund Received', 'assigned_role_id' => '6'],
+                ['stage' => 'Redemption Received', 'assigned_role_id' => '6'],
+                ['stage' => 'Units Received', 'assigned_role_id' => '3'],
+                ['stage' => 'Shares Received', 'assigned_role_id' => '4']
+            ];
+
+            foreach ($arr as $row) {
+                Status::create($row);
+            }
+            $this->command->info('Statuses table seeded successfully!');
+        } else {
+            $this->command->info('Statuses table already has data. No need to seed.');
         }
 		
 		// CREATE ADMIN User 
