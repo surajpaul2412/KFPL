@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AmcController;
 use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\Trader\TicketController as TraderTicketController;
+use App\Http\Controllers\Ops\TicketController as OpsTicketController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -76,6 +77,9 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
 // Ops Dashboard
 Route::middleware(['auth', 'isOps'])->group(function () {
     Route::get('/ops/dashboard', [OpsDashboardController::class, 'index'])->name('ops.dashboard');
+    Route::resource('/ops/tickets', OpsTicketController::class)->names([
+        'index' => 'ops.tickets.index',
+    ]);
 });
 
 // Backoffice Dashboard

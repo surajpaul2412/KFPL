@@ -207,15 +207,36 @@ Ticket Management
                     $('input[name="basket_size"]').val(data.security.basket_size);
                     $('input[name="price"]').val(data.security.price);
                     $('input[name="markup_percentage"]').val(data.security.markup_percentage);
-                    $('input[name="total_amt"]').val('10');
-                    console.log(data.security.basket_size);
+
                     // Update other fields similarly
+
+                    // Recalculate total amount when security is changed
+                    calculateTotalAmount();
                 },
                 error: function () {
                     console.log('Error fetching security details');
                 }
             });
         });
+
+        // Event handler for basket_no, basket_size, and rate input fields
+        $('#no_basket, input[name="basket_size"], input[name="rate"], input[name="markup_percentage"]').on('input', function () {
+            calculateTotalAmount();
+        });
+
+        // Function to calculate total amount
+        function calculateTotalAmount() {
+            var basketNo = $('#no_basket').val();
+            var basketSize = $('input[name="basket_size"]').val();
+            var rate = $('input[name="rate"]').val();
+            var markupPercentage = $('input[name="markup_percentage"]').val();
+
+            // Check if all values are available and not empty
+            if (basketNo && basketSize && rate && markupPercentage) {
+                var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate * markupPercentage / 100);
+                $('input[name="total_amt"]').val(totalAmount);
+            }
+        }
     });
 </script>
 @endsection

@@ -43,6 +43,14 @@
                     <a href="{{ route('trader.tickets.index') }}" class="nav-link {{ Request::is('trader/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
                 </li>
                 @endif
+                @if(auth()->user()->isOps())
+                <li class="nav-item">
+                    <a href="{{ route('ops.dashboard') }}" class="nav-link {{ Request::is('ops/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('ops.tickets.index') }}" class="nav-link {{ Request::is('ops/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
+                </li>
+                @endif
             </ul>
         </div><!-- nav-group -->
     </div><!-- sidebar-body -->
