@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\Trader\TicketController as TraderTicketController;
 use App\Http\Controllers\Ops\TicketController as OpsTicketController;
+use App\Http\Controllers\Account\TicketController as AccountsTicketController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,6 +62,11 @@ Route::middleware(['auth', 'isDealer'])->group(function () {
 // Accounts Dashboard
 Route::middleware(['auth', 'isAccounts'])->group(function () {
     Route::get('/accounts/dashboard', [AccountDashboardController::class, 'index'])->name('accounts.dashboard');
+    Route::resource('/accounts/tickets', AccountsTicketController::class)->names([
+        'index' => 'accounts.tickets.index',
+        'create' => 'accounts.tickets.create',
+        'store' => 'accounts.tickets.store',
+    ]);
 });
 
 // Trader Dashboard

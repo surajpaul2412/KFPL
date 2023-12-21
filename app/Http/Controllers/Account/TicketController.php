@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Ticket;
 
 class TicketController extends Controller
 {
@@ -12,7 +13,11 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        $tickets = Ticket::whereStatusId(3)
+         ->orderBy('id')
+         ->paginate(10);
+
+         return view('accounts.tickets.index', compact('tickets'));
     }
 
     /**
