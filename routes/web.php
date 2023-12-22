@@ -66,6 +66,9 @@ Route::middleware(['auth', 'isAccounts'])->group(function () {
         'index' => 'accounts.tickets.index',
         'create' => 'accounts.tickets.create',
         'store' => 'accounts.tickets.store',
+        'edit' => 'accounts.tickets.edit',
+        'update' => 'accounts.tickets.update',
+        'destroy' => 'accounts.tickets.destroy',
     ]);
 });
 
