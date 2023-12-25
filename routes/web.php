@@ -89,6 +89,7 @@ Route::middleware(['auth', 'isOps'])->group(function () {
     Route::get('/ops/dashboard', [OpsDashboardController::class, 'index'])->name('ops.dashboard');
     Route::resource('/ops/tickets', OpsTicketController::class)->names([
         'index' => 'ops.tickets.index',
+        'update' => 'ops.tickets.update',
     ]);
 });
 

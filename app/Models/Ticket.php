@@ -22,6 +22,7 @@ class Ticket extends Model
         'total_amt',
         'utr_no',
         'screenshot',
+        'remark'
     ];
 
     // Define the relationship with Security

@@ -31,6 +31,7 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Total No. of securities</th>
+                                        <th>NAV (%)</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -38,9 +39,10 @@
                                 <tbody>
                                     @foreach ($amcs as $amc)
                                         <tr>
-                                            <td>{{ $amc->id }}</td>
+                                            <td>{{ $amc->id }}.</td>
                                             <td>{{ $amc->name }}</td>
                                             <td>{{ $amc->securities->count() }}</td>
+                                            <td>{{ $amc->nav??0 }} %</td>
                                             <td>
                                                 @if($amc->status == 1)
                                                 <a type="button" class="badge badge-pill text-white bg-success px-4">Active</a>

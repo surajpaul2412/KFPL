@@ -38,7 +38,7 @@ span.required {
 	color:red;
 }
 
-.ticketType, .payMode
+.ticketType, .payMode, .verification
 {
 	display:inline-block;
 	padding:6px 20px;
@@ -47,7 +47,7 @@ span.required {
 	cursor:pointer;
 }
 
-.ticketType.selected, .payMode.selected
+.ticketType.selected, .payMode.selected, .verification.selected
 {
 	background: #193c62;
 	color:white;

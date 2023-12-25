@@ -71,3 +71,11 @@ function setPaymode(x,y)
   jQuery(".payMode").removeClass('selected');
 	jQuery(jQuery(".payMode")[x]).addClass('selected');
 }
+
+function setVerification(x,y)
+{
+	var t = document.querySelector("[name=verification]");
+	if( t ) t.value = y;
+  jQuery(".verification").removeClass('selected');
+	jQuery(jQuery(".verification")[x]).addClass('selected');
+}

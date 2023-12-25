@@ -43,7 +43,7 @@
                                         Automailer Mail ID
                                     </div>
                                     <div class="">
-                                        <input type="email" name="email" class="form-control w-100 @error('email') is-invalid @enderror" placeholder="Enter Email Id" value="{{ old('email', $amc->email) }}" required>
+                                        <input type="text" name="email" class="form-control w-100 @error('email') is-invalid @enderror" placeholder="Enter Email Id" value="{{ old('email', $amc->email) }}" required>
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -70,7 +70,21 @@
                                     </div>
                                 </div>
 
-                                <div class="col-6 my-3">
+                                <div class="col-3 my-3">
+                                    <div class="pb-1">
+                                        NAV Percentage
+                                    </div>
+                                    <div class="">
+                                        <input type="text" name="nav" class="form-control w-100" placeholder="Enter NAV Percentage" value="{{ old('nav', $amc->nav) }}" required>
+                                        @error('nav')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-3 my-3">
                                     <div class="pb-1">
                                         Status
                                     </div>

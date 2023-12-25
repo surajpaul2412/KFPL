@@ -49,7 +49,8 @@ class TicketController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        return view('ops.tickets.edit', compact('ticket'));
     }
 
     /**
@@ -57,7 +58,22 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'verification' => 'required|in:1,2',
+            'rate' => 'required|numeric',
+            'remark' => 'nullable',
+        ]);
+        $ticket = Ticket::findOrFail($id);
+        $data = $request->all();
+
+        if ($request->get('verification') == 1) {
+            $data['status_id'] = 2;
+        } else {
+            $data['status_id'] = 1;
+        }
+
+        $ticket->update($data);
+        return redirect()->route('ops.index')->with('success', 'Ticket updated successfully.');
     }
 
     /**

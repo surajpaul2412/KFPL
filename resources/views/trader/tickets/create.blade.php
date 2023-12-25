@@ -206,6 +206,7 @@ Ticket Management
                     // Fill the fields with the fetched data
                     $('input[name="basket_size"]').val(data.security.basket_size);
                     $('input[name="price"]').val(data.security.price);
+                    $('input[name="rate"]').val(data.security.price);
                     $('input[name="markup_percentage"]').val(data.security.markup_percentage);
 
                     // Update other fields similarly

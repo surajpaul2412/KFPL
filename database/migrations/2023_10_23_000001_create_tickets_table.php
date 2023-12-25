@@ -23,6 +23,7 @@ return new class extends Migration
             $table->double('total_amt')->default(0);
             $table->string('utr_no')->nullable();
             $table->string('screenshot')->nullable();
+            $table->longText('remark')->nullable();
             $table->timestamps();
         });
     }

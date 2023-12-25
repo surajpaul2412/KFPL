@@ -51,7 +51,7 @@
                                 <tbody>
                                     @foreach ($securities as $security)
                                         <tr>
-                                            <td>{{ $security->id }}</td>
+                                            <td>{{ $security->id }}.</td>
                                             <td>{{ $security->name }}</td>
                                             <td>{{ $security->symbol }}</td>
                                             <td>{{ $security->isin }}</td>

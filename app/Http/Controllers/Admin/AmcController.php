@@ -31,7 +31,8 @@ class AmcController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required',
+            'nav' => 'required|numeric',
             'pdf_id' => 'nullable|exists:pdfs,id', // Validate that the selected PDF exists in the 'pdfs' table
             'status' => 'nullable|in:0,1',
         ]);
@@ -52,7 +53,8 @@ class AmcController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required',
+            'nav' => 'required|numeric',
             'pdf_id' => 'nullable|exists:pdfs,id', // Validate that the selected PDF exists in the 'pdfs' table
             'status' => 'nullable|in:0,1',
         ]);
