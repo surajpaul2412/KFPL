@@ -30,10 +30,10 @@ Ticket Management
                                     Name
                                 </div>
                                 <div class="">
-                                    <select name="security_id" class="form-select mobile-w-100 @error('security_id') is-invalid @enderror" required>
-                                        <option value="">--Select Security--</option>
+                                    <select id="select2B" name="security_id" class="form-select mobile-w-100 @error('security_id') is-invalid @enderror" required>
+                                        <option label="Choose one"></option>
                                         @foreach($securities as $security)
-                                            <option value="{{ $security->id }}">{{ $security->name }}</option>
+                                            <option value="{{ $security->id }}">{{ $security->name }} -- ({{ $security->symbol }})</option>
                                         @endforeach
                                     </select>
                                     @error('security_id')

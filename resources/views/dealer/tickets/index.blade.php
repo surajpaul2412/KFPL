@@ -70,15 +70,9 @@ Ticket Management
                                     <td>{{$ticket->status_id}}</td>
                                     <td>{{$ticket->user->name}}</td>
                                     <td>
-                                        @if($ticket->status_id == 2)
-                                        <a href="{{url('/ops/tickets/' . $ticket->id . '/edit')}}" title="Edit">
+                                        <a href="{{url('/dealer/tickets/' . $ticket->id . '/edit')}}" title="Edit">
                                             <i class="ri-pencil-line"></i>
                                         </a>
-                                        @elseif($ticket->status_id == 6)
-                                        <a href="{{ route('ops.tickets.show', $ticket->id) }}" title="View">
-                                            <i class="ri-eye-line"></i>
-                                        </a>
-                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

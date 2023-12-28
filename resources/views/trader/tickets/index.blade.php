@@ -42,17 +42,15 @@ Ticket Management
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID #</th>
-                                    <th>Security</th>
+                                    <th>ID</th>
+                                    <th>Security Name</th>
                                     <th>Buy/Sell</th>
                                     <th>Payment Mode</th>
-                                    <th>Total Shares</th>
+                                    <th>Total No. of Shares</th>
                                     <th>Trade Value</th>
                                     <th>Created On</th>
-                                    <th>Trade Value</th>
                                     <th>Last Modified</th>
-                                    <th>Curr. Stage</th>
-                                    <th>Curr. Employee</th>
+                                    <th>Stage</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -62,16 +60,27 @@ Ticket Management
                                 <tr>
                                     <td>{{$ticket->id}}</td>
                                     <td>{{$ticket->security->name}}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{$ticket->type == 1 ? "Buy" : "Sell"}}</td>
                                     <td>
+                                        @if($ticket->payment_type == 1)
+                                            Cash
+                                        @elseif($ticket->payment_type == 2)
+                                            Basket
+                                        @else
+                                            Net Settlement
+                                        @endif
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{$ticket->created_at->format('Y-m-d')}}</td>
+                                    <td>{{$ticket->updated_at->format('Y-m-d')}}</td>
+                                    <td>{{$ticket->status_id}}</td>
+                                    <td>
+                                        @if($ticket->status_id == 1)
+                                        <a href="{{url('/trader/tickets/' . $ticket->id . '/edit')}}" title="Edit">
+                                            <i class="ri-pencil-line"></i>
+                                        </a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

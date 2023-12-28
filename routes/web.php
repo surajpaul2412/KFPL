@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\Trader\TicketController as TraderTicketController;
 use App\Http\Controllers\Ops\TicketController as OpsTicketController;
 use App\Http\Controllers\Account\TicketController as AccountsTicketController;
+use App\Http\Controllers\Dealer\TicketController as DealerTicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,11 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 // Dealer Dashboard
 Route::middleware(['auth', 'isDealer'])->group(function () {
     Route::get('/dealer/dashboard', [DealerDashboardController::class, 'index'])->name('dealer.dashboard');
+    Route::resource('/dealer/tickets', DealerTicketController::class)->names([
+        'index' => 'dealer.tickets.index',
+        'edit' => 'dealer.tickets.edit',
+        'update' => 'dealer.tickets.update',
+    ]);
 });
 
 // Accounts Dashboard
@@ -89,8 +95,14 @@ Route::middleware(['auth', 'isOps'])->group(function () {
     Route::get('/ops/dashboard', [OpsDashboardController::class, 'index'])->name('ops.dashboard');
     Route::resource('/ops/tickets', OpsTicketController::class)->names([
         'index' => 'ops.tickets.index',
+        'create' => 'ops.tickets.create',
+        'store' => 'ops.tickets.store',
+        'show' => 'ops.tickets.show',
+        'edit' => 'ops.tickets.edit',
         'update' => 'ops.tickets.update',
+        'destroy' => 'ops.tickets.destroy',
     ]);
+    Route::get('/ops/tickets/{ticket}/mail', [OpsTicketController::class, 'mail'])->name('ops.tickets.mail');
 });
 
 // Backoffice Dashboard

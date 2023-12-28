@@ -59,6 +59,14 @@
                     <a href="{{ route('accounts.tickets.index') }}" class="nav-link {{ Request::is('accounts/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
                 </li>
                 @endif
+                @if(auth()->user()->isDealer())
+                <li class="nav-item">
+                    <a href="{{ route('dealer.dashboard') }}" class="nav-link {{ Request::is('dealer/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('dealer.tickets.index') }}" class="nav-link {{ Request::is('dealer/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
+                </li>
+                @endif
             </ul>
         </div><!-- nav-group -->
     </div><!-- sidebar-body -->

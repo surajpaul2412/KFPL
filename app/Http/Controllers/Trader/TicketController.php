@@ -48,7 +48,7 @@ class TicketController extends Controller
         ]);
 
         $validatedData['user_id'] = Auth::user()->id;
-        $validatedData['status_id'] = 1;
+        $validatedData['status_id'] = 2;
         $ticket = Ticket::create($validatedData);
 
         return redirect()->route('trader.tickets.index')->with('success', 'Ticket created successfully.');

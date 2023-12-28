@@ -110,7 +110,7 @@ Ticket Details
                                     Remark
                                 </div>
                                 <div class="w-75">
-                                    <textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
+                                    <textarea class="form-control w-100" name="remark" placeholder="Write here">{{$ticket->remark}}</textarea>
                                 </div>
                             </div>
                         </div>

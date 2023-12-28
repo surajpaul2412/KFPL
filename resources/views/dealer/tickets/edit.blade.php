@@ -67,12 +67,24 @@ Ticket Details
                                 <div>Markup Percentage</div>
                                 <div class="font-weight-bold">  </div>
                             </div>
+                            <div class="col-3">
+                                <div>UTR Number</div>
+                                <div class="font-weight-bold">{{$ticket->utr_no}}</div>
+                            </div>
+                            <div class="col-3">
+                                <div>AMC Form </div>
+                                <div class="font-weight-bold"><a> View <i class="ri-eye-line px-1"></i> </a></div>
+                            </div>
+                            <div class="col-3">
+                                <div>Demate PDF</div>
+                                <div class="font-weight-bold"> <a>Download <i class="ri-download-2-line"></i></a> </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{route('accounts.tickets.update', $ticket->id)}}" enctype="multipart/form-data">
+            <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{route('dealer.tickets.update', $ticket->id)}}">
                 @csrf
                 @method('put')
                 <div class="card card-one card-product">
@@ -80,11 +92,13 @@ Ticket Details
                         <div class="row px-md-4">
                             <div class="col-6 my-3">
                                 <div class="pb-1">
-                                    UTR Number
+                                    Verify Order
                                 </div>
                                 <div class="">
-                                    <input type="text" name="utr_no" class="form-control @error('utr_no') is-invalid @enderror" value="{{$ticket->utr_no}}" placeholder="Enter UTR no" required>
-                                    @error('utr_no')
+                                    <input type="hidden" name="verification" value="" required>
+                                    <span class='verification' onclick="setVerification(0,1)">Accept</span>
+                                    <span class='verification' onclick="setVerification(1,2)">Reject</span>
+                                    @error('verification')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -93,16 +107,26 @@ Ticket Details
                             </div>
 
                             <div class="col-6 my-3">
+                                
+                            </div>
+
+                            <div class="col-6 my-3">
                                 <div class="w-25 pb-1">
-                                    Upload Screenshot
+                                    Trade Value
                                 </div>
                                 <div class="w-75">
-                                    <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
-                                    @error('screenshot')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                    <input type="text" class="form-control w-100" placeholder="Edit Trade Value" name=""
+                                      value="{{$ticket->total_amt}}"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                                <div class="w-25 pb-1">
+                                    NAV value
+                                </div>
+                                <div class="w-75">
+                                    <input type="text" class="form-control w-100" placeholder="" name="" readonly value="{{$ticket->security->amc->nav}}" >
                                 </div>
                             </div>
                         </div>

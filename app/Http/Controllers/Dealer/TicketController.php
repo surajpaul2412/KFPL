@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dealer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Ticket;
 
 class TicketController extends Controller
 {
@@ -12,7 +13,11 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        $tickets = Ticket::whereIn('status_id', [7, 8])
+         ->orderBy('id')
+         ->paginate(10);
+
+         return view('dealer.tickets.index', compact('tickets'));
     }
 
     /**
@@ -44,7 +49,8 @@ class TicketController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        return view('dealer.tickets.edit', compact('ticket'));
     }
 
     /**

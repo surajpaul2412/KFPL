@@ -13,7 +13,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::whereStatusId(1)
+        $tickets = Ticket::whereIn('status_id', [2, 6, 9, 10])
          ->orderBy('id')
          ->paginate(10);
 
@@ -41,7 +41,8 @@ class TicketController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        return view('ops.tickets.show', compact('ticket'));
     }
 
     /**
@@ -67,13 +68,13 @@ class TicketController extends Controller
         $data = $request->all();
 
         if ($request->get('verification') == 1) {
-            $data['status_id'] = 2;
+            $data['status_id'] = 3;
         } else {
             $data['status_id'] = 1;
         }
 
         $ticket->update($data);
-        return redirect()->route('ops.index')->with('success', 'Ticket updated successfully.');
+        return redirect()->route('ops.tickets.index')->with('success', 'Ticket updated successfully.');
     }
 
     /**
@@ -82,5 +83,12 @@ class TicketController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function mail(Ticket $ticket) {
+        // Write the email sending code || under progress
+        $ticket->status_id = 7;
+        $ticket->update();
+        return redirect()->route('ops.tickets.index')->with('success', 'Mailed all the AMC controllers successfully.');
     }
 }

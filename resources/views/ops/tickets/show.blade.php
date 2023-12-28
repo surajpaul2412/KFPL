@@ -23,7 +23,7 @@ Ticket Details
 
             <div class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{route('accounts.tickets.update', $ticket->id)}}">
                 <div class="card card-one card-product">
-                    <div class="card-body p-3 py-4">
+                    <form class="card-body p-3 py-4">
                         <div class="row px-md-4">
                             <div class="col-3">
                                 <div>Name</div>
@@ -67,52 +67,26 @@ Ticket Details
                                 <div>Markup Percentage</div>
                                 <div class="font-weight-bold">  </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{route('accounts.tickets.update', $ticket->id)}}" enctype="multipart/form-data">
-                @csrf
-                @method('put')
-                <div class="card card-one card-product">
-                    <div class="card-body p-3">
-                        <div class="row px-md-4">
-                            <div class="col-6 my-3">
-                                <div class="pb-1">
-                                    UTR Number
-                                </div>
-                                <div class="">
-                                    <input type="text" name="utr_no" class="form-control @error('utr_no') is-invalid @enderror" value="{{$ticket->utr_no}}" placeholder="Enter UTR no" required>
-                                    @error('utr_no')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                            <div class="col-3">
+                                <div>UTR Number</div>
+                                <div class="font-weight-bold">{{$ticket->utr_no}}</div>
                             </div>
-
-                            <div class="col-6 my-3">
-                                <div class="w-25 pb-1">
-                                    Upload Screenshot
-                                </div>
-                                <div class="w-75">
-                                    <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
-                                    @error('screenshot')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                            <div class="col-3">
+                                <div>AMC Form </div>
+                                <div class="font-weight-bold"><a> View <i class="ri-eye-line px-1"></i> </a></div>
+                            </div>
+                            <div class="col-3">
+                                <div>Demate PDF</div>
+                                <div class="font-weight-bold"> <a>Download <i class="ri-download-2-line"></i></a> </div>
                             </div>
                         </div>
 
                         <div class="text-align-center">
-                            <button type="submit" class="btn btn-primary active my-5 px-5 text-ali">Submit </button>
+                            <a href="{{route('ops.tickets.mail', $ticket)}}" class="btn btn-primary active my-5 px-5 text-ali">Submit </a>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </form>
+            </div>
 
         </div>
     </div>
