@@ -77,6 +77,7 @@ Ticket Details
                 @method('put')
                 <div class="card card-one card-product">
                     <div class="card-body p-3">
+                        @if($ticket->status_id == 2)
                         <div class="row px-md-4">
                             <div class="col-6 my-3">
                                 <div class="pb-1">
@@ -114,6 +115,73 @@ Ticket Details
                                 </div>
                             </div>
                         </div>
+                        @endif
+
+                        @if($ticket->status_id == 9)
+                        <div class="row px-md-4">
+                            <div class="col-6 my-3">
+                                <div class="w-25 pb-1">
+                                    Refund Amount
+                                </div>
+                                <div class="w-75">
+                                    <input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund_amt"
+                                      value="{{$ticket->refund_amt}}" readonly 
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                                <div class="w-25 pb-1">
+                                    Upload Deal Ticket
+                                </div>
+                                <div class="w-75">
+                                    <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                      value="" 
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if($ticket->status_id == 13)
+                        <div class="row px-md-4">
+                            <div class="col-6 my-3">
+                                <div class="pb-1">
+                                    Units verification
+                                </div>
+                                <div class="">
+                                    <input type="hidden" name="units_verification" value="" required>
+                                    <span class='verification' onclick="setVerification(0,1)">Accept</span>
+                                    <span class='verification' onclick="setVerification(1,2)">Reject</span>
+                                    @error('units_verification')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                                <div class="w-25 pb-1">
+                                    Received Units
+                                </div>
+                                <div class="w-75">
+                                    <input type="text" class="form-control w-100" placeholder="Enter units" name="rate"
+                                      value=""
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                                <div class="w-25 pb-1">
+                                    Dispute Comment
+                                </div>
+                                <div class="w-75">
+                                    <textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
 
                         <div class="text-align-center">
                             <button type="submit" class="btn btn-primary active my-5 px-5 text-ali">Submit </button>

@@ -41,7 +41,14 @@ class TicketController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        return view('dealer.tickets.show', compact('ticket'));
+    }
+
+    public function statusUpdate(Ticket $ticket) {
+        $ticket->status_id = 8;
+        $ticket->update();
+        return redirect()->route('dealer.tickets.index')->with('success', 'Accepted ticket successfully.');
     }
 
     /**
@@ -58,7 +65,7 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd("need to clarify trade value with karthik");
     }
 
     /**

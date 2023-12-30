@@ -73,7 +73,7 @@ Ticket Details
                             </div>
                             <div class="col-3">
                                 <div>AMC Form </div>
-                                <div class="font-weight-bold"><a> View <i class="ri-eye-line px-1"></i> </a></div>
+                                <div class="font-weight-bold"><a>Download <i class="ri-download-2-line"></i></a></div>
                             </div>
                             <div class="col-3">
                                 <div>Demate PDF</div>
@@ -90,26 +90,6 @@ Ticket Details
                 <div class="card card-one card-product">
                     <div class="card-body p-3">
                         <div class="row px-md-4">
-                            <div class="col-6 my-3">
-                                <div class="pb-1">
-                                    Verify Order
-                                </div>
-                                <div class="">
-                                    <input type="hidden" name="verification" value="" required>
-                                    <span class='verification' onclick="setVerification(0,1)">Accept</span>
-                                    <span class='verification' onclick="setVerification(1,2)">Reject</span>
-                                    @error('verification')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-6 my-3">
-                                
-                            </div>
-
                             <div class="col-6 my-3">
                                 <div class="w-25 pb-1">
                                     Trade Value

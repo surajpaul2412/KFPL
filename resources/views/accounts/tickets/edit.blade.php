@@ -78,6 +78,7 @@ Ticket Details
                 <div class="card card-one card-product">
                     <div class="card-body p-3">
                         <div class="row px-md-4">
+                            @if($ticket->status_id == 3)
                             <div class="col-6 my-3">
                                 <div class="pb-1">
                                     UTR Number
@@ -105,6 +106,45 @@ Ticket Details
                                     @enderror
                                 </div>
                             </div>
+                            @endif
+
+                            @if($ticket->status_id == 11)
+                            <div class="col-6 my-3">
+                                <div class="pb-1">
+                                    Refund Verification
+                                </div>
+                                <div class="">
+                                    <input type="hidden" name="refund_verification" value="" required>
+                                    <span class='verification' onclick="setVerification(0,1)">Accept</span>
+                                    <span class='verification' onclick="setVerification(1,2)">Reject</span>
+                                    @error('refund_verification')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                                <div class="w-25 pb-1">
+                                    Expected Refund
+                                </div>
+                                <div class="w-75">
+                                    <input type="text" class="form-control w-100" placeholder="Enter Amount" name="expected_refund"
+                                      value=""
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                                <div class="w-25 pb-1">
+                                    Dispute Comment
+                                </div>
+                                <div class="w-75">
+                                    <textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
+                                </div>
+                            </div>
+                            @endif
                         </div>
 
                         <div class="text-align-center">

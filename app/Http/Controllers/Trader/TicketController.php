@@ -67,7 +67,9 @@ class TicketController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        $securities = Security::whereStatus(1)->get();
+        return view('trader.tickets.edit', compact('ticket', 'securities'));
     }
 
     /**
@@ -75,7 +77,21 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'security_id' => 'required|exists:securities,id',
+            'type' => 'required|integer|in:1,2',
+            'payment_type' => 'required|integer|in:1,2,3',
+            'basket_no' => 'required|integer',
+            'rate' => 'required|numeric',
+            'total_amt' => 'required|numeric',
+        ]);
+
+        $ticket = Ticket::findOrFail($id);
+        $data = $request->all();
+        $data['status_id'] = 2;
+        $ticket->update($data);
+
+        return redirect()->route('trader.tickets.index')->with('success', 'Ticket updated successfully.');
     }
 
     /**

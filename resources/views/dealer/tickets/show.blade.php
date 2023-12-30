@@ -23,7 +23,7 @@ Ticket Details
 
             <div class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{route('accounts.tickets.update', $ticket->id)}}">
                 <div class="card card-one card-product">
-                    <form class="card-body p-3 py-4">
+                    <div class="card-body p-3 py-4">
                         <div class="row px-md-4">
                             <div class="col-3">
                                 <div>Name</div>
@@ -73,7 +73,7 @@ Ticket Details
                             </div>
                             <div class="col-3">
                                 <div>AMC Form </div>
-                                <div class="font-weight-bold"> <a>Download <i class="ri-download-2-line"></i></a> </div>
+                                <div class="font-weight-bold"><a>Download <i class="ri-download-2-line"></i></a></div>
                             </div>
                             <div class="col-3">
                                 <div>Demate PDF</div>
@@ -81,10 +81,11 @@ Ticket Details
                             </div>
                         </div>
 
+
                         <div class="text-align-center">
-                            <a href="{{route('ops.tickets.mail', $ticket)}}" class="btn btn-primary active my-5 px-5 text-ali">Submit </a>
+                            <a href="{{route('dealer.tickets.statusUpdate', $ticket)}}" class="btn btn-primary active my-5 px-5 text-ali">Submit </a>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
 

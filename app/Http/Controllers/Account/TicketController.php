@@ -14,7 +14,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::whereStatusId(3)
+        $tickets = Ticket::whereIn('status_id', [3, 11])
          ->orderBy('id')
          ->paginate(10);
 

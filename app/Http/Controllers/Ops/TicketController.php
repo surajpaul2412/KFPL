@@ -13,7 +13,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::whereIn('status_id', [2, 6, 9, 10])
+        $tickets = Ticket::whereIn('status_id', [2, 6, 9, 10, 13])
          ->orderBy('id')
          ->paginate(10);
 

@@ -61,8 +61,10 @@ Route::middleware(['auth', 'isDealer'])->group(function () {
     Route::resource('/dealer/tickets', DealerTicketController::class)->names([
         'index' => 'dealer.tickets.index',
         'edit' => 'dealer.tickets.edit',
+        'show' => 'dealer.tickets.show',
         'update' => 'dealer.tickets.update',
     ]);
+    Route::get('/dealer/tickets/{ticket}/statusUpdate', [DealerTicketController::class, 'statusUpdate'])->name('dealer.tickets.statusUpdate');
 });
 
 // Accounts Dashboard
@@ -85,6 +87,8 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
         'index' => 'trader.tickets.index',
         'create' => 'trader.tickets.create',
         'store' => 'trader.tickets.store',
+        'edit' => 'trader.tickets.edit',
+        'update' => 'trader.tickets.update',
     ]);
     Route::get('/trader/get-security-details/{id}', [TraderTicketController::class, 'getSecurityDetails'])
     ->name('trader.get-security-details');
