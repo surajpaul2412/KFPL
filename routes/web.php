@@ -42,7 +42,6 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     // User (Employee) Management
     Route::resource('/admin/employees', UserController::class);
-    // Toggle Employee STatus
     Route::get('/admin/toggle/status', [UserController::class, 'togglestatus'])->name('admin.employee.togglestatus');
     // Ticket
     Route::resource('/admin/tickets', AdminTicketController::class)->names([

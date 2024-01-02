@@ -36,23 +36,21 @@ Ticket Management
     <div class="col-xl-12">
         <div class="row g-3">
             <div class="col-12 col-md-12 col-xl-12 pt-3">
-                <div class="card card-one card-product text-center"> <!-- Added text-center class -->
+                <div class="card card-one card-product text-center">
                     <div class="card-body p-0">
-                        <!-- table -->
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID #</th>
-                                    <th>Security</th>
+                                    <th>ID</th>
+                                    <th>Security Name</th>
                                     <th>Buy/Sell</th>
                                     <th>Payment Mode</th>
-                                    <th>Total Shares</th>
+                                    <th>Total No. of Shares</th>
                                     <th>Trade Value</th>
                                     <th>Created On</th>
-                                    <th>Trade Value</th>
                                     <th>Last Modified</th>
-                                    <th>Curr. Stage</th>
-                                    <th>Curr. Employee</th>
+                                    <th>Stage</th>
+                                    <th>Employee</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -61,20 +59,27 @@ Ticket Management
                                @foreach($tickets as $ticket)
                                 <tr>
                                     <td>{{$ticket->id}}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{$ticket->security->name}}</td>
+                                    <td>{{$ticket->type == 1 ? "Buy" : "Sell"}}</td>
                                     <td>
-                                      <a href="{{url('/admin/employees/' . $employee->id . '/edit')}}" title="Edit">
-                                        <i class="ri-pencil-line"></i>
-                                      </a>
+                                        @if($ticket->payment_type == 1)
+                                            Cash
+                                        @elseif($ticket->payment_type == 2)
+                                            Basket
+                                        @else
+                                            Net Settlement
+                                        @endif
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{$ticket->created_at->format('Y-m-d')}}</td>
+                                    <td>{{$ticket->updated_at->format('Y-m-d')}}</td>
+                                    <td>{{$ticket->status_id}}</td>
+                                    <td>{{$ticket->user->name}}</td>
+                                    <td>
+                                        <a href="{{url('/admin/tickets/' . $ticket->id . '/edit')}}" title="Edit">
+                                            <i class="ri-pencil-line"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach

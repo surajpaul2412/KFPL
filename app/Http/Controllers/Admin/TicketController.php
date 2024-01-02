@@ -16,15 +16,8 @@ class TicketController extends Controller
      // Listing
      public function index(Request $request)
      {
-
-
-         $tickets = Ticket::with('securities')
-
-         ->orderBy('id')
-         ->paginate(10);
-
-
-         return view('admin.tickets.index', compact('tickets'));
+        $tickets = Ticket::orderBy('id')->paginate(10);
+        return view('admin.tickets.index', compact('tickets'));
      }
 
     /**
