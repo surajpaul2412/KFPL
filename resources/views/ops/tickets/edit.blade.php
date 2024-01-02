@@ -150,7 +150,7 @@ Ticket Details
                                     Units verification
                                 </div>
                                 <div class="">
-                                    <input type="hidden" name="units_verification" value="" required>
+                                    <input type="hidden" name="" value="" required>
                                     <span class='verification' onclick="setVerification(0,1)">Accept</span>
                                     <span class='verification' onclick="setVerification(1,2)">Reject</span>
                                     @error('units_verification')
@@ -166,7 +166,7 @@ Ticket Details
                                     Received Units
                                 </div>
                                 <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="Enter units" name="rate"
+                                    <input type="text" class="form-control w-100" placeholder="Enter units" name=""
                                       value=""
                                     >
                                 </div>
@@ -177,7 +177,7 @@ Ticket Details
                                     Dispute Comment
                                 </div>
                                 <div class="w-75">
-                                    <textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
+                                    <textarea class="form-control w-100" name="" placeholder="Write here"></textarea>
                                 </div>
                             </div>
                         </div>

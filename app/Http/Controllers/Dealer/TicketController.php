@@ -65,7 +65,12 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        dd("need to clarify trade value with karthik");
+        $ticket = Ticket::findOrFail($id);
+        $data = $request->all();
+        $data['status_id'] = 9;
+
+        $ticket->update($data);
+        return redirect()->route('dealer.tickets.index')->with('success', 'Ticket updated successfully.');
     }
 
     /**

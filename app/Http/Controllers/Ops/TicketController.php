@@ -13,7 +13,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::whereIn('status_id', [2, 6, 9, 10, 13])
+        $tickets = Ticket::whereIn('status_id', [2, 5, 6, 9, 10, 13])
          ->orderBy('id')
          ->paginate(10);
 
@@ -59,22 +59,43 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'verification' => 'required|in:1,2',
-            'rate' => 'required|numeric',
-            'remark' => 'nullable',
-        ]);
         $ticket = Ticket::findOrFail($id);
         $data = $request->all();
 
-        if ($request->get('verification') == 1) {
-            $data['status_id'] = 3;
-        } else {
-            $data['status_id'] = 1;
-        }
+        if ($ticket->status_id == 2) {
+            $request->validate([
+                'verification' => 'required|in:1,2',
+                'rate' => 'required|numeric',
+                'remark' => 'nullable',
+            ]);
 
+            if ($request->get('verification') == 1) {
+                $data['status_id'] = 3;
+            } else {
+                $data['status_id'] = 1;
+            }
+
+        } elseif ($ticket->status_id == 9) {
+            // $request->validate([
+            //     'refund' => 'required|numeric',
+            //     'deal_ticket' => 'nullable',
+            // ]);
+
+            $data['status_id'] = 11;//condition can be placed here//
+        } elseif ($ticket->status_id == 13) {
+            // $request->validate([
+            //     'verification' => 'required|in:1,2',
+            //     'received_units' => 'required|numeric',
+            //     'dispute_comment' => 'nullable',
+            // ]);
+
+            $data['status_id'] = 14;//condition can be placed here//
+        } else {
+            
+        }
+        
         $ticket->update($data);
-        return redirect()->route('ops.tickets.index')->with('success', 'Ticket updated successfully.');
+        return redirect()->route('ops.tickets.index')->with('success', 'Ticket updated successfully.');        
     }
 
     /**

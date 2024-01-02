@@ -59,26 +59,42 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'utr_no' => 'required|string',
-            'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-        ]);
-
         $ticket = Ticket::findOrFail($id);
-        if ($request->hasFile('screenshot') && $ticket->screenshot) {
-            Storage::delete($ticket->screenshot);
-        }
-        if ($request->hasFile('screenshot')) {
-            $imagePath = $request->file('screenshot')->store('screenshot', 'public');
-            $ticket->screenshot = $imagePath;
-        }
+        $data = $request->all();
 
-        $ticket->status_id = $request->get('utr_no');
-        if ($ticket->type == 1 && $ticket->payment_type == 1) {
-            $ticket->status_id = 6;
-        }
+        if ($ticket->status_id == 3) {
+            $request->validate([
+                'utr_no' => 'required|string',
+                'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+            ]);
 
-        $ticket->update($request->except('screenshot'));
+            if ($request->hasFile('screenshot') && $ticket->screenshot) {
+                Storage::delete($ticket->screenshot);
+            }
+            if ($request->hasFile('screenshot')) {
+                $imagePath = $request->file('screenshot')->store('screenshot', 'public');
+                $ticket->screenshot = $imagePath;
+            }
+
+            $ticket->status_id = $request->get('utr_no');
+            if ($ticket->type == 1 && $ticket->payment_type == 1) {
+                $ticket->status_id = 6;
+            }
+
+            $ticket->update($request->except('screenshot'));
+        } elseif ($ticket->status_id == 11) {
+            // $request->validate([
+            // ]);
+
+            if ($ticket->type == 1) {
+                $ticket->status_id = 13;
+            } else {
+                $ticket->status_id = 12;
+            }
+
+            $ticket->update();
+        }
+        
         return redirect()->route('accounts.tickets.index')->with('success', 'Ticket updated successfully.');
     }
 
