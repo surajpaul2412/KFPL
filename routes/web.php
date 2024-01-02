@@ -47,6 +47,9 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::resource('/admin/tickets', AdminTicketController::class)->names([
         'index' => 'admin.tickets.index',
         'create' => 'admin.tickets.create',
+        'store' => 'admin.tickets.store',
+        'edit' => 'admin.tickets.edit',
+        'update' => 'admin.tickets.update',
     ]);
     // AMC Management
     Route::resource('/admin/amcs', AmcController::class);

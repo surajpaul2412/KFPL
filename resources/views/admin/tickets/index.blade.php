@@ -78,7 +78,7 @@ Ticket Management
                                     <td>{{$ticket->user->name}}</td>
                                     <td>
                                         <a href="{{url('/admin/tickets/' . $ticket->id . '/edit')}}" title="Edit">
-                                            <i class="ri-pencil-line"></i>
+                                            <i class="ri-pencil-fill"></i>
                                         </a>
                                     </td>
                                 </tr>
