@@ -32,7 +32,7 @@
                     <a href="" class="nav-link"><i class="ri-funds-box-line"></i> <span>Reports</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link"><i class="ri-article-fill"></i> <span>Templates</span></a>
+                    <a href="" class="nav-link"><i class="ri-article-line"></i> <span>Templates</span></a>
                 </li>
                 @endif
                 @if(auth()->user()->isTrader())

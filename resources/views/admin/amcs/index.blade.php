@@ -51,12 +51,15 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('amcs.edit', $amc->id) }}" class="">Edit</a>
-
+                                                <a href="{{ route('amcs.edit', $amc->id) }}" title="Edit">
+                                                    <i class="ri-pencil-line"></i>
+                                                </a>
                                                 <form action="{{ route('amcs.destroy', $amc->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                                                    <a type="submit" class="" onclick="return confirm('Are you sure you want to delete?')">
+                                                        <i class="ri-delete-bin-5-line text-danger"></i>
+                                                    </a>
                                                 </form>
                                             </td>
                                         </tr>

@@ -67,12 +67,15 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('securities.edit', $security->id) }}" class="">Edit</a>
-
+                                                <a href="{{ route('securities.edit', $security->id) }}" title="Edit">
+                                                    <i class="ri-pencil-line"></i>
+                                                </a>
                                                 <form action="{{ route('securities.destroy', $security->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                                                    <a type="submit" class="" onclick="return confirm('Are you sure you want to delete?')">
+                                                        <i class="ri-delete-bin-5-line text-danger"></i>
+                                                    </a>
                                                 </form>
                                             </td>
                                         </tr>

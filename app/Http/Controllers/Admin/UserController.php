@@ -103,8 +103,7 @@ class UserController extends Controller
             {
               // Save Roles
               $user->roles()->sync($request['role_id']);
-
-              return back()->with('success', 'User Added Successfully!');
+              return redirect('/admin/employees')->with('success', 'User Added Successfully.');
             }
 
             return back()->withErrors(['User Creation Error']);
@@ -168,8 +167,7 @@ class UserController extends Controller
 
           // Sync Roles
           $user->roles()->sync($request['role_id']);
-
-          return back()->with('success', 'User Updated Successfully!');
+          return redirect('/admin/employees')->with('success', 'User Updated Successfully.');
         }
         catch (Exception $e)
         {
