@@ -31,7 +31,7 @@ Ticket Details
                             </div>
                             <div class="col-3">
                                 <div>Symbol</div>
-                                <div class="font-weight-bold">  </div>
+                                <div class="font-weight-bold"> {{$ticket->security->symbol}} </div>
                             </div>
                             <div class="col-3">
                                 <div>Ticket Type</div>
