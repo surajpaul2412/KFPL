@@ -143,12 +143,11 @@ class UserController extends Controller
     {
         try
         {
-          //
-          // Validate Request
           $rules = [
             'name'      => 'required',
             'email'     => 'required|email|unique:users,email,'.$id.',id',
             'role_id'   => 'required|array|min:1',
+            'password'   => 'nullable'
           ];
 
           $validator = Validator::make($request->all(),$rules);
@@ -163,6 +162,9 @@ class UserController extends Controller
           $user->email = $request['email'];
           $user->phone = $request['phone'];
           $user->status = $request['status'] ?? 0;
+          if ($request->has('password')) {
+            $user->password = Hash::make($request->input('password'));
+          }
           $user->save();
 
           // Sync Roles

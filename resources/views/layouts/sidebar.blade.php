@@ -1,6 +1,8 @@
 <div class="sidebar">
     <div class="sidebar-header">
-        <a href="{{ url('/') }}" class="sidebar-logo">dashbyte</a>
+        <a href="{{ url('/') }}" class="">
+            <img src="{{ asset('assets/img/logo.jpg') }}">
+        </a>
     </div><!-- sidebar-header -->
     <div id="sidebarMenu" class="sidebar-body">
         <div class="nav-group show">

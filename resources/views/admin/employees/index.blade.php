@@ -27,9 +27,9 @@ Employee Management
           <button type="submit" class="actn-bttn" title="Search">
             <i class="ri-search-line"></i>
           </button>
-          <button type="reset" class="actn-bttn" title="Reset Search" onclick="resetsearch()">
+          <!-- <button type="reset" class="actn-bttn" title="Reset Search" onclick="resetsearch()">
             <i class="ri-refresh-line"></i>
-          </button>
+          </button> -->
         </form>
 
 
@@ -98,9 +98,9 @@ Employee Management
                                       <a href="{{url('/admin/employees/' . $employee->id . '/edit')}}" title="Edit">
                                         <i class="ri-pencil-line"></i>
                                       </a>
-                                      <a href="javascript:void(0)" onclick="togglestatus({{$employee->id}})" title="Delete">
+                                      <!-- <a href="javascript:void(0)" onclick="togglestatus({{$employee->id}})" title="Delete">
                                         <i class="ri-delete-bin-5-line text-danger"></i>
-                                      </a>
+                                      </a> -->
                                     </td>
                                 </tr>
                                 @endforeach

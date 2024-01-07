@@ -95,6 +95,17 @@ Employee Management
                                 </select>
                             </div>
                         </div>
+                        <hr/>
+                        <div class="row px-md-4">
+                            <div class="w-25">
+                                New Password <span class="required"></span>
+                            </div>
+                            <div class="w-75">
+                                <input type="password" class="form-control w-100" placeholder="Enter New Password" name="password"
+                                  value=""
+                                >
+                            </div>
+                        </div>
 
                         <div class="text-align-center">
                             <button type="submit" class="btn btn-primary active my-5 px-5 text-ali">Save Employee </button>
