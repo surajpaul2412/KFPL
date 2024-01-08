@@ -35,37 +35,43 @@ Ticket Details
                             </div>
                             <div class="col-3">
                                 <div>Ticket Type</div>
-                                <div class="font-weight-bold">  </div>
+                                <div class="font-weight-bold"> {{$ticket->type == 1 ? "Buy" : "Sell"}} </div>
                             </div>
                             <div class="col-3">
                                 <div>Payment Mode</div>
-                                <div class="font-weight-bold">  </div>
+                                <div class="font-weight-bold">
+                                  @php
+                                  if($ticket->payment_type == 1) echo "Cash";
+                                  else if($ticket->payment_type == 2) echo "Basket";
+                                  else if($ticket->payment_type == 3) echo "Net Settlement";
+                                  @endphp
+                                </div>
                             </div>
                         </div>
                         <hr/>
                         <div class="row px-md-4">
                             <div class="col-3">
                                 <div>Number of Baskets</div>
-                                <div class="font-weight-bold">  </div>
+                                <div class="font-weight-bold"> {{$ticket->basket_no}} </div>
                             </div>
                             <div class="col-3">
                                 <div>Basket Size</div>
-                                <div class="font-weight-bold">  </div>
+                                <div class="font-weight-bold">  {{$ticket->security->basket_size}}  </div>
                             </div>
                             <div class="col-3">
                                 <div>Ticket Rate</div>
-                                <div class="font-weight-bold">  </div>
+                                <div class="font-weight-bold"> {{$ticket->rate}} </div>
                             </div>
                             <div class="col-3">
                                 <div>Total Amount</div>
-                                <div class="font-weight-bold">  </div>
+                                <div class="font-weight-bold"> {{$ticket->total_amt}} </div>
                             </div>
                         </div>
                         <hr/>
                         <div class="row px-md-4">
                             <div class="col-3">
                                 <div>Markup Percentage</div>
-                                <div class="font-weight-bold">  </div>
+                                <div class="font-weight-bold"> {{$ticket->security->markup_percentage}} </div>
                             </div>
                         </div>
                     </div>
@@ -125,7 +131,7 @@ Ticket Details
                                 </div>
                                 <div class="w-75">
                                     <input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund_amt"
-                                      value="{{$ticket->refund_amt}}" readonly 
+                                      value="{{$ticket->refund_amt}}" readonly
                                     >
                                 </div>
                             </div>
@@ -136,7 +142,7 @@ Ticket Details
                                 </div>
                                 <div class="w-75">
                                     <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-                                      value="" 
+                                      value=""
                                     >
                                 </div>
                             </div>
