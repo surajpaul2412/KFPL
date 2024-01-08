@@ -52,7 +52,10 @@ span.required {
 	background: #193c62;
 	color:white;
 }
-
+.font-weight-bold{
+	font-weight: 600;
+	padding-top: 10px;
+}
 div.calcField
 {
 	background-color: #e3e3e3;
