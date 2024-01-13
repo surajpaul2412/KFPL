@@ -91,7 +91,7 @@ Ticket Management
                                     Enter No. of Basket
                                 </div>
                                 <div class="">
-                                    <input type="text" name="basket_no" class="form-control w-100 @error('no_basket') is-invalid @enderror" value="{{ old('no_basket') }}" placeholder="Enter No. of Basket" id="no_basket" required>
+                                    <input type="text" name="basket_no" class="form-control w-100 @error('basket_no') is-invalid @enderror" value="{{ old('basket_no') }}" placeholder="Enter No. of Basket" id="no_basket" required>
                                     @error('basket_no')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -135,11 +135,10 @@ Ticket Management
                                   Current Price
                                 </div>
                                 <div class="calcField">
-                                    <input type="text" name="price" class="form-control w-100 @error('price') is-invalid @enderror"
-                                    value="{{ old('price') }}" placeholder="Enter Price" disabled>
-                                    <input type="hidden" name="price" class="form-control w-100 @error('price') is-invalid @enderror"
-                                    value="{{ old('price') }}" placeholder="Enter Price" disabled>
-                                    @error('price')
+                                    <input type="text" name="security_price" class="form-control w-100 @error('security_price') is-invalid @enderror" value="{{ old('security_price') }}" placeholder="Enter Price" disabled>
+
+                                    <input type="hidden" name="security_price" class="form-control w-100 @error('security_price') is-invalid @enderror" value="{{ old('security_price') }}" placeholder="Enter Price">
+                                    @error('security_price')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -154,6 +153,7 @@ Ticket Management
                                 </div>
                                 <div class="calcField">
                                     <input type="text" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ old('total_amt') }}" placeholder="Enter Total Amt" disabled>
+
                                     <input type="hidden" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ old('total_amt') }}" placeholder="Enter Total Amt">
                                     @error('total_amt')
                                         <span class="invalid-feedback" role="alert">
@@ -168,7 +168,8 @@ Ticket Management
                                 </div>
                                 <div class="calcField">
                                     <input type="text" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ old('markup_percentage') }}" placeholder="Enter Markup Percentage" disabled>
-                                    <input type="hidden" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ old('markup_percentage') }}" placeholder="Enter Markup Percentage" disabled>
+
+                                    <input type="hidden" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ old('markup_percentage') }}" placeholder="Enter Markup Percentage">
                                     @error('markup_percentage')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -188,7 +189,7 @@ Ticket Management
 
         </div><!-- row -->
     </div><!-- col -->
-</div><!-- row -->
+</div>
 @endsection
 
 @section('script')
@@ -205,7 +206,7 @@ Ticket Management
                 success: function (data) {
                     // Fill the fields with the fetched data
                     $('input[name="basket_size"]').val(data.security.basket_size);
-                    $('input[name="price"]').val(data.security.price);
+                    $('input[name="security_price"]').val(data.security.price);
                     $('input[name="rate"]').val(data.security.price);
                     $('input[name="markup_percentage"]').val(data.security.markup_percentage);
 

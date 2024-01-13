@@ -65,7 +65,7 @@ class TicketController extends Controller
         if ($ticket->status_id == 2) {
             $request->validate([
                 'verification' => 'required|in:1,2',
-                'rate' => 'required|numeric',
+                'rate' => 'nullable|numeric',
                 'remark' => 'nullable',
             ]);
 

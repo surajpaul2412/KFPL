@@ -64,28 +64,33 @@ class TicketController extends Controller
 
         if ($ticket->status_id == 3) {
             $request->validate([
+                'total_amt' => 'required|numeric',
                 'utr_no' => 'required|string',
                 'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
             ]);
 
-            // Screenshot Wrokings
-            if ($request->hasFile('screenshot') && $ticket->screenshot) {
-                Storage::delete($ticket->screenshot);
-            }
-            if ($request->hasFile('screenshot')) {
-                $imagePath = $request->file('screenshot')->store('screenshot', 'public');
-                $ticket->screenshot = $imagePath;
-            }
+            if ($ticket->total_amt == $request->get('total_amt')) {
+                // Screenshot Wrokings
+                if ($request->hasFile('screenshot') && $ticket->screenshot) {
+                    Storage::delete($ticket->screenshot);
+                }
+                if ($request->hasFile('screenshot')) {
+                    $imagePath = $request->file('screenshot')->store('screenshot', 'public');
+                    $ticket->screenshot = $imagePath;
+                }
 
-            // Pdf Workings
-            // End
+                // Pdf Workings
+                // End
 
-            $ticket->status_id = $request->get('utr_no');
-            if ($ticket->type == 1 && $ticket->payment_type == 1) {
-                $ticket->status_id = 6;
+                $ticket->status_id = $request->get('utr_no');
+                if ($ticket->type == 1 && $ticket->payment_type == 1) {
+                    $ticket->status_id = 6;
+                }
+
+                $ticket->update($request->except('screenshot'));
+            } else {
+                return redirect()->back()->with('error', 'Please verify your entered amount.');
             }
-
-            $ticket->update($request->except('screenshot'));
         } elseif ($ticket->status_id == 11) {
             // $request->validate([
             // ]);

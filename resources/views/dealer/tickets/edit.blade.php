@@ -73,10 +73,12 @@ Ticket Details
                                 <div>Markup Percentage</div>
                                 <div class="font-weight-bold"> {{$ticket->security->markup_percentage}} </div>
                             </div>
+                            @if($ticket->utr_no)
                             <div class="col-3">
                                 <div>UTR Number</div>
                                 <div class="font-weight-bold">{{$ticket->utr_no}}</div>
                             </div>
+                            @endif
                             <div class="col-3">
                                 <div>AMC Form </div>
                                 <div class="font-weight-bold"><a>Download <i class="ri-download-2-line"></i></a></div>

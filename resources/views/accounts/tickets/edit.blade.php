@@ -89,6 +89,20 @@ Ticket Details
                             @if($ticket->status_id == 3)
                             <div class="col-6 my-3">
                                 <div class="pb-1">
+                                    Enter Total Amount
+                                </div>
+                                <div class="">
+                                    <input type="text" name="total_amt" class="form-control @error('total_amt') is-invalid @enderror" placeholder="Enter Total Amount" required>
+                                    @error('total_amt')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-6 my-3">
+                                <div class="pb-1">
                                     UTR Number
                                 </div>
                                 <div class="">

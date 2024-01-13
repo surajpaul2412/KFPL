@@ -56,7 +56,7 @@ Ticket Details
                             </div>
                             <div class="col-3">
                                 <div>Basket Size</div>
-                                <div class="font-weight-bold">  {{$ticket->security->basket_size}}  </div>
+                                <div class="font-weight-bold">  {{$ticket->basket_size}}  </div>
                             </div>
                             <div class="col-3">
                                 <div>Ticket Rate</div>
@@ -71,7 +71,7 @@ Ticket Details
                         <div class="row px-md-4">
                             <div class="col-3">
                                 <div>Markup Percentage</div>
-                                <div class="font-weight-bold"> {{$ticket->security->markup_percentage}} </div>
+                                <div class="font-weight-bold"> {{$ticket->markup_percentage}} </div>
                             </div>
                         </div>
                     </div>
@@ -91,8 +91,8 @@ Ticket Details
                                 </div>
                                 <div class="">
                                     <input type="hidden" name="verification" value="" required>
-                                    <span class='verification' onclick="setVerification(0,1)">Accept</span>
-                                    <span class='verification' onclick="setVerification(1,2)">Reject</span>
+                                    <span class='verification' onclick="setVerification1(0,1)">Accept</span>
+                                    <span class='verification' onclick="setVerification1(1,2)">Reject</span>
                                     @error('verification')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -106,9 +106,7 @@ Ticket Details
                                     Edit Ticket Rate
                                 </div>
                                 <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="Edit Ticket Rate" name="rate"
-                                      value="{{$ticket->rate}}"
-                                    >
+                                    <input type="number" step="any" class="form-control w-100" placeholder="Edit Ticket Rate" name="rate" value="{{ $ticket->rate }}" disabled>
                                 </div>
                             </div>
 
@@ -183,4 +181,29 @@ Ticket Details
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    function setVerification1(x, y) {
+        var verificationInput = document.querySelector("[name='verification']");
+        var rateInput = document.querySelector("[name='rate']");
+
+        if (verificationInput) {
+            verificationInput.value = y;
+        }
+
+        // Toggle the "disabled" attribute based on the verification status
+        if (rateInput) {
+            rateInput.disabled = (y !== 1); // Adjust the value based on your accepted verification logic
+        }
+
+        // Highlight the selected verification status
+        document.querySelectorAll(".verification").forEach(function(element) {
+            element.classList.remove('selected');
+        });
+
+        document.querySelectorAll(".verification")[x].classList.add('selected');
+    }
+</script>
 @endsection

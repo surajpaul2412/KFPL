@@ -43,14 +43,17 @@ class TicketController extends Controller
             'type' => 'required|integer|in:1,2',
             'payment_type' => 'required|integer|in:1,2,3',
             'basket_no' => 'required|integer',
+            'basket_size' => 'required|integer',
             'rate' => 'required|numeric',
+            'security_price' => 'required|numeric',
+            'markup_percentage' => 'required|numeric',
             'total_amt' => 'required|numeric',
         ]);
 
         $validatedData['user_id'] = Auth::user()->id;
         $validatedData['status_id'] = 2;
-        $ticket = Ticket::create($validatedData);
 
+        $ticket = Ticket::create($validatedData);
         return redirect()->route('trader.tickets.index')->with('success', 'Ticket created successfully.');
     }
 
