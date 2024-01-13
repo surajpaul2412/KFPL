@@ -42,11 +42,11 @@ Ticket Management
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>S. no</th>
                                     <th>Security Name</th>
                                     <th>Buy/Sell</th>
                                     <th>Payment Mode</th>
-                                    <th>Total No. of Shares</th>
+                                    <th>Total No. of Units</th>
                                     <th>Trade Value</th>
                                     <th>Created On</th>
                                     <th>Last Modified</th>
@@ -78,6 +78,10 @@ Ticket Management
                                     <td>
                                         @if($ticket->status_id == 1)
                                         <a href="{{url('/trader/tickets/' . $ticket->id . '/edit')}}" title="Edit">
+                                            <i class="ri-pencil-line"></i>
+                                        </a>
+                                        @else
+                                        <a href="{{ route('trader.tickets.show', $ticket->id) }}" title="View">
                                             <i class="ri-pencil-line"></i>
                                         </a>
                                         @endif

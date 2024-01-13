@@ -165,10 +165,10 @@
                                     </div>
                                 </div>
 
-                                <!-- Marup Percentage -->
+                                <!-- Markup Percentage -->
                                 <div class="col-3 my-3">
                                     <div class="pb-1">
-                                        Marup Percentage
+                                        Markup Percentage
                                     </div>
                                     <div class="calcField">
                                         <input type="text" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ $ticket->security->markup_percentage }}" placeholder="Enter Markup Percentage" disabled>

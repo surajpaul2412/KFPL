@@ -68,6 +68,7 @@ class TicketController extends Controller
                 'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
             ]);
 
+            // Screenshot Wrokings
             if ($request->hasFile('screenshot') && $ticket->screenshot) {
                 Storage::delete($ticket->screenshot);
             }
@@ -75,6 +76,9 @@ class TicketController extends Controller
                 $imagePath = $request->file('screenshot')->store('screenshot', 'public');
                 $ticket->screenshot = $imagePath;
             }
+
+            // Pdf Workings
+            // End
 
             $ticket->status_id = $request->get('utr_no');
             if ($ticket->type == 1 && $ticket->payment_type == 1) {

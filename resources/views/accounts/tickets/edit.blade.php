@@ -135,7 +135,7 @@ Ticket Details
 
                             <div class="col-6 my-3">
                                 <div class="w-25 pb-1">
-                                    Expected Refund
+                                    Refund Received
                                 </div>
                                 <div class="w-75">
                                     <input type="text" class="form-control w-100" placeholder="Enter Amount" name="expected_refund"

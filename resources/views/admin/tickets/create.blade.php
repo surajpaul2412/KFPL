@@ -141,7 +141,7 @@ Ticket Management
                               </div>
                               <div style='width:49%;float:right;'>
                                 <div class="pb-1">
-                                  Marup Percentage
+                                  Markup Percentage
                                 </div>
                                 <div class="calcField">
 

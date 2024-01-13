@@ -91,6 +91,7 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
         'store' => 'trader.tickets.store',
         'edit' => 'trader.tickets.edit',
         'update' => 'trader.tickets.update',
+        'show' => 'trader.tickets.show',
     ]);
     Route::get('/trader/get-security-details/{id}', [TraderTicketController::class, 'getSecurityDetails'])
     ->name('trader.get-security-details');

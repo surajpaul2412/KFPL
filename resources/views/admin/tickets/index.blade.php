@@ -45,7 +45,7 @@ Ticket Management
                                     <th>Security Name</th>
                                     <th>Buy/Sell</th>
                                     <th>Payment Mode</th>
-                                    <th>Total No. of Shares</th>
+                                    <th>Total No. of Units</th>
                                     <th>Trade Value</th>
                                     <th>Created On</th>
                                     <th>Last Modified</th>

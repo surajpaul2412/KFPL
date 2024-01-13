@@ -103,10 +103,10 @@ Ticket Details
 
                             <div class="col-6 my-3">
                                 <div class="w-25">
-                                    Edit Transaction Rate
+                                    Edit Ticket Rate
                                 </div>
                                 <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="Edit Transaction Rate" name="rate"
+                                    <input type="text" class="form-control w-100" placeholder="Edit Ticket Rate" name="rate"
                                       value="{{$ticket->rate}}"
                                     >
                                 </div>
@@ -151,22 +151,6 @@ Ticket Details
 
                         @if($ticket->status_id == 13)
                         <div class="row px-md-4">
-                            <div class="col-6 my-3">
-                                <div class="pb-1">
-                                    Units verification
-                                </div>
-                                <div class="">
-                                    <input type="hidden" name="" value="" required>
-                                    <span class='verification' onclick="setVerification(0,1)">Accept</span>
-                                    <span class='verification' onclick="setVerification(1,2)">Reject</span>
-                                    @error('units_verification')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
                             <div class="col-6 my-3">
                                 <div class="w-25 pb-1">
                                     Received Units
