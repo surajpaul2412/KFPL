@@ -67,7 +67,16 @@ class TicketController extends Controller
     {
         $ticket = Ticket::findOrFail($id);
         $data = $request->all();
-        $data['status_id'] = 9;
+
+        if ($ticket->status_id == 8) {
+            $request->validate([
+                'actual_total_amt' => 'nullable|numeric',
+                'nav' => 'nullable',
+                // 'nav' => 'required',
+            ]);
+
+            $data['status_id'] = 9;
+        }        
 
         $ticket->update($data);
         return redirect()->route('dealer.tickets.index')->with('success', 'Ticket updated successfully.');

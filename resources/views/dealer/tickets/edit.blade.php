@@ -56,7 +56,7 @@ Ticket Details
                             </div>
                             <div class="col-3">
                                 <div>Basket Size</div>
-                                <div class="font-weight-bold"> {{$ticket->security->basket_size}} </div>
+                                <div class="font-weight-bold"> {{$ticket->basket_size}} </div>
                             </div>
                             <div class="col-3">
                                 <div>Ticket Rate</div>
@@ -71,7 +71,7 @@ Ticket Details
                         <div class="row px-md-4">
                             <div class="col-3">
                                 <div>Markup Percentage</div>
-                                <div class="font-weight-bold"> {{$ticket->security->markup_percentage}} </div>
+                                <div class="font-weight-bold"> {{$ticket->markup_percentage}} </div>
                             </div>
                             @if($ticket->utr_no)
                             <div class="col-3">
@@ -103,9 +103,8 @@ Ticket Details
                                     Actual Trade Value
                                 </div>
                                 <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name=""
-                                      value=""
-                                    >
+                                    <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt"
+                                      value="" >
                                 </div>
                             </div>
 
@@ -114,7 +113,7 @@ Ticket Details
                                     NAV value
                                 </div>
                                 <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="" name="" readonly value="{{$ticket->security->amc->nav}}" >
+                                    <input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" readonly value="{{$ticket->security->amc->nav}}" >
                                 </div>
                             </div>
                         </div>

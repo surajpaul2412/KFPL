@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('basket_size')->after('basket_no')->nullable();
             $table->string('security_price')->after('rate')->nullable();
             $table->string('markup_percentage')->after('security_price')->nullable()->comment('%');
+            $table->double('actual_total_amt')->after('total_amt')->default(0);
+            $table->double('nav')->after('actual_total_amt')->default(0);
         });
     }
 
@@ -27,6 +29,8 @@ return new class extends Migration
             $table->dropColumn('basket_size');
             $table->dropColumn('security_price');
             $table->dropColumn('markup_percentage');
+            $table->dropColumn('actual_total_amt');
+            $table->dropColumn('nav');
         });
     }
 };

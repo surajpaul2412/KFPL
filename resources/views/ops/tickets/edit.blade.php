@@ -73,6 +73,27 @@ Ticket Details
                                 <div>Markup Percentage</div>
                                 <div class="font-weight-bold"> {{$ticket->markup_percentage}} </div>
                             </div>
+                            @if($ticket->utr_no)
+                            <div class="col-3">
+                                <div>UTR Number</div>
+                                <div class="font-weight-bold">{{$ticket->utr_no}}</div>
+                            </div>
+                            @endif
+                            <div class="col-3">
+                                <div>AMC Form </div>
+                                <div class="font-weight-bold"><a>Download <i class="ri-download-2-line"></i></a></div>
+                            </div>
+                            <div class="col-3">
+                                <div>Demate PDF</div>
+                                <div class="font-weight-bold"> <a>Download <i class="ri-download-2-line"></i></a> </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row px-md-4">
+                            <div class="col-3">
+                                <div>Trade Value</div>
+                                <div class="font-weight-bold">  </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -129,8 +150,7 @@ Ticket Details
                                 </div>
                                 <div class="w-75">
                                     <input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund_amt"
-                                      value="{{$ticket->refund_amt}}" readonly
-                                    >
+                                      value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
                                 </div>
                             </div>
 
@@ -140,8 +160,7 @@ Ticket Details
                                 </div>
                                 <div class="w-75">
                                     <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-                                      value=""
-                                    >
+                                      value="" required >
                                 </div>
                             </div>
                         </div>

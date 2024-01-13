@@ -76,7 +76,7 @@ Ticket Management
                                         </a>
                                         @elseif($ticket->status_id == 6)
                                         <a href="{{ route('ops.tickets.show', $ticket->id) }}" title="View">
-                                            <i class="ri-eye-line"></i>
+                                            <i class="ri-pencil-line"></i>
                                         </a>
                                         @endif
                                     </td>
