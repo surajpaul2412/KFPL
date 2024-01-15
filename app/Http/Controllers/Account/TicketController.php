@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TicketController extends Controller
 {
@@ -124,7 +125,7 @@ class TicketController extends Controller
                     $ticket->screenshot = $imagePath;
                 }
 
-                $ticket->status_id = $request->get('utr_no');
+                $ticket->utr_no = $request->get('utr_no');
                 if ($ticket->type == 1 && $ticket->payment_type == 1) {
                     $ticket->status_id = 6;
                 }
@@ -232,8 +233,9 @@ class TicketController extends Controller
                           $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
                           $text = str_replace('<!--TOTALVALUEINWORDS-->', $word_text, $text);
 
-                          // NOW Generate DOM PDF from HTML  
-
+                          // NOW Generate DOM PDF from HTML
+                          $pdf_file_name = "../storage/app/public/ticketpdfs/ticket-" . $ticket->id . ".pdf";
+                          Pdf::loadHTML($text)->save($pdf_file_name);
 
                         } // IF FOUND, ends here
                       }
