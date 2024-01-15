@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Ops;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
+use App\Mail\MailToAMC;
+use Illuminate\Support\Facades\Mail;
 
 class TicketController extends Controller
 {
@@ -108,6 +110,11 @@ class TicketController extends Controller
 
     public function mail(Ticket $ticket) {
         // Write the email sending code || under progress
+        $emailData = ['key' => 'value']; // Pass any data needed in the email
+        $toEmail = 'suraj.paul.69@gmail.com';
+
+        Mail::to($toEmail)->send(new MailToAMC($emailData));
+        // email :: END
         $ticket->status_id = 7;
         $ticket->update();
         return redirect()->route('ops.tickets.index')->with('success', 'Mailed all the AMC controllers successfully.');
