@@ -75,6 +75,10 @@ Ticket Details
                                 <div>Markup Percentage</div>
                                 <div class="font-weight-bold">{{$ticket->security->markup_percentage}}</div>
                             </div>
+                            <div class="col-3">
+                                <div>Security Name</div>
+                                <div class="font-weight-bold">{{$ticket->security->name}}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
