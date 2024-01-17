@@ -23,6 +23,11 @@ class Ticket extends Model
         'security_price',
         'markup_percentage',
         'total_amt',
+        'actual_total_amt',
+        'nav',
+        'refund',
+        'expected_refund',
+        'deal_ticket',
         'utr_no',
         'screenshot',
         'remark'

@@ -78,18 +78,37 @@ class TicketController extends Controller
             }
 
         } elseif ($ticket->status_id == 9) {
-            // $request->validate([
-            //     'refund' => 'required|numeric',
-            //     'deal_ticket' => 'nullable',
-            // ]);
+            $request->validate([
+                'refund' => 'required|numeric',
+                'deal_ticket' => 'required',
+            ]);
+
+            // Deal Ticket Wrokings
+            if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
+                Storage::delete($ticket->deal_ticket);
+            }
+            if ($request->hasFile('deal_ticket')) {
+                $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
+                $ticket->deal_ticket = $imagePath;
+            }
+            $ticket->update($request->except('screenshot'));
 
             $data['status_id'] = 11;//condition can be placed here//
         } elseif ($ticket->status_id == 13) {
-            // $request->validate([
-            //     'verification' => 'required|in:1,2',
-            //     'received_units' => 'required|numeric',
-            //     'dispute_comment' => 'nullable',
-            // ]);
+            $request->validate([
+                // 'verification' => 'required|in:1,2',
+                'received_units' => 'required|numeric',
+            ]);
+
+            if ($request->get('received_units') == ($ticket->basket_size * $ticket->basket_no)) {
+                $request->validate([
+                    'remark' => 'nullable|string',
+                ]);
+            } else {
+                if ($data['remark'] == null) {
+                    return back()->with('error','Please fill the Dispute Comment if you changes the amount');
+                }
+            }
 
             $data['status_id'] = 14;//condition can be placed here//
         } else {
@@ -111,7 +130,10 @@ class TicketController extends Controller
     public function mail(Ticket $ticket) {
         // Write the email sending code || under progress
         $emailData = ['key' => 'value']; // Pass any data needed in the email
-        $toEmail = 'suraj.paul.69@gmail.com';
+
+        $emailString = $ticket->security->amc->email??null;
+        $emailArray = explode(', ', $emailString);
+        $toEmail = array_map('trim', $emailArray);
 
         Mail::to($toEmail)->send(new MailToAMC($emailData));
         // email :: END

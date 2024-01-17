@@ -60,6 +60,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 // Dealer Dashboard
 Route::middleware(['auth', 'isDealer'])->group(function () {
     Route::get('/dealer/dashboard', [DealerDashboardController::class, 'index'])->name('dealer.dashboard');
+    Route::post('/calculate-purchase-nav', [DealerDashboardController::class, 'calculatePurchaseNav'])->name('calculate.purchase.nav');
     Route::resource('/dealer/tickets', DealerTicketController::class)->names([
         'index' => 'dealer.tickets.index',
         'edit' => 'dealer.tickets.edit',

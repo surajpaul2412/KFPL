@@ -70,13 +70,11 @@ class TicketController extends Controller
 
         if ($ticket->status_id == 8) {
             $request->validate([
-                'actual_total_amt' => 'nullable|numeric',
-                'nav' => 'nullable',
-                // 'nav' => 'required',
+                'actual_total_amt' => 'required|numeric',
+                'nav' => 'required|numeric'
             ]);
 
             $data['status_id'] = 9;
-            dd($data);
         }        
 
         $ticket->update($data);
