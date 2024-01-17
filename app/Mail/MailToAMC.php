@@ -49,6 +49,11 @@ class MailToAMC extends Mailable
     public function attachments(): array
     {
         return [];
+        // return [
+        //     Attachment::fromPath('/path/to/file')
+        //             ->as('name.pdf')
+        //             ->withMime('application/pdf'),
+        // ];
     }
 
     /**

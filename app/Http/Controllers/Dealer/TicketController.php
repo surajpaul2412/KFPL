@@ -76,6 +76,7 @@ class TicketController extends Controller
             ]);
 
             $data['status_id'] = 9;
+            dd($data);
         }        
 
         $ticket->update($data);

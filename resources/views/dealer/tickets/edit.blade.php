@@ -103,8 +103,7 @@ Ticket Details
                                     Actual Trade Value
                                 </div>
                                 <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt"
-                                      value="" >
+                                    <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" >
                                 </div>
                             </div>
 

@@ -18,6 +18,8 @@
         </div>
     </div>
 
+    @include('topmessages')
+
     <div class="row justify-content-center g-3">
         <div class="col-xl-12">
             <div class="row g-3">
@@ -31,7 +33,7 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Total No. of securities</th>
-                                        <th>NAV (%)</th>
+                                        <th>Expense Percentage (%)</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -42,7 +44,7 @@
                                             <td>{{ $amc->id }}.</td>
                                             <td>{{ $amc->name }}</td>
                                             <td>{{ $amc->securities->count() }}</td>
-                                            <td>{{ $amc->nav??0 }} %</td>
+                                            <td>{{ $amc->expense_percentage??0 }} %</td>
                                             <td>
                                                 @if($amc->status == 1)
                                                 <a type="button" class="badge badge-pill text-white bg-success px-4">Active</a>

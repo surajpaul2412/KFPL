@@ -70,8 +70,8 @@ Ticket Management
                                             Net Settlement
                                         @endif
                                     </td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{$ticket->basket_no * $ticket->basket_size}}</td>
+                                    <td>{{$ticket->total_amt}}</td>
                                     <td>{{$ticket->created_at->format('Y-m-d')}}</td>
                                     <td>{{$ticket->updated_at->format('Y-m-d')}}</td>
                                     <td>{{$ticket->status_id}}</td>
