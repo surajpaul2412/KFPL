@@ -9,14 +9,64 @@ use Illuminate\Support\Collection;
 
 class FormService
 {
+  // Handle LIC FORM
+  private static function handleLICForm($ticket) {
+
+    $sec_name = $ticket->security->name;
+
+    $filepath = storage_path('app/public/forms/lic.html');
+
+    if (file_exists($filepath)) {
+
+      // Get HTML Content
+      $text = file_get_contents( $filepath );
+
+      // Payment TYPE
+      $payment_type = $ticket->payment_type ;
+
+      // TOTAL UNITS
+      $basket_size   = $ticket->basket_size;
+      $ticket_basket = $ticket->basket_no; // NO. of Basket
+      $total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+      $total_units_in_float = (float) $total_units;
+
+      $text = str_replace('<!--SECURITYNAME-->', $ticket->security->name, $text);
+
+      // INSERT TOTAL VALUE
+      $total_amt = $ticket->total_amt;
+      $word_text = trim(self::NumberintoWords($total_amt));
+      $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+      if ($ticket->type == 1) {   // BUY / PURCHASE
+          $text = str_replace('<!--TICK-->','<div class="PURCHASETICK" style="position:absolute;bottom:494px;left:38px;"><span class="ff5 ws7" style="font-weight: bold;font-size: 11px;height: auto;display: inline-block;">ü</span></div>', $text);
+          $text = str_replace('<!--TOTALPURCHASEAMOUNT-->', $ticket->total_amt, $text);
+          $text = str_replace('<!--TOTALPURCHASEAMOUNTINWORDS-->', $word_text, $text);
+      }
+
+      if ($ticket->type == 2) { // SELL / REDEEM
+          $text = str_replace('<!--TICK-->','<div class="REDEEMTICK" style="position:absolute;bottom:339px;left:38px;"><span class="ff5 ws7" style="font-weight: bold;font-size: 11px;height: auto;display: inline-block;">ü</span></div>', $text);
+          $text = str_replace('<!--TOTALUNITS-->', $total_units_in_float, $text);
+          $text = str_replace('<!--TOTALREDEEMAMOUNT-->', $ticket->total_amt, $text);
+          $text = str_replace('<!--TOTALREDEEMAMOUNTINWORDS-->', $word_text, $text);
+      }
+
+      // NOW SAVE FILE
+      self::saveDocument($ticket->id, $text);
+
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   // Handle BIRLA FORM
   private static function handleBirlaForm($ticket) {
 
     $sec_name = $ticket->security->name;
-    
+
     $filepath = storage_path('app/public/forms/birla.html');
 
-    if(file_exists($filepath)) {
+    if (file_exists($filepath)) {
 
       // Get HTML Content
       $text = file_get_contents( $filepath );
@@ -108,12 +158,24 @@ class FormService
         $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
         $text = str_replace('<!--TOTALVALUEINWORDS-->', $word_text, $text);
 
-        // NOW Generate DOM PDF from HTML
-        Storage::put('public/ticketpdfs/ticket-' . $ticket->id . '.html', $text);
+        // NOW SAVE FILE
+        self::saveDocument($ticket->id, $text);
+        //Storage::put('public/ticketpdfs/ticket-' . $ticket->id . '.html', $text);
         //$pdf_file_name = "../storage/app/public/ticketpdfs/ticket-" . $ticket->id . ".pdf";
         //Pdf::loadHTML($text)->save($pdf_file_name);
-      } // If FOUND
-    } // IF FORM FILE exists
+
+        return 1;
+      } else { // If FOUND
+        return 0;
+      }
+    } else { // IF FORM FILE exists
+      return 0;
+    }
+  }
+
+  public static function saveDocument($ticketid, $text)
+  {
+    Storage::put('public/ticketpdfs/ticket-' . $ticketid . '.html', $text);
   }
 
   public static function GenerateDocument($ticket) {
@@ -127,6 +189,10 @@ class FormService
           self::handleBirlaForm($ticket);
         }
 
+        //
+        if ( strpos($sec_name, "UTI") == 0 ) {
+          self::handleLICForm($ticket);
+        }
     }
   }
 
