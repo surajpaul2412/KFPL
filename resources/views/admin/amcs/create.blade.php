@@ -71,11 +71,11 @@
 
                                 <div class="col-3 my-3">
                                     <div class="pb-1">
-                                        NAV Percentage
+                                        Expense Percentage
                                     </div>
                                     <div class="">
-                                        <input type="text" name="nav" class="form-control w-100" placeholder="Enter NAV Percentage" value="{{ old('nav') }}" required>
-                                        @error('nav')
+                                        <input type="text" name="expense_percentage" class="form-control w-100" placeholder="Enter Expense Percentage" value="{{ old('expense_percentage') }}" required>
+                                        @error('expense_percentage')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>

@@ -96,8 +96,10 @@ class TicketController extends Controller
                 return redirect()->back()->with('error', 'Please verify your entered amount.');
             }
         } elseif ($ticket->status_id == 11) {
-            // $request->validate([
-            // ]);
+            $request->validate([
+                'expected_refund' => 'required|numeric',
+                'remark' => 'nullable|string',
+            ]);
 
             if ($ticket->type == 1) {
                 $ticket->status_id = 13;

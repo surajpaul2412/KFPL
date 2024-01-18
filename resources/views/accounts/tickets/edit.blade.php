@@ -54,11 +54,11 @@ Ticket Details
                         <div class="row px-md-4">
                             <div class="col-3">
                                 <div>Number of Baskets</div>
-                                <div class="font-weight-bold">{{$ticket->basket_no}}</div>
+                                <div class="font-weight-bold"> {{$ticket->basket_no}} </div>
                             </div>
                             <div class="col-3">
                                 <div>Basket Size</div>
-                                <div class="font-weight-bold">{{$ticket->security->basket_size}}</div>
+                                <div class="font-weight-bold">  {{$ticket->basket_size}}  </div>
                             </div>
                             <div class="col-3">
                                 <div>Ticket Rate</div>
@@ -66,18 +66,35 @@ Ticket Details
                             </div>
                             <div class="col-3">
                                 <div>Total Amount</div>
-                                <div class="font-weight-bold">{{$ticket->total_amt}}</div>
+                                <div class="font-weight-bold"> {{$ticket->total_amt}} </div>
                             </div>
                         </div>
                         <hr/>
                         <div class="row px-md-4">
                             <div class="col-3">
                                 <div>Markup Percentage</div>
-                                <div class="font-weight-bold">{{$ticket->security->markup_percentage}}</div>
+                                <div class="font-weight-bold"> {{$ticket->markup_percentage}} </div>
+                            </div>
+                            @if($ticket->utr_no)
+                            <div class="col-3">
+                                <div>UTR Number</div>
+                                <div class="font-weight-bold">{{$ticket->utr_no}}</div>
+                            </div>
+                            @endif
+                            <div class="col-3">
+                                <div>AMC Form </div>
+                                <div class="font-weight-bold"><a>Download <i class="ri-download-2-line"></i></a></div>
                             </div>
                             <div class="col-3">
-                                <div>Security Name</div>
-                                <div class="font-weight-bold">{{$ticket->security->name}}</div>
+                                <div>Demate PDF</div>
+                                <div class="font-weight-bold"> <a>Download <i class="ri-download-2-line"></i></a> </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row px-md-4">
+                            <div class="col-3">
+                                <div>Trade Value</div>
+                                <div class="font-weight-bold"> {{$ticket->actual_total_amt}} </div>
                             </div>
                         </div>
                     </div>
@@ -157,7 +174,7 @@ Ticket Details
                                 </div>
                                 <div class="w-75">
                                     <input type="text" class="form-control w-100" placeholder="Enter Amount" name="expected_refund"
-                                      value=""
+                                      value="{{$ticket->refund??$ticket->expected_refund}}"
                                     >
                                 </div>
                             </div>

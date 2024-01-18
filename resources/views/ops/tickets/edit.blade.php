@@ -92,7 +92,7 @@ Ticket Details
                         <div class="row px-md-4">
                             <div class="col-3">
                                 <div>Trade Value</div>
-                                <div class="font-weight-bold">  </div>
+                                <div class="font-weight-bold"> {{$ticket->actual_total_amt}} </div>
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@ Ticket Details
                                     Refund Amount
                                 </div>
                                 <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund_amt"
+                                    <input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
                                       value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
                                 </div>
                             </div>
@@ -173,9 +173,7 @@ Ticket Details
                                     Received Units
                                 </div>
                                 <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="Enter units" name=""
-                                      value=""
-                                    >
+                                    <input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="{{$ticket->basket_size * $ticket->basket_no}}">
                                 </div>
                             </div>
 
@@ -184,7 +182,7 @@ Ticket Details
                                     Dispute Comment
                                 </div>
                                 <div class="w-75">
-                                    <textarea class="form-control w-100" name="" placeholder="Write here"></textarea>
+                                    <textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
                                 </div>
                             </div>
                         </div>

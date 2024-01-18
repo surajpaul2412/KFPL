@@ -103,8 +103,7 @@ Ticket Details
                                     Actual Trade Value
                                 </div>
                                 <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt"
-                                      value="" >
+                                    <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
                                 </div>
                             </div>
 
@@ -113,7 +112,7 @@ Ticket Details
                                     NAV value
                                 </div>
                                 <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" readonly value="{{$ticket->security->amc->nav}}" >
+                                    <input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" readonly value="" >
                                 </div>
                             </div>
                         </div>
@@ -128,4 +127,30 @@ Ticket Details
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function() {
+        // Attach a change event listener to the actual_total_amt input
+        $('input[name="actual_total_amt"]').on('input', function() {
+            // Get the entered value
+            var actualTotalAmt = $(this).val();
+
+            // Perform an AJAX request to calculate and update the NAV value
+            $.ajax({
+                url: '/calculate-purchase-nav', // Replace with your actual route
+                method: 'POST',
+                data: { actual_total_amt: actualTotalAmt, ticket_id: '{{$ticket->id}}', _token: '{{ csrf_token() }}' },
+                success: function(data) {
+                    // Update the NAV input with the calculated value
+                    $('input[name="nav"]').val(data.navValue);
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
 @endsection
