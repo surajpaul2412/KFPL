@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Storage;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Services\FormService;
 
 class TicketController extends Controller

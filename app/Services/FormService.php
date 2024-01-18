@@ -6,6 +6,7 @@ use Validator;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class FormService
 {
@@ -176,6 +177,8 @@ class FormService
   public static function saveDocument($ticketid, $text)
   {
     Storage::put('public/ticketpdfs/ticket-' . $ticketid . '.html', $text);
+    //$pdf_file_name = "../storage/app/public/ticketpdfs/ticket-" . $ticketid . ".pdf";
+    //Pdf::loadHTML($text)->save($pdf_file_name);
   }
 
   public static function GenerateDocument($ticket) {
