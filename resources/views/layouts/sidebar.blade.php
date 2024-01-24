@@ -150,7 +150,8 @@
         <div class="sidebar-footer-menu">
             <nav class="nav">
                 <!-- Showing error while ADMIN role active -->
-                {{--@php
+                @if(!Auth()->user()->isAdmin())
+                @php
                 if($roleCount > 1)
                 {
                     foreach($roles_names as $role)
@@ -162,7 +163,8 @@
 
                     }
                 }
-                @endphp--}}
+                @endphp
+                @endif
                 <a href=""><i class="ri-edit-2-line"></i> My Profile</a>
                 <a href=""><i class="ri-user-settings-line"></i> Settings</a>
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
