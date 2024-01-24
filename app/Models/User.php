@@ -103,4 +103,9 @@ class User extends Authenticatable
   		}
   		return false;
     }
+
+    public function hasRole($roleName)
+    {
+        return $this->roles->contains('name', $roleName);
+    }
 }

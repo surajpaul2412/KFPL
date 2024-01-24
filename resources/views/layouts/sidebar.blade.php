@@ -125,7 +125,23 @@
                 <img src="{{ asset('assets/img/img1.jpg') }}" alt="">
             </div><!-- sidebar-footer-thumb -->
             <div class="sidebar-footer-body">
-                <p>{{Auth::user()->roles[0]->name}}</p>
+                <p>
+                    @if(Auth::check())
+                        @if(Auth::user()->isAdmin() && Request::is('admin/*'))
+                            Admin
+                        @elseif(Auth::user()->isTrader() && Request::is('trader/*'))
+                            Trader
+                        @elseif(Auth::user()->isOps() && Request::is('ops/*'))
+                            Ops
+                        @elseif(Auth::user()->isDealer() && Request::is('dealer/*'))
+                            Dealer
+                        @elseif(Auth::user()->isAccounts() && Request::is('accounts/*'))
+                            Accounts
+                        @elseif(Auth::user()->isBackoffice() && Request::is('backoffice/*'))
+                            Back Office
+                        @endif
+                    @endif
+                </p>
                 <h6><a class="text-capitalize" href="{{ url('/pages/profile') }}">{{Auth::user()->name}}</a></h6>
 
             </div><!-- sidebar-footer-body -->
@@ -133,7 +149,8 @@
         </div><!-- sidebar-footer-top -->
         <div class="sidebar-footer-menu">
             <nav class="nav">
-                @php
+                <!-- Showing error while ADMIN role active -->
+                {{--@php
                 if($roleCount > 1)
                 {
                     foreach($roles_names as $role)
@@ -145,7 +162,7 @@
 
                     }
                 }
-                @endphp
+                @endphp--}}
                 <a href=""><i class="ri-edit-2-line"></i> My Profile</a>
                 <a href=""><i class="ri-user-settings-line"></i> Settings</a>
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

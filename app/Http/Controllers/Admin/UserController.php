@@ -162,7 +162,7 @@ class UserController extends Controller
           $user->email = $request['email'];
           $user->phone = $request['phone'];
           $user->status = $request['status'] ?? 0;
-          if ($request->has('password')) {
+          if ($request->get('password')) {
             $user->password = Hash::make($request->input('password'));
           }
           $user->save();
