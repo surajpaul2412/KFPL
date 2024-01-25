@@ -128,15 +128,12 @@ class TicketController extends Controller
     }
 
     public function mail(Ticket $ticket) {
-        // Write the email sending code || under progress
-        $emailData = ['key' => 'value']; // Pass any data needed in the email
-
         $emailString = $ticket->security->amc->email??null;
         $emailArray = explode(', ', $emailString);
         $toEmail = array_map('trim', $emailArray);
 
-        Mail::to($toEmail)->send(new MailToAMC($emailData));
-        // email :: END
+        Mail::to($toEmail)->send(new MailToAMC($ticket));
+
         $ticket->status_id = 7;
         $ticket->update();
         return redirect()->route('ops.tickets.index')->with('success', 'Mailed all the AMC controllers successfully.');

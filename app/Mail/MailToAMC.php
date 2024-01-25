@@ -8,17 +8,28 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Ticket;
 
 class MailToAMC extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
-     * Create a new message instance.
+     * The ticket instance.
+     *
+     * @var Ticket
      */
-    public function __construct()
+    public $ticket;
+
+    /**
+     * Create a new message instance.
+     *
+     * @param Ticket $ticket
+     */
+    public function __construct(Ticket $ticket)
     {
-        //
+        $this->ticket = $ticket;
     }
 
     /**
@@ -49,11 +60,6 @@ class MailToAMC extends Mailable
     public function attachments(): array
     {
         return [];
-        // return [
-        //     Attachment::fromPath('/path/to/file')
-        //             ->as('name.pdf')
-        //             ->withMime('application/pdf'),
-        // ];
     }
 
     /**
@@ -63,8 +69,11 @@ class MailToAMC extends Mailable
      */
     public function build()
     {
-        return $this
-            ->subject('Mail To AMC')
-            ->view('emails.mail_to_amc');
+        return $this->subject('Mail To AMC')
+                    ->view('emails.mail_to_amc')
+                    ->attach(storage_path('app/public/pdf/output.pdf'), [
+                        'as' => 'AMC.pdf',
+                        'mime' => 'application/pdf',
+                    ]);
     }
 }
