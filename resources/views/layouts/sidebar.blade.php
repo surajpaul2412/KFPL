@@ -122,7 +122,7 @@
     <div class="sidebar-footer">
         <div class="sidebar-footer-top">
             <div class="sidebar-footer-thumb">
-                <img src="{{ asset('assets/img/img1.jpg') }}" alt="">
+                <img src="{{ asset('assets/img/avatar.png') }}" alt="">
             </div><!-- sidebar-footer-thumb -->
             <div class="sidebar-footer-body">
                 <p>
@@ -149,22 +149,6 @@
         </div><!-- sidebar-footer-top -->
         <div class="sidebar-footer-menu">
             <nav class="nav">
-                <!-- Showing error while ADMIN role active -->
-                @if(!Auth()->user()->isAdmin())
-                @php
-                if($roleCount > 1)
-                {
-                    foreach($roles_names as $role)
-                    {
-                      if( strtolower($role) != strtolower($current_role) )
-                      {
-                        echo "<a href='/". strtolower($role) . "/dashboard'><i class='ri-edit-2-line'></i> View as " . ucwords($role) . "</a>";
-                      }
-
-                    }
-                }
-                @endphp
-                @endif
                 <a href=""><i class="ri-edit-2-line"></i> My Profile</a>
                 <a href=""><i class="ri-user-settings-line"></i> Settings</a>
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
