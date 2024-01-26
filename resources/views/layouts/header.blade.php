@@ -43,21 +43,12 @@
                             {
                               if( strtolower($role) != strtolower($current_role) )
                               {
-                                echo "<a href='/". strtolower($role) . "/dashboard'><i class='ri-edit-2-line'></i> View as " . ucwords($role) . "</a>";
+                                echo "<a href='/". strtolower($role) . "/dashboard'><i class='ri-edit-2-line'></i>" . ucwords($role) . "</a>";
                               }
                             }
                         }
                     }
                     @endphp
-                    <hr/>
-                    <a href=""><i class="ri-edit-2-line"></i> My Profile</a>
-                    <a href=""><i class="ri-user-settings-line"></i> Settings</a>
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="ri-logout-box-r-line"></i> Log Out
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
                 </nav>
             </div><!-- dropdown-menu-body -->
         </div><!-- dropdown-menu -->
