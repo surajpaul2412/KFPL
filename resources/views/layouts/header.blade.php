@@ -10,11 +10,11 @@
 
     <div class="dropdown dropdown-profile ms-3 ms-xl-4 ">
         <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-            <div class="avatar online"><img src="{{ asset('assets/img/avatar.png') }}" alt=""></div>
+            <div class="avatar online"><img src="{{ asset('assets/img/img6.jpg') }}" alt=""></div>
         </a>
         <div class="dropdown-menu dropdown-menu-end mt-10-f">
             <div class="dropdown-menu-body">
-                <div class="avatar avatar-xl online mb-3"><img src="{{ asset('assets/img/avatar.png') }}" alt=""></div>
+                <div class="avatar avatar-xl online mb-3"><img src="{{ asset('assets/img/img6.jpg') }}" alt=""></div>
                 <h5 class="mb-1 text-dark fw-semibold">{{Auth::user()->name}}</h5>
                 <nav class="nav">
                     <!-- Showing error while ADMIN role active -->
@@ -43,7 +43,7 @@
                             {
                               if( strtolower($role) != strtolower($current_role) )
                               {
-                                echo "<a href='/". strtolower($role) . "/dashboard'><i class='ri-edit-2-line'></i>" . ucwords($role) . "</a>";
+                                echo "<a href='/". strtolower($role) . "/dashboard'><i class='ri-toggle-line'></i>" . ucwords($role) . "</a>";
                               }
                             }
                         }
