@@ -78,14 +78,7 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validatedData = $request->validate([
-            'security_id' => 'required|exists:securities,id',
-            'type' => 'required|integer|in:1,2',
-            'payment_type' => 'required|integer|in:1,2,3',
-            'basket_no' => 'required|integer',
-            'rate' => 'required|numeric',
-            'total_amt' => 'required|numeric',
-        ]);
+
 
         // FIND TICKET
         $ticket = Ticket::findOrFail($id);
@@ -93,7 +86,23 @@ class TicketController extends Controller
         $data['status_id'] = 2;
 
         // SET STATUS as per OTHER PARAMETERS
-        if ($ticket->status_id == 3) {
+        if ($ticket->status_id == 1) {
+            $validatedData = $request->validate([
+                'security_id' => 'required|exists:securities,id',
+                'type' => 'required|integer|in:1,2',
+                'payment_type' => 'required|integer|in:1,2,3',
+                'basket_no' => 'required|integer',
+                'rate' => 'required|numeric',
+                'total_amt' => 'required|numeric',
+            ]);
+        } else if ($ticket->status_id == 8) {
+            $request->validate([
+                'actual_total_amt' => 'required|numeric',
+                'nav' => 'required|numeric'
+            ]);
+
+            $data['status_id'] = 9;
+        } else if ($ticket->status_id == 3) {
             $request->validate([
                 'total_amt' => 'required|numeric',
                 'utr_no' => 'required|string',

@@ -184,6 +184,35 @@
                                 @endif
 
                                 <!-- EXTRA FIELDS ADDITION :: STARTS -->
+                                @if($ticket->status_id == 8)
+                                <div class="card card-one card-product">
+                                    <div class="card-body p-3">
+                                        <div class="row px-md-4">
+                                            <div class="col-6 my-3">
+                                                <div class="w-25 pb-1">
+                                                    Actual Trade Value
+                                                </div>
+                                                <div class="w-75">
+                                                    <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 my-3">
+                                                <div class="w-25 pb-1">
+                                                    NAV value
+                                                </div>
+                                                <div class="w-75">
+                                                    <input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" readonly value="" >
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-align-center">
+                                            <button type="submit" class="btn btn-primary active my-5 px-5 text-ali">Submit </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                                 @if($ticket->status_id == 2)
                                     <div class="row px-md-4">
                                     	<div class="col-6 my-3">
@@ -369,7 +398,50 @@
 
 @section('script')
 <script>
+    function setVerification1(x, y) {
+        var verificationInput = document.querySelector("[name='verification']");
+        var rateInput = document.querySelector("[name='rate']");
+
+        if (verificationInput) {
+            verificationInput.value = y;
+        }
+
+        // Toggle the "disabled" attribute based on the verification status
+        if (rateInput) {
+            rateInput.disabled = (y !== 1); // Adjust the value based on your accepted verification logic
+        }
+
+        // Highlight the selected verification status
+        document.querySelectorAll(".verification").forEach(function(element) {
+            element.classList.remove('selected');
+        });
+
+        document.querySelectorAll(".verification")[x].classList.add('selected');
+    }
+
     $(document).ready(function () {
+
+      // Attach a change event listener to the actual_total_amt input
+      $('input[name="actual_total_amt"]').on('input', function() {
+          // Get the entered value
+          var actualTotalAmt = $(this).val();
+
+          // Perform an AJAX request to calculate and update the NAV value
+          $.ajax({
+              url: '/calculate-purchase-nav', // Replace with your actual route
+              method: 'POST',
+              data: { actual_total_amt: actualTotalAmt, ticket_id: '{{$ticket->id}}', _token: '{{ csrf_token() }}' },
+              success: function(data) {
+                  // Update the NAV input with the calculated value
+                  $('input[name="nav"]').val(data.navValue);
+              },
+              error: function(error) {
+                  console.error('Error:', error);
+              }
+          });
+       });
+
+
         // Change event handler for the security select
         $('select[name="security_id"]').change(function () {
             var securityId = $(this).val();
