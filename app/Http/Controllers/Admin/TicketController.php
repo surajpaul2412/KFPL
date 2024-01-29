@@ -8,7 +8,10 @@ use App\Models\Ticket;
 use App\Models\Security;
 use Exception;
 use Validator;
+use Auth;
 use App\Services\FormService;
+use App\Mail\MailToAMC;
+use Illuminate\Support\Facades\Mail;
 
 class TicketController extends Controller
 {
@@ -60,7 +63,8 @@ class TicketController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        return view('admin.tickets.show', compact('ticket'));
     }
 
     /**
@@ -78,12 +82,10 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
-
         // FIND TICKET
         $ticket = Ticket::findOrFail($id);
         $data = $request->all();
-        $data['status_id'] = 2;
+        // $data['status_id'] = 2;
 
         // SET STATUS as per OTHER PARAMETERS
         if ($ticket->status_id == 1) {
@@ -163,9 +165,7 @@ class TicketController extends Controller
             } else {
                   $ticket->status_id = 1;
             }
-
             $ticket->save();
-
         } elseif ($ticket->status_id == 9) {
             $request->validate([
                 'refund' => 'required|numeric',
@@ -210,7 +210,6 @@ class TicketController extends Controller
         }
 
         $ticket->update($data);
-
         return redirect()->route('admin.tickets.index')->with('success', 'Ticket updated successfully.');
     }
 
@@ -220,5 +219,23 @@ class TicketController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function mail(Ticket $ticket) {
+        $emailString = $ticket->security->amc->email??null;
+        $emailArray = explode(', ', $emailString);
+        $toEmail = array_map('trim', $emailArray);
+
+        Mail::to($toEmail)->send(new MailToAMC($ticket));
+
+        $ticket->status_id = 7;
+        $ticket->update();
+        return redirect()->route('admin.tickets.index')->with('success', 'Mailed all the AMC controllers successfully.');
+    }
+
+    public function statusUpdate(Ticket $ticket) {
+        $ticket->status_id = 8;
+        $ticket->update();
+        return redirect()->route('admin.tickets.index')->with('success', 'Accepted ticket successfully.');
     }
 }

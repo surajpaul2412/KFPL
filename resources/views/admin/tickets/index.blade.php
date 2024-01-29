@@ -77,9 +77,15 @@ Ticket Management
                                     <td>{{$ticket->status_id}}</td>
                                     <td>{{$ticket->user->name}}</td>
                                     <td>
+                                        @if($ticket->status_id == 6 || $ticket->status_id == 7)
+                                        <a href="{{ route('admin.tickets.show', $ticket->id) }}" title="View">
+                                            <i class="ri-pencil-line"></i>
+                                        </a>
+                                        @else
                                         <a href="{{url('/admin/tickets/' . $ticket->id . '/edit')}}" title="Edit">
                                             <i class="ri-pencil-fill"></i>
                                         </a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

@@ -185,33 +185,25 @@
 
                                 <!-- EXTRA FIELDS ADDITION :: STARTS -->
                                 @if($ticket->status_id == 8)
-                                <div class="card card-one card-product">
-                                    <div class="card-body p-3">
-                                        <div class="row px-md-4">
-                                            <div class="col-6 my-3">
-                                                <div class="w-25 pb-1">
-                                                    Actual Trade Value
-                                                </div>
-                                                <div class="w-75">
-                                                    <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
-                                                </div>
+                                    <div class="row px-md-4">
+                                        <div class="col-6 my-3">
+                                            <div class="w-25 pb-1">
+                                                Actual Trade Value
                                             </div>
-
-                                            <div class="col-6 my-3">
-                                                <div class="w-25 pb-1">
-                                                    NAV value
-                                                </div>
-                                                <div class="w-75">
-                                                    <input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" readonly value="" >
-                                                </div>
+                                            <div class="w-75">
+                                                <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
                                             </div>
                                         </div>
 
-                                        <div class="text-align-center">
-                                            <button type="submit" class="btn btn-primary active my-5 px-5 text-ali">Submit </button>
+                                        <div class="col-6 my-3">
+                                            <div class="w-25 pb-1">
+                                                NAV value
+                                            </div>
+                                            <div class="w-75">
+                                                <input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" readonly value="" >
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 @endif
                                 @if($ticket->status_id == 2)
                                     <div class="row px-md-4">
@@ -428,7 +420,7 @@
 
           // Perform an AJAX request to calculate and update the NAV value
           $.ajax({
-              url: '/calculate-purchase-nav', // Replace with your actual route
+              url: '/admin-calculate-purchase-nav', // Replace with your actual route
               method: 'POST',
               data: { actual_total_amt: actualTotalAmt, ticket_id: '{{$ticket->id}}', _token: '{{ csrf_token() }}' },
               success: function(data) {

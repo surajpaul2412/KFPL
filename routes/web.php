@@ -44,13 +44,17 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::resource('/admin/employees', UserController::class);
     Route::get('/admin/toggle/status', [UserController::class, 'togglestatus'])->name('admin.employee.togglestatus');
     // Ticket
+    Route::post('/admin-calculate-purchase-nav', [AdminDashboardController::class, 'calculatePurchaseNav'])->name('admin-calculate.purchase.nav');
     Route::resource('/admin/tickets', AdminTicketController::class)->names([
         'index' => 'admin.tickets.index',
         'create' => 'admin.tickets.create',
         'store' => 'admin.tickets.store',
         'edit' => 'admin.tickets.edit',
         'update' => 'admin.tickets.update',
+        'show' => 'admin.tickets.show',
     ]);
+    Route::get('/admin/tickets/{ticket}/mail', [AdminTicketController::class, 'mail'])->name('admin.tickets.mail');
+    Route::get('/admin/tickets/{ticket}/statusUpdate', [AdminTicketController::class, 'statusUpdate'])->name('admin.tickets.statusUpdate');
     // AMC Management
     Route::resource('/admin/amcs', AmcController::class);
     Route::post('/admin/upload-securities', [SecurityController::class, 'uploadCSV']);
