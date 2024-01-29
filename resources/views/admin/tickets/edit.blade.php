@@ -28,158 +28,160 @@
                             <div class="row px-md-4">
                                 <!-- Include your form fields with their values based on the $ticket variable -->
 
-                                <div class="col-6 my-3">
-                                    <div class="pb-1">
-                                        Name
+                                @if($ticket->status_id == 1)
+                                    <div class="col-6 my-3">
+                                        <div class="pb-1">
+                                            Name
+                                        </div>
+                                        <div class="">
+                                            <select id="select2B" name="security_id" class="form-select mobile-w-100 @error('security_id') is-invalid @enderror" required>
+                                                <option label="Choose one"></option>
+                                                @foreach($securities as $security)
+                                                    <option value="{{ $security->id }}" {{ $ticket->security_id == $security->id ? 'selected' : '' }}>{{ $security->name }} -- ({{ $security->symbol }})</option>
+                                                @endforeach
+                                            </select>
+                                            @error('security_id')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    <div class="">
-                                        <select id="select2B" name="security_id" class="form-select mobile-w-100 @error('security_id') is-invalid @enderror" required>
-                                            <option label="Choose one"></option>
-                                            @foreach($securities as $security)
-                                                <option value="{{ $security->id }}" {{ $ticket->security_id == $security->id ? 'selected' : '' }}>{{ $security->name }} -- ({{ $security->symbol }})</option>
-                                            @endforeach
-                                        </select>
-                                        @error('security_id')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
 
-                                <!-- Ticket Type -->
-                                <div class="col-6 my-3">
-                                    <div class="pb-1">
-                                        Ticket Type
+                                    <!-- Ticket Type -->
+                                    <div class="col-6 my-3">
+                                        <div class="pb-1">
+                                            Ticket Type
+                                        </div>
+                                        <div class="">
+                                            <input type="hidden" name="type" value="{{ $ticket->type }}" required>
+                                            <span class='ticketType {{ $ticket->type == 1 ? "selected" : "" }}' onclick="setTicketType(0,1)">Buy</span>
+                                            <span class='ticketType {{ $ticket->type == 2 ? "selected" : "" }}' onclick="setTicketType(1,2)">Sell</span>
+                                            @error('type')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    <div class="">
-                                        <input type="hidden" name="type" value="{{ $ticket->type }}" required>
-                                        <span class='ticketType {{ $ticket->type == 1 ? "selected" : "" }}' onclick="setTicketType(0,1)">Buy</span>
-                                        <span class='ticketType {{ $ticket->type == 2 ? "selected" : "" }}' onclick="setTicketType(1,2)">Sell</span>
-                                        @error('type')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
 
-                                <!-- Payment Type -->
-                                <div class="col-12 my-3">
-                                    <div class="pb-1">
-                                        Payment Type
+                                    <!-- Payment Type -->
+                                    <div class="col-12 my-3">
+                                        <div class="pb-1">
+                                            Payment Type
+                                        </div>
+                                        <div class="">
+                                            <input type="hidden" name="payment_type" value="{{ $ticket->payment_type }}" required>
+                                            <span class='payMode {{ $ticket->payment_type == 1 ? "selected" : "" }}' onclick="setPaymode(0,1)">Cash</span>
+                                            <span class='payMode {{ $ticket->payment_type == 2 ? "selected" : "" }}' onclick="setPaymode(1,2)">Basket</span>
+                                            <span class='payMode {{ $ticket->payment_type == 3 ? "selected" : "" }}' onclick="setPaymode(2,3)">Net Settlement</span>
+                                            @error('payment_type')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    <div class="">
-                                        <input type="hidden" name="payment_type" value="{{ $ticket->payment_type }}" required>
-                                        <span class='payMode {{ $ticket->payment_type == 1 ? "selected" : "" }}' onclick="setPaymode(0,1)">Cash</span>
-                                        <span class='payMode {{ $ticket->payment_type == 2 ? "selected" : "" }}' onclick="setPaymode(1,2)">Basket</span>
-                                        <span class='payMode {{ $ticket->payment_type == 3 ? "selected" : "" }}' onclick="setPaymode(2,3)">Net Settlement</span>
-                                        @error('payment_type')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
 
-                                <!-- Enter No. of Basket -->
-                                <div class="col-6 my-3">
-                                    <div class="pb-1">
-                                        Enter No. of Basket
+                                    <!-- Enter No. of Basket -->
+                                    <div class="col-6 my-3">
+                                        <div class="pb-1">
+                                            Enter No. of Basket
+                                        </div>
+                                        <div class="">
+                                            <input type="text" name="basket_no" class="form-control w-100 @error('no_basket') is-invalid @enderror" value="{{ $ticket->basket_no }}" placeholder="Enter No. of Basket" id="no_basket" required>
+                                            @error('basket_no')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    <div class="">
-                                        <input type="text" name="basket_no" class="form-control w-100 @error('no_basket') is-invalid @enderror" value="{{ $ticket->basket_no }}" placeholder="Enter No. of Basket" id="no_basket" required>
-                                        @error('basket_no')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
 
-                                <!-- Basket Size -->
-                                <div class="col-6 my-3">
-                                    <div class="pb-1">
-                                        Basket Size
+                                    <!-- Basket Size -->
+                                    <div class="col-6 my-3">
+                                        <div class="pb-1">
+                                            Basket Size
+                                        </div>
+                                        <div class="calcField">
+                                            <input type="text" name="basket_size" class="form-control w-100 @error('basket_size') is-invalid @enderror" value="{{ $ticket->security->basket_size }}" placeholder="Basket Size" disabled>
+                                            <input type="hidden" name="basket_size" class="form-control w-100 @error('basket_size') is-invalid @enderror" value="{{ $ticket->security->basket_size }}" placeholder="Basket Size">
+                                            @error('basket_size')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    <div class="calcField">
-                                        <input type="text" name="basket_size" class="form-control w-100 @error('basket_size') is-invalid @enderror" value="{{ $ticket->security->basket_size }}" placeholder="Basket Size" disabled>
-                                        <input type="hidden" name="basket_size" class="form-control w-100 @error('basket_size') is-invalid @enderror" value="{{ $ticket->security->basket_size }}" placeholder="Basket Size">
-                                        @error('basket_size')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
 
-                                <!-- Repeat similar blocks for other form fields -->
+                                    <!-- Repeat similar blocks for other form fields -->
 
-                                <!-- Enter Rate -->
-                                <div class="col-6 my-3">
-                                    <div class="pb-1">
-                                        Enter Rate
+                                    <!-- Enter Rate -->
+                                    <div class="col-6 my-3">
+                                        <div class="pb-1">
+                                            Enter Rate
+                                        </div>
+                                        <div class="">
+                                            <input type="text" name="rate" class="form-control w-100 @error('rate') is-invalid @enderror"
+                                                value="{{ $ticket->rate }}" placeholder="Enter Rate" required>
+                                            @error('rate')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    <div class="">
-                                        <input type="text" name="rate" class="form-control w-100 @error('rate') is-invalid @enderror"
-                                            value="{{ $ticket->rate }}" placeholder="Enter Rate" required>
-                                        @error('rate')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
 
-                                <!-- Current Price -->
-                                <div class="col-6 my-3">
-                                    <div class="pb-1">
-                                        Current Price
+                                    <!-- Current Price -->
+                                    <div class="col-6 my-3">
+                                        <div class="pb-1">
+                                            Current Price
+                                        </div>
+                                        <div class="calcField">
+                                            <input type="text" name="price" class="form-control w-100 @error('price') is-invalid @enderror"
+                                                value="{{ $ticket->security->price }}" placeholder="Enter Price" disabled>
+                                            <input type="hidden" name="price" class="form-control w-100 @error('price') is-invalid @enderror"
+                                                value="{{ $ticket->security->price }}" placeholder="Enter Price" disabled>
+                                            @error('price')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    <div class="calcField">
-                                        <input type="text" name="price" class="form-control w-100 @error('price') is-invalid @enderror"
-                                            value="{{ $ticket->security->price }}" placeholder="Enter Price" disabled>
-                                        <input type="hidden" name="price" class="form-control w-100 @error('price') is-invalid @enderror"
-                                            value="{{ $ticket->security->price }}" placeholder="Enter Price" disabled>
-                                        @error('price')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
 
-                                <!-- Total Amount -->
-                                <div class="col-3 my-3">
-                                    <div class="pb-1">
-                                        Total Amount
+                                    <!-- Total Amount -->
+                                    <div class="col-3 my-3">
+                                        <div class="pb-1">
+                                            Total Amount
+                                        </div>
+                                        <div class="calcField">
+                                            <input type="text" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ $ticket->total_amt }}" placeholder="Enter Total Amt" disabled>
+                                            <input type="hidden" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ $ticket->total_amt }}" placeholder="Enter Total Amt">
+                                            @error('total_amt')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    <div class="calcField">
-                                        <input type="text" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ $ticket->total_amt }}" placeholder="Enter Total Amt" disabled>
-                                        <input type="hidden" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ $ticket->total_amt }}" placeholder="Enter Total Amt">
-                                        @error('total_amt')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
 
-                                <!-- Markup Percentage -->
-                                <div class="col-3 my-3">
-                                    <div class="pb-1">
-                                        Markup Percentage
+                                    <!-- Markup Percentage -->
+                                    <div class="col-3 my-3">
+                                        <div class="pb-1">
+                                            Markup Percentage
+                                        </div>
+                                        <div class="calcField">
+                                            <input type="text" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ $ticket->security->markup_percentage }}" placeholder="Enter Markup Percentage" disabled>
+                                            <input type="hidden" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ $ticket->security->markup_percentage }}" placeholder="Enter Markup Percentage">
+                                            @error('markup_percentage')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    <div class="calcField">
-                                        <input type="text" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ $ticket->security->markup_percentage }}" placeholder="Enter Markup Percentage" disabled>
-                                        <input type="hidden" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ $ticket->security->markup_percentage }}" placeholder="Enter Markup Percentage">
-                                        @error('markup_percentage')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
+                                @endif
 
                                 <!-- EXTRA FIELDS ADDITION :: STARTS -->
                                 @if($ticket->status_id == 2)
@@ -218,9 +220,9 @@
                                     		</div>
                                     	</div>
                                     </div>
-                                    @endif
+                                @endif
 
-                                    @if($ticket->status_id == 9)
+                                @if($ticket->status_id == 9)
                                     <div class="row px-md-4">
                                     	<div class="col-6 my-3">
                                     		<div class="w-25 pb-1">
@@ -242,10 +244,10 @@
                                     		</div>
                                     	</div>
                                     </div>
-                                    @endif
+                                @endif
 
 
-                                    @if($ticket->status_id == 3)
+                                @if($ticket->status_id == 3)
                                     <div class="col-6 my-3">
                                     	<div class="pb-1">
                                     		Enter Total Amount
@@ -287,9 +289,9 @@
                                     		@enderror
                                     	</div>
                                     </div>
-                                    @endif
+                                @endif
 
-                                    @if($ticket->status_id == 11)
+                                @if($ticket->status_id == 11)
                                     <div class="col-6 my-3">
                                     	<div class="pb-1">
                                     		Refund Verification
@@ -325,9 +327,9 @@
                                     		<textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
                                     	</div>
                                     </div>
-                                    @endif
+                                @endif
 
-                                    @if($ticket->status_id == 13)
+                                @if($ticket->status_id == 13)
                                     <div class="row px-md-4">
                                     	<div class="col-6 my-3">
                                     		<div class="w-25 pb-1">
@@ -347,7 +349,7 @@
                                     		</div>
                                     	</div>
                                     </div>
-                                    @endif
+                                @endif
 
                                 <!-- EXTRA FIELDS ADDITION :: ENDS -->
 
