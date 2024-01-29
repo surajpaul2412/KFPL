@@ -181,6 +181,176 @@
                                     </div>
                                 </div>
 
+                                <!-- EXTRA FIELDS ADDITION :: STARTS -->
+                                @if($ticket->status_id == 2)
+                                    <div class="row px-md-4">
+                                    	<div class="col-6 my-3">
+                                    		<div class="pb-1">
+                                    			Verification
+                                    		</div>
+                                    		<div class="">
+                                    			<input type="hidden" name="verification" value="" required>
+                                    			<span class='verification' onclick="setVerification1(0,1)">Accept</span>
+                                    			<span class='verification' onclick="setVerification1(1,2)">Reject</span>
+                                    			@error('verification')
+                                    				<span class="invalid-feedback" role="alert">
+                                    					<strong>{{ $message }}</strong>
+                                    				</span>
+                                    			@enderror
+                                    		</div>
+                                    	</div>
+
+                                    	<div class="col-6 my-3">
+                                    		<div class="w-25">
+                                    			Edit Ticket Rate
+                                    		</div>
+                                    		<div class="w-75">
+                                    			<input type="number" step="any" class="form-control w-100" placeholder="Edit Ticket Rate" name="rate" value="{{ $ticket->rate }}" disabled>
+                                    		</div>
+                                    	</div>
+
+                                    	<div class="col-6 my-3">
+                                    		<div class="w-25">
+                                    			Remark
+                                    		</div>
+                                    		<div class="w-75">
+                                    			<textarea class="form-control w-100" name="remark" placeholder="Write here">{{$ticket->remark}}</textarea>
+                                    		</div>
+                                    	</div>
+                                    </div>
+                                    @endif
+
+                                    @if($ticket->status_id == 9)
+                                    <div class="row px-md-4">
+                                    	<div class="col-6 my-3">
+                                    		<div class="w-25 pb-1">
+                                    			Refund Amount
+                                    		</div>
+                                    		<div class="w-75">
+                                    			<input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
+                                    			  value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
+                                    		</div>
+                                    	</div>
+
+                                    	<div class="col-6 my-3">
+                                    		<div class="w-25 pb-1">
+                                    			Upload Deal Ticket
+                                    		</div>
+                                    		<div class="w-75">
+                                    			<input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                    			  value="" required >
+                                    		</div>
+                                    	</div>
+                                    </div>
+                                    @endif
+
+
+                                    @if($ticket->status_id == 3)
+                                    <div class="col-6 my-3">
+                                    	<div class="pb-1">
+                                    		Enter Total Amount
+                                    	</div>
+                                    	<div class="">
+                                    		<input type="text" name="total_amt" class="form-control @error('total_amt') is-invalid @enderror" placeholder="Enter Total Amount" required>
+                                    		@error('total_amt')
+                                    			<span class="invalid-feedback" role="alert">
+                                    				<strong>{{ $message }}</strong>
+                                    			</span>
+                                    		@enderror
+                                    	</div>
+                                    </div>
+
+                                    <div class="col-6 my-3">
+                                    	<div class="pb-1">
+                                    		UTR Number
+                                    	</div>
+                                    	<div class="">
+                                    		<input type="text" name="utr_no" class="form-control @error('utr_no') is-invalid @enderror" value="{{$ticket->utr_no}}" placeholder="Enter UTR no" required>
+                                    		@error('utr_no')
+                                    			<span class="invalid-feedback" role="alert">
+                                    				<strong>{{ $message }}</strong>
+                                    			</span>
+                                    		@enderror
+                                    	</div>
+                                    </div>
+
+                                    <div class="col-6 my-3">
+                                    	<div class="w-25 pb-1">
+                                    		Upload Screenshot
+                                    	</div>
+                                    	<div class="w-75">
+                                    		<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
+                                    		@error('screenshot')
+                                    			<span class="invalid-feedback" role="alert">
+                                    				<strong>{{ $message }}</strong>
+                                    			</span>
+                                    		@enderror
+                                    	</div>
+                                    </div>
+                                    @endif
+
+                                    @if($ticket->status_id == 11)
+                                    <div class="col-6 my-3">
+                                    	<div class="pb-1">
+                                    		Refund Verification
+                                    	</div>
+                                    	<div class="">
+                                    		<input type="hidden" name="refund_verification" value="" required>
+                                    		<span class='verification' onclick="setVerification(0,1)">Accept</span>
+                                    		<span class='verification' onclick="setVerification(1,2)">Reject</span>
+                                    		@error('refund_verification')
+                                    			<span class="invalid-feedback" role="alert">
+                                    				<strong>{{ $message }}</strong>
+                                    			</span>
+                                    		@enderror
+                                    	</div>
+                                    </div>
+
+                                    <div class="col-6 my-3">
+                                    	<div class="w-25 pb-1">
+                                    		Refund Received
+                                    	</div>
+                                    	<div class="w-75">
+                                    		<input type="text" class="form-control w-100" placeholder="Enter Amount" name="expected_refund"
+                                    		  value="{{$ticket->refund??$ticket->expected_refund}}"
+                                    		>
+                                    	</div>
+                                    </div>
+
+                                    <div class="col-6 my-3">
+                                    	<div class="w-25 pb-1">
+                                    		Dispute Comment
+                                    	</div>
+                                    	<div class="w-75">
+                                    		<textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
+                                    	</div>
+                                    </div>
+                                    @endif
+
+                                    @if($ticket->status_id == 13)
+                                    <div class="row px-md-4">
+                                    	<div class="col-6 my-3">
+                                    		<div class="w-25 pb-1">
+                                    			Received Units
+                                    		</div>
+                                    		<div class="w-75">
+                                    			<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="{{$ticket->basket_size * $ticket->basket_no}}">
+                                    		</div>
+                                    	</div>
+
+                                    	<div class="col-6 my-3">
+                                    		<div class="w-25 pb-1">
+                                    			Dispute Comment
+                                    		</div>
+                                    		<div class="w-75">
+                                    			<textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
+                                    		</div>
+                                    	</div>
+                                    </div>
+                                    @endif
+
+                                <!-- EXTRA FIELDS ADDITION :: ENDS -->
+
                                 <!-- Update button text for edit page -->
                                 <div class="text-align-center">
                                     <button type="submit" class="btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
