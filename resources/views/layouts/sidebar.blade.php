@@ -30,12 +30,12 @@
                 <li class="nav-item">
                     <a href="" class="nav-link"><i class="ri-alarm-warning-line"></i> <span>Disputes</span></a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="" class="nav-link"><i class="ri-funds-box-line"></i> <span>Reports</span></a>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link"><i class="ri-article-line"></i> <span>Templates</span></a>
-                </li>
+                </li> -->
                 @else
                     @php
                       $user_roles =  auth()->user()->roles;

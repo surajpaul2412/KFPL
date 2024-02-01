@@ -20,7 +20,7 @@
     <div class="row g-3">
         <div class="col-xl-12">
             <div class="row g-3">
-                <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{ route('admin.tickets.update', $ticket->id) }}">
+                <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{ route('admin.tickets.update', $ticket->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card card-one card-product">
