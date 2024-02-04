@@ -140,15 +140,27 @@ class TicketController extends Controller
                 return redirect()->back()->with('error', 'Please verify your entered amount.');
             }
         } else if ($ticket->status_id == 11) {
-            $request->validate([
-                'expected_refund' => 'required|numeric',
-                'remark' => 'nullable|string',
-            ]);
+            if ($request->get('verification') == 1) {
+                $request->validate([
+                    'expected_refund' => 'required|numeric',
+                    'dispute' => 'nullable|string',
+                ]);
 
-            if ($ticket->type == 1) {
-                $ticket->status_id = 13;
+                if ( $ticket->refund - $request->get('expected_refund') > 500) {
+                    return redirect()->back()->with('error', 'Your entered amount diff. is more than 500');
+                }
+
+                // expected_refund
+
+
+                if ($ticket->type == 1) {
+                    $ticket->status_id = 13;
+                } else {
+                    $ticket->status_id = 12;
+                }
+                $ticket->dispute = $request->get('dispute');
             } else {
-                $ticket->status_id = 12;
+                $ticket->dispute = $request->get('dispute');
             }
 
             $ticket->save();

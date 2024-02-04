@@ -314,39 +314,38 @@
 
                                 @if($ticket->status_id == 11)
                                     <div class="col-6 my-3">
-                                    	<div class="pb-1">
-                                    		Refund Verification
-                                    	</div>
-                                    	<div class="">
-                                    		<input type="hidden" name="refund_verification" value="" required>
-                                    		<span class='verification' onclick="setVerification(0,1)">Accept</span>
-                                    		<span class='verification' onclick="setVerification(1,2)">Reject</span>
-                                    		@error('refund_verification')
-                                    			<span class="invalid-feedback" role="alert">
-                                    				<strong>{{ $message }}</strong>
-                                    			</span>
-                                    		@enderror
-                                    	</div>
+                                        <div class="pb-1">
+                                            Refund Verification
+                                        </div>
+                                        <div class="">
+                                            <input type="hidden" name="verification" value="" required>
+                                            <span class='verification' onclick="setVerification2(0,1)">Accept</span>
+                                            <span class='verification' onclick="setVerification2(1,2)">Reject</span>
+                                            @error('verification')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
 
                                     <div class="col-6 my-3">
-                                    	<div class="w-25 pb-1">
-                                    		Refund Received
-                                    	</div>
-                                    	<div class="w-75">
-                                    		<input type="text" class="form-control w-100" placeholder="Enter Amount" name="expected_refund"
-                                    		  value="{{$ticket->refund??$ticket->expected_refund}}"
-                                    		>
-                                    	</div>
+                                        <div class="w-25 pb-1">
+                                            Refund Received
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="text" class="form-control w-100" placeholder="Enter Amount" name="expected_refund"
+                                              value="{{$ticket->refund??$ticket->expected_refund}}" disabled>
+                                        </div>
                                     </div>
 
                                     <div class="col-6 my-3">
-                                    	<div class="w-25 pb-1">
-                                    		Dispute Comment
-                                    	</div>
-                                    	<div class="w-75">
-                                    		<textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
-                                    	</div>
+                                        <div class="w-25 pb-1">
+                                            Dispute Comment
+                                        </div>
+                                        <div class="w-75">
+                                            <textarea class="form-control w-100" name="dispute" placeholder="Write here">{{Session::get('error')??$ticket->dispute}}</textarea>
+                                        </div>
                                     </div>
                                 @endif
 
@@ -366,17 +365,27 @@
                                     			Dispute Comment
                                     		</div>
                                     		<div class="w-75">
-                                    			<textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
+                                    			<textarea class="form-control w-100" name="dispute_comment" placeholder="Write here">{{$ticket->dispute_comment}}</textarea>
                                     		</div>
                                     	</div>
                                     </div>
+                                @endif
+
+                                @if($ticket->status_id == 14)
+                                <div class="col-12 my-3" align="center">
+                                    <div class="">
+                                        Congratulations !! your ticket has been closed.
+                                    </div>
+                                </div>
                                 @endif
 
                                 <!-- EXTRA FIELDS ADDITION :: ENDS -->
 
                                 <!-- Update button text for edit page -->
                                 <div class="text-align-center">
+                                    @if($ticket->status_id != 14)
                                     <button type="submit" class="btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
+                                    @endif
                                 </div>
                             </div>
                         </div><!-- card-body -->
@@ -393,6 +402,27 @@
     function setVerification1(x, y) {
         var verificationInput = document.querySelector("[name='verification']");
         var rateInput = document.querySelector("[name='rate']");
+
+        if (verificationInput) {
+            verificationInput.value = y;
+        }
+
+        // Toggle the "disabled" attribute based on the verification status
+        if (rateInput) {
+            rateInput.disabled = (y !== 1); // Adjust the value based on your accepted verification logic
+        }
+
+        // Highlight the selected verification status
+        document.querySelectorAll(".verification").forEach(function(element) {
+            element.classList.remove('selected');
+        });
+
+        document.querySelectorAll(".verification")[x].classList.add('selected');
+    }
+
+    function setVerification2(x, y) {
+        var verificationInput = document.querySelector("[name='verification']");
+        var rateInput = document.querySelector("[name='expected_refund']");
 
         if (verificationInput) {
             verificationInput.value = y;
