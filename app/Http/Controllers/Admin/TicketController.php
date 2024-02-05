@@ -97,6 +97,7 @@ class TicketController extends Controller
                 'rate' => 'required|numeric',
                 'total_amt' => 'required|numeric',
             ]);
+            $data['status_id'] = 2;
         } else if ($ticket->status_id == 8) {
             $request->validate([
                 'actual_total_amt' => 'required|numeric',
