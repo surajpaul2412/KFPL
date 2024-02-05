@@ -208,11 +208,11 @@ class TicketController extends Controller
 
             if ($request->get('received_units') == ($ticket->basket_size * $ticket->basket_no)) {
                 $request->validate([
-                    'remark' => 'nullable|string',
+                    'dispute_comment' => 'nullable|string',
                 ]);
             } else {
-                if ($data['remark'] == null) {
-                    return back()->with('error','Please fill the Dispute Comment if you changes the amount');
+                if ($data['dispute_comment'] == null) {
+                    return back()->with('error','Please fill the Dispute Comment if you changes the unit');
                 }
             }
 
