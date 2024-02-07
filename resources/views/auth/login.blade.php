@@ -5,6 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-4">
             <div class="card card-sign">
+                @include('topmessages')
                 <div class="card-header">
                     <a href="{{ url('/') }}" class="header-logo mb-4">{{ config('app.name', 'Laravel') }}</a>
                     <h3 class="card-title">{{ __('Login') }}</h3>

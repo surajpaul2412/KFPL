@@ -9,6 +9,7 @@ use App\Http\Controllers\Ops\DashboardController as OpsDashboardController;
 use App\Http\Controllers\BackOffice\DashboardController as BackOfficeDashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AmcController;
+use App\Http\Controllers\Admin\DisputeController;
 use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\Trader\TicketController as TraderTicketController;
@@ -59,6 +60,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::resource('/admin/amcs', AmcController::class);
     Route::post('/admin/upload-securities', [SecurityController::class, 'uploadCSV']);
     Route::resource('/admin/securities', SecurityController::class);
+    // Disputes
+    Route::resource('/admin/disputes', DisputeController::class);
 });
 
 // Dealer Dashboard

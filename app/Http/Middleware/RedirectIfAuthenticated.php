@@ -21,18 +21,26 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                $user = auth()->user();
+
+                // Check if the user's status is not equal to 1
+                if ($user->status != 1) {
+                    Auth::logout(); // Log out the user
+                    return redirect()->route('login')->with('error', 'Your account is not active.');
+                }
+
                 // Check the user's role and redirect accordingly
-                if (auth()->user()->isAdmin()) {
+                if ($user->isAdmin()) {
                     return redirect()->route('admin.dashboard');
-                } elseif (auth()->user()->isDealer()) {
+                } elseif ($user->isDealer()) {
                     return redirect()->route('dealer.dashboard');
-                } elseif (auth()->user()->isAccounts()) {
+                } elseif ($user->isAccounts()) {
                     return redirect()->route('accounts.dashboard');
-                } elseif (auth()->user()->isTrader()) {
+                } elseif ($user->isTrader()) {
                     return redirect()->route('trader.dashboard');
-                } elseif (auth()->user()->isOps()) {
+                } elseif ($user->isOps()) {
                     return redirect()->route('ops.dashboard');
-                } elseif (auth()->user()->isBackoffice()) {
+                } elseif ($user->isBackoffice()) {
                     return redirect()->route('backoffice.dashboard');
                 }
 

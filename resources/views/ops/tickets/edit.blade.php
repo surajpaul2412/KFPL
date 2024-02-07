@@ -182,7 +182,7 @@ Ticket Details
                                     Dispute Comment
                                 </div>
                                 <div class="w-75">
-                                    <textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
+                                    <textarea class="form-control w-100" name="dispute_comment" placeholder="Write here">{{$ticket->dispute_comment}}</textarea>
                                 </div>
                             </div>
                         </div>

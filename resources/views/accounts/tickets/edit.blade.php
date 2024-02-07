@@ -157,10 +157,10 @@ Ticket Details
                                     Refund Verification
                                 </div>
                                 <div class="">
-                                    <input type="hidden" name="refund_verification" value="" required>
-                                    <span class='verification' onclick="setVerification(0,1)">Accept</span>
-                                    <span class='verification' onclick="setVerification(1,2)">Reject</span>
-                                    @error('refund_verification')
+                                    <input type="hidden" name="verification" value="" required>
+                                    <span class='verification' onclick="setVerification1(0,1)">Accept</span>
+                                    <span class='verification' onclick="setVerification1(1,2)">Reject</span>
+                                    @error('verification')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -174,8 +174,7 @@ Ticket Details
                                 </div>
                                 <div class="w-75">
                                     <input type="text" class="form-control w-100" placeholder="Enter Amount" name="expected_refund"
-                                      value="{{$ticket->refund??$ticket->expected_refund}}"
-                                    >
+                                      value="{{$ticket->refund??$ticket->expected_refund}}" disabled>
                                 </div>
                             </div>
 
@@ -184,7 +183,7 @@ Ticket Details
                                     Dispute Comment
                                 </div>
                                 <div class="w-75">
-                                    <textarea class="form-control w-100" name="remark" placeholder="Write here"></textarea>
+                                    <textarea class="form-control w-100" name="dispute" placeholder="Write here">{{Session::get('error')??$ticket->dispute}}</textarea>
                                 </div>
                             </div>
                             @endif
@@ -200,4 +199,29 @@ Ticket Details
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    function setVerification1(x, y) {
+        var verificationInput = document.querySelector("[name='verification']");
+        var rateInput = document.querySelector("[name='expected_refund']");
+
+        if (verificationInput) {
+            verificationInput.value = y;
+        }
+
+        // Toggle the "disabled" attribute based on the verification status
+        if (rateInput) {
+            rateInput.disabled = (y !== 1); // Adjust the value based on your accepted verification logic
+        }
+
+        // Highlight the selected verification status
+        document.querySelectorAll(".verification").forEach(function(element) {
+            element.classList.remove('selected');
+        });
+
+        document.querySelectorAll(".verification")[x].classList.add('selected');
+    }
+</script>
 @endsection

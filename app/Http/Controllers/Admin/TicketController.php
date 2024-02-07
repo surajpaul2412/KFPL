@@ -97,6 +97,7 @@ class TicketController extends Controller
                 'rate' => 'required|numeric',
                 'total_amt' => 'required|numeric',
             ]);
+            $data['status_id'] = 2;
         } else if ($ticket->status_id == 8) {
             $request->validate([
                 'actual_total_amt' => 'required|numeric',
@@ -140,15 +141,27 @@ class TicketController extends Controller
                 return redirect()->back()->with('error', 'Please verify your entered amount.');
             }
         } else if ($ticket->status_id == 11) {
-            $request->validate([
-                'expected_refund' => 'required|numeric',
-                'remark' => 'nullable|string',
-            ]);
+            if ($request->get('verification') == 1) {
+                $request->validate([
+                    'expected_refund' => 'required|numeric',
+                    'dispute' => 'nullable|string',
+                ]);
 
-            if ($ticket->type == 1) {
-                $ticket->status_id = 13;
+                if ( $ticket->refund - $request->get('expected_refund') > 500) {
+                    return redirect()->back()->with('error', 'Your entered amount diff. is more than 500');
+                }
+
+                // expected_refund
+
+
+                if ($ticket->type == 1) {
+                    $ticket->status_id = 13;
+                } else {
+                    $ticket->status_id = 12;
+                }
+                $ticket->dispute = $request->get('dispute');
             } else {
-                $ticket->status_id = 12;
+                $ticket->dispute = $request->get('dispute');
             }
 
             $ticket->save();
@@ -195,11 +208,11 @@ class TicketController extends Controller
 
             if ($request->get('received_units') == ($ticket->basket_size * $ticket->basket_no)) {
                 $request->validate([
-                    'remark' => 'nullable|string',
+                    'dispute_comment' => 'nullable|string',
                 ]);
             } else {
-                if ($data['remark'] == null) {
-                    return back()->with('error','Please fill the Dispute Comment if you changes the amount');
+                if ($data['dispute_comment'] == null) {
+                    return back()->with('error','Please fill the Dispute Comment if you changes the unit');
                 }
             }
 

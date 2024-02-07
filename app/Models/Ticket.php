@@ -30,7 +30,7 @@ class Ticket extends Model
         'deal_ticket',
         'utr_no',
         'screenshot',
-        'remark'
+        'remark','dispute','dispute_comment'
     ];
 
     // Define the relationship with Security
