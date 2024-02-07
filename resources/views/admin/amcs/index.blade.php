@@ -54,13 +54,13 @@
                                             </td>
                                             <td>
                                                 <a href="{{ route('amcs.edit', $amc->id) }}" title="Edit">
-                                                    <i class="ri-pencil-line"></i>
+                                                    <i class="ri-pencil-fill"></i>
                                                 </a>
                                                 <form action="{{ route('amcs.destroy', $amc->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <a type="submit" class="" onclick="return confirm('Are you sure you want to delete?')">
-                                                        <i class="ri-delete-bin-5-line text-danger"></i>
+                                                        <i class="ri-delete-bin-5-fill text-danger"></i>
                                                     </a>
                                                 </form>
                                             </td>

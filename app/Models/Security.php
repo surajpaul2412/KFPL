@@ -17,6 +17,7 @@ class Security extends Model
         'basket_size',
         'markup_percentage',
         'price',
+        'cash_component',
         'status',
     ];
 

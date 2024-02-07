@@ -11,7 +11,7 @@
                 <li class="breadcrumb-item"><a href="/trader/tickets">Ticket Management</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edit Ticket</li>
             </ol>
-            <h4 class="main-title mb-0">Edit Ticket</h4>
+            <h4 class="main-title mb-0">{{$ticket->status->stage}}</h4>
         </div>
     </div>
 

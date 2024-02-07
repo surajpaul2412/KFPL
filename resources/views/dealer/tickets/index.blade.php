@@ -72,11 +72,11 @@ Ticket Management
                                     <td>
                                         @if($ticket->status_id == 7)
                                         <a href="{{ route('dealer.tickets.show', $ticket->id) }}" title="View">
-                                            <i class="ri-pencil-line"></i>
+                                            <i class="ri-pencil-fill"></i>
                                         </a>
                                         @elseif($ticket->status_id == 8)
                                         <a href="{{url('/dealer/tickets/' . $ticket->id . '/edit')}}" title="Edit">
-                                            <i class="ri-pencil-line"></i>
+                                            <i class="ri-pencil-fill"></i>
                                         </a>
                                         @endif
                                     </td>

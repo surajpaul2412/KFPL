@@ -1,17 +1,17 @@
 @extends('layouts.dashboard')
 
 @section('breadcrum')
-Ticket Details
+Ticket Management
 @endsection
 
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between">
     <div>
         <ol class="breadcrumb fs-sm mb-3">
-            <li class="breadcrumb-item"><a href="/accounts/employees">Tickets</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Ticket Details</li>
+            <li class="breadcrumb-item"><a href="/accounts/employees">Ticket Management</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Ticket</li>
         </ol>
-        <h4 class="main-title mb-0">Ticket Details</h4>
+        <h4 class="main-title mb-0">{{$ticket->status->stage}}</h4>
     </div>
 </div>
 

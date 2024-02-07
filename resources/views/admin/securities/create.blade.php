@@ -111,7 +111,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-6 my-3">
+                                <div class="col-4 my-3">
                                     <div class="pb-1">
                                         Price
                                     </div>
@@ -124,8 +124,22 @@
                                         @enderror
                                     </div>
                                 </div>
+
+                                <div class="col-4 my-3">
+                                    <div class="pb-1">
+                                        Cash Component
+                                    </div>
+                                    <div class="">
+                                        <input type="text" name="cash_component" class="form-control w-100" placeholder="Enter Cash Component" value="{{ old('cash_component') }}" required>
+                                        @error('cash_component')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
                                 
-                                <div class="col-6 my-3">
+                                <div class="col-4 my-3">
                                     <div class="pb-1">
                                         Status
                                     </div>
