@@ -11,7 +11,7 @@
                 <li class="breadcrumb-item"><a href="/admin/tickets">Ticket Management</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edit Ticket</li>
             </ol>
-            <h4 class="main-title mb-0">Edit Ticket</h4>
+            <h4 class="main-title mb-0">{{$ticket->status->stage}}</h4>
         </div>
     </div>
 
@@ -20,73 +20,88 @@
     <div class="row g-3">
         <div class="col-xl-12">
             <div class="row g-3">
-                <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{ route('admin.tickets.update', $ticket->id) }}" enctype="multipart/form-data">
-                    <div class="card-body p-3 py-4">
-                        <div class="row px-md-4">
-                            <div class="col-3">
-                                <div>Name</div>
-                                <div class="font-weight-bold">{{$ticket->security->amc->name}}</div>
+
+                <div class="col-12 col-md-12 col-xl-12 pt-3">
+                    <div class="card card-one card-product">
+                        <div class="card-body p-3 py-4">
+                            <div class="row px-md-4">
+                                <div class="col-3">
+                                    <div>Name</div>
+                                    <div class="font-weight-bold">{{$ticket->security->amc->name}}</div>
+                                </div>
+                                <div class="col-3">
+                                    <div>Symbol</div>
+                                    <div class="font-weight-bold">{{$ticket->security->symbol}}</div>
+                                </div>
+                                <div class="col-3">
+                                    <div>Ticket Type</div>
+                                    <div class="font-weight-bold">
+                                      {{$ticket->type == 1 ? "Buy" : "Sell"}}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div>Payment Mode</div>
+                                    <div class="font-weight-bold">
+                                      @php
+                                      if($ticket->payment_type == 1) echo "Cash";
+                                      else if($ticket->payment_type == 2) echo "Basket";
+                                      else if($ticket->payment_type == 3) echo "Net Settlement";
+                                      @endphp
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-3">
-                                <div>Symbol</div>
-                                <div class="font-weight-bold">{{$ticket->security->symbol}}</div>
+                            <hr/>
+                            <div class="row px-md-4">
+                                <div class="col-3">
+                                    <div>Number of Baskets</div>
+                                    <div class="font-weight-bold"> {{$ticket->basket_no}} </div>
+                                </div>
+                                <div class="col-3">
+                                    <div>Basket Size</div>
+                                    <div class="font-weight-bold">  {{$ticket->basket_size}}  </div>
+                                </div>
+                                <div class="col-3">
+                                    <div>Ticket Rate</div>
+                                    <div class="font-weight-bold"> {{$ticket->rate}} </div>
+                                </div>
+                                <div class="col-3">
+                                    <div>Total Amount</div>
+                                    <div class="font-weight-bold"> {{$ticket->total_amt}} </div>
+                                </div>
                             </div>
-                            <div class="col-3">
-                                <div>Ticket Type</div>
-                                <div class="font-weight-bold"> {{$ticket->type == 1 ? "Buy" : "Sell"}} </div>
+                            <hr/>
+                            <div class="row px-md-4">
+                                <div class="col-3">
+                                    <div>Markup Percentage</div>
+                                    <div class="font-weight-bold"> {{$ticket->markup_percentage}} </div>
+                                </div>
+                                @if($ticket->utr_no)
+                                <div class="col-3">
+                                    <div>UTR Number</div>
+                                    <div class="font-weight-bold">{{$ticket->utr_no}}</div>
+                                </div>
+                                @endif
+                                <div class="col-3">
+                                    <div>AMC Form </div>
+                                    <div class="font-weight-bold"><a>Download <i class="ri-download-2-line"></i></a></div>
+                                </div>
+                                <div class="col-3">
+                                    <div>Demate PDF</div>
+                                    <div class="font-weight-bold"> <a>Download <i class="ri-download-2-line"></i></a> </div>
+                                </div>
                             </div>
-                            <div class="col-3">
-                                <div>Payment Mode</div>
-                                <div class="font-weight-bold">
-                                  @php
-                                  if($ticket->payment_type == 1) echo "Cash";
-                                  else if($ticket->payment_type == 2) echo "Basket";
-                                  else if($ticket->payment_type == 3) echo "Net Settlement";
-                                  @endphp
+                            <hr/>
+                            <div class="row px-md-4">
+                                <div class="col-3">
+                                    <div>Trade Value</div>
+                                    <div class="font-weight-bold"> {{$ticket->actual_total_amt}} </div>
                                 </div>
                             </div>
                         </div>
-                        <hr/>
-                        <div class="row px-md-4">
-                            <div class="col-3">
-                                <div>Number of Baskets</div>
-                                <div class="font-weight-bold"> {{$ticket->basket_no}} </div>
-                            </div>
-                            <div class="col-3">
-                                <div>Basket Size</div>
-                                <div class="font-weight-bold"> {{$ticket->basket_size}} </div>
-                            </div>
-                            <div class="col-3">
-                                <div>Ticket Rate</div>
-                                <div class="font-weight-bold"> {{$ticket->rate}}  </div>
-                            </div>
-                            <div class="col-3">
-                                <div>Total Amount</div>
-                                <div class="font-weight-bold">{{$ticket->total_amt}}  </div>
-                            </div>
-                        </div>
-                        <hr/>
-                        <div class="row px-md-4">
-                            <div class="col-3">
-                                <div>Markup Percentage</div>
-                                <div class="font-weight-bold"> {{$ticket->markup_percentage}} </div>
-                            </div>
-                            @if($ticket->utr_no)
-                            <div class="col-3">
-                                <div>UTR Number</div>
-                                <div class="font-weight-bold">{{$ticket->utr_no}}</div>
-                            </div>
-                            @endif
-                            <div class="col-3">
-                                <div>AMC Form </div>
-                                <div class="font-weight-bold"><a>Download <i class="ri-download-2-line"></i></a></div>
-                            </div>
-                            <div class="col-3">
-                                <div>Demate PDF</div>
-                                <div class="font-weight-bold"> <a>Download <i class="ri-download-2-line"></i></a> </div>
-                            </div>
-                        </div>
                     </div>
+                </div>
+
+                <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{ route('admin.tickets.update', $ticket->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card card-one card-product">
@@ -251,23 +266,21 @@
 
                                 <!-- EXTRA FIELDS ADDITION :: STARTS -->
                                 @if($ticket->status_id == 8)
-                                    <div class="row px-md-4">
-                                        <div class="col-6 my-3">
-                                            <div class="w-25 pb-1">
-                                                Actual Trade Value
-                                            </div>
-                                            <div class="w-75">
-                                                <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
-                                            </div>
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Actual Trade Value
                                         </div>
+                                        <div class="w-75">
+                                            <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
+                                        </div>
+                                    </div>
 
-                                        <div class="col-6 my-3">
-                                            <div class="w-25 pb-1">
-                                                NAV value
-                                            </div>
-                                            <div class="w-75">
-                                                <input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" readonly value="" >
-                                            </div>
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            NAV value
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" readonly value="" >
                                         </div>
                                     </div>
                                 @endif
@@ -289,50 +302,46 @@
                                     		</div>
                                     	</div>
 
-                                    	<div class="col-6 my-3">
-                                    		<div class="w-25">
-                                    			Edit Ticket Rate
-                                    		</div>
-                                    		<div class="w-75">
-                                    			<input type="number" step="any" class="form-control w-100" placeholder="Edit Ticket Rate" name="rate" value="{{ $ticket->rate }}" disabled>
-                                    		</div>
-                                    	</div>
+                                	<div class="col-6 my-3">
+                                		<div class="w-25">
+                                			Edit Ticket Rate
+                                		</div>
+                                		<div class="w-75">
+                                			<input type="number" step="any" class="form-control w-100" placeholder="Edit Ticket Rate" name="rate" value="{{ $ticket->rate }}" disabled>
+                                		</div>
+                                	</div>
 
-                                    	<div class="col-6 my-3">
-                                    		<div class="w-25">
-                                    			Remark
-                                    		</div>
-                                    		<div class="w-75">
-                                    			<textarea class="form-control w-100" name="remark" placeholder="Write here">{{$ticket->remark}}</textarea>
-                                    		</div>
-                                    	</div>
-                                    </div>
+                                	<div class="col-6 my-3">
+                                		<div class="w-25">
+                                			Remark
+                                		</div>
+                                		<div class="w-75">
+                                			<textarea class="form-control w-100" name="remark" placeholder="Write here">{{$ticket->remark}}</textarea>
+                                		</div>
+                                	</div>
                                 @endif
 
                                 @if($ticket->status_id == 9)
-                                    <div class="row px-md-4">
-                                    	<div class="col-6 my-3">
-                                    		<div class="w-25 pb-1">
-                                    			Refund Amount
-                                    		</div>
-                                    		<div class="w-75">
-                                    			<input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
-                                    			  value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
-                                    		</div>
-                                    	</div>
+                                	<div class="col-6 my-3">
+                                		<div class="w-25 pb-1">
+                                			Refund Amount
+                                		</div>
+                                		<div class="w-75">
+                                			<input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
+                                			  value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
+                                		</div>
+                                	</div>
 
-                                    	<div class="col-6 my-3">
-                                    		<div class="w-25 pb-1">
-                                    			Upload Deal Ticket
-                                    		</div>
-                                    		<div class="w-75">
-                                    			<input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-                                    			  value="" required >
-                                    		</div>
-                                    	</div>
-                                    </div>
+                                	<div class="col-6 my-3">
+                                		<div class="w-25 pb-1">
+                                			Upload Deal Ticket
+                                		</div>
+                                		<div class="w-75">
+                                			<input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                			  value="" required >
+                                		</div>
+                                	</div>
                                 @endif
-
 
                                 @if($ticket->status_id == 3)
 
@@ -423,33 +432,31 @@
                                 @endif
 
                                 @if($ticket->status_id == 13)
-                                    <div class="row px-md-4">
-                                    	<div class="col-6 my-3">
-                                    		<div class="w-25 pb-1">
-                                    			Received Units
-                                    		</div>
-                                    		<div class="w-75">
-                                    			<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="{{$ticket->basket_size * $ticket->basket_no}}">
-                                    		</div>
-                                    	</div>
+                                	<div class="col-6 my-3">
+                                		<div class="w-25 pb-1">
+                                			Received Units
+                                		</div>
+                                		<div class="w-75">
+                                			<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="{{$ticket->basket_size * $ticket->basket_no}}">
+                                		</div>
+                                	</div>
 
-                                    	<div class="col-6 my-3">
-                                    		<div class="w-25 pb-1">
-                                    			Dispute Comment
-                                    		</div>
-                                    		<div class="w-75">
-                                    			<textarea class="form-control w-100" name="dispute_comment" placeholder="Write here">{{$ticket->dispute_comment}}</textarea>
-                                    		</div>
-                                    	</div>
-                                    </div>
+                                	<div class="col-6 my-3">
+                                		<div class="w-25 pb-1">
+                                			Dispute Comment
+                                		</div>
+                                		<div class="w-75">
+                                			<textarea class="form-control w-100" name="dispute_comment" placeholder="Write here">{{$ticket->dispute_comment}}</textarea>
+                                		</div>
+                                	</div>
                                 @endif
 
                                 @if($ticket->status_id == 14)
-                                <div class="col-12 my-3" align="center">
-                                    <div class="">
-                                        Congratulations !! your ticket has been closed.
+                                    <div class="col-12 my-3" align="center">
+                                        <div class="">
+                                            Congratulations !! your ticket has been closed.
+                                        </div>
                                     </div>
-                                </div>
                                 @endif
 
                                 <!-- EXTRA FIELDS ADDITION :: ENDS -->

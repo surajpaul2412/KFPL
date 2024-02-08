@@ -124,11 +124,12 @@ class SecurityController extends Controller
         foreach ($records as $record) {
             $isin = $record[0];
             $price = $record[1];
+            $cash_component = $record[2];
 
             // Update securities table based on ISIN
-            Security::where('isin', $isin)->update(['price' => $price]);
+            Security::where('isin', $isin)->update(['price' => $price, 'cash_component' => $cash_component]);
         }
 
-        return redirect()->back()->with('success', 'Prices updated successfully.');
+        return redirect()->back()->with('success', 'Securities updated successfully as per ISIN.');
     }
 }

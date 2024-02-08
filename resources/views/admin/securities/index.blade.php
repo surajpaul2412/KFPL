@@ -9,7 +9,9 @@
   <i class="ri-upload-line pe-2"></i> Upload rates via Excel
 </button>
 
-<a href="" class="btn btn-outline-primary"><i class="ri-download-2-line pe-2"></i>Download via Excel</a>
+<a href="{{ asset('sample-security.csv') }}" class="btn btn-outline-primary" download>
+    <i class="ri-download-2-line pe-2"></i>Download via Excel
+</a>
 @endsection
 
 @section('content')
@@ -25,6 +27,8 @@
             </a>
         </div>
     </div>
+
+    @include('topmessages')
 
     <div class="row justify-content-center g-3">
         <div class="col-xl-12">
@@ -43,6 +47,7 @@
                                         <th>Basket Size</th>
                                         <th>Markup %</th>
                                         <th>Price</th>
+                                        <th>Cash Component</th>
                                         <th>Last Updated at </th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -58,6 +63,7 @@
                                             <td>{{ number_format($security->basket_size, 0, ',', ',') }}</td>
                                             <td>{{ $security->markup_percentage }} %</td>
                                             <td>{{ $security->price }}</td>
+                                            <td>{{ $security->cash_component }}</td>
                                             <td>{{ $security->updated_at }}</td>
                                             <td>
                                                 @if ($security->status == 1)
@@ -68,13 +74,13 @@
                                             </td>
                                             <td>
                                                 <a href="{{ route('securities.edit', $security->id) }}" title="Edit">
-                                                    <i class="ri-pencil-line"></i>
+                                                    <i class="ri-pencil-fill"></i>
                                                 </a>
                                                 <form action="{{ route('securities.destroy', $security->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <a type="submit" class="" onclick="return confirm('Are you sure you want to delete?')">
-                                                        <i class="ri-delete-bin-5-line text-danger"></i>
+                                                        <i class="ri-delete-bin-5-fill text-danger"></i>
                                                     </a>
                                                 </form>
                                             </td>
@@ -84,9 +90,11 @@
                             </table>
 
                             <!-- Pagination links -->
-                            <div class="d-flex justify-content-center my-3">
-                                {{ $securities->links() }}
-                            </div>
+                            @if($securities->hasPages())
+                                <div class="d-flex justify-content-center my-3">
+                                    {{ $securities->links() }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
