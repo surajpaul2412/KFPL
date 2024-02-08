@@ -50,8 +50,8 @@ Ticket Management
                                 </div>
                                 <div class="">
                                     <input type="hidden" name="type" value="" required>
-                                    <span class='ticketType' onclick="setTicketType(0,1)">Buy</span>
-                                    <span class='ticketType' onclick="setTicketType(1,2)">Sell</span>
+                                    <span class='ticketType' onclick="setTicketType(0,1);showhidefields(1);">Buy</span>
+                                    <span class='ticketType' onclick="setTicketType(1,2);showhidefields(0);">Sell</span>
                                     @error('type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -115,7 +115,7 @@ Ticket Management
                                 </div>
                             </div>
 
-                            <div class="col-6 my-3">
+                            <div class="col-6 my-3 sellopts">
                                 <div class="pb-1">
                                     Enter Rate
                                 </div>
@@ -130,7 +130,7 @@ Ticket Management
                                 </div>
                             </div>
 
-                            <div class="col-6 my-3">
+                            <div class="col-6 my-3 sellopts">
                                 <div class="pb-1">
                                   Current Price
                                 </div>
@@ -146,7 +146,7 @@ Ticket Management
                                 </div>
                             </div>
 
-                            <div class="col-6 my-3">
+                            <div class="col-6 my-3 sellopts">
                                <div style='width:49%;float:left;'>
                                 <div class="pb-1">
                                   Total Amount
@@ -194,6 +194,15 @@ Ticket Management
 
 @section('script')
 <script>
+    function showhidefields(show)
+    {
+      if (show){
+         jQuery(".sellopts").show();
+      } else {
+         jQuery(".sellopts").hide();
+      }
+    }
+
     $(document).ready(function () {
         // Change event handler for the security select
         $('select[name="security_id"]').change(function () {

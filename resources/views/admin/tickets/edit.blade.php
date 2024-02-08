@@ -121,8 +121,8 @@
                                         </div>
                                         <div class="">
                                             <input type="hidden" name="type" value="{{ $ticket->type }}" required>
-                                            <span class='ticketType {{ $ticket->type == 1 ? "selected" : "" }}' onclick="setTicketType(0,1)">Buy</span>
-                                            <span class='ticketType {{ $ticket->type == 2 ? "selected" : "" }}' onclick="setTicketType(1,2)">Sell</span>
+                                            <span class='ticketType {{ $ticket->type == 1 ? "selected" : "" }}' onclick="setTicketType(0,1);showhidefields(1);">Buy</span>
+                                            <span class='ticketType {{ $ticket->type == 2 ? "selected" : "" }}' onclick="setTicketType(1,2);showhidefields(0);">Sell</span>
                                             @error('type')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -183,7 +183,7 @@
                                     <!-- Repeat similar blocks for other form fields -->
 
                                     <!-- Enter Rate -->
-                                    <div class="col-6 my-3">
+                                    <div class="col-6 my-3 sellopts">
                                         <div class="pb-1">
                                             Enter Rate
                                         </div>
@@ -199,7 +199,7 @@
                                     </div>
 
                                     <!-- Current Price -->
-                                    <div class="col-6 my-3">
+                                    <div class="col-6 my-3 sellopts">
                                         <div class="pb-1">
                                             Current Price
                                         </div>
@@ -217,7 +217,7 @@
                                     </div>
 
                                     <!-- Total Amount -->
-                                    <div class="col-3 my-3">
+                                    <div class="col-3 my-3 sellopts">
                                         <div class="pb-1">
                                             Total Amount
                                         </div>
@@ -233,7 +233,7 @@
                                     </div>
 
                                     <!-- Markup Percentage -->
-                                    <div class="col-3 my-3">
+                                    <div class="col-3 my-3 sellopts">
                                         <div class="pb-1">
                                             Markup Percentage
                                         </div>
@@ -271,7 +271,7 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if($ticket->status_id == 2)
+                                @if($ticket->status_id == 2 && $ticket->type == 1)
                                     <div class="row px-md-4">
                                     	<div class="col-6 my-3">
                                     		<div class="pb-1">
@@ -335,6 +335,9 @@
 
 
                                 @if($ticket->status_id == 3)
+
+                                   @if($ticket->type == 1)
+                                    <!-- will appear in case of BUY only -->
                                     <div class="col-6 my-3">
                                     	<div class="pb-1">
                                     		Enter Total Amount
@@ -348,7 +351,10 @@
                                     		@enderror
                                     	</div>
                                     </div>
+                                   @endif
 
+                                   @if($ticket->type == 1)
+                                    <!-- will appear in case of BUY only -->
                                     <div class="col-6 my-3">
                                     	<div class="pb-1">
                                     		UTR Number
@@ -362,6 +368,7 @@
                                     		@enderror
                                     	</div>
                                     </div>
+                                   @endif
 
                                     <div class="col-6 my-3">
                                     	<div class="w-25 pb-1">
@@ -465,6 +472,23 @@
 
 @section('script')
 <script>
+    function showhidefields(show)
+    {
+      if (show){
+         jQuery(".sellopts").show();
+      } else {
+         jQuery(".sellopts").hide();
+      }
+    }
+    jQuery(document).ready(function(){
+      @if($ticket->type == 1)
+       showhidefields(1)
+      @else
+       showhidefields(0)
+      @endif
+
+    });
+
     function setVerification1(x, y) {
         var verificationInput = document.querySelector("[name='verification']");
         var rateInput = document.querySelector("[name='rate']");

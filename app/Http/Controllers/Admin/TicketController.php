@@ -51,6 +51,15 @@ class TicketController extends Controller
             'total_amt' => 'required|numeric',
         ]);
 
+        // if SELL
+        if($validatedData['type'] == 2)
+        {
+          $validatedData['markup_percentage'] = 0;
+          $validatedData['rate'] = 0;
+          $validatedData['security_price'] = 0;
+          $validatedData['total_amt'] = 0;
+        }
+
         $validatedData['user_id'] = Auth::user()->id;
         $validatedData['status_id'] = 2;
 
@@ -106,40 +115,75 @@ class TicketController extends Controller
 
             $data['status_id'] = 9;
         } else if ($ticket->status_id == 3) {
-            $request->validate([
-                'total_amt' => 'required|numeric',
-                'utr_no' => 'required|string',
-                'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-            ]);
 
-            if ($ticket->total_amt == $request->get('total_amt')) {
-                // Screenshot Wrokings
-                if ($request->hasFile('screenshot') && $ticket->screenshot) {
-                    Storage::delete($ticket->screenshot);
-                }
-                if ($request->hasFile('screenshot')) {
-                    $imagePath = $request->file('screenshot')->store('screenshot', 'public');
-                    $ticket->screenshot = $imagePath;
-                }
+           // BUY case
+           if( $ticket->type == 1 )
+           {
+              $request->validate([
+                  'total_amt' => 'required|numeric',
+                  'utr_no' => 'required|string',
+                  'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+              ]);
 
-                $ticket->utr_no = $request->get('utr_no');
-                if ($ticket->type == 1 && $ticket->payment_type == 1) {
-                    $ticket->status_id = 6;
-                }
+              if ($ticket->total_amt == $request->get('total_amt')) {
+                  // Screenshot Wrokings
+                  if ($request->hasFile('screenshot') && $ticket->screenshot) {
+                      Storage::delete($ticket->screenshot);
+                  }
+                  if ($request->hasFile('screenshot')) {
+                      $imagePath = $request->file('screenshot')->store('screenshot', 'public');
+                      $ticket->screenshot = $imagePath;
+                  }
 
-                //Save Ticket
-                $ticket->save();
+                  $ticket->utr_no = $request->get('utr_no');
+                  if ( $ticket->payment_type == 1) {
+                      $ticket->status_id = 6;
+                  }
 
-                // Update Ticket
-                $ticket->update($request->except('screenshot'));
+                  //Save Ticket
+                  $ticket->save();
 
-                // Pdf Workings :: START
-                FormService::GenerateDocument($ticket);
-                // Pdf Workings :: END
+                  // Update Ticket
+                  $ticket->update($request->except('screenshot'));
 
-            } else {
-                return redirect()->back()->with('error', 'Please verify your entered amount.');
-            }
+                  // Pdf Workings :: START
+                  FormService::GenerateDocument($ticket);
+                  // Pdf Workings :: END
+
+              } else {
+                  return redirect()->back()->with('error', 'Please verify your entered amount.');
+              }
+          } else {
+
+              $request->validate([
+              	'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+              ]);
+
+              // Screenshot Wrokings
+              if ($request->hasFile('screenshot') && $ticket->screenshot) {
+              	Storage::delete($ticket->screenshot);
+              }
+              if ($request->hasFile('screenshot')) {
+              	$imagePath = $request->file('screenshot')->store('screenshot', 'public');
+              	$ticket->screenshot = $imagePath;
+              }
+
+              if ($ticket->payment_type == 1) {
+              	$ticket->status_id = 6;
+              }
+
+              //Save Ticket
+              $ticket->save();
+
+              // Update Ticket
+              $ticket->update($request->except('screenshot'));
+
+              // Pdf Workings :: START
+              FormService::GenerateDocument($ticket);
+              // Pdf Workings :: END
+
+          }
+
         } else if ($ticket->status_id == 11) {
             if ($request->get('verification') == 1) {
                 $request->validate([
@@ -167,18 +211,27 @@ class TicketController extends Controller
             $ticket->save();
 
         } else if ($ticket->status_id == 2) {
-            $request->validate([
-                'verification' => 'required|in:1,2',
-                'rate' => 'nullable|numeric',
-                'remark' => 'nullable',
-            ]);
+          if( $ticket->type == 1)
+          {
+              // BUY cases
+              $request->validate([
+                  'verification' => 'required|in:1,2',
+                  'rate' => 'nullable|numeric',
+                  'remark' => 'nullable',
+              ]);
 
-            if ($request->get('verification') == 1) {
-                  $ticket->status_id = 3;
-            } else {
-                  $ticket->status_id = 1;
-            }
-            $ticket->save();
+              if ($request->get('verification') == 1) {
+                    $ticket->status_id = 3;
+              } else {
+                    $ticket->status_id = 1;
+              }
+          } else {
+               // SALE CASES
+               $ticket->status_id = 3;
+          }
+           // Save Ticket
+          $ticket->save();
+
         } elseif ($ticket->status_id == 9) {
             $request->validate([
                 'refund' => 'required|numeric',
@@ -189,6 +242,7 @@ class TicketController extends Controller
             if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
                 Storage::delete($ticket->deal_ticket);
             }
+            
             if ($request->hasFile('deal_ticket')) {
                 $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
                 $ticket->deal_ticket = $imagePath;
