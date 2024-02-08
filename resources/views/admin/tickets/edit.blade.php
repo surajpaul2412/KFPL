@@ -20,18 +20,18 @@
     <div class="row g-3">
         <div class="col-xl-12">
             <div class="row g-3">
-
+                @if($ticket->status_id != 1)
                 <div class="col-12 col-md-12 col-xl-12 pt-3">
                     <div class="card card-one card-product">
                         <div class="card-body p-3 py-4">
                             <div class="row px-md-4">
                                 <div class="col-3">
                                     <div>Name</div>
-                                    <div class="font-weight-bold">{{$ticket->security->amc->name}}</div>
+                                    <div class="font-weight-bold">{{$ticket->security->amc->name ?? 'N/A'}}</div>
                                 </div>
                                 <div class="col-3">
                                     <div>Symbol</div>
-                                    <div class="font-weight-bold">{{$ticket->security->symbol}}</div>
+                                    <div class="font-weight-bold">{{$ticket->security->symbol ?? 'N/A'}}</div>
                                 </div>
                                 <div class="col-3">
                                     <div>Ticket Type</div>
@@ -54,52 +54,51 @@
                             <div class="row px-md-4">
                                 <div class="col-3">
                                     <div>Number of Baskets</div>
-                                    <div class="font-weight-bold"> {{$ticket->basket_no}} </div>
+                                    <div class="font-weight-bold"> {{$ticket->basket_no  ?? 'N/A'}} </div>
                                 </div>
                                 <div class="col-3">
                                     <div>Basket Size</div>
-                                    <div class="font-weight-bold">  {{$ticket->basket_size}}  </div>
+                                    <div class="font-weight-bold">  {{$ticket->basket_size  ?? 'N/A'}}  </div>
                                 </div>
                                 <div class="col-3">
                                     <div>Ticket Rate</div>
-                                    <div class="font-weight-bold"> {{$ticket->rate}} </div>
+                                    <div class="font-weight-bold"> {{$ticket->rate  ?? 'N/A'}} </div>
                                 </div>
                                 <div class="col-3">
                                     <div>Total Amount</div>
-                                    <div class="font-weight-bold"> {{$ticket->total_amt}} </div>
+                                    <div class="font-weight-bold"> {{$ticket->total_amt  ?? 'N/A'}} </div>
                                 </div>
                             </div>
                             <hr/>
                             <div class="row px-md-4">
                                 <div class="col-3">
                                     <div>Markup Percentage</div>
-                                    <div class="font-weight-bold"> {{$ticket->markup_percentage}} </div>
+                                    <div class="font-weight-bold"> {{$ticket->markup_percentage ?? 'N/A'}} </div>
                                 </div>
-                                @if($ticket->utr_no)
                                 <div class="col-3">
                                     <div>UTR Number</div>
-                                    <div class="font-weight-bold">{{$ticket->utr_no}}</div>
+                                    <div class="font-weight-bold">{{$ticket->utr_no ?? 'N/A'}}</div>
                                 </div>
-                                @endif
                                 <div class="col-3">
                                     <div>AMC Form </div>
                                     <div class="font-weight-bold"><a>Download <i class="ri-download-2-line"></i></a></div>
                                 </div>
                                 <div class="col-3">
                                     <div>Demate PDF</div>
-                                    <div class="font-weight-bold"> <a>Download <i class="ri-download-2-line"></i></a> </div>
+                                    <div class="font-weight-bold"> <a href="{{$ticket->security->amc->pdf->name}}" target="_blank">Download <i class="ri-download-2-line"></i></a> </div>
                                 </div>
                             </div>
                             <hr/>
                             <div class="row px-md-4">
                                 <div class="col-3">
                                     <div>Trade Value</div>
-                                    <div class="font-weight-bold"> {{$ticket->actual_total_amt}} </div>
+                                    <div class="font-weight-bold"> {{$ticket->actual_total_amt ?? 'N/A'}} </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{ route('admin.tickets.update', $ticket->id) }}" enctype="multipart/form-data">
                     @csrf
@@ -327,8 +326,8 @@
                                 			Refund Amount
                                 		</div>
                                 		<div class="w-75">
-                                			<input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
-                                			  value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
+                                			<input type="number" class="form-control w-100" placeholder="Refund Amount" name="refund"
+                                			  value=""  required>
                                 		</div>
                                 	</div>
 
@@ -338,7 +337,7 @@
                                 		</div>
                                 		<div class="w-75">
                                 			<input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-                                			  value="" required >
+                                			  value="" >
                                 		</div>
                                 	</div>
                                 @endif
@@ -499,6 +498,7 @@
     function setVerification1(x, y) {
         var verificationInput = document.querySelector("[name='verification']");
         var rateInput = document.querySelector("[name='rate']");
+        var remarkInput = document.querySelector("[name='remark']");
 
         if (verificationInput) {
             verificationInput.value = y;
@@ -507,6 +507,11 @@
         // Toggle the "disabled" attribute based on the verification status
         if (rateInput) {
             rateInput.disabled = (y !== 1); // Adjust the value based on your accepted verification logic
+        }
+
+        // Toggle the "disabled" attribute for the "remark" field
+        if (remarkInput) {
+            remarkInput.disabled = (y === 1); // Disable the "remark" field if verification is accepted
         }
 
         // Highlight the selected verification status

@@ -150,7 +150,7 @@ Ticket Management
                                 </div>
                                 <div class="w-75">
                                     <input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
-                                      value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
+                                      value="" required>
                                 </div>
                             </div>
 
@@ -160,7 +160,7 @@ Ticket Management
                                 </div>
                                 <div class="w-75">
                                     <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-                                      value="" required >
+                                      value="" >
                                 </div>
                             </div>
                         </div>
