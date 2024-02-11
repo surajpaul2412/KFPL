@@ -71,6 +71,10 @@ function setPaymode(x,y)
   jQuery(".payMode").removeClass('selected');
 	jQuery(jQuery(".payMode")[x]).addClass('selected');
 }
+// making "cash default"
+$(document).ready(function () {
+    setPaymode(0, 1);
+});
 
 function setVerification(x,y)
 {

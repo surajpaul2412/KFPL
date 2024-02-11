@@ -66,9 +66,9 @@ Ticket Management
                                 </div>
                                 <div class="">
                                     <input type="hidden" name="payment_type" value="" required>
-                                    <span class='payMode' onclick="setPaymode(0,1)">Cash</span>
-                                    <span class='payMode' onclick="setPaymode(1,2)">Basket</span>
-                                    <span class='payMode' onclick="setPaymode(2,3)">Net Settlement</span>
+                                    <span class='payMode defaultPayMode' onclick="setPaymode(0,1)" data-value="1">Cash</span>
+                                    <span class='payMode' onclick="setPaymode(1,2)" data-value="2">Basket</span>
+                                    <span class='payMode' onclick="setPaymode(2,3)" data-value="3">Net Settlement</span>
                                     @error('payment_type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
