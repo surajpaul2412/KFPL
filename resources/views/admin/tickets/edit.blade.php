@@ -100,7 +100,6 @@
                         </div>
                     </div>
                 </div>
-
                 <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{ route('admin.tickets.update', $ticket->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -322,15 +321,27 @@
                                 @endif
 
                                 @if($ticket->status_id == 9)
-                                	<div class="col-6 my-3">
-                                		<div class="w-25 pb-1">
-                                			Refund Amount
-                                		</div>
-                                		<div class="w-75">
-                                			<input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
-                                			  value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
-                                		</div>
-                                	</div>
+                                  @if($ticket->type == 1)
+                                  	<div class="col-6 my-3">
+                                  		<div class="w-25 pb-1">
+                                  			Refund Amount
+                                  		</div>
+                                  		<div class="w-75">
+                                  			<input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
+                                  			  value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
+                                  		</div>
+                                  	</div>
+                                  @else
+                                    <div class="col-6 my-3">
+                                      <div class="w-25 pb-1">
+                                        Redemption Amount
+                                      </div>
+                                      <div class="w-75">
+                                        <input type="text" class="form-control w-100" placeholder="Redemption Amount" name="refund"
+                                          value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
+                                      </div>
+                                    </div>
+                                  @endif
 
                                 	<div class="col-6 my-3">
                                 		<div class="w-25 pb-1">
@@ -392,6 +403,24 @@
                                     		@enderror
                                     	</div>
                                     </div>
+                                @endif
+
+                                @if($ticket->status_id == 5 || $ticket->status_id == 10)
+                                  @if($ticket->type == 2)
+                                    <div class="col-6 my-3">
+                                      <div class="w-25 pb-1">
+                                        Upload Screenshot
+                                      </div>
+                                      <div class="w-75">
+                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
+                                        @error('screenshot')
+                                          <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                          </span>
+                                        @enderror
+                                      </div>
+                                    </div>
+                                  @endif  
                                 @endif
 
                                 @if($ticket->status_id == 11)
