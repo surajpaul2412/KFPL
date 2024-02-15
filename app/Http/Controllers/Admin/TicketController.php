@@ -144,7 +144,7 @@ class TicketController extends Controller
               ]);
 
               if ($ticket->total_amt == $request->get('total_amt')) {
-                  // Screenshot Wrokings
+                  // Screenshot Workings
                   if ($request->hasFile('screenshot') && $ticket->screenshot) {
                       \Storage::delete($ticket->screenshot);
                   }
@@ -179,7 +179,7 @@ class TicketController extends Controller
               	'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
               ]);
 
-              // Screenshot Wrokings
+              // Screenshot Workings
               if ($request->hasFile('screenshot') && $ticket->screenshot) {
               	if( file_exists($ticket->screenshot) )\Storage::delete($ticket->screenshot);
               }
@@ -245,12 +245,10 @@ class TicketController extends Controller
         } elseif ($ticket->status_id == 9) {
             $request->validate([
                 'refund' => 'required|numeric',
-                'deal_ticket' => 'required',
+                'deal_ticket' => 'nullable',
             ]);
 
-            $data = $request->all();
-
-            // Deal Ticket Wrokings
+            // Deal Ticket Workings
             if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
                 Storage::delete($ticket->deal_ticket);
             }
@@ -278,11 +276,11 @@ class TicketController extends Controller
 		    if( $ticket->type == 2 )
 		    {
 				$request->validate([
-                  'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+                  'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                  'deal_ticket' => 'nullable',
                 ]);
 				
 				if ($request->hasFile('screenshot')) {
-					
 					// IF Old one exists, remove it
 					if( $ticket->screenshot != '' ) {
 						if (file_exists($ticket->screenshot)) {
@@ -292,7 +290,16 @@ class TicketController extends Controller
 					// SAVE new FILE
 					$imagePath = $request->file('screenshot')->store('screenshot', 'public');
               	    $ticket->screenshot = $imagePath;
-					
+                }
+
+                // Deal Ticket Workings
+                if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
+                    Storage::delete($ticket->deal_ticket);
+                }
+                
+                if ($request->hasFile('deal_ticket')) {
+                    $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
+                    $ticket->deal_ticket = $imagePath;
                 }
 			    
 				$ticket->status_id = 12; // SELL CASE
@@ -307,6 +314,7 @@ class TicketController extends Controller
                 $request->validate([
                     'expected_refund' => 'required|numeric',
                     'dispute' => 'nullable|string',
+                    'deal_ticket' => 'nullable',
                 ]);
 
                 if ( $ticket->refund - $request->get('expected_refund') > 500) {
@@ -318,6 +326,16 @@ class TicketController extends Controller
                     $ticket->status_id = 13;
                 } else {
                     $ticket->status_id = 12;
+                }
+
+                // Deal Ticket Workings
+                if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
+                    Storage::delete($ticket->deal_ticket);
+                }
+                
+                if ($request->hasFile('deal_ticket')) {
+                    $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
+                    $ticket->deal_ticket = $imagePath;
                 }
 
                 $ticket->dispute = $request->get('dispute');
@@ -332,6 +350,7 @@ class TicketController extends Controller
             $request->validate([
                 // 'verification' => 'required|in:1,2',
                 'received_units' => 'required|numeric',
+                'deal_ticket' => 'nullable',
             ]);
 
             if ($request->get('received_units') == ($ticket->basket_size * $ticket->basket_no)) {
@@ -343,11 +362,21 @@ class TicketController extends Controller
                     return back()->with('error','Please fill the Dispute Comment if you changes the unit');
                 }
             }
+            // Deal Ticket Workings
+            if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
+                Storage::delete($ticket->deal_ticket);
+            }
+            
+            if ($request->hasFile('deal_ticket')) {
+                $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
+                $ticket->deal_ticket = $imagePath;
+            }
+
             $data['status_id'] = 14;//condition can be placed here//
 
         }
 
-        //$ticket->update($data);
+        $ticket->update($data);
 
         return redirect()->route('admin.tickets.index')->with('success', 'Ticket updated successfully.');
     }

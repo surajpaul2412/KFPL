@@ -421,6 +421,18 @@
                                         @enderror
                                       </div>
                                     </div>
+
+                                    @if($ticket->deal_ticket == null)
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Upload Deal Ticket
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                              value="" >
+                                        </div>
+                                    </div>
+                                    @endif
                                   @endif  
                                 @endif
 
@@ -451,6 +463,18 @@
                                         </div>
                                     </div>
 
+                                    @if($ticket->deal_ticket == null)
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Upload Deal Ticket
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                              value="" >
+                                        </div>
+                                    </div>
+                                    @endif
+
                                     <div class="col-6 my-3">
                                         <div class="w-25 pb-1">
                                             Dispute Comment
@@ -470,6 +494,18 @@
                                 			<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="{{$ticket->basket_size * $ticket->basket_no}}">
                                 		</div>
                                 	</div>
+
+                                    @if($ticket->deal_ticket == null)
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Upload Deal Ticket
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                              value="" >
+                                        </div>
+                                    </div>
+                                    @endif
 
                                 	<div class="col-6 my-3">
                                 		<div class="w-25 pb-1">
