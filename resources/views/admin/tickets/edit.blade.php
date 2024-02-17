@@ -332,7 +332,7 @@
                                   			  value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
                                   		</div>
                                   	</div>
-									@else
+									@elseif($ticket->type == 2)
                                     <div class="col-6 my-3">
                                       <div class="w-25 pb-1">
                                         Redemption Amount
@@ -342,6 +342,22 @@
                                           value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
                                       </div>
                                     </div>
+
+                                    @if($ticket->screenshot == null)
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Upload Screenshot
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
+                                            @error('screenshot')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    @endif
 									@endif
 
                                 	<div class="col-6 my-3">

@@ -246,6 +246,7 @@ class TicketController extends Controller
             $request->validate([
                 'refund' => 'required|numeric',
                 'deal_ticket' => 'nullable',
+                'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]);
 
             // Deal Ticket Workings
@@ -256,6 +257,18 @@ class TicketController extends Controller
             if ($request->hasFile('deal_ticket')) {
                 $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
                 $ticket->deal_ticket = $imagePath;
+            }
+
+            if ($request->hasFile('screenshot')) {
+                // IF Old one exists, remove it
+                if( $ticket->screenshot != '' ) {
+                    if (file_exists($ticket->screenshot)) {
+                        \Storage::delete($ticket->screenshot);
+                    }
+                }
+                // SAVE new FILE
+                $imagePath = $request->file('screenshot')->store('screenshot', 'public');
+                $ticket->screenshot = $imagePath;
             }
 
             if( $ticket->type == 1 )

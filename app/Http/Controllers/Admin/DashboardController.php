@@ -22,7 +22,11 @@ class DashboardController extends Controller
 
     public function calculatePurchaseNav(Request $request) {
         $ticket = Ticket::findOrFail($request->get('ticket_id'));
-        $nav_value = purchaseNavValue($ticket, $request->input('actual_total_amt'));
+        if ($ticket->type === 1) {
+            $nav_value = purchaseNavValue($ticket, $request->input('actual_total_amt'));
+        } elseif ($ticket->type === 2) {
+            $nav_value = saleNavValue($ticket, $request->input('actual_total_amt'));
+        }
         return response()->json(['navValue' => $nav_value]);
     }
 }

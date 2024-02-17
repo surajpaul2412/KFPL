@@ -9,9 +9,19 @@ function purchaseNavValue(Ticket $ticket, $actualTotalAmt) {
 	return round($nav_value, 4);
 }
 
+function saleNavValue(Ticket $ticket, $actualTotalAmt) {
+	$nav_value = saleConsideration($ticket, $actualTotalAmt)/totalUnits($ticket);
+	return round($nav_value, 4);
+}
+
 function purchaseConsideration(Ticket $ticket, $actualTotalAmt) {
 	$purchase_consideration = $actualTotalAmt + (($ticket->security->amc->expense_percentage)/100 * $actualTotalAmt) + $ticket->security->cash_component;
 	return $purchase_consideration;
+}
+
+function saleConsideration(Ticket $ticket, $actualTotalAmt) {
+	$sale_consideration = $actualTotalAmt - (($ticket->security->amc->expense_percentage)/100 * $actualTotalAmt) + $ticket->security->cash_component;
+	return $sale_consideration;
 }
 
 function totalUnits(Ticket $ticket) {
@@ -20,6 +30,5 @@ function totalUnits(Ticket $ticket) {
 	$total_units = $no_of_basket * $basket_size;
 	return $total_units;
 }
-
 
 ?>
