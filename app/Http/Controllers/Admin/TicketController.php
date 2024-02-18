@@ -9,6 +9,7 @@ use App\Models\Security;
 use Exception;
 use Validator;
 use Auth;
+use Storage;
 use App\Services\FormService;
 use App\Mail\MailToAMC;
 use Illuminate\Support\Facades\Mail;
@@ -111,7 +112,7 @@ class TicketController extends Controller
             $ticket->update($data);
 
         } else if ($ticket->status_id == 2) {
-            
+
 			if ( $ticket->type == 1) {
                 // BUY cases
                 $request->validate([
@@ -164,17 +165,13 @@ class TicketController extends Controller
                   // Update Ticket
                   $ticket->update($request->except('screenshot'));
 
-                  // Pdf Workings :: START
-                  FormService::GenerateDocument($ticket);
-                  // Pdf Workings :: END
-
               } else {
                   return redirect()->back()->with('error', 'Please verify your entered amount.');
               }
-            
-			} else {
-              
-			  // SELL CASE
+
+			      } else {
+
+			        // SELL CASE
               $request->validate([
               	'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
               ]);
@@ -194,27 +191,23 @@ class TicketController extends Controller
 
               //Save Ticket
               $ticket->save();
-
-              // Update Ticket
-              //$ticket->update($request->except('screenshot'));
-
-              // Pdf Workings :: START
-              FormService::GenerateDocument($ticket);
-              // Pdf Workings :: END
-
           }
-       
+
+          // Pdf Workings :: START
+          FormService::GenerateDocument($ticket);
+          // Pdf Workings :: END
+
 		} else if ($ticket->status_id == 5) {
-			
-			// SELL Cases 
+
+			// SELL Cases
 			if( $ticket->type == 2) {
-				
+
 				$request->validate([
                   'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
                 ]);
-				
+
 				if ($request->hasFile('screenshot')) {
-					
+
 					// IF Old one exists, remove it
 					if( $ticket->screenshot != '' ) {
 						if (file_exists($ticket->screenshot)) {
@@ -224,14 +217,14 @@ class TicketController extends Controller
 					// SAVE new FILE
 					$imagePath = $request->file('screenshot')->store('screenshot', 'public');
               	    $ticket->screenshot = $imagePath;
-					
+
                 }
-              
+
 			    $ticket->status_id = 6;
 			    $ticket->save();
 			}
-				
-			
+
+
 	    } else if ($ticket->status_id == 8) {
             $request->validate([
                 'actual_total_amt' => 'required|numeric',
@@ -253,7 +246,7 @@ class TicketController extends Controller
             if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
                 Storage::delete($ticket->deal_ticket);
             }
-            
+
             if ($request->hasFile('deal_ticket')) {
                 $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
                 $ticket->deal_ticket = $imagePath;
@@ -283,25 +276,25 @@ class TicketController extends Controller
             // Update Ticket with POST DAta
             $ticket->refund = $data['refund'] ? $data['refund'] : 0;
             $ticket->save();
-		
+
         } elseif ($ticket->status_id == 10) {
 
 		    if( $ticket->type == 2 )
 		    {
-				$request->validate([
+				        $request->validate([
                   'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
                   'deal_ticket' => 'nullable',
                 ]);
-				
-				if ($request->hasFile('screenshot')) {
-					// IF Old one exists, remove it
-					if( $ticket->screenshot != '' ) {
-						if (file_exists($ticket->screenshot)) {
-							\Storage::delete($ticket->screenshot);
-						}
-					}
-					// SAVE new FILE
-					$imagePath = $request->file('screenshot')->store('screenshot', 'public');
+
+          				if ($request->hasFile('screenshot')) {
+          					// IF Old one exists, remove it
+          					if( $ticket->screenshot != '' ) {
+          						if (file_exists($ticket->screenshot)) {
+          							\Storage::delete($ticket->screenshot);
+          						}
+          					}
+          					// SAVE new FILE
+          					$imagePath = $request->file('screenshot')->store('screenshot', 'public');
               	    $ticket->screenshot = $imagePath;
                 }
 
@@ -309,18 +302,18 @@ class TicketController extends Controller
                 if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
                     Storage::delete($ticket->deal_ticket);
                 }
-                
+
                 if ($request->hasFile('deal_ticket')) {
                     $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
                     $ticket->deal_ticket = $imagePath;
                 }
-			    
-				$ticket->status_id = 12; // SELL CASE
-				$ticket->save();
-            }
 
-            
-		  
+        				$ticket->status_id = 12; // SELL CASE
+        				$ticket->save();
+        }
+
+
+
 		} else if ($ticket->status_id == 11) {
 
             if ($request->get('verification') == 1) {
@@ -345,7 +338,7 @@ class TicketController extends Controller
                 if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
                     Storage::delete($ticket->deal_ticket);
                 }
-                
+
                 if ($request->hasFile('deal_ticket')) {
                     $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
                     $ticket->deal_ticket = $imagePath;
@@ -379,7 +372,7 @@ class TicketController extends Controller
             if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
                 Storage::delete($ticket->deal_ticket);
             }
-            
+
             if ($request->hasFile('deal_ticket')) {
                 $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
                 $ticket->deal_ticket = $imagePath;
