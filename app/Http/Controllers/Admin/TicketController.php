@@ -169,9 +169,9 @@ class TicketController extends Controller
                   return redirect()->back()->with('error', 'Please verify your entered amount.');
               }
 
-			      } else {
+			} else {
 
-			        // SELL CASE
+			 // SELL CASE
               $request->validate([
               	'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
               ]);

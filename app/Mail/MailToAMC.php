@@ -69,11 +69,22 @@ class MailToAMC extends Mailable
      */
     public function build()
     {
-        return $this->subject('Mail To AMC')
-                    ->view('emails.mail_to_amc')
-                    ->attach(storage_path('app/public/pdf/output.pdf'), [
-                        'as' => 'AMC.pdf',
-                        'mime' => 'application/pdf',
-                    ]);
+        // dd($this->ticket->security->amc->pdf->name);
+        $pdfPath2 = 'ticketpdfs/' . 'ticket-' . $this->ticket->id . '.pdf';
+        $filePath = public_path('storage/' . $pdfPath2);
+
+        if (file_exists($filePath)) {
+            return $this->subject('Mail To AMC')
+                        ->view('emails.mail_to_amc')
+                        ->attach($filePath, [
+                            'as' => 'AMC.pdf',
+                            'mime' => 'application/pdf',
+                        ]);
+        } else {
+            dd("else");
+            return $this->subject('Mail To AMC')
+                        ->view('emails.mail_to_amc')
+                        ->withError("File not found: $pdfPath2");
+        }
     }
 }
