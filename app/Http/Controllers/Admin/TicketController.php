@@ -136,13 +136,12 @@ class TicketController extends Controller
         } else if ($ticket->status_id == 3) {
 
            // BUY case
-           if( $ticket->type == 1 )
-           {
-              $request->validate([
-                  'total_amt' => 'required|numeric',
-                  'utr_no' => 'required|string',
-                  'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-              ]);
+        if( $ticket->type == 1 ) {
+            $request->validate([
+              'total_amt' => 'required|numeric',
+              'utr_no' => 'required|string',
+              'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+            ]);
 
               if ($ticket->total_amt == $request->get('total_amt')) {
                   // Screenshot Workings
@@ -191,7 +190,7 @@ class TicketController extends Controller
 
               //Save Ticket
               $ticket->save();
-          }
+        }
 
           // Pdf Workings :: START
           FormService::GenerateDocument($ticket);
@@ -249,27 +248,23 @@ class TicketController extends Controller
 
             if ($request->hasFile('deal_ticket')) {
                 $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
-                $ticket->deal_ticket = $imagePath;
+                $ticket->deal_ticket = 'storage/' . $imagePath;
             }
 
             if ($request->hasFile('screenshot')) {
                 // IF Old one exists, remove it
                 if( $ticket->screenshot != '' ) {
-                    if (file_exists($ticket->screenshot)) {
-                        \Storage::delete($ticket->screenshot);
+                    if (Storage::disk('public')->exists($ticket->screenshot)) {
+                        Storage::disk('public')->delete($ticket->screenshot);
                     }
                 }
-                // SAVE new FILE
                 $imagePath = $request->file('screenshot')->store('screenshot', 'public');
-                $ticket->screenshot = $imagePath;
+                $ticket->screenshot = 'storage/' . $imagePath;
             }
 
-            if( $ticket->type == 1 )
-            {
+            if( $ticket->type == 1 ) {
                 $ticket->status_id = 11; // BUY CASE
-            }
-            else
-            {
+            } elseif ($ticket->type == 2 ) {
                 $ticket->status_id = 10; // SELL CASE
             }
 
