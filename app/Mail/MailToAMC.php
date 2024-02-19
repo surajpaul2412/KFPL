@@ -69,6 +69,7 @@ class MailToAMC extends Mailable
      */
     public function build()
     {
+        
         // dd($this->ticket->security->amc->pdf->name);
         $pdfPath2 = 'ticketpdfs/' . 'ticket-' . $this->ticket->id . '.pdf';
         $filePath = public_path('storage/' . $pdfPath2);
