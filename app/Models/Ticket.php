@@ -22,7 +22,6 @@ class Ticket extends Model
         'rate',
         'security_price',
         'markup_percentage',
-        'total_amt',
         'actual_total_amt',
         'nav',
         'refund',
@@ -33,6 +32,8 @@ class Ticket extends Model
         'remark','dispute',
         'dispute_comment'
     ];
+
+    protected $appends = ['total_amt'];
 
     // Define the relationship with Security
     public function security()
@@ -50,5 +51,10 @@ class Ticket extends Model
     public function status()
     {
         return $this->belongsTo(Status::class);
+    }
+
+    public function getTotalAmtAttribute()
+    {
+        return totalTicketAmt($this);
     }
 }

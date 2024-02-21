@@ -4,6 +4,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Ticket;
 
+function totalTicketAmt(Ticket $ticket) {
+    $amt = 0;
+    $amt = ($ticket->basket_no * $ticket->basket_size * $ticket->rate) + ($ticket->basket_no * $ticket->basket_size * $ticket->rate * $ticket->markup_percentage / 100);
+    return $amt;
+}
+
 function purchaseNavValue(Ticket $ticket, $actualTotalAmt) {
 	$nav_value = purchaseConsideration($ticket, $actualTotalAmt)/totalUnits($ticket);
 	return round($nav_value, 4);
