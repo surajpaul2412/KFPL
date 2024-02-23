@@ -190,9 +190,14 @@ class FormService
           $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 517,"size"=>7,"width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
       }
 
-
-      $textannotations[] = ["text" => "$total_amt", "x"=> 112.92, "y"=> 567.15,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type" => "text"];
-      $textannotations[] = ["text" => "$word_text", "x"=> 307, "y"=> 566,  "width"=> 300,"size"=>7,"height"=> 13, "pages"=> "0", "type" => "text"];
+      // IF BUY CASE, add UTR NO, AMOUNT, AMount in WORDS
+      if( $ticket->type == 1 )
+      {
+        $utr_no = $ticket->utr_no;
+        $textannotations[] = ["text"=> "$utr_no", "x"=> 391.48, "y"=> 548.84,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+        $textannotations[] = ["text"=> "$total_amt", "x"=> 112.92, "y"=> 567.15,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+        $textannotations[] = ["text"=> "$word_text", "x"=> 307, "y"=> 566,  "width"=> 300,"size"=>7,"height"=> 13, "pages"=> "0", "type"=> "text"];
+      }
 
       //Log::debug(strtolower($sec_name) . " Case => ");
       //Log::debug( print_r($images, true) );
