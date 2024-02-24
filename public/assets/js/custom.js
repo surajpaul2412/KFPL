@@ -43,9 +43,16 @@ function search(mode)
 
  function resetsearch()
  {
-    location.href = base_url;
+	 location.href = base_url;
  }
-
+ 
+ function goto(t)
+ {
+	 if(t != '')
+	 {
+	   location.href = base_url;
+	 }
+ }
  function togglestatus(id)
  {
    var frm = document.getElementById("toggleStatusForm");

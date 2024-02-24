@@ -47,6 +47,11 @@ class Ticket extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function userroles()
+    {
+        return $this->hasMany(Roleuser::class, 'user_id', 'user_id');
+    }
+
     // Define the relationship with Status
     public function status()
     {
@@ -57,4 +62,20 @@ class Ticket extends Model
     {
         return totalTicketAmt($this);
     }
+    /*
+    public function getUserRolesAttribute()
+    {
+       $roles = $this->user->roles;
+       $str = "";
+       foreach($roles as $r)
+       {
+         $str .= $r->id . ",";
+       }
+       if($str !='')
+       {
+          $str = rtrim($str, ",");
+       }
+       return $str;
+    }
+    */
 }

@@ -44,11 +44,17 @@ class UserController extends Controller
     {
         $role_id = $request['role_id'];
 
-        $employees = User::whereHas('roles', function($query) use ($role_id) {
+        $status = isset($request['status']) ? $request['status'] : '';
+
+        $employees = User::whereHas('roles', function($query) use ($role_id, $status) {
             $query->where('roles.id', '<>', 1);
             if( $role_id !='' )
             {
               $query->where('roles.id', $role_id);
+            }
+            if( $status !='' )
+            {
+              $query->where('users.status', $status);
             }
         })
         ->orderBy('users.name')
@@ -56,7 +62,7 @@ class UserController extends Controller
 
         $roles = Role::where('id', '<>', 1)->get();
 
-        return view('admin.employees.index', compact('employees', 'roles', 'role_id'));
+        return view('admin.employees.index', compact('employees', 'roles', 'role_id', 'status'));
     }
 
     /**

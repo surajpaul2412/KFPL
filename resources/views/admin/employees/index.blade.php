@@ -17,15 +17,21 @@ Employee Management
         -->
         <form>
           <div style="display:inline-block;margin-right:10px;">
-            <select class="form-select mx-2" name="role_id">
+            <select class="form-select mx-2" name="role_id" style="display:inline;width:auto !important;">
                 <option value="">All Departments </option>
                 @foreach($roles as $role)
                   <option value="{{$role->id}}" {!! $role_id==$role->id?"selected='selected'":""!!}>{{$role->name}}</option>
                 @endforeach
             </select>
+
+            <select class="form-select mx-2" name="status" style="display:inline;width:auto !important;">
+                <option value="">All Statuses </option>
+                  <option value="1" {!! $status==1?"selected='selected'":""!!}>Active</option>
+                  <option value="0" {!! $status==0?"selected='selected'":""!!}>Inactive</option>
+            </select>
           </div>
-          <button type="submit" class="actn-bttn" title="Search">
-            <i class="ri-search-line"></i>
+          <button type="submit" class="btn btn-primary" title="Search">
+            <i class="ri-search-line"></i> Search
           </button>
           <!-- <button type="reset" class="actn-bttn" title="Reset Search" onclick="resetsearch()">
             <i class="ri-refresh-line"></i>
