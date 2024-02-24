@@ -24,9 +24,9 @@
                         <a href="{{ route('securities.index') }}" class="nav-sub-link">Security</a>
                     </nav>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="" class="nav-link"><i class="ri-notification-4-line"></i> <span>Alerts</span></a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a href="{{ route('disputes.index') }}" class="nav-link {{ Request::is('admin/disputes*') ? 'active' : '' }}"><i class="ri-alarm-warning-line"></i> <span>Disputes</span></a>
                 </li>
