@@ -61,7 +61,7 @@ class TicketController extends Controller
             });
         }
 
-        $tickets = $ticketQuery->paginate(10);
+        $tickets = $ticketQuery->orderBy('created_at', 'desc')->paginate(10);
         $sql = DB::getQueryLog();
         // dd($sql);
         return view('admin.tickets.index', compact('tickets', 'roles', 'sel_status_id', 'sel_from_date', 'sel_to_date', 'sel_role_id', 'sel_query'));

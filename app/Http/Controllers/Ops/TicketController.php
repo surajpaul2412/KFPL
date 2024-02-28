@@ -16,7 +16,7 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::whereIn('status_id', [2, 5, 6, 9, 10, 13])
-         ->orderBy('id')
+         ->orderBy('updated_at', 'desc')
          ->paginate(10);
 
          return view('ops.tickets.index', compact('tickets'));
