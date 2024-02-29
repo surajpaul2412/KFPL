@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Log;
 
 class FormService
 {
+  
+  public static $tickImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAB2AAAAdgB+lymcgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAMLSURBVHic7dpPiFVlGMfxzzjjFaywxBKEXFQiulFwoWh/rECIIBdGFIIMSIERtBBxJeiiQJFAQqRFIARSRlaLghZCECJERosiRCpCqVBQCU1JvdfFWzhz59yZ95x73/M6er7wbIZ73/P9PWfOPe973kNDQ0NDQ8Ndy3BugZpYinfwCI5ndqmVediPa+jgBlpZjWqiha24IAT/v97KKVUXz+KU8cGv49WcUnVwP95D2/jwV/FiRq9aeAl/GR+8g7/xVEav5DyAj00M3sElPJ5PLT2r8Kvi8JfxdD61tIxgp/DDVhT+H+GH8I7kQXytOHhHuN8/l0suNcvwm97hO9iSzS4xrwjX9WTh92SzS8ybJt7bu+sTzMglmIoh7DV58A6+wz2ZHJPR0vv+PrZ+x/xMjslo4VNTh/8XqzM5JqOFz0wdvoPXMzkmYxhHxIX/MJNjUt4VF/405mZyTMYuceFvYO0gDzxS8LchLBT/vLCNM8LcvAovY0fkZ/cKU+GkfCvubIytU1hQ4VgrhMVLzDF+xqyKmaIZwdlIoe46gXtLHGuO3svZ7mrjib6SleAZXIkU664vFV9WRRwqMe6B/mOVY4Pe6+1ByL5WYrw/hP+W2tlk6kVIr9o2ybgLhWd1sWONDjRVSbYXCMVesxt7jPl5iXG+dxus8nar1oQrWNM11vqSYzyZLlY8Q3hftSacw6L/xhnGjyW+ezh5shIMC0JVmvALHsLmEt+5jiW1JCvBLBxVrQnHhDl87Oc/qClTaWYLYao0oczZX1xXoCrMw0/SNeBgbUn64GHhcdSgw7fd5md/LI8p3pDsp76oNcEAWGbiSwj91Lp69QfDWtUXT2PrpDDnmJa84NZ7OFVr2m9rjaq+eLqM+2o3TsAbqjXgUA7ZVLytfAOez2KakH3iw5/FzDya6ZghbF7ENGBfJsfktPCVqRtwR7/INBvf6B3+vPiHqNOWOfhBcQM+yuhVKwsU7wGMZnSqnUfxp1vh26rtJk1rluOi0IATmV2ysVKY+a3MLdLQ0NDQ0HCXcxMNSZj+UasGowAAAABJRU5ErkJggg==";
+  
+  
   // Handle LIC FORM
   private static function handleLICForm($ticket) {
 
@@ -62,6 +66,147 @@ class FormService
   }
 
 
+  // HANDLE AXIS FORM thru API
+  private static function handleAXISForm($ticket) {
+	  
+	  $marker_json = [];
+      $textannotations = [];
+      $images = [];
+
+      // Payment TYPE
+      $payment_type = $ticket->payment_type ;
+      // Security Name
+      $sec_name = $ticket->security->name;
+
+      $basket_size   = $ticket->basket_size;
+      $ticket_basket = $ticket->basket_no; // NO. of Basket
+      $total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+      $total_units_in_float = (float) $total_units;
+      $total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+      $total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+
+      $total_amt = $ticket->total_amt;
+      $word_text = trim(self::NumberintoWords($total_amt));
+      $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+	  
+	  $checkboxImageData = self::$tickImage;
+	  
+	  // BUY CASES
+      if ($ticket->type == 1) {
+
+		$images[] =  [
+            "url" => $checkboxImageData, "x" => 121.54, "y" => 228.54, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
+        ];
+        
+		if ($payment_type == 1) {  // CASH
+            $images[] =  [
+                  "url" => $checkboxImageData, "x" => 180.91, "y" => 245.84, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
+              ];
+        }
+
+        if ($payment_type == 2) { // BASKET
+          $images[] =  [
+                "url" => $checkboxImageData, "x" => 229.55, "y" =>  245.84, "width" => 17,   "height" => 14, "pages" =>  "0", "keepAspectRatio" => true
+            ];
+        }
+		
+		// IF BUY CASE, add UTR NO, AMOUNT, AMount in WORDS
+		$utr_no = $ticket->utr_no;
+		if($utr_no !='')
+		{
+			$textannotations[] = ["text"=> "$utr_no", "x"=> 326.83, "y"=> 279.61,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+		}
+		
+		$textannotations[] = ["text"=> "$total_amt", "x"=> 89.08, "y"=> 294.44,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+		$textannotations[] = ["text"=> "$word_text", "x"=> 330.65, "y"=> 294.44,  "width"=> 300,"size"=>7,"height"=> 13, "pages"=> "0", "type"=> "text"];
+		
+      }
+	  
+	  // SELL CASES
+      if ($ticket->type == 2) {
+		  
+		$images[] =  [
+            "url" => $checkboxImageData, "x" => 298.8, "y" => 228.54, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
+        ];
+		
+        if ($payment_type == 1) {  // CASH
+           $images[] = [
+            "url" => $checkboxImageData, "x" => 128.98, "y" => 612.38,  "width" => 15, "height" => 14, "pages" => "0", "keepAspectRatio" => true
+          ];
+        }
+
+        if ($payment_type == 2) { // BASKET
+          $images[] = [
+           "url" => $checkboxImageData, "x" => 177.62, "y" => 612.38, "width" => 15, "height" => 14,  "pages" => "0",  "keepAspectRatio" => true
+         ];
+        }
+		
+		$textannotations[] = ["text"=> "$total_amt", "x"=> 93.05, "y"=> 630.5,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+		$textannotations[] = ["text"=> "$word_text", "x"=> 247.4, "y"=> 630.5,  "width"=> 300,"size"=>7,"height"=> 13, "pages"=> "0", "type"=> "text"];
+      }
+	  
+	  // SELECTION of PRODUCTS
+	  if(strtolower($sec_name) == 'axis gold etf')
+      {
+          $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 438.6,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.22, "y" => 436.6,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+          $textannotations[] = ["text"=> "$total_units", "x"=> 278.17,  "y"=> 438.61,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+      }
+	  else if(strtolower($sec_name) == 'axis nifty 50 etf')
+      {
+          $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 457.56,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.22, "y" => 457.56,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+          $textannotations[] = ["text"=> "$total_units", "x"=> 278.17,  "y"=> 457.56,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+      }
+	  else if(strtolower($sec_name) == 'axis nifty bank etf')
+      {
+          $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 476.51,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.22, "y" => 476.51,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+          $textannotations[] = ["text"=> "$total_units", "x"=> 278.17,  "y"=> 476.51,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+      }
+	  else if(strtolower($sec_name) == 'axis nifty it etf')
+      {
+          $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 494.63,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.22, "y" => 494.63,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+          $textannotations[] = ["text"=> "$total_units", "x"=> 278.17,  "y"=> 494.63,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+      }
+	  else if(strtolower($sec_name) == 'axis nifty aaa bond plus sdl apr 2026 50:50 etf')
+      {
+          $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 513.52,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.25, "y" => 513.52,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+          $textannotations[] = ["text"=> "$total_units", "x"=> 278.17,  "y"=> 513.52,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+      }
+	  else if(strtolower($sec_name) == 'axis nifty healthcare etf')
+      {
+          $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 532.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.25, "y" => 532.47,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+          $textannotations[] = ["text"=> "$total_units", "x"=> 278.17,  "y"=> 532.47,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+      }
+	  else if(strtolower($sec_name) == 'axis nifty india consumption etf')
+      {
+          $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 551.42,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.25, "y" => 551.42,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+          $textannotations[] = ["text"=> "$total_units", "x"=> 278.17,  "y"=> 551.42,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+      }
+	  else if(strtolower($sec_name) == 'axis silver etf')
+      {
+          $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 571.19,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.25, "y" => 571.19,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+          $textannotations[] = ["text"=> "$total_units", "x"=> 278.17,  "y"=> 571.19,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+      }
+	  else if(strtolower($sec_name) == 'axis s&p bse sensex etf')
+      {
+          $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 590.14,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.25, "y" => 590.14,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+          $textannotations[] = ["text"=> "$total_units", "x"=> 278.17,  "y"=> 590.14,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+      }
+	  
+	  // call API 
+	  $urlToken = "filetoken://20949e2a0ccfa23f103c60e49f9a5742492ec2ad45e23bafc3";
+	  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+  }
+
+
   // HANDLE BIRLA FORM thru API
   private static function handleBirlaFormNew($ticket) {
 
@@ -85,8 +230,9 @@ class FormService
       $word_text = trim(self::NumberintoWords($total_amt));
       $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
 
-      $checkboxImageData = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAB2AAAAdgB+lymcgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAMLSURBVHic7dpPiFVlGMfxzzjjFaywxBKEXFQiulFwoWh/rECIIBdGFIIMSIERtBBxJeiiQJFAQqRFIARSRlaLghZCECJERosiRCpCqVBQCU1JvdfFWzhz59yZ95x73/M6er7wbIZ73/P9PWfOPe973kNDQ0NDQ8Ndy3BugZpYinfwCI5ndqmVediPa+jgBlpZjWqiha24IAT/v97KKVUXz+KU8cGv49WcUnVwP95D2/jwV/FiRq9aeAl/GR+8g7/xVEav5DyAj00M3sElPJ5PLT2r8Kvi8JfxdD61tIxgp/DDVhT+H+GH8I7kQXytOHhHuN8/l0suNcvwm97hO9iSzS4xrwjX9WTh92SzS8ybJt7bu+sTzMglmIoh7DV58A6+wz2ZHJPR0vv+PrZ+x/xMjslo4VNTh/8XqzM5JqOFz0wdvoPXMzkmYxhHxIX/MJNjUt4VF/405mZyTMYuceFvYO0gDzxS8LchLBT/vLCNM8LcvAovY0fkZ/cKU+GkfCvubIytU1hQ4VgrhMVLzDF+xqyKmaIZwdlIoe46gXtLHGuO3svZ7mrjib6SleAZXIkU664vFV9WRRwqMe6B/mOVY4Pe6+1ByL5WYrw/hP+W2tlk6kVIr9o2ybgLhWd1sWONDjRVSbYXCMVesxt7jPl5iXG+dxus8nar1oQrWNM11vqSYzyZLlY8Q3hftSacw6L/xhnGjyW+ezh5shIMC0JVmvALHsLmEt+5jiW1JCvBLBxVrQnHhDl87Oc/qClTaWYLYao0oczZX1xXoCrMw0/SNeBgbUn64GHhcdSgw7fd5md/LI8p3pDsp76oNcEAWGbiSwj91Lp69QfDWtUXT2PrpDDnmJa84NZ7OFVr2m9rjaq+eLqM+2o3TsAbqjXgUA7ZVLytfAOez2KakH3iw5/FzDya6ZghbF7ENGBfJsfktPCVqRtwR7/INBvf6B3+vPiHqNOWOfhBcQM+yuhVKwsU7wGMZnSqnUfxp1vh26rtJk1rluOi0IATmV2ysVKY+a3MLdLQ0NDQ0HCXcxMNSZj+UasGowAAAABJRU5ErkJggg==";
-      // BUY CASES
+      $checkboxImageData = self::$tickImage;
+      
+	  // BUY CASES
       if ($ticket->type == 1) {
 
         if ($payment_type == 1) {  // CASH
@@ -194,18 +340,25 @@ class FormService
       if( $ticket->type == 1 )
       {
         $utr_no = $ticket->utr_no;
-        $textannotations[] = ["text"=> "$utr_no", "x"=> 391.48, "y"=> 548.84,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+		if($utr_no !='')
+		{
+			$textannotations[] = ["text"=> "$utr_no", "x"=> 391.48, "y"=> 548.84,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+		}
         $textannotations[] = ["text"=> "$total_amt", "x"=> 112.92, "y"=> 567.15,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
         $textannotations[] = ["text"=> "$word_text", "x"=> 307, "y"=> 566,  "width"=> 300,"size"=>7,"height"=> 13, "pages"=> "0", "type"=> "text"];
       }
 
-      //Log::debug(strtolower($sec_name) . " Case => ");
-      //Log::debug( print_r($images, true) );
-      //Log::debug( print_r($textannotations, true) );
+       // call API and SAVE the file
+	  $urlToken = "filetoken://170a15da3a9dba6242c1adc4c534efcc833d7d467c5f7de5c5";
+	  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 
-      // BUILD MARKER JSON
+  }
+
+  private static function callAPIandSaveFile($urlToken, $images, $textannotations, $ticketId)
+  {
+	  // BUILD MARKER JSON
       $marker_array =
-        [ "url" => "filetoken://170a15da3a9dba6242c1adc4c534efcc833d7d467c5f7de5c5",
+        [ "url" => $urlToken,
           "async" => false, "encrypt" => false, "inline" => true,
           "annotations" => $textannotations,
           "images" => $images,
@@ -248,17 +401,26 @@ class FormService
            $filecontent = file_get_contents($response['url']);
            if($filecontent)
            {
-               $fileName = 'ticket-' . $ticket->id . '.pdf';
+               $fileName = 'ticket-' . $ticketId . '.pdf';
                if(file_exists(storage_path() . "/app/public/ticketpdfs/$fileName"))
                {
                   @unlink( storage_path() . "/app/public/ticketpdfs/$fileName" );
                }
                Storage::put('public/ticketpdfs/' . $fileName, $filecontent);
            }
+		   else 
+		   {	
+				// LOG
+				Log::debug( "PDF GEneration Error : File CONTENT missing" );
+		   }  
         }
+		else 
+		{
+			// LOG
+			Log::debug( "PDF GEneration Error : Response missing URL KEY" );
+		}
       }
   }
-
   // Handle BIRLA FORM
   private static function handleBirlaForm($ticket) {
 
@@ -394,6 +556,10 @@ class FormService
         //
         if ( strpos($sec_name, "UTI") == 0 ) {
           self::handleLICForm($ticket);
+        }
+		
+		if ( strpos($sec_name, "AXIS") == 0 ) {
+          self::handleAXISForm($ticket);
         }
     }
   }
