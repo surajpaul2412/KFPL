@@ -549,17 +549,13 @@ class FormService
     if ($sec_name) {
 
         // Aditya BIRLA Form
-        if ( strpos($sec_name, "ADITYA BIRLA") == 0 ) {
-          self::handleBirlaFormNew($ticket);
+        if ( strpos($sec_name, "ADITYA BIRLA") !== false ) {
+			Log::info( "Generating PDF for ADITYA BIRLA" );
+		    self::handleBirlaFormNew($ticket);
         }
-
-        //
-        if ( strpos($sec_name, "UTI") == 0 ) {
-          self::handleLICForm($ticket);
-        }
-		
-		if ( strpos($sec_name, "AXIS") == 0 ) {
-          self::handleAXISForm($ticket);
+		else if ( strpos($sec_name, "AXIS") !== false ) {
+		    Log::info( "Generating PDF for AXIS" );	
+            self::handleAXISForm($ticket);
         }
     }
   }
