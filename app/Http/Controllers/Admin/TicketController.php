@@ -178,61 +178,61 @@ class TicketController extends Controller
             } else if ($ticket->status_id == 3) {
 
                // BUY case
-            if( $ticket->type == 1 ) {
-                $request->validate([
-                  'total_amt' => 'required|numeric',
-                  'utr_no' => 'required|string',
-                  'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-                ]);
+                if( $ticket->type == 1 ) {
+                    $request->validate([
+                      'total_amt' => 'required|numeric',
+                      'utr_no' => 'required|string',
+                      'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+                    ]);
 
-                  if ($ticket->total_amt == $request->get('total_amt')) {
+                      if ($ticket->total_amt == $request->get('total_amt')) {
+                          // Screenshot Workings
+                          if ($request->hasFile('screenshot') && $ticket->screenshot) {
+                              \Storage::delete($ticket->screenshot);
+                          }
+                          if ($request->hasFile('screenshot')) {
+                              $imagePath = $request->file('screenshot')->store('screenshot', 'public');
+                              $ticket->screenshot = $imagePath;
+                          }
+
+                          $ticket->utr_no = $request->get('utr_no');
+                          if ( $ticket->payment_type == 1) {
+                              $ticket->status_id = 6;
+                          }
+
+                          //Save Ticket
+                          $ticket->save();
+
+                          // Update Ticket
+                          $ticket->update($request->except('screenshot'));
+
+                      } else {
+                          return redirect()->back()->with('error', 'Please verify your entered amount.');
+                      }
+
+        			} else {
+
+        			 // SELL CASE
+                      $request->validate([
+                      	'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+                      ]);
+
                       // Screenshot Workings
                       if ($request->hasFile('screenshot') && $ticket->screenshot) {
-                          \Storage::delete($ticket->screenshot);
+                      	if( file_exists($ticket->screenshot) )\Storage::delete($ticket->screenshot);
                       }
                       if ($request->hasFile('screenshot')) {
-                          $imagePath = $request->file('screenshot')->store('screenshot', 'public');
-                          $ticket->screenshot = $imagePath;
+                      	$imagePath = $request->file('screenshot')->store('screenshot', 'public');
+                      	$ticket->screenshot = $imagePath;
                       }
 
-                      $ticket->utr_no = $request->get('utr_no');
-                      if ( $ticket->payment_type == 1) {
-                          $ticket->status_id = 6;
+                      if ($ticket->payment_type == 1) {
+                      	$ticket->status_id = 6;
                       }
 
                       //Save Ticket
                       $ticket->save();
-
-                      // Update Ticket
-                      $ticket->update($request->except('screenshot'));
-
-                  } else {
-                      return redirect()->back()->with('error', 'Please verify your entered amount.');
-                  }
-
-    			} else {
-
-    			 // SELL CASE
-                  $request->validate([
-                  	'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-                  ]);
-
-                  // Screenshot Workings
-                  if ($request->hasFile('screenshot') && $ticket->screenshot) {
-                  	if( file_exists($ticket->screenshot) )\Storage::delete($ticket->screenshot);
-                  }
-                  if ($request->hasFile('screenshot')) {
-                  	$imagePath = $request->file('screenshot')->store('screenshot', 'public');
-                  	$ticket->screenshot = $imagePath;
-                  }
-
-                  if ($ticket->payment_type == 1) {
-                  	$ticket->status_id = 6;
-                  }
-
-                  //Save Ticket
-                  $ticket->save();
-            }
+                }
               // Pdf Workings :: START
               FormService::GenerateDocument($ticket);
               // Pdf Workings :: END

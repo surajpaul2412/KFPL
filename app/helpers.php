@@ -6,7 +6,9 @@ use App\Models\Ticket;
 
 function totalTicketAmt(Ticket $ticket) {
     $amt = 0;
-    $amt = ($ticket->basket_no * $ticket->basket_size * $ticket->rate) + ($ticket->basket_no * $ticket->basket_size * $ticket->rate * $ticket->markup_percentage / 100);
+    $amt = ($ticket->basket_no * $ticket->basket_size * $ticket->rate) + ($ticket->basket_no * $ticket->basket_size * $ticket->rate) * $ticket->markup_percentage / 100;
+
+    $amt = number_format($amt, 2, '.', '');
     return $amt;
 }
 
