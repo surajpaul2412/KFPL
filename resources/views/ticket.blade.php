@@ -56,6 +56,7 @@
     <div class="col-3">
         <div>AMC Form </div>
         @if (Storage::exists('public/ticketpdfs/ticket-' . $ticket->id . '.pdf'))
+        {{ asset('storage/ticketpdfs/' . 'ticket-' . $ticket->id . '.pdf') }}
             <div class="font-weight-bold">
                 <a href="{{ asset('storage/ticketpdfs/' . 'ticket-' . $ticket->id . '.pdf') }}" target="_blank" download>
                     Download <i class="ri-download-2-line"></i>
