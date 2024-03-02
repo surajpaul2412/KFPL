@@ -244,7 +244,9 @@ Ticket Management
 
             // Check if all values are available and not empty
             if (!isNaN(basketNo) && !isNaN(basketSize) && !isNaN(rate) && !isNaN(markupPercentage)) {
-                var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate * markupPercentage / 100);
+                var tempTotal = basketNo * basketSize * rate;
+                var tempTotalWithMarkup = tempTotal * (markupPercentage / 100) ;
+                var totalAmount = tempTotal + tempTotalWithMarkup;
                 $('input[name="total_amt"]').val(totalAmount);
             }
         }
