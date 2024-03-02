@@ -237,13 +237,13 @@ Ticket Management
 
         // Function to calculate total amount
         function calculateTotalAmount() {
-            var basketNo = $('#no_basket').val();
-            var basketSize = $('input[name="basket_size"]').val();
-            var rate = $('input[name="rate"]').val();
-            var markupPercentage = $('input[name="markup_percentage"]').val();
+            var basketNo = parseFloat($('#no_basket').val());
+            var basketSize = parseFloat($('input[name="basket_size"]').val());
+            var rate = parseFloat($('input[name="rate"]').val());
+            var markupPercentage = parseFloat($('input[name="markup_percentage"]').val());
 
             // Check if all values are available and not empty
-            if (basketNo && basketSize && rate && markupPercentage) {
+            if (!isNaN(basketNo) && !isNaN(basketSize) && !isNaN(rate) && !isNaN(markupPercentage)) {
                 var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate * markupPercentage / 100);
                 $('input[name="total_amt"]').val(totalAmount);
             }
