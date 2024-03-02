@@ -247,6 +247,8 @@ Ticket Management
                 var tempTotal = basketNo * basketSize * rate;
                 var tempTotalWithMarkup = tempTotal * (markupPercentage / 100) ;
                 var totalAmount = tempTotal + tempTotalWithMarkup;
+
+                totalAmount = parseFloat(totalAmount.toFixed(2));
                 $('input[name="total_amt"]').val(totalAmount);
             }
         }
