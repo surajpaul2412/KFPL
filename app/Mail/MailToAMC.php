@@ -73,7 +73,7 @@ class MailToAMC extends Mailable
         $amc_name = $this->ticket->security->amc->pdf->name . '.pdf';
 
         $pdfPath = 'ticketpdfs/' . 'ticket-' . $this->ticket->id . '.pdf';
-        $filePath = public_path('storage/' . $pdfPath);
+        $filePath = storage_path('app/public/' . $pdfPath);
 
         if (file_exists($filePath)) {
             return $this->subject('Mail To AMC')
