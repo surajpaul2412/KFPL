@@ -133,206 +133,154 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // FIND TICKET
-        $ticket = Ticket::findOrFail($id);
-        $data = $request->all();
-        // $data['status_id'] = 2;
+        try {
+            // FIND TICKET
+            $ticket = Ticket::findOrFail($id);
+            $data = $request->all();
+            // $data['status_id'] = 2;
 
-        // SET STATUS as per OTHER PARAMETERS
-        if ($ticket->status_id == 1) {
-            $validatedData = $request->validate([
-                'security_id' => 'required|exists:securities,id',
-                'type' => 'required|integer|in:1,2',
-                'payment_type' => 'required|integer|in:1,2,3',
-                'basket_no' => 'required|integer',
-                'rate' => 'required|numeric',
-                'total_amt' => 'required|numeric',
-            ]);
-            $data['status_id'] = 2;
+            // SET STATUS as per OTHER PARAMETERS
+            if ($ticket->status_id == 1) {
+                $validatedData = $request->validate([
+                    'security_id' => 'required|exists:securities,id',
+                    'type' => 'required|integer|in:1,2',
+                    'payment_type' => 'required|integer|in:1,2,3',
+                    'basket_no' => 'required|integer',
+                    'rate' => 'required|numeric',
+                    'total_amt' => 'required|numeric',
+                ]);
+                $data['status_id'] = 2;
 
-            $ticket->update($data);
+                $ticket->update($data);
 
-        } else if ($ticket->status_id == 2) {
+            } else if ($ticket->status_id == 2) {
 
-			if ( $ticket->type == 1) {
-                // BUY cases
+    			if ( $ticket->type == 1) {
+                    // BUY cases
+                    $request->validate([
+                        'verification' => 'required|in:1,2',
+                        'rate' => 'nullable|numeric',
+                        'remark' => 'nullable',
+                    ]);
+
+                    if ($request->get('verification') == 1) {
+                          $ticket->status_id = 3;
+                    } else {
+                          $ticket->status_id = 1;
+                    }
+                } else {
+                    // SALE CASES
+                    $ticket->status_id = 5;
+                }
+                // Save Ticket
+                $ticket->save();
+
+            } else if ($ticket->status_id == 3) {
+
+               // BUY case
+            if( $ticket->type == 1 ) {
                 $request->validate([
-                    'verification' => 'required|in:1,2',
-                    'rate' => 'nullable|numeric',
-                    'remark' => 'nullable',
+                  'total_amt' => 'required|numeric',
+                  'utr_no' => 'required|string',
+                  'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
                 ]);
 
-                if ($request->get('verification') == 1) {
-                      $ticket->status_id = 3;
-                } else {
-                      $ticket->status_id = 1;
-                }
-            } else {
-                // SALE CASES
-                $ticket->status_id = 5;
-            }
-            // Save Ticket
-            $ticket->save();
+                  if ($ticket->total_amt == $request->get('total_amt')) {
+                      // Screenshot Workings
+                      if ($request->hasFile('screenshot') && $ticket->screenshot) {
+                          \Storage::delete($ticket->screenshot);
+                      }
+                      if ($request->hasFile('screenshot')) {
+                          $imagePath = $request->file('screenshot')->store('screenshot', 'public');
+                          $ticket->screenshot = $imagePath;
+                      }
 
-        } else if ($ticket->status_id == 3) {
+                      $ticket->utr_no = $request->get('utr_no');
+                      if ( $ticket->payment_type == 1) {
+                          $ticket->status_id = 6;
+                      }
 
-           // BUY case
-        if( $ticket->type == 1 ) {
-            $request->validate([
-              'total_amt' => 'required|numeric',
-              'utr_no' => 'required|string',
-              'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-            ]);
+                      //Save Ticket
+                      $ticket->save();
 
-              if ($ticket->total_amt == $request->get('total_amt')) {
+                      // Update Ticket
+                      $ticket->update($request->except('screenshot'));
+
+                  } else {
+                      return redirect()->back()->with('error', 'Please verify your entered amount.');
+                  }
+
+    			} else {
+
+    			 // SELL CASE
+                  $request->validate([
+                  	'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+                  ]);
+
                   // Screenshot Workings
                   if ($request->hasFile('screenshot') && $ticket->screenshot) {
-                      \Storage::delete($ticket->screenshot);
+                  	if( file_exists($ticket->screenshot) )\Storage::delete($ticket->screenshot);
                   }
                   if ($request->hasFile('screenshot')) {
-                      $imagePath = $request->file('screenshot')->store('screenshot', 'public');
-                      $ticket->screenshot = $imagePath;
+                  	$imagePath = $request->file('screenshot')->store('screenshot', 'public');
+                  	$ticket->screenshot = $imagePath;
                   }
 
-                  $ticket->utr_no = $request->get('utr_no');
-                  if ( $ticket->payment_type == 1) {
-                      $ticket->status_id = 6;
+                  if ($ticket->payment_type == 1) {
+                  	$ticket->status_id = 6;
                   }
 
                   //Save Ticket
                   $ticket->save();
-
-                  // Update Ticket
-                  $ticket->update($request->except('screenshot'));
-
-              } else {
-                  return redirect()->back()->with('error', 'Please verify your entered amount.');
-              }
-
-			} else {
-
-			 // SELL CASE
-              $request->validate([
-              	'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-              ]);
-
-              // Screenshot Workings
-              if ($request->hasFile('screenshot') && $ticket->screenshot) {
-              	if( file_exists($ticket->screenshot) )\Storage::delete($ticket->screenshot);
-              }
-              if ($request->hasFile('screenshot')) {
-              	$imagePath = $request->file('screenshot')->store('screenshot', 'public');
-              	$ticket->screenshot = $imagePath;
-              }
-
-              if ($ticket->payment_type == 1) {
-              	$ticket->status_id = 6;
-              }
-
-              //Save Ticket
-              $ticket->save();
-        }
-
-          // Pdf Workings :: START
-          FormService::GenerateDocument($ticket);
-          // Pdf Workings :: END
-
-		} else if ($ticket->status_id == 5) {
-
-			// SELL Cases
-			if( $ticket->type == 2) {
-
-				$request->validate([
-                  'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-                ]);
-
-				if ($request->hasFile('screenshot')) {
-
-					// IF Old one exists, remove it
-					if( $ticket->screenshot != '' ) {
-						if (file_exists($ticket->screenshot)) {
-							\Storage::delete($ticket->screenshot);
-						}
-					}
-					// SAVE new FILE
-					$imagePath = $request->file('screenshot')->store('screenshot', 'public');
-              	    $ticket->screenshot = $imagePath;
-
-                }
-
-			    $ticket->status_id = 6;
-			    $ticket->save();
-			}
-
-
-	    } else if ($ticket->status_id == 8) {
-            $request->validate([
-                'actual_total_amt' => 'required|numeric',
-                'nav' => 'required|numeric'
-            ]);
-
-            $data['status_id'] = 9;
-
-            $ticket->update($data);
-
-        } elseif ($ticket->status_id == 9) {
-            $request->validate([
-                'refund' => 'required|numeric',
-                'deal_ticket' => 'nullable',
-                'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            ]);
-
-            // Deal Ticket Workings
-            if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
-                Storage::delete($ticket->deal_ticket);
             }
+              // Pdf Workings :: START
+              FormService::GenerateDocument($ticket);
+              // Pdf Workings :: END
 
-            if ($request->hasFile('deal_ticket')) {
-                $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
-                $ticket->deal_ticket = 'storage/' . $imagePath;
-            }
+    		} else if ($ticket->status_id == 5) {
 
-            if ($request->hasFile('screenshot')) {
-                // IF Old one exists, remove it
-                if( $ticket->screenshot != '' ) {
-                    if (Storage::disk('public')->exists($ticket->screenshot)) {
-                        Storage::disk('public')->delete($ticket->screenshot);
+    			// SELL Cases
+    			if( $ticket->type == 2) {
+
+    				$request->validate([
+                      'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+                    ]);
+
+    				if ($request->hasFile('screenshot')) {
+
+    					// IF Old one exists, remove it
+    					if( $ticket->screenshot != '' ) {
+    						if (file_exists($ticket->screenshot)) {
+    							\Storage::delete($ticket->screenshot);
+    						}
+    					}
+    					// SAVE new FILE
+    					$imagePath = $request->file('screenshot')->store('screenshot', 'public');
+                  	    $ticket->screenshot = $imagePath;
+
                     }
-                }
-                $imagePath = $request->file('screenshot')->store('screenshot', 'public');
-                $ticket->screenshot = 'storage/' . $imagePath;
-            }
 
-            if( $ticket->type == 1 ) {
-                $ticket->status_id = 11; // BUY CASE
-            } elseif ($ticket->type == 2 ) {
-                $ticket->status_id = 10; // SELL CASE
-            }
+    			    $ticket->status_id = 6;
+    			    $ticket->save();
+    			}
 
-            // Update Ticket with POST DAta
-            $ticket->refund = $data['refund'] ? $data['refund'] : 0;
-            $ticket->save();
 
-        } elseif ($ticket->status_id == 10) {
-
-		    if( $ticket->type == 2 )
-		    {
-				        $request->validate([
-                  'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-                  'deal_ticket' => 'nullable',
+    	    } else if ($ticket->status_id == 8) {
+                $request->validate([
+                    'actual_total_amt' => 'required|numeric',
+                    'nav' => 'required|numeric'
                 ]);
 
-          				if ($request->hasFile('screenshot')) {
-          					// IF Old one exists, remove it
-          					if( $ticket->screenshot != '' ) {
-          						if (file_exists($ticket->screenshot)) {
-          							\Storage::delete($ticket->screenshot);
-          						}
-          					}
-          					// SAVE new FILE
-          					$imagePath = $request->file('screenshot')->store('screenshot', 'public');
-              	    $ticket->screenshot = $imagePath;
-                }
+                $data['status_id'] = 9;
+
+                $ticket->update($data);
+
+            } elseif ($ticket->status_id == 9) {
+                $request->validate([
+                    'refund' => 'required|numeric',
+                    'deal_ticket' => 'nullable',
+                    'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                ]);
 
                 // Deal Ticket Workings
                 if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
@@ -341,35 +289,119 @@ class TicketController extends Controller
 
                 if ($request->hasFile('deal_ticket')) {
                     $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
-                    $ticket->deal_ticket = $imagePath;
+                    $ticket->deal_ticket = 'storage/' . $imagePath;
                 }
 
-        				$ticket->status_id = 12; // SELL CASE
-        				$ticket->save();
-        }
+                if ($request->hasFile('screenshot')) {
+                    // IF Old one exists, remove it
+                    if( $ticket->screenshot != '' ) {
+                        if (Storage::disk('public')->exists($ticket->screenshot)) {
+                            Storage::disk('public')->delete($ticket->screenshot);
+                        }
+                    }
+                    $imagePath = $request->file('screenshot')->store('screenshot', 'public');
+                    $ticket->screenshot = 'storage/' . $imagePath;
+                }
 
+                if( $ticket->type == 1 ) {
+                    $ticket->status_id = 11; // BUY CASE
+                } elseif ($ticket->type == 2 ) {
+                    $ticket->status_id = 10; // SELL CASE
+                }
 
+                // Update Ticket with POST DAta
+                $ticket->refund = $data['refund'] ? $data['refund'] : 0;
+                $ticket->save();
 
-		} else if ($ticket->status_id == 11) {
+            } elseif ($ticket->status_id == 10) {
 
-            if ($request->get('verification') == 1) {
+    		    if( $ticket->type == 2 )
+    		    {
+    				        $request->validate([
+                      'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                      'deal_ticket' => 'nullable',
+                    ]);
+
+              				if ($request->hasFile('screenshot')) {
+              					// IF Old one exists, remove it
+              					if( $ticket->screenshot != '' ) {
+              						if (file_exists($ticket->screenshot)) {
+              							\Storage::delete($ticket->screenshot);
+              						}
+              					}
+              					// SAVE new FILE
+              					$imagePath = $request->file('screenshot')->store('screenshot', 'public');
+                  	    $ticket->screenshot = $imagePath;
+                    }
+
+                    // Deal Ticket Workings
+                    if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
+                        Storage::delete($ticket->deal_ticket);
+                    }
+
+                    if ($request->hasFile('deal_ticket')) {
+                        $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
+                        $ticket->deal_ticket = $imagePath;
+                    }
+
+            				$ticket->status_id = 12; // SELL CASE
+            				$ticket->save();
+            }
+
+    		} else if ($ticket->status_id == 11) {
+
+                if ($request->get('verification') == 1) {
+                    $request->validate([
+                        'expected_refund' => 'required|numeric',
+                        'dispute' => 'nullable|string',
+                        'deal_ticket' => 'nullable',
+                    ]);
+
+                    if ( $ticket->refund - $request->get('expected_refund') > 500) {
+                        return redirect()->back()->with('error', 'Your entered amount diff. is more than 500');
+                    }
+
+                    // expected_refund
+                    if ($ticket->type == 1) {
+                        $ticket->status_id = 13;
+                    } else {
+                        $ticket->status_id = 12;
+                    }
+
+                    // Deal Ticket Workings
+                    if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
+                        Storage::delete($ticket->deal_ticket);
+                    }
+
+                    if ($request->hasFile('deal_ticket')) {
+                        $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
+                        $ticket->deal_ticket = $imagePath;
+                    }
+
+                    $ticket->dispute = $request->get('dispute');
+
+                } else {
+                    $ticket->dispute = $request->get('dispute');
+                }
+
+                $ticket->save();
+
+            } elseif ($ticket->status_id == 13) {
                 $request->validate([
-                    'expected_refund' => 'required|numeric',
-                    'dispute' => 'nullable|string',
+                    // 'verification' => 'required|in:1,2',
+                    'received_units' => 'required|numeric',
                     'deal_ticket' => 'nullable',
                 ]);
 
-                if ( $ticket->refund - $request->get('expected_refund') > 500) {
-                    return redirect()->back()->with('error', 'Your entered amount diff. is more than 500');
-                }
-
-                // expected_refund
-                if ($ticket->type == 1) {
-                    $ticket->status_id = 13;
+                if ($request->get('received_units') == ($ticket->basket_size * $ticket->basket_no)) {
+                    $request->validate([
+                        'dispute_comment' => 'nullable|string',
+                    ]);
                 } else {
-                    $ticket->status_id = 12;
+                    if ($data['dispute_comment'] == null) {
+                        return back()->with('error','Please fill the Dispute Comment if you changes the unit');
+                    }
                 }
-
                 // Deal Ticket Workings
                 if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
                     Storage::delete($ticket->deal_ticket);
@@ -380,47 +412,16 @@ class TicketController extends Controller
                     $ticket->deal_ticket = $imagePath;
                 }
 
-                $ticket->dispute = $request->get('dispute');
+                $data['status_id'] = 14;//condition can be placed here//
 
-            } else {
-                $ticket->dispute = $request->get('dispute');
             }
 
-            $ticket->save();
+            $ticket->update($data);
 
-        } elseif ($ticket->status_id == 13) {
-            $request->validate([
-                // 'verification' => 'required|in:1,2',
-                'received_units' => 'required|numeric',
-                'deal_ticket' => 'nullable',
-            ]);
-
-            if ($request->get('received_units') == ($ticket->basket_size * $ticket->basket_no)) {
-                $request->validate([
-                    'dispute_comment' => 'nullable|string',
-                ]);
-            } else {
-                if ($data['dispute_comment'] == null) {
-                    return back()->with('error','Please fill the Dispute Comment if you changes the unit');
-                }
-            }
-            // Deal Ticket Workings
-            if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
-                Storage::delete($ticket->deal_ticket);
-            }
-
-            if ($request->hasFile('deal_ticket')) {
-                $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
-                $ticket->deal_ticket = $imagePath;
-            }
-
-            $data['status_id'] = 14;//condition can be placed here//
-
+            return redirect()->route('admin.tickets.index')->with('success', 'Ticket updated successfully.');
+        } catch(\Exception $e) {
+            dd($e->getMessage());
         }
-
-        $ticket->update($data);
-
-        return redirect()->route('admin.tickets.index')->with('success', 'Ticket updated successfully.');
     }
 
     /**
