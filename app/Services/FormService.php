@@ -408,7 +408,7 @@ class FormService
                }
                Storage::put('public/ticketpdfs/' . $fileName, $filecontent);
                // suraj || set permission public
-               Storage::setVisibility('public/ticketpdfs/' . $fileName, 'public');
+               // Storage::setVisibility('public/ticketpdfs/' . $fileName, 'public');
            }
 		   else 
 		   {	
