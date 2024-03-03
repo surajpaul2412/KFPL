@@ -55,12 +55,8 @@
     </div>
     <div class="col-3">
         <div>AMC Form </div>
-        <a href="{{ asset('storage/ticketpdfs/ticket-27.pdf') }}" target="_blank" download>Download PDF</a>
-
-
-
         @if (Storage::exists('public/ticketpdfs/ticket-' . $ticket->id . '.pdf'))
-        <div class="font-weight-bold"><a href="{{ asset('storage/ticketpdfs/' . 'ticket-' . $ticket->id . '.pdf') }}" target="_blank" download>Download <i class="ri-download-2-line"></i></a></div>
+        <div class="font-weight-bold"><a href="{{ asset("storage/ticketpdfs/ticket-{$ticket->id}.pdf") }}" target="_blank" download>Download <i class="ri-download-2-line"></i></a></div>
         @else
         <div class="font-weight-bold">N/A</div>
         @endif
