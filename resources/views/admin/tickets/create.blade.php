@@ -244,7 +244,9 @@ Ticket Management
 
             // Check if all values are available and not empty
             if (basketNo && basketSize && rate && markupPercentage) {
-                var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate * markupPercentage / 100);
+                var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate) * markupPercentage / 100;
+                totalAmount = parseFloat(totalAmount.toFixed(2));
+
                 $('input[name="total_amt"]').val(totalAmount);
             }
         }

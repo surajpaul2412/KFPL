@@ -63,6 +63,7 @@ class Ticket extends Model
     {
         return totalTicketAmt($this);
     }
+    
     /*
     public function getUserRolesAttribute()
     {
