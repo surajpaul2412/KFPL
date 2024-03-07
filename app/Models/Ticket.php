@@ -22,6 +22,7 @@ class Ticket extends Model
         'rate',
         'security_price',
         'markup_percentage',
+        'total_amt',
         'actual_total_amt',
         'nav',
         'refund',

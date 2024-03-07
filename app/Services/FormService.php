@@ -18,53 +18,117 @@ class FormService
   // Handle LIC FORM
   private static function handleLICForm($ticket) {
 
-    $sec_name = $ticket->security->name;
-
-    $filepath = storage_path('app/public/forms/lic.html');
-
-    if (file_exists($filepath)) {
-
-      // Get HTML Content
-      $text = file_get_contents( $filepath );
+      $marker_json = [];
+      $textannotations = [];
+      $images = [];
 
       // Payment TYPE
       $payment_type = $ticket->payment_type ;
+      // Security Name
+      $sec_name = $ticket->security->name;
 
-      // TOTAL UNITS
       $basket_size   = $ticket->basket_size;
       $ticket_basket = $ticket->basket_no; // NO. of Basket
       $total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
       $total_units_in_float = (float) $total_units;
+      $total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+      $total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
 
-      $text = str_replace('<!--SECURITYNAME-->', $ticket->security->name, $text);
-
-      // INSERT TOTAL VALUE
       $total_amt = $ticket->total_amt;
       $word_text = trim(self::NumberintoWords($total_amt));
       $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
 
-      if ($ticket->type == 1) {   // BUY / PURCHASE
-          $text = str_replace('<!--TICK-->','<div class="PURCHASETICK" style="position:absolute;bottom:494px;left:38px;"><span class="ff5 ws7" style="font-weight: bold;font-size: 11px;height: auto;display: inline-block;">ü</span></div>', $text);
-          $text = str_replace('<!--TOTALPURCHASEAMOUNT-->', $ticket->total_amt, $text);
-          $text = str_replace('<!--TOTALPURCHASEAMOUNTINWORDS-->', $word_text, $text);
+      $checkboxImageData = self::$tickImage;
+	  
+	   // BUY CASES
+      if ($ticket->type == 1) {
+            $images[] =  [
+                  "url" => $checkboxImageData, "x" => 39, "y" => 330.06, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
+              ];
+		
+		    $images[] =  [
+                  "url" => $checkboxImageData, "x" => 154.84, "y" => 761.16, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
+              ];
+			$textannotations[] = ["text"=> "$total_amt", "x"=> 92.37, "y"=> 347,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+            $textannotations[] = ["text"=> "$word_text", "x"=> 236.72, "y"=> 346.39,  "width"=> 300,"size"=>7,"height"=> 13, "pages"=> "0", "type"=> "text"];		
+			  
       }
-
-      if ($ticket->type == 2) { // SELL / REDEEM
-          $text = str_replace('<!--TICK-->','<div class="REDEEMTICK" style="position:absolute;bottom:339px;left:38px;"><span class="ff5 ws7" style="font-weight: bold;font-size: 11px;height: auto;display: inline-block;">ü</span></div>', $text);
-          $text = str_replace('<!--TOTALUNITS-->', $total_units_in_float, $text);
-          $text = str_replace('<!--TOTALREDEEMAMOUNT-->', $ticket->total_amt, $text);
-          $text = str_replace('<!--TOTALREDEEMAMOUNTINWORDS-->', $word_text, $text);
+      // SELL CASES
+      else if ($ticket->type == 2) {
+           $images[] = [
+            "url" => $checkboxImageData, "x" => 39, "y" => 485.28,  "width" => 15, "height" => 14, "pages" => "0", "keepAspectRatio" => true
+          ];
+		  $images[] =  [
+            "url" => $checkboxImageData, "x" => 282.21, "y" => 761.16, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
+          ];
       }
-
-      // NOW SAVE FILE
-      self::saveDocument($ticket->id, $text);
-
-      return 1;
-    } else {
-      return 0;
-    }
+	  
+	  // INSERT PLAN NAME
+	  $textannotations[] = ["text"=> "$sec_name", "x"=> 87.51, "y"=> 308.8,"size"=>7,"width"=> 210, "height"=> 10, "pages"=> "0", "type"=> "text"];
+	  $textannotations[] = ["text"=> "$sec_name", "x"=> 112.98, "y"=> 744.76,"size"=>7,"width"=> 210, "height"=> 10, "pages"=> "0", "type"=> "text"];
+	  
+	  
+	  // call API 
+	  $urlToken = "filetoken://0b1614eeaa74a371dda097a375ab7b9557cfd71e7ed7bb45e9";
+	  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+	  
   }
 
+
+  // Handle LIC FORM
+  private static function handleMIRAEForm($ticket) {
+
+      $marker_json = [];
+      $textannotations = [];
+      $images = [];
+
+      // Payment TYPE
+      $payment_type = $ticket->payment_type ;
+      // Security Name
+      $sec_name = $ticket->security->name;
+
+      $basket_size   = $ticket->basket_size;
+      $ticket_basket = $ticket->basket_no; // NO. of Basket
+      $total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+      $total_units_in_float = (float) $total_units;
+      $total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+      $total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+
+      $total_amt = $ticket->total_amt;
+      $word_text = trim(self::NumberintoWords($total_amt));
+      $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+      $checkboxImageData = self::$tickImage;
+	  
+	   // BUY CASES
+      if ($ticket->type == 1) {
+          // INSERT PLAN NAME
+		  $textannotations[] = ["text"=> "$sec_name", "x"=> 58.72, "y"=> 232.43,"size"=>7,"width"=> 200, "height"=> 10, "pages"=> "0", "type"=> "text"];
+
+		  $images[] = [ "url" => $checkboxImageData, "x" => 250.98, "y" => 768.51, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true];	
+
+		  $textannotations[] = ["text"=> "$total_amt", "x"=> 319.64, "y"=> 784.62,"size"=>7, "width"=> 120, "height"=> 10, "pages"=> "0", "type"=> "text"];
+		  
+		  $textannotations[] = ["text"=> "$total_amt", "x"=> 145.9, "y"=> 321.96,"size"=>7, "width"=> 120, "height"=> 10, "pages"=> "0", "type"=> "text"];
+  
+      }
+      // SELL CASES
+      else if ($ticket->type == 2) {
+		 // INSERT PLAN NAME
+		  $textannotations[] = ["text"=> "$sec_name", "x"=> 58.72, "y"=> 438.98,"size"=>7,"width"=> 200, "height"=> 10, "pages"=> "0", "type"=> "text"]; 
+		  
+		  $images[] = [ "url" => $checkboxImageData, "x" => 336.96, "y" => 768.51, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true];	
+           
+      }
+	  
+	  // INSERT PLAN NAME
+	  $textannotations[] = ["text"=> "$sec_name", "x"=> 57.53, "y"=> 785.23,"size"=>7,"width"=> 200, "height"=> 10, "pages"=> "0", "type"=> "text"]; 
+ 
+	  // call API 
+	  $urlToken = "filetoken://f4be834b69a73c5c3d37f7888473aee90b9108dc596940bfeb";
+	  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+	  
+  }
 
   // HANDLE AXIS FORM thru API
   private static function handleAXISForm($ticket) {
@@ -140,9 +204,6 @@ class FormService
            "url" => $checkboxImageData, "x" => 177.62, "y" => 612.38, "width" => 15, "height" => 14,  "pages" => "0",  "keepAspectRatio" => true
          ];
         }
-		
-		$textannotations[] = ["text"=> "$total_amt", "x"=> 93.05, "y"=> 630.5,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
-		$textannotations[] = ["text"=> "$word_text", "x"=> 247.4, "y"=> 630.5,  "width"=> 300,"size"=>7,"height"=> 13, "pages"=> "0", "type"=> "text"];
       }
 	  
 	  // SELECTION of PRODUCTS
@@ -290,8 +351,8 @@ class FormService
       {
           $images[] = ["url" => $checkboxImageData, "x" => 35.58, "y" => 435.86,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
           $textannotations[] = ["text" => "$ticket_basket", "x" => 260.86, "y" => 435,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];
-          $textannotations[] = ["text"=> "$ticket_basket", "x"=> 321.09,  "y"=> 435,"size"=>7, "width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-          $textannotations[] = ["text"=> "$ticket_basket", "x"=> 404, "y"=> 435,"size"=>7, "width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
+          $textannotations[] = ["text"=> "$total_units", "x"=> 321.09,  "y"=> 435,"size"=>7, "width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+          $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 435,"size"=>7, "width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
       }
       else if(strtolower($sec_name) == 'aditya birla sun life nifty next 50 etf')
       {
@@ -558,6 +619,14 @@ class FormService
 		else if ( strpos($sec_name, "AXIS") !== false ) {
 		    Log::info( "Generating PDF for AXIS" );	
             self::handleAXISForm($ticket);
+        }
+		else if ( strpos($sec_name, "LIC") !== false ) {
+		    Log::info( "Generating PDF for LIC" );	
+            self::handleLICForm($ticket);
+        }
+		else if ( strpos($sec_name, "MIRAE") !== false ) {
+		    Log::info( "Generating PDF for MIRAE" );	
+            self::handleMIRAEForm($ticket);
         }
     }
   }
