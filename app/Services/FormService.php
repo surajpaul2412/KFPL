@@ -45,10 +45,7 @@ class FormService
 				$images[] =  [
 					  "url" => $checkboxImageData, "x" => 39, "y" => 330.06, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
 				  ];
-			
-				$images[] =  [
-					  "url" => $checkboxImageData, "x" => 154.84, "y" => 761.16, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
-				  ];
+
 				$textannotations[] = ["text"=> "$total_amt", "x"=> 92.37, "y"=> 347,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
 				$textannotations[] = ["text"=> "$word_text", "x"=> 236.72, "y"=> 346.39,  "width"=> 300,"size"=>7,"height"=> 13, "pages"=> "0", "type"=> "text"];		
 				  
@@ -58,18 +55,18 @@ class FormService
 			   $images[] = [
 				"url" => $checkboxImageData, "x" => 39, "y" => 485.28,  "width" => 15, "height" => 14, "pages" => "0", "keepAspectRatio" => true
 			  ];
-			  $images[] =  [
-				"url" => $checkboxImageData, "x" => 282.21, "y" => 761.16, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
-			  ];
+
 		  }
 		  
 		  // INSERT PLAN NAME
 		  $textannotations[] = ["text"=> "$sec_name", "x"=> 87.51, "y"=> 308.8,"size"=>7,"width"=> 210, "height"=> 10, "pages"=> "0", "type"=> "text"];
-		  $textannotations[] = ["text"=> "$sec_name", "x"=> 112.98, "y"=> 744.76,"size"=>7,"width"=> 210, "height"=> 10, "pages"=> "0", "type"=> "text"];
 		  
+		  // INSERT DATE 
+		  $textannotations[] = ["text"=> date("d-m-Y", time()), "x"=> 61.57, "y"=> 620.91,"size"=>7,"width"=> 120, "height"=> 10, "pages"=> "0", "type"=> "text"];
+	  
 		  
 		  // call API 
-		  $urlToken = "filetoken://0b1614eeaa74a371dda097a375ab7b9557cfd71e7ed7bb45e9";
+		  $urlToken = "filetoken://ded41199c8bd76904f32c4a2da01b7a15855c765d980c6913d";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
@@ -79,70 +76,169 @@ class FormService
     }
 
 
-  // Handle MIRAE FORM
-  private static function handleMIRAEForm($ticket) 
-  {
-
-    try 
-	{	
-	  
-	  $marker_json = [];
-      $textannotations = [];
-      $images = [];
-
-      // Payment TYPE
-      $payment_type = $ticket->payment_type ;
-      // Security Name
-      $sec_name = $ticket->security->name;
-
-      $basket_size   = $ticket->basket_size;
-      $ticket_basket = $ticket->basket_no; // NO. of Basket
-      $total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
-      $total_units_in_float = (float) $total_units;
-      $total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
-      $total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
-
-      $total_amt = $ticket->total_amt;
-      $word_text = trim(self::NumberintoWords($total_amt));
-      $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
-
-      $checkboxImageData = self::$tickImage;
-	  
-	   // BUY CASES
-      if ($ticket->type == 1) {
-          // INSERT PLAN NAME
-		  $textannotations[] = ["text"=> "$sec_name", "x"=> 58.72, "y"=> 232.43,"size"=>7,"width"=> 200, "height"=> 10, "pages"=> "0", "type"=> "text"];
-
-		  $images[] = [ "url" => $checkboxImageData, "x" => 250.98, "y" => 768.51, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true];	
-
-		  $textannotations[] = ["text"=> "$total_amt", "x"=> 319.64, "y"=> 784.62,"size"=>7, "width"=> 120, "height"=> 10, "pages"=> "0", "type"=> "text"];
-		  
-		  $textannotations[] = ["text"=> "$total_amt", "x"=> 145.9, "y"=> 321.96,"size"=>7, "width"=> 120, "height"=> 10, "pages"=> "0", "type"=> "text"];
-  
-      }
-      // SELL CASES
-      else if ($ticket->type == 2) {
-		 // INSERT PLAN NAME
-		  $textannotations[] = ["text"=> "$sec_name", "x"=> 58.72, "y"=> 438.98,"size"=>7,"width"=> 200, "height"=> 10, "pages"=> "0", "type"=> "text"]; 
-		  
-		  $images[] = [ "url" => $checkboxImageData, "x" => 336.96, "y" => 768.51, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true];	
-           
-      }
-	  
-	  // INSERT PLAN NAME
-	  $textannotations[] = ["text"=> "$sec_name", "x"=> 57.53, "y"=> 785.23,"size"=>7,"width"=> 200, "height"=> 10, "pages"=> "0", "type"=> "text"]; 
- 
-	  // call API 
-	  $urlToken = "filetoken://f4be834b69a73c5c3d37f7888473aee90b9108dc596940bfeb";
-	  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
-	}
-	catch (\Exception $e) 
+	// Handle MIRAE FORM
+	private static function handleMIRAEForm($ticket) 
 	{
-		dd($e->getMessage());
-	}
-	  
-  }
 
+		try 
+		{	
+		  
+		  $marker_json = [];
+		  $textannotations = [];
+		  $images = [];
+
+		  // Payment TYPE
+		  $payment_type = $ticket->payment_type ;
+		  // Security Name
+		  $sec_name = $ticket->security->name;
+
+		  $basket_size   = $ticket->basket_size;
+		  $ticket_basket = $ticket->basket_no; // NO. of Basket
+		  $total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+		  $total_units_in_float = (float) $total_units;
+		  $total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+		  $total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+
+		  $total_amt = $ticket->total_amt;
+		  $word_text = trim(self::NumberintoWords($total_amt));
+		  $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+		  $checkboxImageData = self::$tickImage;
+		  
+		   // BUY CASES
+		  if ($ticket->type == 1) {
+			  // INSERT PLAN NAME
+			  $textannotations[] = ["text"=> "$sec_name", "x"=> 58.72, "y"=> 232.43,"size"=>7,"width"=> 200, "height"=> 10, "pages"=> "0", "type"=> "text"];
+			  
+			  $textannotations[] = ["text"=> "$total_amt", "x"=> 252.77, "y"=> 322.58,"size"=>7, "width"=> 120, "height"=> 10, "pages"=> "0", "type"=> "text"];
+			  
+			  // INSERT UTR Number 
+			  $utr_no = $ticket->utr_no;
+			  if($utr_no !='')
+			  {
+				$textannotations[] = ["text"=> "$utr_no", "x"=> 26.48, "y"=> 321.98,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+			  }
+
+		  }
+		  // SELL CASES
+		  else if ($ticket->type == 2) {
+			 // INSERT PLAN NAME
+			  $textannotations[] = ["text"=> "$sec_name", "x"=> 58.72, "y"=> 438.98,"size"=>7,"width"=> 200, "height"=> 10, "pages"=> "0", "type"=> "text"]; 
+
+		  }
+		  
+		  
+		  // call API 
+		  $urlToken = "filetoken://b44d3c63ae8b8459e02bdfc7129e732aa58ad430706a4d1524";
+		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
+
+    
+	// Handle UTI FORM
+	private static function handleUTIForm($ticket) 
+	{
+
+		try 
+		{	
+		  
+		  $marker_json = [];
+		  $textannotations = [];
+		  $images = [];
+
+		  // Payment TYPE
+		  $payment_type = $ticket->payment_type ;
+		  // Security Name
+		  $sec_name = $ticket->security->name;
+		  // UTR NO.
+		  $utr_no = $ticket->utr_no;
+		  
+		  // OTHER DETAILS
+		  $basket_size   = $ticket->basket_size;
+		  $ticket_basket = $ticket->basket_no; // NO. of Basket
+		  $total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+		  $total_units_in_float = (float) $total_units;
+		  $total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+		  $total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+		  $total_amt = $ticket->total_amt;
+		  $word_text = trim(self::NumberintoWords($total_amt));
+		  $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+		  $checkboxImageData = self::$tickImage;
+		  
+		  // BUY CASES
+		  if ($ticket->type == 1) {
+			  
+			  $images[] =  [
+				"url" => $checkboxImageData, "x"=>149.51, "y"=>276.0, "width"=>17, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
+			  ];
+			 
+		  }
+		  // SELL CASES
+		  else if ($ticket->type == 2) {
+			 
+			  $images[] = [
+				"url" => $checkboxImageData, "x"=>442.0, "y"=>276.0, "width"=>17, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
+			  ];			 
+		  }
+		  
+		  
+		  if(strtolower($sec_name) == 'uti nifty etf')
+		  {
+			  $images[] = ["url" => $checkboxImageData, "x" => 124.85, "y" => 335.77,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 256.4, "y" => 335.77,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28,  "y"=> 438.61,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>438.61,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+		  }
+		  else if(strtolower($sec_name) == 'uti sensex etf')
+		  {
+			  $images[] = ["url" => $checkboxImageData, "x" => 124.85, "y" => 355.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 256.4, "y" => 355.47,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28,  "y"=> 355.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>355.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+		  }
+		  else if(strtolower($sec_name) == 'uti nifty next 50 etf')
+		  {
+			  $images[] = ["url" => $checkboxImageData, "x" => 124.85, "y" => 375.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 256.4, "y" => 375.47,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28,  "y"=> 375.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>375.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+		  }
+		  else if(strtolower($sec_name) == 'uti bank etf')
+		  {
+			  $images[] = ["url" => $checkboxImageData, "x" => 124.85, "y"=>395.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 256.4, "y"=>395.47,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28, "y"=>395.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>395.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+		  }
+		  else if(strtolower($sec_name) == 'uti s&p bse sensex next 50 etf')
+		  {
+			  $images[] = ["url" => $checkboxImageData, "x" => 124.85, "y"=>415.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 256.4, "y"=>415.47,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28, "y"=>415.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>415.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+		  }
+		  
+		  // UTR and TOTAL Amount 
+		  $textannotations[] = ["text"=> "$utr_no", "x"=>73.85, "y"=>700.82,"size"=>7,"width"=> 140.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+		  $textannotations[] = ["text"=> "$total_amt", "x"=>69.78, "y"=>718.48,"size"=>7,"width"=> 140.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+		  
+		  // call API 
+		  $urlToken = "filetoken://b8348c46078289735c4e14fcbe506fb18f8ae7203ffe60df5b";
+		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
+	
   // HANDLE AXIS FORM thru API
   private static function handleAXISForm($ticket) {
 	  
@@ -552,6 +648,9 @@ class FormService
             } elseif (strpos($sec_name, "MIRAE") !== false) {
                 Log::info("Generating PDF for MIRAE");
                 self::handleMIRAEForm($ticket);
+			} elseif (strpos($sec_name, "UTI") !== false) {
+                Log::info("Generating PDF for UTI");
+                self::handleUTIForm($ticket);
             }
         }
       } catch (\Exception $e) {
