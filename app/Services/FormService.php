@@ -239,6 +239,141 @@ class FormService
 	  
 	}
 	
+	// Handle MOTILAL FORM
+	private static function handleMOTILALForm($ticket) 
+	{
+
+		try 
+		{	
+		  
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
+
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
+
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+
+			// BUY CASES
+			if ($ticket->type == 1) {
+			  
+			  if ($payment_type == 1) 
+			  {
+				  $images[] =  [
+					"url" => $checkboxImageData, "x"=>468.07, "y"=>427.55, "width"=>17, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
+				  ];
+			  } else if ($payment_type == 2) {
+				  
+				  $images[] =  [
+					"url" => $checkboxImageData, "x"=>468.07, "y"=>442.54, "width"=>17, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
+				  ];
+			  }
+			 
+			}
+			// SELL CASES
+			else if ($ticket->type == 2) {
+			 
+			  if ($payment_type == 1) 
+			  {
+				  $images[] =  [
+					"url" => $checkboxImageData, "x"=>562.67, "y"=>427.55, "width"=>17, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
+				  ];
+			  } else if ($payment_type == 2) {
+				  
+				  $images[] =  [
+					"url" => $checkboxImageData, "x"=>562.67, "y"=>442.54, "width"=>17, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
+				  ];
+			  }			 
+			}
+
+			$productCheckArr = ["url" => $checkboxImageData, "x" => 15.27, "y" =>0.0, "size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];
+			if(strtolower($sec_name) == 'motilal oswal nifty 50 etf (m50)')
+			{
+			  $productCheckArr['y'] = 393.76; 
+			}
+			else if(strtolower($sec_name) == 'motilal oswal nifty midcap 100 etf')
+			{
+			  $productCheckArr["y"] = 413.76; 
+			}
+			else if(strtolower($sec_name) == 'motilal oswal nasdaq 100 etf')
+			{
+			  $productCheckArr["y"] = 433.76; 
+			}
+			else if(strtolower($sec_name) == 'motilal oswal nifty 5 year benchmark g-sec etf')
+			{
+			  $productCheckArr["y"] = 453.76; 
+			}
+			else if(strtolower($sec_name) == 'motilal oswal nasdaq q 50 etf')
+			{
+			  $productCheckArr["y"] = 473.76; 
+			}
+			else if(strtolower($sec_name) == 'motilal oswal nifty 200 momentum 30 etf')
+			{
+			  $productCheckArr["y"] = 493.76; 
+			}
+			else if(strtolower($sec_name) == 'motilal oswal s&p bse low volatility etf')
+			{
+			  $productCheckArr["y"] = 513.76; 
+			}
+			else if(strtolower($sec_name) == 'motilal oswal s&p bse healthcare etf')
+			{
+			  $productCheckArr["y"] = 533.76; 
+			}
+			else if(strtolower($sec_name) == 'motilal oswal s&p bse quality etf')
+			{
+			  $productCheckArr["y"] = 553.76; 
+			}
+			else if(strtolower($sec_name) == 'motilal oswal s&p bse enhanced value etf')
+			{
+			  $productCheckArr["y"] = 573.76; 
+			}
+			else if(strtolower($sec_name) == 'motilal oswal nifty 500 etf')
+			{
+			  $productCheckArr["y"] = 593.76; 
+			}
+
+			$images[] = $productCheckArr;
+
+			// Total Amount
+			$textannotations[] = ["text"=> "$total_amt", "x"=>84.5, "y"=>702.61,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			
+			// UTR
+		    $textannotations[] = ["text"=> "$utr_no", "x"=>127.76, "y"=>727.41,"size"=>7,"width"=>180.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+
+			// Ticket Basket
+		    $textannotations[] = ["text" => "$ticket_basket", "x" =>126.03, "y" =>660.52,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+			
+			// Total Units
+			$textannotations[] = ["text"=> "$total_units", "x"=>419.05,  "y"=>661.1,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  
+		  
+			// call API 
+			$urlToken = "filetoken://b6eefdf3b2e9c0d7b034ec55a1896d31e005c5dd6a7eb22a52";
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
+	
   // HANDLE AXIS FORM thru API
   private static function handleAXISForm($ticket) {
 	  
@@ -651,6 +786,9 @@ class FormService
 			} elseif (strpos($sec_name, "UTI") !== false) {
                 Log::info("Generating PDF for UTI");
                 self::handleUTIForm($ticket);
+            } elseif (strpos($sec_name, "MOTILAL") !== false) {
+                Log::info("Generating PDF for MOTILAL");
+                self::handleMOTILALForm($ticket);
             }
         }
       } catch (\Exception $e) {
