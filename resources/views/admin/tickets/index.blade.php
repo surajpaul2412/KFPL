@@ -37,8 +37,9 @@ Ticket Management
                   <option value="{{$role->id}}" {!! $sel_role_id==$role->id?"selected='selected'":""!!}>{{$role->name}}</option>
                 @endforeach
             </select>
+            <input type="text" class="form-input form-control" name="sel_query" placeholder="Enter Name, Symbol, ISIN code or Ticket ID" value="{{$sel_query}}"/>
           </div>
-          <input type="text" class="form-input" name="sel_query" placeholder="Enter Name, Symbol, ISIN code or Ticket ID" value="{{$sel_query}}"/>
+          
           <button type="submit" class="btn btn-primary" title="Search">
             <i class="ri-search-line"></i> Search
           </button>

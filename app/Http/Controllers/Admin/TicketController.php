@@ -120,8 +120,7 @@ class TicketController extends Controller
             "basket_size" => "required|integer",
             "rate" => "required|numeric",
             "security_price" => "required|numeric",
-            "markup_percentage" => "required|numeric",
-            "total_amt" => "required|numeric",
+            "markup_percentage" => "required|numeric"
         ]);
 
         // if SELL
@@ -129,7 +128,6 @@ class TicketController extends Controller
             $validatedData["markup_percentage"] = 0;
             $validatedData["rate"] = 0;
             $validatedData["security_price"] = 0;
-            $validatedData["total_amt"] = 0;
         }
 
         $validatedData["user_id"] = Auth::user()->id;

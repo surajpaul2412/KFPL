@@ -1,21 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dealer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Ticket;
 
-class DisputeController extends Controller
+class QuickTicketController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // Tickets those have disputes
-        $tickets = Ticket::orderBy('id', 'ASC')->whereNotNull('dispute')->orWhereNotNull('remark')->paginate(10);
-        return view('admin.disputes.index', compact('tickets'));
+        dd("Under development");
     }
 
     /**
