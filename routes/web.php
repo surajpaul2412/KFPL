@@ -16,6 +16,7 @@ use App\Http\Controllers\Trader\TicketController as TraderTicketController;
 use App\Http\Controllers\Ops\TicketController as OpsTicketController;
 use App\Http\Controllers\Account\TicketController as AccountsTicketController;
 use App\Http\Controllers\Dealer\TicketController as DealerTicketController;
+use App\Http\Controllers\Dealer\QuickTicketController as DealerQuickTicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,13 @@ Route::middleware(['auth', 'isDealer'])->group(function () {
         'update' => 'dealer.tickets.update',
     ]);
     Route::get('/dealer/tickets/{ticket}/statusUpdate', [DealerTicketController::class, 'statusUpdate'])->name('dealer.tickets.statusUpdate');
+    // quick ticket
+    Route::resource('/dealer/quick_tickets', DealerQuickTicketController::class)->names([
+        'index' => 'dealer.quick_tickets.index',
+        'edit' => 'dealer.quick_tickets.edit',
+        'show' => 'dealer.quick_tickets.show',
+        'update' => 'dealer.quick_tickets.update',
+    ]);
 });
 
 // Accounts Dashboard

@@ -14,7 +14,7 @@ class DisputeController extends Controller
     public function index()
     {
         // Tickets those have disputes
-        $tickets = Ticket::orderBy('id', 'ASC')->whereNotNull('dispute')->paginate(10);
+        $tickets = Ticket::orderBy('id', 'ASC')->whereNotNull('dispute')->orWhereNotNull('remark')->paginate(10);
         return view('admin.disputes.index', compact('tickets'));
     }
 

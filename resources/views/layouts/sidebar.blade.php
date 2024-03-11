@@ -79,6 +79,9 @@
                       <li class="nav-item">
                           <a href="{{ route('dealer.tickets.index') }}" class="nav-link {{ Request::is('dealer/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
                       </li>
+                      <li class="nav-item">
+                          <a href="{{ route('dealer.quick_tickets.index') }}" class="nav-link {{ Request::is('dealer/quick_tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Quick Tickets</span></a>
+                      </li>
                       @endif
                     @endif
 
