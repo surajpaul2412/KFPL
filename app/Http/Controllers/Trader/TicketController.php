@@ -47,7 +47,6 @@ class TicketController extends Controller
             'rate' => 'required|numeric',
             'security_price' => 'required|numeric',
             'markup_percentage' => 'required|numeric',
-            'total_amt' => 'required|numeric',
         ]);
 
         $validatedData['user_id'] = Auth::user()->id;
@@ -87,7 +86,6 @@ class TicketController extends Controller
             'payment_type' => 'required|integer|in:1,2,3',
             'basket_no' => 'required|integer',
             'rate' => 'required|numeric',
-            'total_amt' => 'required|numeric',
         ]);
 
         $ticket = Ticket::findOrFail($id);
