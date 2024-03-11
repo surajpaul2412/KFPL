@@ -872,7 +872,103 @@ class FormService
 	  
 	}
 	
-	
+	// Handle TATA FORM
+	private static function handleTATAForm($ticket) 
+	{
+
+		try 
+		{	
+		    // VARIABLES
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
+			$urlToken = "";
+			
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
+
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+			
+			$date = date("d-m-Y", time());
+			
+			$base = ["height"=> 11.94, "pages"=> "0", "type" => "text", "alignment" => "center", "size"=>7];
+		 
+		    $config = [];
+			$imageArr = [ "url" => $checkboxImageData, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true ];
+			// BUY CASES
+			if ($ticket->type == 1) {
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 135.49, "y" => 420.78]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 216.3, "y" =>  420.78]);
+				}
+			}
+			// SELL CASES
+			if ($ticket->type == 2) {
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 413.28, "y" => 420.78]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 494.81, "y" =>  420.78]);
+				}
+			}
+
+		    // Number of BAsket 
+			$config[] = array_merge($base, ["text"=> "$ticket_basket", "x"=>235.06, "y"=>475.56, "width"=> 80.21]);	
+			// Total Number of Units
+			$config[] = array_merge($base, ["text"=> "$total_units", "x"=>297.11, "y"=>474.84, "width"=> 110.21]);		
+			// Total Number of Units in WORDS
+			$config[] = array_merge($base, ["text"=> "$total_units_in_words", "x"=>384.42, "y"=>476.28, "width"=> 175.34, "height"=>18.74]);		
+			
+			if ($ticket->type == 1) {
+				// UTR NUMBER 
+				$config[] = array_merge($base, ["text"=> "$utr_no", "x"=>439.98, "y"=>506.55, "width"=> 150.21]);	
+				// Total Number of Units
+				$config[] = array_merge($base, ["text"=> "$total_amt", "x"=>120.34, "y"=>526.01, "width"=> 99.21]);		
+				// Total Number of Units in WORDS
+				$config[] = array_merge($base, ["text"=> "$word_text", "x"=>295.68, "y"=>526.01, "width"=> 290.78]);		
+			}
+			
+			if(strtolower($sec_name) == 'tata nifty india digital etf')
+			{
+				$urlToken = "filetoken://f88a466945f2a1feb001f2a2524343a30537f3f360db0ac58d";
+			}
+			else if(strtolower($sec_name) == 'tata nifty etf')
+			{
+				$urlToken = "filetoken://0b3d997eeec12385604c58a3071098c0eac45881ec3648c517";
+			}
+			else if(strtolower($sec_name) == 'tata nifty private bank etf')
+			{
+				$urlToken = "filetoken://8e5a57d23e382c144779f918b9e194b6d57bd035effa9f9c98";
+			}
+			
+			$textannotations = $config;
+
+			// call API 
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
 	
 	private static function callAPIandSaveFile(
         $urlToken,
@@ -992,6 +1088,9 @@ class FormService
             } elseif (strpos($sec_name, "KOTAK") !== false) {
                 Log::info("Generating PDF for KOTAK");
                 self::handleKOTAKForm($ticket);
+            } elseif (strpos($sec_name, "TATA") !== false) {
+                Log::info("Generating PDF for TATA");
+                self::handleTATAForm($ticket);
             }
         }
       } catch (\Exception $e) {
