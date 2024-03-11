@@ -177,7 +177,7 @@ class TicketController extends Controller
                     "payment_type" => "required|integer|in:1,2,3",
                     "basket_no" => "required|integer",
                     "rate" => "required|numeric",
-                    "total_amt" => "required|numeric",
+                    // "total_amt" => "required|numeric",
                 ]);
                 $data["status_id"] = 2;
 
@@ -206,7 +206,7 @@ class TicketController extends Controller
                 // BUY case
                 if ($ticket->type == 1) {
                     $request->validate([
-                        "total_amt" => "required|numeric",
+                        // "total_amt" => "required|numeric",
                         "utr_no" => "required|string",
                         "screenshot" =>
                             "nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
@@ -305,7 +305,7 @@ class TicketController extends Controller
                 }
             } elseif ($ticket->status_id == 8) {
                 $request->validate([
-                    "actual_total_amt" => "required|numeric",
+                    // "actual_total_amt" => "required|numeric",
                     "nav" => "required|numeric",
                 ]);
 
