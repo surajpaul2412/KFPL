@@ -66,7 +66,7 @@ class FormService
 	  
 		  
 		  // call API 
-		  $urlToken = "filetoken://ded41199c8bd76904f32c4a2da01b7a15855c765d980c6913d";
+		  $urlToken = "filetoken://fdfcae17dcb7ec00fd43a19785bb7106d7a07b839682e03c09";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
@@ -129,7 +129,7 @@ class FormService
 		  
 		  
 		  // call API 
-		  $urlToken = "filetoken://b44d3c63ae8b8459e02bdfc7129e732aa58ad430706a4d1524";
+		  $urlToken = "filetoken://3f6997fadf719169ba3441d8aad68aac8243ffd3be528001c5";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
@@ -229,7 +229,7 @@ class FormService
 		  $textannotations[] = ["text"=> "$total_amt", "x"=>69.78, "y"=>718.48,"size"=>7,"width"=> 140.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 		  
 		  // call API 
-		  $urlToken = "filetoken://b8348c46078289735c4e14fcbe506fb18f8ae7203ffe60df5b";
+		  $urlToken = "filetoken://be6e5905de092f6eea647c5341dc305a222abdcf167a001fd5";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
@@ -364,7 +364,7 @@ class FormService
 			  
 		  
 			// call API 
-			$urlToken = "filetoken://b6eefdf3b2e9c0d7b034ec55a1896d31e005c5dd6a7eb22a52";
+			$urlToken = "filetoken://e288c52222b635ada94d16f5ba83630aca4a08759ecc7ef93a";
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
@@ -509,7 +509,7 @@ class FormService
       }
 	  
 	  // call API 
-	  $urlToken = "filetoken://20949e2a0ccfa23f103c60e49f9a5742492ec2ad45e23bafc3";
+	  $urlToken = "filetoken://81e457ba1f9ad8bfc357b4fb3cba61584b79d5a18bbb3f1312";
 	  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 	}
 	catch (\Exception $e) 
@@ -657,14 +657,14 @@ class FormService
 			$utr_no = $ticket->utr_no;
 			if($utr_no !='')
 			{
-				$textannotations[] = ["text"=> "$utr_no", "x"=> 391.48, "y"=> 548.84,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$utr_no", "x"=> 391.48, "y"=> 550.84,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
 			}
 			$textannotations[] = ["text"=> "$total_amt", "x"=> 112.92, "y"=> 567.15,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
 			$textannotations[] = ["text"=> "$word_text", "x"=> 307, "y"=> 566,  "width"=> 300,"size"=>7,"height"=> 13, "pages"=> "0", "type"=> "text"];
 		  }
 
 		   // call API and SAVE the file
-		  $urlToken = "filetoken://170a15da3a9dba6242c1adc4c534efcc833d7d467c5f7de5c5";
+		  $urlToken = "filetoken://96ede08acd4b7256958e2f2d0d16f3166e551f75d39e58d938";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 	  }
 	  catch (\Exception $e) 
