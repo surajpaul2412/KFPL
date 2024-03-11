@@ -303,7 +303,7 @@ class FormService
 			}
 
 			$productCheckArr = ["url" => $checkboxImageData, "x" => 15.27, "y" =>0.0, "size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];
-			if(strtolower($sec_name) == 'motilal oswal nifty 50 etf (m50)')
+			if(strtolower($sec_name) == 'motilal oswal nifty 50 etf')
 			{
 			  $productCheckArr['y'] = 393.76; 
 			}
@@ -674,7 +674,207 @@ class FormService
 
   }
 
-    private static function callAPIandSaveFile(
+    
+	
+	// Handle KOTAK FORM
+	private static function handleKOTAKForm($ticket) 
+	{
+
+		try 
+		{	
+		    // VARIABLES
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
+			$urlToken = "";
+			
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
+
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+			
+			$date = date("d-m-Y", time());
+			
+			$base = ["height"=> 11.94, "pages"=> "0", "type" => "text", "alignment" => "center", "size"=>10];
+		 
+		    $config = [];
+			
+		    if ($ticket->type == 1) 
+			{
+				// total amount 
+				$config[] = array_merge($base, ["text"=> "$total_amt", "x"=>373.53, "y"=>349.18, "width"=> 150.21]);	
+				$config[] = array_merge($base, ["text"=> "$total_amt", "x"=>373.53, "y"=>401.76, "width"=> 150.21]);
+			}
+			
+			if(strtolower($sec_name) == 'kotak nifty bank etf')
+			{
+				// DATE 
+			    $config[] = array_merge($base, ["text"=> "$date", "x"=>455.36, "y"=>113.83, "width"=> 80.21]);
+				// UNITS 
+				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>375.2, "y"=>279.91, "width"=> 150.21]);
+				
+				$urlToken = "filetoken://ac84fe76ffc23d1f417f33982609e6ce050a3f314670ac1f8e";
+			}
+			else if(strtolower($sec_name) == 'kotak nifty india consumption etf')
+			{
+				// DATE 
+			    $config[] = array_merge($base, ["text"=> "$date", "x"=>456.2, "y"=>116.34, "width"=> 80.21]);
+				// UNITS 
+				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>346.82, "y"=>280.75, "width"=> 150.21]);
+				
+				$urlToken = "filetoken://e797c13ef8b6a618895597a3a12e581beceb6ceec856397774";
+			}
+			else if(strtolower($sec_name) == 'kotak nifty it etf')
+			{
+				// DATE 
+			    $config[] = array_merge($base, ["text"=> "$date", "x"=>456.2, "y"=>116.34, "width"=> 80.21]);
+				// UNITS 
+				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>346.82, "y"=>280.75, "width"=> 150.21]);
+				
+				$urlToken = "filetoken://a74e8b360d41e75c02801fdef21e750bf4735fe2565718a7d0";
+			}
+			else if(strtolower($sec_name) == 'kotak nifty midcap 50 etf')
+			{
+				$config = [];
+				// DATE 
+			    $config[] = array_merge($base, ["text"=> "$date", "x"=>456.2, "y"=>116.34, "width"=> 80.21]);
+				// UNITS 
+				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>346.82, "y"=>280.75, "width"=> 150.21]);
+				
+				// total amount 
+				if ($ticket->type == 1) 
+			    {
+				  $config[] = array_merge($base, ["text"=> "$total_amt", "x"=>366.86, "y"=>353.35, "width"=> 150.21]);	
+				  $config[] = array_merge($base, ["text"=> "$total_amt", "x"=>366.86, "y"=>416.78, "width"=> 150.21]);
+				}
+				$urlToken = "filetoken://799b8c0c867aa67874135a5744d4490fc69994f8f3f11c32cd";
+			}
+			else if(strtolower($sec_name) == 'kotak nifty mnc etf')
+			{
+				// DATE 
+			    $config[] = array_merge($base, ["text"=> "$date", "x"=>456.2, "y"=>116.34, "width"=> 80.21]);
+				// UNITS 
+				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>357.68, "y"=>280.75, "width"=> 150.21]);
+				
+				$urlToken = "filetoken://757f407d30f9c50269a135817fb74a0dba5b36d49f2c6b53c5";
+			}
+			else if(strtolower($sec_name) == 'kotak nifty 100 low volatility 30 etf')
+			{
+				// DATE 
+				$config = [];
+				
+			    $config[] = array_merge($base, ["text"=> "$date", "x"=>456.2, "y"=>110.34, "width"=> 80.21]);
+				// UNITS 
+				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>357.68, "y"=>280.75, "width"=> 150.21]);
+				
+				// total amount 
+				if ($ticket->type == 1) 
+			    {
+				  $config[] = array_merge($base, ["text"=> "$total_amt", "x"=>366.86, "y"=>358.35, "width"=> 150.21]);	
+				  $config[] = array_merge($base, ["text"=> "$total_amt", "x"=>366.86, "y"=>420.78, "width"=> 150.21]);
+				}
+				
+				$urlToken = "filetoken://d5f6df853deaf8f1745f60e8abc83c30bdbc44ae8151858a6d";
+			}
+			else if(strtolower($sec_name) == 'kotak nifty alpha 50 etf')
+			{
+				// DATE 
+				$config = [];
+				
+			    $config[] = array_merge($base, ["text"=> "$date", "x"=>472.9, "y"=>109.66, "width"=> 80.21]);
+				// UNITS 
+				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>364.36, "y"=>279.91, "width"=> 150.21]);
+				
+				// total amount 
+				if ($ticket->type == 1) 
+			    {
+				  $config[] = array_merge($base,["text"=> "$total_amt", "x"=>366.86, "y"=>352.52, "width"=> 150.21]);	
+				  $config[] = array_merge($base,["text"=> "$total_amt", "x"=>366.86, "y"=>418.45, "width"=> 150.21]);
+				}
+				
+				$urlToken = "filetoken://6f5337a5cec5644e81f7fac9dac1087951bb3481863d24ee7e";
+			}
+			else if(strtolower($sec_name) == 'kotak nifty 50 etf')
+			{
+				// DATE 
+			    $config[] = array_merge($base, ["text"=> "$date", "x"=>456.19, "y"=>114.67, "width"=> 80.21]);
+				// UNITS 
+				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>371.03, "y"=>280.75, "width"=> 150.21]);
+				// FILE URL TOKEN
+				$urlToken = "filetoken://6eef43fa3c68ef5471c2f5d0a87ad8246b5c1a3b08f0316b14";
+			}
+			else if(strtolower($sec_name) == 'kotak nifty 50 value 20 etf')
+			{
+				// DATE 
+			    $config[] = array_merge($base, ["text"=> "$date", "x"=>456.19, "y"=>114.67, "width"=> 80.21]);
+				// UNITS 
+				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>371.03, "y"=>280.75, "width"=> 150.21]);
+				// FILE URL TOKEN
+				$urlToken = "filetoken://ef3a0b963e58953291f1f6378e6f1f9e5e7205ffb6498bbaca";
+			}
+			else if(strtolower($sec_name) == 'kotak nifty psu bank etf')
+			{
+				// DATE 
+				$config = [];
+				$day    = date("d", time());
+				$month  = date("m", time());
+				$year   = date("Y", time());
+			    $config[] = array_merge($base, ["text"=> "$day", "x"=>455.35, "y"=>116.34, "width"=> 20.21]);
+				$config[] = array_merge($base, ["text"=> "$month", "x"=>478.73, "y"=>116.34, "width"=> 20.21]);
+				$config[] = array_merge($base, ["text"=> "$year", "x"=>501.73, "y"=>116.34, "width"=> 40.21]);
+				
+				// UNITS 
+				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>371.03, "y"=>286.09, "width"=> 150.21]);
+				
+				if ($ticket->type == 1) 
+				{
+					// total amount 
+					$config[] = array_merge($base, ["text"=> "$total_amt", "x"=>373.53, "y"=>354.19, "width"=> 150.21]);	
+					$config[] = array_merge($base, ["text"=> "$total_amt", "x"=>373.53, "y"=>404.26, "width"=> 150.21]);
+				}
+				// FILE URL TOKEN
+				$urlToken = "filetoken://a319f60d76c3e85dc2a9e3d421b62d8738b8b332d904138141";
+			}
+			else if(strtolower($sec_name) == 'kotak s&p bse sensex etf')
+			{
+				// DATE 
+			    $config[] = array_merge($base, ["text"=> "$date", "x"=>456.19, "y"=>114.67, "width"=> 80.21]);
+				// UNITS 
+				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>371.03, "y"=>280.75, "width"=> 150.21]);
+				// FILE URL TOKEN
+				$urlToken = "filetoken://75fad0e01a5d84e1e4b19fdd228c651bfd2d73a53c3fda8092";
+			}
+			
+			$textannotations = $config;
+
+			// call API 
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
+	
+	
+	
+	private static function callAPIandSaveFile(
         $urlToken,
         $images,
         $textannotations,
@@ -789,6 +989,9 @@ class FormService
             } elseif (strpos($sec_name, "MOTILAL") !== false) {
                 Log::info("Generating PDF for MOTILAL");
                 self::handleMOTILALForm($ticket);
+            } elseif (strpos($sec_name, "KOTAK") !== false) {
+                Log::info("Generating PDF for KOTAK");
+                self::handleKOTAKForm($ticket);
             }
         }
       } catch (\Exception $e) {
