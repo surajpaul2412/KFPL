@@ -164,10 +164,8 @@ class TicketController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            // FIND TICKET
             $ticket = Ticket::findOrFail($id);
             $data = $request->all();
-            // $data['status_id'] = 2;
 
             // SET STATUS as per OTHER PARAMETERS
             if ($ticket->status_id == 1) {
@@ -177,10 +175,10 @@ class TicketController extends Controller
                     "payment_type" => "required|integer|in:1,2,3",
                     "basket_no" => "required|integer",
                     "rate" => "required|numeric",
-                    // "total_amt" => "required|numeric",
+                    "markup_percentage" => "required|numeric",
                 ]);
-                $data["status_id"] = 2;
 
+                $data["status_id"] = 2;
                 $ticket->update($data);
             } elseif ($ticket->status_id == 2) {
                 if ($ticket->type == 1) {
@@ -200,19 +198,18 @@ class TicketController extends Controller
                     // SALE CASES
                     $ticket->status_id = 5;
                 }
-                // Save Ticket
                 $ticket->save();
+                $ticket->update($data);
             } elseif ($ticket->status_id == 3) {
                 // BUY case
                 if ($ticket->type == 1) {
                     $request->validate([
-                        // "total_amt" => "required|numeric",
+                        "total_amt_input" => "required|numeric",
                         "utr_no" => "required|string",
-                        "screenshot" =>
-                            "nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
+                        "screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
                     ]);
 
-                    if ($ticket->total_amt == $request->get("total_amt")) {
+                    if ($ticket->total_amt == $request->get("total_amt_input")) {
                         // Screenshot Workings
                         if (
                             $request->hasFile("screenshot") &&
@@ -234,16 +231,9 @@ class TicketController extends Controller
 
                         //Save Ticket
                         $ticket->save();
-
-                        // Update Ticket
                         $ticket->update($request->except("screenshot"));
                     } else {
-                        return redirect()
-                            ->back()
-                            ->with(
-                                "error",
-                                "Please verify your entered amount."
-                            );
+                        return redirect()->back()->with("error","Please verify your entered amount.");
                     }
                 } else {
                     // SELL CASE
@@ -274,6 +264,7 @@ class TicketController extends Controller
 
                     //Save Ticket
                     $ticket->save();
+                    $ticket->update($data);
                 }
                 // Pdf Workings :: START
                 FormService::GenerateDocument($ticket);
@@ -483,7 +474,7 @@ class TicketController extends Controller
                 $data["status_id"] = 14; //condition can be placed here//
             }
 
-            $ticket->update($data);
+            // $ticket->update($data);
 
             return redirect()
                 ->route("admin.tickets.index")

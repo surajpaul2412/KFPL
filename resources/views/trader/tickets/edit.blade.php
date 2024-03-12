@@ -156,7 +156,7 @@
                                     </div>
                                     <div class="calcField">
                                         <input type="text" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ $ticket->total_amt }}" placeholder="Enter Total Amt" disabled>
-                                        <input type="hidden" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ $ticket->total_amt }}" placeholder="Enter Total Amt">
+                                        <!-- <input type="hidden" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ $ticket->total_amt }}" placeholder="Enter Total Amt"> -->
                                         @error('total_amt')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

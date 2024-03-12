@@ -167,7 +167,7 @@
                                         </div>
                                         <div class="calcField">
                                             <input type="text" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ $ticket->total_amt }}" placeholder="Enter Total Amt" disabled>
-                                            <input type="hidden" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ $ticket->total_amt }}" placeholder="Enter Total Amt">
+                                            <!-- <input type="hidden" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ $ticket->total_amt }}" placeholder="Enter Total Amt"> -->
                                             @error('total_amt')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -310,8 +310,8 @@
                                     		Enter Total Amount
                                     	</div>
                                     	<div class="">
-                                    		<input type="text" name="total_amt" class="form-control @error('total_amt') is-invalid @enderror" placeholder="Enter Total Amount" required>
-                                    		@error('total_amt')
+                                    		<input type="text" name="total_amt_input" class="form-control @error('total_amt_input') is-invalid @enderror" placeholder="Enter Total Amount" required>
+                                    		@error('total_amt_input')
                                     			<span class="invalid-feedback" role="alert">
                                     				<strong>{{ $message }}</strong>
                                     			</span>
