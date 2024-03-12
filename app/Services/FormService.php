@@ -665,6 +665,7 @@ class FormService
 
 		   // call API and SAVE the file
 		  $urlToken = "filetoken://96ede08acd4b7256958e2f2d0d16f3166e551f75d39e58d938";
+		  Log::info("Birla PDF -- ABout to call API");
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 	  }
 	  catch (\Exception $e) 
@@ -970,6 +971,231 @@ class FormService
 	  
 	}
 	
+	// Handle NIPPON FORM
+	private static function handleNIPPONForm($ticket) 
+	{
+
+		try 
+		{	
+		    // VARIABLES
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
+			$urlToken = "";
+			
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
+
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+			
+			$date = date("d-m-Y", time());
+			
+			$base = ["height"=> 11.94, "pages"=> "0", "type" => "text", "alignment" => "center", "size"=>7];
+		 
+		    $config = ["size"=>7,"height"=> 10, "pages"=> "0", "type"=> "text"];
+			$imageArr = [ "url" => $checkboxImageData, "width" => 10, "height" => 10.25, "pages" => "0", "keepAspectRatio" => true ];
+			
+			// BUY CASES
+			if ($ticket->type == 1) {
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 14.74, "y" => 374.81]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 58.31, "y" =>  374.81]);
+				}
+			}
+			// SELL CASES
+			if ($ticket->type == 2) {
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 174.93, "y" => 372.89]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 214.02, "y" =>  373.53]);
+				}
+			}
+
+			if(strtolower($sec_name) == 'nippon india etf nifty 50 bees') {
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 469.64]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 469, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>469, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>469, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty next 50 junior bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 485.64]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 483, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>483, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>483, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty midcap 150'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 498.47]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 495, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>495, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>495, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty 100'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 512.57]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 510.64, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>510.64, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>510.64, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty 50 shariah bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 526.02]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 524.09, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>524.09, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>524.09, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty bank bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 540.12]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 538.19, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>538.19, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>538.19, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty psu bank bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 553.57]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 552.92, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>552.92, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>552.92, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty 50 value 20'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 567.02]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 565.09, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>565.09, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>565.09, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty infrastructure bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 581.12]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 580.47, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>580.47, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>580.47, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty india consumption'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 595.21]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>593.28, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>593.28, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>593.28, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty dividend opportunities 50'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 608.66]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>606.73, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>606.73, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>606.73, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty it'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 622.76]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>621.47, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>621.47, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>621.47, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india nifty pharma etf'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 635.57]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>634.92, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>634.92, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>634.92, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india nifty auto etf'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 651.59]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>649.66, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>649.66, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>649.66, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'cpse etf'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 663.76]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>663.11, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>663.11, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>663.11, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf s&p bse sensex next 50'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 677.86]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>677.21, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>677.21, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>677.21, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf s&p bse sensex'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 691.31]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>690.66, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>690.66, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>690.66, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf hang seng bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 707.33]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>704.76, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>704.76, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>704.76, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty 8-13 yr g-sec long term gilt'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 719.5]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>718.21, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>718.21, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>718.21, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty 5 yr benchmark g-sec'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 734.24]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>732.95, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>732.95, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>732.95, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty cpse bond plus sdl sep 2024 50:50'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 747.05]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>745.76, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>745.76, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>745.76, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf nifty sdl apr 2026 top 20 equal weight'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 761.15]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>761.14, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>761.14, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>761.14, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india etf gold bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 775.25]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>773.95, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>773.95, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>773.95, "width"=> 85.86]);
+			}
+			if(strtolower($sec_name) == 'nippon india silver etf'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 788.9]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>787.4, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>787.4, "width"=>61.51]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>787.4, "width"=> 85.86]);
+			}
+
+		    // Scheme 
+			$textannotations[] = array_merge($config, ["text"=> "$sec_name", "x"=>76.89, "y"=>80.73, "width"=>279.38, "pages" => "1"]);	
+			
+			if ($ticket->type == 1) {
+			    // Total AMOUNT
+			    $textannotations[] = array_merge($config, ["text"=> "$total_amt", "x"=>61.51, "y"=>90.98, "width"=> 279.38, "pages" => "1"]);		
+				// UTR
+				$textannotations[] = array_merge($config, ["text"=> "$utr_no", "x"=>96.75, "y"=>125.3, "width"=> 279.38, "pages" => "1"]);		
+			}			
+		 
+		    $urlToken = "filetoken://06b4ed19d137360fb55c8f91b76f7ebe1a3db2faa09ce963f6";
+			
+			// call API 
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
+	
 	private static function callAPIandSaveFile(
         $urlToken,
         $images,
@@ -977,6 +1203,7 @@ class FormService
         $ticketId
     ) {
       try {
+		  
         // BUILD MARKER JSON
         $marker_array = [
             "url" => $urlToken,
@@ -1012,6 +1239,7 @@ class FormService
         ]);
 
         $response = json_decode(curl_exec($curl), true);
+		
         if (curl_exec($curl) === false) {
             // LOG
             Log::debug("PDF GEneration Error : " . curl_error($curl));
@@ -1041,11 +1269,12 @@ class FormService
                 }
             } else {
                 // LOG
-                Log::debug("PDF GEneration Error : Response missing URL KEY");
+                Log::debug("PDF GEneration Error : Response missing URL KEY ." . print_r($response, true));
             }
         }
       } catch (\Exception $e) {
-        dd($e->getMessage());
+		  Log::info("PDF GENERATION Exception :: Ticket ID --> " . $ticketId);
+          dd($e->getMessage());
       }
     }
 
@@ -1055,8 +1284,10 @@ class FormService
         Storage::put("public/ticketpdfs/ticket-" . $ticketid . ".html", $text);
         //$pdf_file_name = "../storage/app/public/ticketpdfs/ticket-" . $ticketid . ".pdf";
         //Pdf::loadHTML($text)->save($pdf_file_name);
+		Log::info("PDF GENERATION : Saving Document :: Ticket ID --> " . $ticketid);
       } catch (\Exception $e) {
-        dd($e->getMessage());
+		  Log::info("saveDocument Function Exception :: Ticket ID --> " . $ticketid);
+          dd($e->getMessage());
       }
     }
 
@@ -1091,6 +1322,11 @@ class FormService
             } elseif (strpos($sec_name, "TATA") !== false) {
                 Log::info("Generating PDF for TATA");
                 self::handleTATAForm($ticket);
+            } elseif (strpos($sec_name, "NIPPON") !== false || strtolower($sec_name)== 'cpse etf') {
+                Log::info("Generating PDF for NIPPON");
+                self::handleNIPPONForm($ticket);
+            } else { 
+                Log::info("Generating PDF :: No Matching AMC Name Found");
             }
         }
       } catch (\Exception $e) {
