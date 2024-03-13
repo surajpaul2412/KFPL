@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('quick_tickets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('security_id');
+            $table->integer('type')->comment('1=>buy,2=>sell');
+            $table->integer('payment_type')->comment('1=>Cash,2=>Basket,3=>Net Settlement');
+            $table->integer('basket_no')->default(0);
+            $table->string('basket_size')->nullable();
+            $table->double('actual_total_amt')->default(0);
+            $table->double('nav')->default(0);
+            $table->foreignId('trader_id');
             $table->timestamps();
         });
     }

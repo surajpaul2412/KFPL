@@ -12,9 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('securities', function (Blueprint $table) {
-            //
-        });
-        Schema::table('securities', function (Blueprint $table) {
             $table->decimal('cash_component', 10, 2)->nullable()->after('price');
         });
     }

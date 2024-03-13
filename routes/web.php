@@ -69,6 +69,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 Route::middleware(['auth', 'isDealer'])->group(function () {
     Route::get('/dealer/dashboard', [DealerDashboardController::class, 'index'])->name('dealer.dashboard');
     Route::post('/calculate-purchase-nav', [DealerDashboardController::class, 'calculatePurchaseNav'])->name('calculate.purchase.nav');
+    Route::post('/dealer-calculate-purchase-nav', [DealerDashboardController::class, 'calculatePurchaseNavByRequest'])->name('dealer-calculate.purchase.nav');
     Route::resource('/dealer/tickets', DealerTicketController::class)->names([
         'index' => 'dealer.tickets.index',
         'edit' => 'dealer.tickets.edit',
@@ -79,6 +80,8 @@ Route::middleware(['auth', 'isDealer'])->group(function () {
     // quick ticket
     Route::resource('/dealer/quick_tickets', DealerQuickTicketController::class)->names([
         'index' => 'dealer.quick_tickets.index',
+        'create' => 'dealer.quick_tickets.create',
+        'store' => 'dealer.quick_tickets.store',
         'edit' => 'dealer.quick_tickets.edit',
         'show' => 'dealer.quick_tickets.show',
         'update' => 'dealer.quick_tickets.update',
