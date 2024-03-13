@@ -55,6 +55,9 @@
                       <li class="nav-item">
                           <a href="{{ route('trader.tickets.index') }}" class="nav-link {{ Request::is('trader/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
                       </li>
+                      <li class="nav-item">
+                          <a href="{{ route('trader.quick_tickets.index') }}" class="nav-link {{ Request::is('trader/quick_tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Quick Tickets</span></a>
+                      </li>
                       @endif
                       @if(auth()->user()->isOps())
                       <li class="nav-item">

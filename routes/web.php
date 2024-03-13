@@ -17,6 +17,7 @@ use App\Http\Controllers\Ops\TicketController as OpsTicketController;
 use App\Http\Controllers\Account\TicketController as AccountsTicketController;
 use App\Http\Controllers\Dealer\TicketController as DealerTicketController;
 use App\Http\Controllers\Dealer\QuickTicketController as DealerQuickTicketController;
+use App\Http\Controllers\Trader\QuickTicketController as TraderQuickTicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -114,6 +115,15 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
     ]);
     Route::get('/trader/get-security-details/{id}', [TraderTicketController::class, 'getSecurityDetails'])
     ->name('trader.get-security-details');
+    // quick ticket
+    Route::resource('/trader/quick_tickets', TraderQuickTicketController::class)->names([
+        'index' => 'trader.quick_tickets.index',
+        'create' => 'trader.quick_tickets.create',
+        'store' => 'trader.quick_tickets.store',
+        'edit' => 'trader.quick_tickets.edit',
+        'show' => 'trader.quick_tickets.show',
+        'update' => 'trader.quick_tickets.update',
+    ]);
 });
 
 // Ops Dashboard

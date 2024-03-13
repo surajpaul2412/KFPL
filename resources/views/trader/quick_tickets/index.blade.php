@@ -33,7 +33,7 @@ Ticket Management
                                     <th>Ticket Value</th>
                                     <th>Created On</th>
                                     <th>Last Modified</th>
-                                    <th>Trader Assignes</th>
+                                    <th>Ticket Creator</th>
                                     <!-- <th>Action</th> -->
                                 </tr>
                             </thead>
@@ -56,7 +56,7 @@ Ticket Management
                                     <td>{{$ticket->basket_no * $ticket->basket_size}}</td>
                                     <td>{{$ticket->created_at->format('Y-m-d')}}</td>
                                     <td>{{$ticket->updated_at->format('Y-m-d')}}</td>
-                                    <td>{{$ticket->trader->name}}</td>
+                                    <td>{{$ticket->user->name}}</td>
                                     <!-- <td>
                                         @if($ticket->status_id == 6 || $ticket->status_id == 7)
                                         <a href="{{ route('dealer.quick_tickets.show', $ticket->id) }}" title="View">
