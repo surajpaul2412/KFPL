@@ -1035,139 +1035,139 @@ class FormService
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>469, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>469, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty next 50 junior bees'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty next 50 junior bees'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 485.64]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 483, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>483, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>483, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty midcap 150'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty midcap 150'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 498.47]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 495, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>495, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>495, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty 100'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty 100'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 512.57]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 510.64, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>510.64, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>510.64, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty 50 shariah bees'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty 50 shariah bees'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 526.02]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 524.09, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>524.09, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>524.09, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty bank bees'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty bank bees'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 540.12]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 538.19, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>538.19, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>538.19, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty psu bank bees'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty psu bank bees'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 553.57]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 552.92, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>552.92, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>552.92, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty 50 value 20'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty 50 value 20'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 567.02]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 565.09, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>565.09, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>565.09, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty infrastructure bees'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty infrastructure bees'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 581.12]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 580.47, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>580.47, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>580.47, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty india consumption'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty india consumption'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 595.21]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>593.28, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>593.28, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>593.28, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty dividend opportunities 50'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty dividend opportunities 50'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 608.66]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>606.73, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>606.73, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>606.73, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty it'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty it'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 622.76]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>621.47, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>621.47, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>621.47, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india nifty pharma etf'){
+			else if(strtolower($sec_name) == 'nippon india nifty pharma etf'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 635.57]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>634.92, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>634.92, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>634.92, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india nifty auto etf'){
+			else if(strtolower($sec_name) == 'nippon india nifty auto etf'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 651.59]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>649.66, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>649.66, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>649.66, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'cpse etf'){
+			else if(strtolower($sec_name) == 'cpse etf'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 663.76]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>663.11, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>663.11, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>663.11, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf s&p bse sensex next 50'){
+			else if(strtolower($sec_name) == 'nippon india etf s&p bse sensex next 50'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 677.86]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>677.21, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>677.21, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>677.21, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf s&p bse sensex'){
+			else if(strtolower($sec_name) == 'nippon india etf s&p bse sensex'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 691.31]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>690.66, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>690.66, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>690.66, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf hang seng bees'){
+			else if(strtolower($sec_name) == 'nippon india etf hang seng bees'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 707.33]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>704.76, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>704.76, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>704.76, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty 8-13 yr g-sec long term gilt'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty 8-13 yr g-sec long term gilt'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 719.5]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>718.21, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>718.21, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>718.21, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty 5 yr benchmark g-sec'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty 5 yr benchmark g-sec'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 734.24]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>732.95, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>732.95, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>732.95, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty cpse bond plus sdl sep 2024 50:50'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty cpse bond plus sdl sep 2024 50:50'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 747.05]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>745.76, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>745.76, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>745.76, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf nifty sdl apr 2026 top 20 equal weight'){
+			else if(strtolower($sec_name) == 'nippon india etf nifty sdl apr 2026 top 20 equal weight'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 761.15]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>761.14, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>761.14, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>761.14, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india etf gold bees'){
+			else if(strtolower($sec_name) == 'nippon india etf gold bees'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 775.25]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>773.95, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>773.95, "width"=>61.51]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>773.95, "width"=> 85.86]);
 			}
-			if(strtolower($sec_name) == 'nippon india silver etf'){
+			else if(strtolower($sec_name) == 'nippon india silver etf'){
 				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 788.9]);
 				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>787.4, "width"=> 80]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>787.4, "width"=>61.51]);
@@ -1185,6 +1185,393 @@ class FormService
 			}			
 		 
 		    $urlToken = "filetoken://06b4ed19d137360fb55c8f91b76f7ebe1a3db2faa09ce963f6";
+			
+			// call API 
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
+	
+	// Handle ICICI FORM
+	private static function handleICICIForm($ticket) 
+	{
+
+		try 
+		{	
+		    // VARIABLES
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
+			$urlToken = "";
+			
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
+
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+			
+			$date = date("d-m-Y", time());
+			
+			$base = ["height"=> 11.94, "pages"=> "0", "type" => "text", "alignment" => "center", "size"=>7];
+		 
+		    $config = ["size"=>7,"height"=> 10, "pages"=> "0", "type"=> "text"];
+			
+			$imageArr = [ "url" => $checkboxImageData, "width" => 10, "height" => 10.25, "pages" => "0", "keepAspectRatio" => true ];
+			
+			// BUY CASES
+			if ($ticket->type == 1) {
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 205.47, "y" => 477.01]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 255.98, "y" =>  477.01]);
+				}
+			}
+			// SELL CASES
+			if ($ticket->type == 2) {
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 385.86, "y" => 477.01]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 439.25, "y" =>  477.01]);
+				}
+			}
+
+			if(strtolower($sec_name) == 'icici prudential s&p bse sensex etf') {
+				$images[] = array_merge($imageArr, ["x" => 56.97, "y" => 491.55, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty 50 etf') {
+				$images[] = array_merge($imageArr, ["x" => 56.97, "y" => 500.2, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty 100 etf') {
+				$images[] = array_merge($imageArr, ["x" => 56.97, "y" => 508.27, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty 50 value 20 etf') {
+				$images[] = array_merge($imageArr, ["x" => 56.97, "y" => 515.77, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'bharat 22 etf') {
+				$images[] = array_merge($imageArr, ["x" => 56.97, "y" => 522.69, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential s&p bse 500 etf') {
+				$images[] = array_merge($imageArr, ["x" => 56.97, "y" => 530.19, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential india consumption etf') {
+				$images[] = array_merge($imageArr, ["x" => 56.97, "y" => 537.69, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential s&p bse liquid rate etf') {
+				$images[] = array_merge($imageArr, ["x" => 56.97, "y" => 545.18, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty bank etf') {
+				$images[] = array_merge($imageArr, ["x" => 170.03, "y" => 491.55, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty private banks etf') {
+				$images[] = array_merge($imageArr, ["x" => 170.03, "y" => 500.2, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty midcap 150 etf') {
+				$images[] = array_merge($imageArr, ["x" => 170.03, "y" => 508.27, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential gold etf') {
+				$images[] = array_merge($imageArr, ["x" => 170.03, "y" => 515.77, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty it etf') {
+				$images[] = array_merge($imageArr, ["x" => 170.03, "y" => 522.69, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty healthcare etf') {
+				$images[] = array_merge($imageArr, ["x" => 170.03, "y" => 530.19, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty fmcg etf') {
+				$images[] = array_merge($imageArr, ["x" => 170.03, "y" => 537.69, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty next 50 etf') {
+				$images[] = array_merge($imageArr, ["x" => 170.03, "y" => 545.18, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty auto etf') {
+				$images[] = array_merge($imageArr, ["x" => 284.24, "y" => 491.55, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential silver etf') {
+				$images[] = array_merge($imageArr, ["x" => 284.24, "y" => 500.2, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty 100 low volatility 30 etf') {
+				$images[] = array_merge($imageArr, ["x" => 284.24, "y" => 508.27, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential s&p bse midcap select etf') {
+				$images[] = array_merge($imageArr, ["x" => 284.24, "y" => 515.77, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty alpha low - volatility 30 etf') {
+				$images[] = array_merge($imageArr, ["x" => 284.24, "y" => 522.69, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty 5 yr benchmark g-sec etf') {
+				$images[] = array_merge($imageArr, ["x" => 284.24, "y" => 530.19, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty 200 momentum 30 etf') {
+				$images[] = array_merge($imageArr, ["x" => 284.24, "y" => 537.69, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty infrastructure etf') {
+				$images[] = array_merge($imageArr, ["x" => 284.24, "y" => 545.18, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty financial services ex-bank etf') {
+				$images[] = array_merge($imageArr, ["x" => 423.83, "y" => 491.55, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty 10 yr benchmark g-sec etf') {
+				$images[] = array_merge($imageArr, ["x" => 423.83, "y" => 500.2, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty commodities etf') {
+				$images[] = array_merge($imageArr, ["x" => 423.83, "y" => 508.27, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty psu bank etf') {
+				$images[] = array_merge($imageArr, ["x" => 423.83, "y" => 515.77, "width" => 7.05, "height" => 6.41]);
+			}
+			else if(strtolower($sec_name) == 'icici prudential nifty 200 quality 30 etf') {
+				$images[] = array_merge($imageArr, ["x" => 423.83, "y" => 522.69, "width" => 7.05, "height" => 6.41]);
+			}
+			 
+			if ($ticket->type == 1) {
+			    // Total Units in Figure 
+			    $textannotations[] = array_merge($config, ["text"=> "$total_units_in_float", "x"=>167.28, "y"=>581.25, "width"=> 94.02]);		
+				// Total Units in WORDS 
+				$textannotations[] = array_merge($config, ["text"=> "$total_units_in_words", "x"=>298.21, "y"=>581.83, "width"=> 283.79]);		
+				// Total Amount in Figure 
+			    $textannotations[] = array_merge($config, ["text"=> "$total_amt", "x"=>160.36, "y"=>592.21, "width"=> 94.02]);
+				// Total Amount in WORDS 
+			    $textannotations[] = array_merge($config, ["text"=> "$word_text", "x"=>303.41, "y"=>591.06, "width"=> 283.79]);
+			}			
+		 
+		    $urlToken = "";
+			
+			// call API 
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
+	
+	// Handle BAJAJ FORM
+	private static function handleBAJAJForm($ticket) 
+	{
+
+		try 
+		{	
+		    // VARIABLES
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
+			$urlToken = "";
+			
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
+
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+			
+			$date = date("d-m-Y", time());
+			
+		    $config = ["size"=>7,"height"=> 10, "pages"=> "0", "type"=> "text"];
+			
+			$imageArr = ["url" => $checkboxImageData, "width" => 10, "height" => 10.25, "pages" => "0", "keepAspectRatio" => true ];
+			
+			// BUY CASES
+			if ($ticket->type == 1) {
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 150.82, "y" => 402.61]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 200.02, "y" =>  402.61]);
+				}
+			}
+			// SELL CASES
+			if ($ticket->type == 2) {
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 422.94, "y" => 402.61]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 483.08, "y" =>  402.61]);
+				}
+			}
+
+			if(strtolower($sec_name) == 'bajaj finserv nifty 50 etf') {
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>225.96, "y"=>432.78, "width"=>102.65]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>331.05, "y"=>432.78, "width"=>245]);
+				if ($ticket->type == 1) 
+				{
+				   $textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>225.96, "y"=>445.53, "width"=> 102.65]);
+				   $textannotations[] = array_merge($config, ["text"=>"$word_text", "x"=>331.05, "y"=>445.53, "width"=> 245]);
+				}
+			}
+			else if(strtolower($sec_name) == 'bajaj finserv nifty bank etf') {
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>225.96, "y"=>458.28, "width"=>102.65]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>331.05, "y"=>458.28, "width"=>245]);
+				if ($ticket->type == 1) 
+				{
+				   $textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>225.96, "y"=>471.63, "width"=> 102.65]);
+				   $textannotations[] = array_merge($config, ["text"=>"$word_text", "x"=>331.05, "y"=>471.63, "width"=> 245]);
+				}
+			}
+			
+			// UTR 	
+			if ($ticket->type == 1) 
+			{
+			   $textannotations[] = array_merge($config, ["text"=>"$utr_no", "x"=>364.45, "y"=>572.39, "width"=> 85.86]);
+			}
+			
+		    $urlToken = "filetoken://de7adca6ec7c687579e30d9ca8e3225b4b2cb193d2c6f20c65";
+			
+			// call API 
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
+	
+	// Handle HDFC FORM
+	private static function handleHDFCForm($ticket) 
+	{
+
+		try 
+		{	
+		    // VARIABLES
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
+			$urlToken = "";
+			
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
+
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+			
+			$date = date("d-m-Y", time());
+			
+		    $config = ["size"=>7,"height"=> 10, "pages"=> "1", "type"=> "text"];
+			
+			$imageArr = ["url" => $checkboxImageData, "width" => 10, "height" => 10.25, "pages" => "1", "keepAspectRatio" => true ];
+			
+			// DEFAULT VALUES
+			$X1=57.71; $X2=522.39; $X3=235.69; $X4=285.5; $X5=354.14; $X6=405.17;
+			
+			if(strtolower($sec_name) == 'hdfc nifty bank etf') { $Y1=380.58; }
+			if(strtolower($sec_name) == 'hdfc nifty 50 etf') { $Y1=392.72; }
+			if(strtolower($sec_name) == 'hdfc s&p bse sensex etf') { $Y1=404.86; }
+			if(strtolower($sec_name) == 'hdfc nifty 100 etf') { $Y1=417.17;}
+			if(strtolower($sec_name) == 'hdfc nifty next 50 etf') { $Y1=428.7;}
+			if(strtolower($sec_name) == 'hdfc nifty100 quality 30 etf') { $Y1=439.51;}
+			if(strtolower($sec_name) == 'hdfc nifty200 momentum 30 etf') { $Y1=452.48;}
+			if(strtolower($sec_name) == 'hdfc nifty100 low volatility 30 etf') { $Y1=464.01;}
+			if(strtolower($sec_name) == 'hdfc nifty growth sectors 15 etf') { $Y1=476.26;}
+			if(strtolower($sec_name) == 'hdfc nifty 50 value 20 etf') { $Y1=488.51;}
+			if(strtolower($sec_name) == 'hdfc nifty private bank etf') { $Y1=500.04;}
+			if(strtolower($sec_name) == 'hdfc nifty it etf') { $Y1=510.85;}
+			if(strtolower($sec_name) == 'hdfc s&p bse 500 etf') { $Y1=523.1;}
+			if(strtolower($sec_name) == 'hdfc nifty midcap 150 etf') { $Y1=534.64; }
+			if(strtolower($sec_name) == 'hdfc nifty smallcap 250 etf') { $Y1=547.89;}
+			if(strtolower($sec_name) == 'hdfc nifty psu bank etf') { $Y1=559.86;}
+			if(strtolower($sec_name) == 'hdfc gold exchange traded fund') { $Y1=571.39;}
+			if(strtolower($sec_name) == 'hdfc silver etf') { $Y1=582.92;}
+
+			$images[] = array_merge($imageArr, ["x"=> $X1, "y"=>$Y1]);
+			$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>$X2, "y"=>$Y1, "width"=> 67.42]);
+			if ($ticket->type == 1) { // BUY CASES
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" =>$X3, "y" =>$Y1]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => $X4, "y" =>$Y1]);
+				}
+			}
+			if ($ticket->type == 2) { // SELL CASES
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" =>$X5, "y" =>$Y1]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => $X6, "y" =>$Y1]);
+				}
+			}
+			
+			// Total UNits In Words (second page)
+			$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>124.83, "y"=>594.66, "width"=> 358.61, "pages"=>"1"]);
+			
+			if ($ticket->type == 1) 
+			{
+				// total AMount in figures
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>129.88, "y"=>606.91, "width"=> 88.75, "pages"=>"1"]);
+
+				// total AMount in WORDS
+				$textannotations[] = array_merge($config, ["text"=>"$word_text", "x"=>305.22, "y"=>606.91, "width"=> 270.58, "pages"=>"1"]);
+			}				
+			
+			
+			// Total UNits In Words (Third Page)
+			$t = $total_units_in_float . " (" . $total_units_in_words . ")";
+			$textannotations[] = array_merge($config, ["text"=>"$t", "x"=>158.74, "y"=>55.5, "width"=>356.44, "pages"=>"2"]);
+			if ($ticket->type == 1) 
+			{
+				$t = $total_amt . " (" . $word_text . ")";
+				$textannotations[] = array_merge($config, ["text"=>"$t", "x"=>119.06, "y"=>69.92, "width"=>398.29, "pages"=>"2"]);
+			}
+	
+			// UTR NUMBER 
+			$textannotations[] = array_merge($config, ["text"=>"$utr_no", "x"=>253.98, "y"=>209.03, "width"=>67.1, "height"=>18.74, "pages"=>"2"]);
+	
+			// Todays DATE 
+			$date = date("d-m-Y", time());
+			$textannotations[] = array_merge($config, ["text"=>"$date", "x"=>321.81, "y"=>209.03, "width"=>67.1, "height"=>18.74, "pages"=>"2"]);
+			
+			// Total AMount 
+			$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>387.47, "y"=>207.59, "width"=>88.03, "height"=>18.74, "pages"=>"2"]);
+			
+		    $urlToken = "filetoken://36ecc0df2b8cc2568be589ccd70651de0ecd8597e91e39ec7b";
 			
 			// call API 
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
@@ -1298,33 +1685,42 @@ class FormService
 
         if ($sec_name) {
             // Aditya BIRLA Form
-            if (strpos($sec_name, "ADITYA BIRLA") !== false) {
+            if (stripos($sec_name, "ADITYA BIRLA") !== false) {
                 Log::info("Generating PDF for ADITYA BIRLA");
                 self::handleBirlaForm($ticket);
-            } elseif (strpos($sec_name, "AXIS") !== false) {
+            } elseif (stripos($sec_name, "AXIS") !== false) {
                 Log::info("Generating PDF for AXIS");
                 self::handleAXISForm($ticket);
-            } elseif (strpos($sec_name, "LIC") !== false) {
+            } elseif (stripos($sec_name, "LIC") !== false) {
                 Log::info("Generating PDF for LIC");
                 self::handleLICForm($ticket);
-            } elseif (strpos($sec_name, "MIRAE") !== false) {
+            } elseif (stripos($sec_name, "MIRAE") !== false) {
                 Log::info("Generating PDF for MIRAE");
                 self::handleMIRAEForm($ticket);
-			} elseif (strpos($sec_name, "UTI") !== false) {
+			} elseif (stripos($sec_name, "UTI") !== false) {
                 Log::info("Generating PDF for UTI");
                 self::handleUTIForm($ticket);
-            } elseif (strpos($sec_name, "MOTILAL") !== false) {
+            } elseif (stripos($sec_name, "MOTILAL") !== false) {
                 Log::info("Generating PDF for MOTILAL");
                 self::handleMOTILALForm($ticket);
-            } elseif (strpos($sec_name, "KOTAK") !== false) {
+            } elseif (stripos($sec_name, "KOTAK") !== false) {
                 Log::info("Generating PDF for KOTAK");
                 self::handleKOTAKForm($ticket);
-            } elseif (strpos($sec_name, "TATA") !== false) {
+            } elseif (stripos($sec_name, "TATA") !== false) {
                 Log::info("Generating PDF for TATA");
                 self::handleTATAForm($ticket);
-            } elseif (strpos($sec_name, "NIPPON") !== false || strtolower($sec_name)== 'cpse etf') {
+            } elseif (stripos($sec_name, "NIPPON") !== false || strtolower($sec_name) == 'cpse etf') {
                 Log::info("Generating PDF for NIPPON");
                 self::handleNIPPONForm($ticket);
+			} elseif (stripos($sec_name, "ICICI") !== false || strtolower($sec_name) == 'bharat 22 etf') {
+                Log::info("Generating PDF for ICICI");
+                self::handleICICIForm($ticket);	
+			} elseif (stripos($sec_name, "BAJAJ") !== false) {
+                Log::info("Generating PDF for BAJAJ");
+                self::handleBAJAJForm($ticket);	
+			} elseif (stripos($sec_name, "HDFC") !== false) {
+                Log::info("Generating PDF for HDFC");
+                self::handleHDFCForm($ticket);						
             } else { 
                 Log::info("Generating PDF :: No Matching AMC Name Found");
             }
