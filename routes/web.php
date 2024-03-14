@@ -17,6 +17,7 @@ use App\Http\Controllers\Ops\TicketController as OpsTicketController;
 use App\Http\Controllers\Account\TicketController as AccountsTicketController;
 use App\Http\Controllers\Dealer\TicketController as DealerTicketController;
 use App\Http\Controllers\Dealer\QuickTicketController as DealerQuickTicketController;
+use App\Http\Controllers\Trader\QuickTicketController as TraderQuickTicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 Route::middleware(['auth', 'isDealer'])->group(function () {
     Route::get('/dealer/dashboard', [DealerDashboardController::class, 'index'])->name('dealer.dashboard');
     Route::post('/calculate-purchase-nav', [DealerDashboardController::class, 'calculatePurchaseNav'])->name('calculate.purchase.nav');
+    Route::post('/dealer-calculate-purchase-nav', [DealerDashboardController::class, 'calculatePurchaseNavByRequest'])->name('dealer-calculate.purchase.nav');
     Route::resource('/dealer/tickets', DealerTicketController::class)->names([
         'index' => 'dealer.tickets.index',
         'edit' => 'dealer.tickets.edit',
@@ -79,6 +81,8 @@ Route::middleware(['auth', 'isDealer'])->group(function () {
     // quick ticket
     Route::resource('/dealer/quick_tickets', DealerQuickTicketController::class)->names([
         'index' => 'dealer.quick_tickets.index',
+        'create' => 'dealer.quick_tickets.create',
+        'store' => 'dealer.quick_tickets.store',
         'edit' => 'dealer.quick_tickets.edit',
         'show' => 'dealer.quick_tickets.show',
         'update' => 'dealer.quick_tickets.update',
@@ -111,6 +115,15 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
     ]);
     Route::get('/trader/get-security-details/{id}', [TraderTicketController::class, 'getSecurityDetails'])
     ->name('trader.get-security-details');
+    // quick ticket
+    Route::resource('/trader/quick_tickets', TraderQuickTicketController::class)->names([
+        'index' => 'trader.quick_tickets.index',
+        'create' => 'trader.quick_tickets.create',
+        'store' => 'trader.quick_tickets.store',
+        'edit' => 'trader.quick_tickets.edit',
+        'show' => 'trader.quick_tickets.show',
+        'update' => 'trader.quick_tickets.update',
+    ]);
 });
 
 // Ops Dashboard

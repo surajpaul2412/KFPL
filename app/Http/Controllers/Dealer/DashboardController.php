@@ -25,4 +25,13 @@ class DashboardController extends Controller
         $nav_value = purchaseNavValue($ticket, $request->input('actual_total_amt'));
         return response()->json(['navValue' => $nav_value]);
     }
+
+    public function calculatePurchaseNavByRequest(Request $request) {
+        dd($request->all());
+        $actual_total_amt = $request->input('actual_total_amt');
+
+        
+        $nav_value = purchaseNavValue($ticket, $request->input('actual_total_amt'));
+        return response()->json(['navValue' => $nav_value]);
+    }
 }
