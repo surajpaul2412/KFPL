@@ -14,7 +14,6 @@ function totalTicketAmt(Ticket $ticket) {
 }
 
 function purchaseNavValue(Ticket $ticket, $actualTotalAmt) {
-	dd($ticket);
 	$nav_value = purchaseConsideration($ticket, $actualTotalAmt)/totalUnits($ticket);
 	return round($nav_value, 4);
 }
