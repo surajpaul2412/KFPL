@@ -31,6 +31,7 @@ Ticket Management
                                     <th>Buy/Sell</th>
                                     <th>Payment Mode</th>
                                     <th>Ticket Value</th>
+                                    <th>NAV</th>
                                     <th>Created On</th>
                                     <th>Last Modified</th>
                                     <th>Trader Assignes</th>
@@ -54,6 +55,7 @@ Ticket Management
                                         @endif
                                     </td>
                                     <td>{{$ticket->basket_no * $ticket->basket_size}}</td>
+                                    <td>{{$ticket->nav}}</td>
                                     <td>{{$ticket->created_at->format('Y-m-d')}}</td>
                                     <td>{{$ticket->updated_at->format('Y-m-d')}}</td>
                                     <td>{{$ticket->trader->name}}</td>

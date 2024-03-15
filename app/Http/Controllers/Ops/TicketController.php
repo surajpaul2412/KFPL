@@ -79,38 +79,85 @@ class TicketController extends Controller
 
         } elseif ($ticket->status_id == 9) {
             $request->validate([
-                'refund' => 'required|numeric',
-                'deal_ticket' => 'required',
+                "refund" => "required|numeric",
+                "deal_ticket" => "nullable",
+                "screenshot" =>
+                    "nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
             ]);
 
             // Deal Ticket Wrokings
-            if ($request->hasFile('deal_ticket') && $ticket->deal_ticket) {
+            if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {
                 Storage::delete($ticket->deal_ticket);
             }
-            if ($request->hasFile('deal_ticket')) {
-                $imagePath = $request->file('deal_ticket')->store('deal_ticket', 'public');
-                $ticket->deal_ticket = $imagePath;
-            }
-            $ticket->update($request->except('screenshot'));
 
-            $data['status_id'] = 11;//condition can be placed here//
+            if ($request->hasFile("deal_ticket")) {
+                $imagePath = $request
+                    ->file("deal_ticket")
+                    ->store("deal_ticket", "public");
+                $ticket->deal_ticket = "storage/" . $imagePath;
+            }
+
+            if ($request->hasFile("screenshot")) {
+                // IF Old one exists, remove it
+                if ($ticket->screenshot != "") {
+                    if (
+                        Storage::disk("public")->exists($ticket->screenshot)
+                    ) {
+                        Storage::disk("public")->delete(
+                            $ticket->screenshot
+                        );
+                    }
+                }
+                $imagePath = $request
+                    ->file("screenshot")
+                    ->store("screenshot", "public");
+                $ticket->screenshot = "storage/" . $imagePath;
+            }
+
+            if ($ticket->type == 1) {
+                $ticket->status_id = 11; // BUY CASE
+            } elseif ($ticket->type == 2) {
+                $ticket->status_id = 10; // SELL CASE
+            }
+
+            // Update Ticket with POST DAta
+            $ticket->refund = $data["refund"] ? $data["refund"] : 0;
+            $ticket->save();
         } elseif ($ticket->status_id == 13) {
             $request->validate([
                 // 'verification' => 'required|in:1,2',
-                'received_units' => 'required|numeric',
+                "received_units" => "required|numeric",
+                "deal_ticket" => "nullable",
             ]);
 
-            if ($request->get('received_units') == ($ticket->basket_size * $ticket->basket_no)) {
+            if (
+                $request->get("received_units") ==
+                $ticket->basket_size * $ticket->basket_no
+            ) {
                 $request->validate([
-                    'dispute_comment' => 'nullable|string',
+                    "dispute_comment" => "nullable|string",
                 ]);
             } else {
-                if ($data['dispute_comment'] == null) {
-                    return back()->with('error','Please fill the Dispute Comment if you changes the unit');
+                if ($data["dispute_comment"] == null) {
+                    return back()->with(
+                        "error",
+                        "Please fill the Dispute Comment if you changes the unit"
+                    );
                 }
             }
+            // Deal Ticket Workings
+            if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {
+                Storage::delete($ticket->deal_ticket);
+            }
 
-            $data['status_id'] = 14;//condition can be placed here//
+            if ($request->hasFile("deal_ticket")) {
+                $imagePath = $request
+                    ->file("deal_ticket")
+                    ->store("deal_ticket", "public");
+                $ticket->deal_ticket = $imagePath;
+            }
+
+            $data["status_id"] = 14; //condition can be placed here//
         } else {
             
         }

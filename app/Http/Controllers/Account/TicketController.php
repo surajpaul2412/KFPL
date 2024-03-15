@@ -66,12 +66,12 @@ class TicketController extends Controller
 
         if ($ticket->status_id == 3) {
             $request->validate([
-                'total_amt' => 'required|numeric',
+                'total_amt_input' => 'required|numeric',
                 'utr_no' => 'required|string',
                 'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
             ]);
 
-            if ($ticket->total_amt == $request->get('total_amt')) {
+            if ($ticket->total_amt == $request->get('total_amt_input')) {
                 // Screenshot Wrokings
                 if ($request->hasFile('screenshot') && $ticket->screenshot) {
                     Storage::delete($ticket->screenshot);
@@ -96,30 +96,53 @@ class TicketController extends Controller
                 return redirect()->back()->with('error', 'Please verify your entered amount.');
             }
         } elseif ($ticket->status_id == 11) {
-            if ($request->get('verification') == 1) {
+            if ($request->get("verification") == 1) {
                 $request->validate([
-                    'expected_refund' => 'required|numeric',
-                    'dispute' => 'nullable|string',
+                    "expected_refund" => "required|numeric",
+                    "dispute" => "nullable|string",
+                    "deal_ticket" => "nullable",
                 ]);
 
-                if ( $ticket->refund - $request->get('expected_refund') > 500) {
-                    return redirect()->back()->with('error', 'Your entered amount diff. is more than 500');
+                if (
+                    $ticket->refund - $request->get("expected_refund") >
+                    500
+                ) {
+                    return redirect()
+                        ->back()
+                        ->with(
+                            "error",
+                            "Your entered amount diff. is more than 500"
+                        );
                 }
 
                 // expected_refund
-
-
                 if ($ticket->type == 1) {
                     $ticket->status_id = 13;
                 } else {
                     $ticket->status_id = 12;
                 }
-                $ticket->dispute = $request->get('dispute');
+
+                // Deal Ticket Workings
+                if (
+                    $request->hasFile("deal_ticket") &&
+                    $ticket->deal_ticket
+                ) {
+                    Storage::delete($ticket->deal_ticket);
+                }
+
+                if ($request->hasFile("deal_ticket")) {
+                    $imagePath = $request
+                        ->file("deal_ticket")
+                        ->store("deal_ticket", "public");
+                    $ticket->deal_ticket = $imagePath;
+                }
+
+                $ticket->dispute = $request->get("dispute");
             } else {
-                $ticket->dispute = $request->get('dispute');
+                $ticket->dispute = $request->get("dispute");
             }
 
-            $ticket->update();
+            $ticket->save();
         }
 
         return redirect()->route('accounts.tickets.index')->with('success', 'Ticket updated successfully.');

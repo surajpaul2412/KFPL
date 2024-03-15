@@ -72,4 +72,8 @@
         <div>Trade Value</div>
         <div class="font-weight-bold"> {{$ticket->actual_total_amt ?? 'N/A'}} </div>
     </div>
+    <div class="col-3">
+        <div>NAV</div>
+        <div class="font-weight-bold"> {{$ticket->nav ?? '0'}} </div>
+    </div>
 </div>

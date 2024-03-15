@@ -58,6 +58,11 @@ class QuickTicketController extends Controller
 
         // Create a new QuickTicket instance
         $quickTicket = QuickTicket::create($validatedData);
+
+        // purchaseNav
+        $nav_value = purchaseNavValueForQuickTicket($quickTicket, $request->input('actual_total_amt'));
+        $quickTicket->update(['nav'=> $nav_value]);
+        
         return redirect()->route('dealer.quick_tickets.index')
             ->with('success', 'Quick Ticket created successfully.');
     }

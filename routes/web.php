@@ -118,11 +118,7 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
     // quick ticket
     Route::resource('/trader/quick_tickets', TraderQuickTicketController::class)->names([
         'index' => 'trader.quick_tickets.index',
-        'create' => 'trader.quick_tickets.create',
-        'store' => 'trader.quick_tickets.store',
-        'edit' => 'trader.quick_tickets.edit',
         'show' => 'trader.quick_tickets.show',
-        'update' => 'trader.quick_tickets.update',
     ]);
 });
 

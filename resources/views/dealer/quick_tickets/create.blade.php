@@ -129,19 +129,6 @@ Ticket Management
                                     @enderror
                                 </div>
                               </div>
-                              <div style='width:49%;float:right;'>
-                                <div class="pb-1">
-                                    NAV value
-                                </div>
-                                <div class="">
-                                    <input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" value="" >
-                                    @error('nav')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                              </div>
                             </div>
 
                             <div class="col-6 my-3">
