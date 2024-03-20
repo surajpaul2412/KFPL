@@ -8,8 +8,8 @@ Ticket Management
 <div class="d-sm-flex align-items-center justify-content-between">
     <div>
         <ol class="breadcrumb fs-sm mb-3">
-            <li class="breadcrumb-item"><a href="/trader/tickets">Ticket Management</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Add Ticket</li>
+            <li class="breadcrumb-item"><a href="/dealer/quick_tickets">Ticket Management</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Quick Ticket</li>
         </ol>
         <h4 class="main-title mb-0">Add Ticket</h4>
     </div>
@@ -20,8 +20,9 @@ Ticket Management
 <div class="row g-3">
     <div class="col-xl-12">
         <div class="row g-3">
-            <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{ route('trader.tickets.store') }}">
+            <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{ route('dealer.quick_tickets.update', $ticket->id) }}">
                 @csrf
+                @method('PUT')
                 <div class="card card-one card-product">
                     <div class="card-body p-3">
                         <div class="row px-md-4">
@@ -33,7 +34,7 @@ Ticket Management
                                     <select id="select2B" name="security_id" class="form-select mobile-w-100 @error('security_id') is-invalid @enderror" required>
                                         <option label="Choose one"></option>
                                         @foreach($securities as $security)
-                                            <option value="{{ $security->id }}">{{ $security->name }} -- ({{ $security->symbol }})</option>
+                                            <option value="{{ $security->id }}" {{ $ticket->security_id == $security->id ? 'selected' : '' }}>{{ $security->name }} -- ({{ $security->symbol }})</option>
                                         @endforeach
                                     </select>
                                     @error('security_id')
@@ -44,14 +45,15 @@ Ticket Management
                                 </div>
                             </div>
 
+                            <!-- Ticket Type -->
                             <div class="col-6 my-3">
                                 <div class="pb-1">
                                     Ticket Type
                                 </div>
                                 <div class="">
-                                    <input type="hidden" name="type" value="" required>
-                                    <span class='ticketType' onclick="setTicketType(0,1)">Buy</span>
-                                    <span class='ticketType' onclick="setTicketType(1,2)">Sell</span>
+                                    <input type="hidden" name="type" value="{{ $ticket->type }}" required>
+                                    <span class='ticketType {{ $ticket->type == 1 ? "selected" : "" }}' onclick="setTicketType(0,1)">Buy</span>
+                                    <span class='ticketType {{ $ticket->type == 2 ? "selected" : "" }}' onclick="setTicketType(1,2)">Sell</span>
                                     @error('type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -60,15 +62,15 @@ Ticket Management
                                 </div>
                             </div>
 
-                            <div class="col-6 my-3">
+                            <div class="col-12 my-3">
                                 <div class="pb-1">
                                     Payment Type
                                 </div>
                                 <div class="">
-                                    <input type="hidden" name="payment_type" value="" required>
-                                    <span class='payMode' onclick="setPaymode(0,1)">Cash</span>
-                                    <span class='payMode' onclick="setPaymode(1,2)">Basket</span>
-                                    <span class='payMode' onclick="setPaymode(2,3)">Net Settlement</span>
+                                    <input type="hidden" name="payment_type" value="{{ $ticket->payment_type }}" required>
+                                    <span class='payMode {{ $ticket->payment_type == 1 ? "selected" : "" }}' onclick="setPaymode(0,1)">Cash</span>
+                                    <span class='payMode {{ $ticket->payment_type == 2 ? "selected" : "" }}' onclick="setPaymode(1,2)">Basket</span>
+                                    <span class='payMode {{ $ticket->payment_type == 3 ? "selected" : "" }}' onclick="setPaymode(2,3)">Net Settlement</span>
                                     @error('payment_type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -77,21 +79,13 @@ Ticket Management
                                 </div>
                             </div>
 
-                            <div class="col-6 my-3">
-                                <div class="pb-1">
-
-                                </div>
-                                <div class="">
-
-                                </div>
-                            </div>
-
+                            <!-- Enter No. of Basket -->
                             <div class="col-6 my-3">
                                 <div class="pb-1">
                                     Enter No. of Basket
                                 </div>
                                 <div class="">
-                                    <input type="text" name="basket_no" class="form-control w-100 @error('basket_no') is-invalid @enderror" value="{{ old('basket_no') }}" placeholder="Enter No. of Basket" id="no_basket" required>
+                                    <input type="text" name="basket_no" class="form-control w-100 @error('no_basket') is-invalid @enderror" value="{{ $ticket->basket_no }}" placeholder="Enter No. of Basket" id="no_basket" required>
                                     @error('basket_no')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -100,13 +94,13 @@ Ticket Management
                                 </div>
                             </div>
 
-                            <div class="col-3 my-3">
+                            <div class="col-6 my-3">
                                 <div class="pb-1">
-                                  Basket Size
+                                    Basket Size
                                 </div>
                                 <div class="calcField">
-                                    <input type="text" name="basket_size" class="form-control w-100 @error('basket_size') is-invalid @enderror" value="{{ old('basket_size') }}" placeholder="Basket Size" disabled>
-                                    <input type="hidden" name="basket_size" class="form-control w-100 @error('basket_size') is-invalid @enderror" value="{{ old('basket_size') }}" placeholder="Basket Size">
+                                    <input type="text" name="basket_size" class="form-control w-100 @error('basket_size') is-invalid @enderror" value="{{ $ticket->security->basket_size }}" placeholder="Basket Size" disabled>
+                                    <input type="hidden" name="basket_size" class="form-control w-100 @error('basket_size') is-invalid @enderror" value="{{ $ticket->security->basket_size }}" placeholder="Basket Size">
                                     @error('basket_size')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -114,63 +108,14 @@ Ticket Management
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-3 my-3">
-                                <div class="pb-1">
-                                  Total Qty
-                                </div>
-                                <div class="calcField">
-                                    <input type="text" name="total_qty" class="form-control w-100" value="" placeholder="Basket Size" disabled>
-                                </div>
-                            </div>
 
-                            <div class="col-6 my-3">
-                                <div class="pb-1">
-                                    Enter Rate
-                                </div>
-                                <div class="">
-                                    <input type="text" name="rate" class="form-control w-100 @error('rate') is-invalid @enderror"
-                                    value="{{ old('rate') }}" placeholder="Enter Rate" required>
-                                    @error('rate')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-3 my-3">
-                                <div class="pb-1">
-                                  Current Price
-                                </div>
-                                <div class="calcField">
-                                    <input type="text" name="security_price" class="form-control w-100 @error('security_price') is-invalid @enderror" value="{{ old('security_price') }}" placeholder="Enter Price" disabled>
-
-                                    <input type="hidden" name="security_price" class="form-control w-100 @error('security_price') is-invalid @enderror" value="{{ old('security_price') }}" placeholder="Enter Price">
-                                    @error('security_price')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-3 my-3 sellopts">
-                                <div class="pb-1">
-                                  Markup Price
-                                </div>
-                                <div class="calcField">
-                                    <input type="text" name="markup_price" class="form-control w-100" disabled>
-                                </div>
-                            </div>
-
-                            <div class="col-6 my-3">
+                            <div class="col-6 my-3 sellopts">
                                <div style='width:49%;float:left;'>
                                 <div class="pb-1">
-                                  Total Amount
+                                    Actual Trade Value
                                 </div>
-                                <div class="calcField">
-                                    <input type="text" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ old('total_amt') }}" placeholder="Enter Total Amt" disabled>
-
-                                    <input type="hidden" name="total_amt" class="form-control w-100 @error('total_amt') is-invalid @enderror" value="{{ old('total_amt') }}" placeholder="Enter Total Amt">
+                                <div class="">
+                                    <input type="number" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="{{ $ticket->actual_total_amt }}" required>
                                     @error('total_amt')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -178,21 +123,25 @@ Ticket Management
                                     @enderror
                                 </div>
                               </div>
-                              <div style='width:49%;float:right;'>
+                            </div>
+
+                            <div class="col-6 my-3">
                                 <div class="pb-1">
-                                  Markup Percentage
+                                  Select trader
                                 </div>
                                 <div class="calcField">
-                                    <input type="text" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ old('markup_percentage') }}" placeholder="Enter Markup Percentage" disabled>
-
-                                    <input type="hidden" name="markup_percentage" class="form-control w-100 @error('markup_percentage') is-invalid @enderror" value="{{ old('markup_percentage') }}" placeholder="Enter Markup Percentage">
-                                    @error('markup_percentage')
+                                    <select id="select2B" name="trader_id" class="form-select mobile-w-100 @error('security_id') is-invalid @enderror" required>
+                                        <option value="">Select Trader</option>
+                                        @foreach($traders as $trader)
+                                        <option value="{{ $trader->id }}" {{ $ticket->trader_id == $trader->id ? 'selected' : '' }}>{{ $trader->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('trader_id')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
-                              </div>
                             </div>
                         </div>
 
@@ -210,6 +159,15 @@ Ticket Management
 
 @section('script')
 <script>
+    function showhidefields(show)
+    {
+      if (show){
+         jQuery(".sellopts").show();
+      } else {
+         jQuery(".sellopts").hide();
+      }
+    }
+
     $(document).ready(function () {
         // Change event handler for the security select
         $('select[name="security_id"]').change(function () {
@@ -251,14 +209,33 @@ Ticket Management
 
             // Check if all values are available and not empty
             if (basketNo && basketSize && rate && markupPercentage) {
-                var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate * markupPercentage / 100);
-                var markupPrice = (basketNo * basketSize * rate) * markupPercentage / 100;
+                var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate) * markupPercentage / 100;
+                totalAmount = parseFloat(totalAmount.toFixed(2));
 
                 $('input[name="total_amt"]').val(totalAmount);
-                $('input[name="total_qty"]').val(basketNo * basketSize);
-                $('input[name="markup_price"]').val(markupPrice);
             }
         }
     });
+
+
+
+    $('input[name="actual_total_amt"]').on('input', function() {
+          // Get the entered value
+          var actualTotalAmt = $(this).val();
+
+          // Perform an AJAX request to calculate and update the NAV value
+          $.ajax({
+              url: '/dealer-calculate-purchase-nav', // Replace with your actual route
+              method: 'POST',
+              data: { actual_total_amt: actualTotalAmt, _token: '{{ csrf_token() }}' },
+              success: function(data) {
+                  // Update the NAV input with the calculated value
+                  $('input[name="nav"]').val(data.navValue);
+              },
+              error: function(error) {
+                  console.error('Error:', error);
+              }
+          });
+       });
 </script>
 @endsection

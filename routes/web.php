@@ -61,6 +61,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     // AMC Management
     Route::resource('/admin/amcs', AmcController::class);
     Route::post('/admin/upload-securities', [SecurityController::class, 'uploadCSV']);
+    Route::get('/admin/download-csv', [SecurityController::class, 'downloadCSV'])->name('download.csv');
     Route::resource('/admin/securities', SecurityController::class);
     // Disputes
     Route::resource('/admin/disputes', DisputeController::class);

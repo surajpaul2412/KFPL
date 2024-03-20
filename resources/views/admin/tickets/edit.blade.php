@@ -109,7 +109,7 @@
                                     </div>
 
                                     <!-- Basket Size -->
-                                    <div class="col-6 my-3">
+                                    <div class="col-3 my-3">
                                         <div class="pb-1">
                                             Basket Size
                                         </div>
@@ -121,6 +121,14 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-3 my-3">
+                                        <div class="pb-1">
+                                          Total Qty
+                                        </div>
+                                        <div class="calcField">
+                                            <input type="text" name="total_qty" class="form-control w-100" value="" placeholder="Basket Size" disabled>
                                         </div>
                                     </div>
 
@@ -143,7 +151,7 @@
                                     </div>
 
                                     <!-- Current Price -->
-                                    <div class="col-6 my-3 sellopts">
+                                    <div class="col-3 my-3 sellopts">
                                         <div class="pb-1">
                                             Current Price
                                         </div>
@@ -157,6 +165,14 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-3 my-3 sellopts">
+                                        <div class="pb-1">
+                                          Markup Price
+                                        </div>
+                                        <div class="calcField">
+                                            <input type="text" name="markup_price" class="form-control w-100" disabled>
                                         </div>
                                     </div>
 
@@ -620,7 +636,11 @@
             // Check if all values are available and not empty
             if (basketNo && basketSize && rate && markupPercentage) {
                 var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate * markupPercentage / 100);
+                var markupPrice = (basketNo * basketSize * rate) * markupPercentage / 100;
+                
                 $('input[name="total_amt"]').val(totalAmount);
+                $('input[name="total_qty"]').val(basketNo * basketSize);
+                $('input[name="markup_price"]').val(markupPrice);
             }
         }
     });

@@ -9,7 +9,7 @@
   <i class="ri-upload-line pe-2"></i> Upload rates via Excel
 </button>
 
-<a href="{{ asset('sample-security.csv') }}" class="btn btn-outline-primary" download>
+<a href="{{ route('download.csv') }}" class="btn btn-outline-primary" download>
     <i class="ri-download-2-line pe-2"></i>Download via Excel
 </a>
 @endsection

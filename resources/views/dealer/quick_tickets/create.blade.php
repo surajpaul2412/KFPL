@@ -9,7 +9,7 @@ Ticket Management
     <div>
         <ol class="breadcrumb fs-sm mb-3">
             <li class="breadcrumb-item"><a href="/dealer/quick_tickets">Ticket Management</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Add Ticket</li>
+            <li class="breadcrumb-item active" aria-current="page">Add Quick Ticket</li>
         </ol>
         <h4 class="main-title mb-0">Add Ticket</h4>
     </div>
