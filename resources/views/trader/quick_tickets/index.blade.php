@@ -20,7 +20,7 @@ Ticket Management
                                     <th>Security Name</th>
                                     <th>Buy/Sell</th>
                                     <th>Payment Mode</th>
-                                    <th>No of Basket</th>
+                                    <th>No of Units</th>
                                     <th>NAV</th>
                                     <th>Created On</th>
                                     <th>Ticket Creator</th>

@@ -48,6 +48,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/admin/toggle/status', [UserController::class, 'togglestatus'])->name('admin.employee.togglestatus');
     // Ticket
     Route::post('/admin-calculate-purchase-nav', [AdminDashboardController::class, 'calculatePurchaseNav'])->name('admin-calculate.purchase.nav');
+    Route::delete('/admin/tickets/{ticket}', [AdminTicketController::class, 'destroy'])->name('admin.tickets.destroy');
     Route::resource('/admin/tickets', AdminTicketController::class)->names([
         'index' => 'admin.tickets.index',
         'create' => 'admin.tickets.create',
@@ -55,6 +56,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
         'edit' => 'admin.tickets.edit',
         'update' => 'admin.tickets.update',
         'show' => 'admin.tickets.show',
+    ])->except([
+        'destroy' // Exclude the destroy method from the resourceful routes
     ]);
     Route::get('/admin/tickets/{ticket}/mail', [AdminTicketController::class, 'mail'])->name('admin.tickets.mail');
     Route::get('/admin/tickets/{ticket}/statusUpdate', [AdminTicketController::class, 'statusUpdate'])->name('admin.tickets.statusUpdate');

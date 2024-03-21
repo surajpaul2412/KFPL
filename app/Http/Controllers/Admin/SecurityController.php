@@ -137,17 +137,27 @@ class SecurityController extends Controller
     public function downloadCSV()
     {
         // Fetch required columns from securities table
-        $securities = Security::select('isin', 'price', 'cash_component')->get();
+        $securities = Security::select('amc_id', 'name', 'symbol', 'isin', 'basket_size', 'markup_percentage', 'price', 'cash_component', 'status')->get();
 
         // Create a new CSV writer instance
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
 
         // Insert column headers
-        $csv->insertOne(['ISIN', 'Price', 'Cash Component']);
+        $csv->insertOne(['AMC Id', 'Name', 'Symbol', 'ISIN', 'Basket Size', 'Markup Percentage', 'Price', 'Cash Component', 'Status']);
 
         // Insert data rows
         foreach ($securities as $security) {
-            $csv->insertOne([$security->isin, $security->price, $security->cash_component]);
+            $csv->insertOne([
+                $security->amc_id,
+                $security->name,
+                $security->symbol,
+                $security->isin,
+                $security->basket_size,
+                $security->markup_percentage,
+                $security->price,
+                $security->cash_component,
+                $security->status,
+            ]);
         }
 
         // Set headers for CSV download

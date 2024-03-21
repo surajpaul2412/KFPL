@@ -46,7 +46,7 @@ Disputed Tickets
                                     <th>Buy/Sell</th>
                                     <th>Payment Mode</th>
                                     <th>Total No. of Units</th>
-                                    <th>No of Basket</th>
+                                    <th>Trade Value</th>
                                     <th>Created On</th>
                                     <th>Last Modified</th>
                                     <th>Stage</th>

@@ -11,7 +11,25 @@
                 <li class="breadcrumb-item"><a href="/admin/tickets">Ticket Management</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edit Ticket</li>
             </ol>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div>
             <h4 class="main-title mb-0">{{$ticket->status->stage}}</h4>
+        </div>
+        <div>
+            <form id="delete-ticket-form-{{ $ticket->id }}" action="{{ route('admin.tickets.destroy', $ticket->id) }}" method="POST" style="display: none;">
+                @csrf
+                @method('DELETE')
+            </form>
+            <a href="#" onclick="event.preventDefault();
+                        if (confirm('Are you sure you want to delete this ticket?')) {
+                            document.getElementById('delete-ticket-form-{{ $ticket->id }}').submit();
+                        }"
+                class="btn btn-danger"
+            >
+                Delete Ticket
+            </a>
         </div>
     </div>
 
@@ -628,16 +646,18 @@
 
         // Function to calculate total amount
         function calculateTotalAmount() {
-            var basketNo = $('#no_basket').val();
-            var basketSize = $('input[name="basket_size"]').val();
-            var rate = $('input[name="rate"]').val();
-            var markupPercentage = $('input[name="markup_percentage"]').val();
+            var basketNo = parseFloat($('#no_basket').val());
+            var basketSize = parseFloat($('input[name="basket_size"]').val());
+            var rate = parseFloat($('input[name="rate"]').val());
+            var markupPercentage = parseFloat($('input[name="markup_percentage"]').val());
 
             // Check if all values are available and not empty
             if (basketNo && basketSize && rate && markupPercentage) {
-                var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate * markupPercentage / 100);
-                var markupPrice = (basketNo * basketSize * rate) * markupPercentage / 100;
-                
+                var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate) * markupPercentage / 100;
+                var markupPrice = rate + rate * markupPercentage/100;
+                totalAmount = parseFloat(totalAmount.toFixed(2));
+                markupPrice = parseFloat(markupPrice.toFixed(2));
+
                 $('input[name="total_amt"]').val(totalAmount);
                 $('input[name="total_qty"]').val(basketNo * basketSize);
                 $('input[name="markup_price"]').val(markupPrice);

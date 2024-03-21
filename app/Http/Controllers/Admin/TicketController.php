@@ -81,7 +81,7 @@ class TicketController extends Controller
             });
         }
 
-        $tickets = $ticketQuery->orderBy("created_at", "desc")->paginate(10);
+        $tickets = $ticketQuery->orderBy("updated_at", "desc")->paginate(10);
         $sql = DB::getQueryLog();
         // dd($sql);
         return view(
@@ -487,9 +487,14 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Ticket $ticket)
     {
-        //
+        try {
+            $ticket->delete();
+            return redirect()->route('admin.tickets.index')->with('success', 'Ticket deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.tickets.index')->with('error', 'Failed to delete ticket.');
+        }
     }
 
     public function mail(Ticket $ticket)

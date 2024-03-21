@@ -24,12 +24,12 @@ function saleNavValue(Ticket $ticket, $actualTotalAmt) {
 }
 
 function purchaseConsideration(Ticket $ticket, $actualTotalAmt) {
-	$purchase_consideration = $actualTotalAmt + (($ticket->security->amc->expense_percentage)/100 * $actualTotalAmt) + $ticket->security->cash_component;
+	$purchase_consideration = $actualTotalAmt + (($ticket->security->amc->expense_percentage)/100 * $actualTotalAmt) + ($ticket->security->cash_component * $ticket->basket_no);
 	return $purchase_consideration;
 }
 
 function saleConsideration(Ticket $ticket, $actualTotalAmt) {
-	$sale_consideration = $actualTotalAmt - (($ticket->security->amc->expense_percentage)/100 * $actualTotalAmt) + $ticket->security->cash_component;
+	$sale_consideration = $actualTotalAmt - (($ticket->security->amc->expense_percentage)/100 * $actualTotalAmt) + ($ticket->security->cash_component * $ticket->basket_no);
 	return $sale_consideration;
 }
 
@@ -51,7 +51,7 @@ function purchaseNavValueForQuickTicket(QuickTicket $quickTicket, $actualTotalAm
 	return round($nav_value, 4);
 }
 function purchaseConsiderationForQuickTicket(QuickTicket $quickTicket, $actualTotalAmt) {
-	$purchase_consideration = $actualTotalAmt + (($quickTicket->security->amc->expense_percentage)/100 * $actualTotalAmt) + $quickTicket->security->cash_component;
+	$purchase_consideration = $actualTotalAmt + (($quickTicket->security->amc->expense_percentage)/100 * $actualTotalAmt) + ($quickTicket->security->cash_component * $quickTicket->basket_no);
 	return $purchase_consideration;
 }
 function totalUnitsForQuickTicket(QuickTicket $quickTicket) {
