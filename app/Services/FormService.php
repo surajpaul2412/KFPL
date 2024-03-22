@@ -64,6 +64,7 @@ class FormService
 		  // INSERT DATE 
 		  $textannotations[] = ["text"=> date("d-m-Y", time()), "x"=> 61.57, "y"=> 620.91,"size"=>7,"width"=> 120, "height"=> 10, "pages"=> "0", "type"=> "text"];
 	  
+		  Log::info("About to call API");
 		  
 		  // call API 
 		  $urlToken = "filetoken://fdfcae17dcb7ec00fd43a19785bb7106d7a07b839682e03c09";
@@ -71,6 +72,7 @@ class FormService
 		}
 		catch (\Exception $e) 
 		{
+			Log::info("Exception in LIC FORM");
 			dd($e->getMessage());
         }
     }
@@ -129,11 +131,13 @@ class FormService
 		  
 		  
 		  // call API 
+		  Log::info("About to call API");
 		  $urlToken = "filetoken://3f6997fadf719169ba3441d8aad68aac8243ffd3be528001c5";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
 		{
+			Log::info("Exception in MIRAE FORM");
 			dd($e->getMessage());
 		}
 	  
@@ -229,11 +233,13 @@ class FormService
 		  $textannotations[] = ["text"=> "$total_amt", "x"=>69.78, "y"=>718.48,"size"=>7,"width"=> 140.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 		  
 		  // call API 
+		  Log::info("About to call API");
 		  $urlToken = "filetoken://be6e5905de092f6eea647c5341dc305a222abdcf167a001fd5";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
 		{
+			Log::info("Exception in UTI PDF generation");
 			dd($e->getMessage());
 		}
 	  
@@ -364,11 +370,13 @@ class FormService
 			  
 		  
 			// call API 
+			Log::info("About to call PDF API");
 			$urlToken = "filetoken://e288c52222b635ada94d16f5ba83630aca4a08759ecc7ef93a";
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
 		{
+			Log::info("Exception in MOTILAL PDF generation");
 			dd($e->getMessage());
 		}
 	  
@@ -509,11 +517,13 @@ class FormService
       }
 	  
 	  // call API 
+	  Log::info("About to call PDF API");
 	  $urlToken = "filetoken://81e457ba1f9ad8bfc357b4fb3cba61584b79d5a18bbb3f1312";
 	  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 	}
 	catch (\Exception $e) 
 	{
+		Log::info("Exception in AXIS PDF generation");
 		dd($e->getMessage());
 	}
   }
@@ -664,12 +674,13 @@ class FormService
 		  }
 
 		   // call API and SAVE the file
-		  $urlToken = "filetoken://96ede08acd4b7256958e2f2d0d16f3166e551f75d39e58d938";
 		  Log::info("Birla PDF -- ABout to call API");
+		  $urlToken = "filetoken://96ede08acd4b7256958e2f2d0d16f3166e551f75d39e58d938";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 	  }
 	  catch (\Exception $e) 
 	  {
+		Log::info("Exception in Aditya BIRLA PDF generation");
 		dd($e->getMessage());
 	  }	  
 
@@ -864,10 +875,12 @@ class FormService
 			$textannotations = $config;
 
 			// call API 
+			Log::info("About to call PDF API");
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
 		{
+			Log::info("Exception in KOTAK PDF generation");
 			dd($e->getMessage());
 		}
 	  
@@ -962,10 +975,12 @@ class FormService
 			$textannotations = $config;
 
 			// call API 
+			Log::info("ABOUT to call PDF API");
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
 		{
+			Log::info("Exception in TATA PDF generation");
 			dd($e->getMessage());
 		}
 	  
@@ -1187,10 +1202,12 @@ class FormService
 		    $urlToken = "filetoken://06b4ed19d137360fb55c8f91b76f7ebe1a3db2faa09ce963f6";
 			
 			// call API 
+			Log::info("About to call PDF API");
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
 		{
+			Log::info("Exception in NIPPON PDF generation");
 			dd($e->getMessage());
 		}
 	  
@@ -1357,10 +1374,12 @@ class FormService
 		    $urlToken = "";
 			
 			// call API 
+			Log::info("About to call PDF API");
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
 		{
+			Log::info("Exception in ICICI PDF generation");
 			dd($e->getMessage());
 		}
 	  
@@ -1601,8 +1620,10 @@ class FormService
             "images" => $images,
             "fields" => [],
         ];
-
-        $marker_json = json_encode($marker_array);
+        
+		Log::info("callAPIandSaveFile Function called - [$urlToken], [Ticket ID : $ticketId]");
+        
+		$marker_json = json_encode($marker_array);
 
         // CALL API
         $curl = curl_init();
@@ -1629,11 +1650,24 @@ class FormService
 		
         if (curl_exec($curl) === false) {
             // LOG
-            Log::debug("PDF GEneration Error : " . curl_error($curl));
+            Log::debug("PDF GEneration CURL Error : " . curl_error($curl));
         } else {
-            if (isset($response["url"]) && $response["url"] != "") {
+			
+			if(is_array($response))
+			{
+			   Log::info("callAPIandSaveFile CURL SUCCESS");	
+			}
+			else 
+			{
+				Log::info("callAPIandSaveFile CURL SUCCESS .. Response can not be converted into an ARRAY");
+			}
+            if (isset($response["url"]) && $response["url"] != "") 
+			{
                 $filecontent = file_get_contents($response["url"]);
-                if ($filecontent) {
+                
+				Log::info("callAPIandSaveFile [url parameter found and ran file_get_contents() on response ]");
+				
+				if ($filecontent) {
                     $fileName = "ticket-" . $ticketId . ".pdf";
                     if (
                         file_exists(

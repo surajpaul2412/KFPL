@@ -22,7 +22,6 @@ class Ticket extends Model
         'rate',
         'security_price',
         'markup_percentage',
-        'total_amt',
         'actual_total_amt',
         'nav',
         'refund',
@@ -63,7 +62,7 @@ class Ticket extends Model
     {
         return totalTicketAmt($this);
     }
-    
+
     /*
     public function getUserRolesAttribute()
     {
