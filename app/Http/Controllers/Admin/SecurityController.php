@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Security;
 use App\Models\Amc;
 use League\Csv\Reader;
+use League\Csv\Writer;
 
 class SecurityController extends Controller
 {
@@ -131,5 +132,41 @@ class SecurityController extends Controller
         }
 
         return redirect()->back()->with('success', 'Securities updated successfully as per ISIN.');
+    }
+
+    public function downloadCSV()
+    {
+        // Fetch required columns from securities table
+        $securities = Security::select('amc_id', 'name', 'symbol', 'isin', 'basket_size', 'markup_percentage', 'price', 'cash_component', 'status')->get();
+
+        // Create a new CSV writer instance
+        $csv = Writer::createFromFileObject(new \SplTempFileObject());
+
+        // Insert column headers
+        $csv->insertOne(['AMC Id', 'Name', 'Symbol', 'ISIN', 'Basket Size', 'Markup Percentage', 'Price', 'Cash Component', 'Status']);
+
+        // Insert data rows
+        foreach ($securities as $security) {
+            $csv->insertOne([
+                $security->amc_id,
+                $security->name,
+                $security->symbol,
+                $security->isin,
+                $security->basket_size,
+                $security->markup_percentage,
+                $security->price,
+                $security->cash_component,
+                $security->status,
+            ]);
+        }
+
+        // Set headers for CSV download
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="securities.csv"',
+        ];
+
+        // Create HTTP response with CSV content
+        return response($csv->toString(), 200, $headers);
     }
 }

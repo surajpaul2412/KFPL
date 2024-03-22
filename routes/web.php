@@ -48,6 +48,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/admin/toggle/status', [UserController::class, 'togglestatus'])->name('admin.employee.togglestatus');
     // Ticket
     Route::post('/admin-calculate-purchase-nav', [AdminDashboardController::class, 'calculatePurchaseNav'])->name('admin-calculate.purchase.nav');
+    Route::delete('/admin/tickets/{ticket}', [AdminTicketController::class, 'destroy'])->name('admin.tickets.destroy');
     Route::resource('/admin/tickets', AdminTicketController::class)->names([
         'index' => 'admin.tickets.index',
         'create' => 'admin.tickets.create',
@@ -55,12 +56,15 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
         'edit' => 'admin.tickets.edit',
         'update' => 'admin.tickets.update',
         'show' => 'admin.tickets.show',
+    ])->except([
+        'destroy' // Exclude the destroy method from the resourceful routes
     ]);
     Route::get('/admin/tickets/{ticket}/mail', [AdminTicketController::class, 'mail'])->name('admin.tickets.mail');
     Route::get('/admin/tickets/{ticket}/statusUpdate', [AdminTicketController::class, 'statusUpdate'])->name('admin.tickets.statusUpdate');
     // AMC Management
     Route::resource('/admin/amcs', AmcController::class);
     Route::post('/admin/upload-securities', [SecurityController::class, 'uploadCSV']);
+    Route::get('/admin/download-csv', [SecurityController::class, 'downloadCSV'])->name('download.csv');
     Route::resource('/admin/securities', SecurityController::class);
     // Disputes
     Route::resource('/admin/disputes', DisputeController::class);
@@ -118,11 +122,7 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
     // quick ticket
     Route::resource('/trader/quick_tickets', TraderQuickTicketController::class)->names([
         'index' => 'trader.quick_tickets.index',
-        'create' => 'trader.quick_tickets.create',
-        'store' => 'trader.quick_tickets.store',
-        'edit' => 'trader.quick_tickets.edit',
         'show' => 'trader.quick_tickets.show',
-        'update' => 'trader.quick_tickets.update',
     ]);
 });
 

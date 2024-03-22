@@ -36,18 +36,30 @@
     </div>
     <div class="col-3">
         <div>Ticket Rate</div>
+        @if($ticket->rate != 0)
         <div class="font-weight-bold"> {{$ticket->rate  ?? 'N/A'}} </div>
+        @else
+        <div class="font-weight-bold"> N/A </div>
+        @endif
     </div>
     <div class="col-3">
         <div>Total Amount</div>
+        @if($ticket->total_amt)
         <div class="font-weight-bold"> {{$ticket->total_amt  ?? 'N/A'}} </div>
+        @else
+        <div class="font-weight-bold"> N/A </div>
+        @endif
     </div>
 </div>
 <hr/>
 <div class="row px-md-4">
     <div class="col-3">
         <div>Markup Percentage</div>
+        @if($ticket->markup_percentage != 0)
         <div class="font-weight-bold"> {{$ticket->markup_percentage ?? 'N/A'}} </div>
+        @else
+        <div class="font-weight-bold">N/A</div>
+        @endif
     </div>
     <div class="col-3">
         <div>UTR Number</div>
@@ -70,6 +82,18 @@
 <div class="row px-md-4">
     <div class="col-3">
         <div>Trade Value</div>
+        @if($ticket->actual_total_amt != 0)
         <div class="font-weight-bold"> {{$ticket->actual_total_amt ?? 'N/A'}} </div>
+        @else
+        <div class="font-weight-bold">N/A</div>
+        @endif
+    </div>
+    <div class="col-3">
+        <div>NAV</div>
+        @if($ticket->nav != 0)
+        <div class="font-weight-bold"> {{$ticket->nav ?? 'N/A'}} </div>
+        @else
+        <div class="font-weight-bold"> N/A </div>
+        @endif
     </div>
 </div>

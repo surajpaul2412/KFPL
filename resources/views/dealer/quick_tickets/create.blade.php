@@ -9,7 +9,7 @@ Ticket Management
     <div>
         <ol class="breadcrumb fs-sm mb-3">
             <li class="breadcrumb-item"><a href="/dealer/quick_tickets">Ticket Management</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Add Ticket</li>
+            <li class="breadcrumb-item active" aria-current="page">Add Quick Ticket</li>
         </ol>
         <h4 class="main-title mb-0">Add Ticket</h4>
     </div>
@@ -123,19 +123,6 @@ Ticket Management
                                 <div class="">
                                     <input type="number" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
                                     @error('total_amt')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                              </div>
-                              <div style='width:49%;float:right;'>
-                                <div class="pb-1">
-                                    NAV value
-                                </div>
-                                <div class="">
-                                    <input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" value="" >
-                                    @error('nav')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

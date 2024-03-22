@@ -30,11 +30,12 @@ Ticket Management
                                     <th>Security Name</th>
                                     <th>Buy/Sell</th>
                                     <th>Payment Mode</th>
-                                    <th>Ticket Value</th>
+                                    <th>No of Units</th>
+                                    <th>NAV</th>
                                     <th>Created On</th>
                                     <th>Last Modified</th>
                                     <th>Trader Assignes</th>
-                                    <!-- <th>Action</th> -->
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,9 +55,15 @@ Ticket Management
                                         @endif
                                     </td>
                                     <td>{{$ticket->basket_no * $ticket->basket_size}}</td>
+                                    <td>{{$ticket->nav}}</td>
                                     <td>{{$ticket->created_at->format('Y-m-d')}}</td>
                                     <td>{{$ticket->updated_at->format('Y-m-d')}}</td>
                                     <td>{{$ticket->trader->name}}</td>
+                                    <td>
+                                        <a href="{{url('/dealer/quick_tickets/' . $ticket->id . '/edit')}}" title="Edit">
+                                            <i class="ri-pencil-fill"></i>
+                                        </a>
+                                    </td>
                                     <!-- <td>
                                         @if($ticket->status_id == 6 || $ticket->status_id == 7)
                                         <a href="{{ route('dealer.quick_tickets.show', $ticket->id) }}" title="View">

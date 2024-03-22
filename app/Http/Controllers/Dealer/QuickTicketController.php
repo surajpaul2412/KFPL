@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\QuickTicket;
 use App\Models\Security;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class QuickTicketController extends Controller
 {
@@ -58,6 +59,11 @@ class QuickTicketController extends Controller
 
         // Create a new QuickTicket instance
         $quickTicket = QuickTicket::create($validatedData);
+
+        // purchaseNav
+        $nav_value = purchaseNavValueForQuickTicket($quickTicket, $request->input('actual_total_amt'));
+        $quickTicket->update(['nav'=> $nav_value]);
+        
         return redirect()->route('dealer.quick_tickets.index')
             ->with('success', 'Quick Ticket created successfully.');
     }
@@ -75,7 +81,12 @@ class QuickTicketController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ticket = QuickTicket::findOrFail($id);
+        $securities = Security::whereStatus(1)->get();
+        $traders = User::where('status', 1)->get()->filter(function ($user) {
+            return $user->isTrader();
+        });
+        return view('dealer.quick_tickets.edit', compact('ticket','securities','traders'));
     }
 
     /**
@@ -83,7 +94,31 @@ class QuickTicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $quickTicket = QuickTicket::findOrFail($id);
+
+        // Validate the request data
+        $validatedData = Validator::make($request->all(), [
+            'security_id' => 'required|exists:securities,id',
+            "type" => "required|integer|in:1,2",
+            "payment_type" => "required|integer|in:1,2,3",
+            'basket_no' => 'required|integer',
+            'basket_size' => 'nullable|string',
+            'actual_total_amt' => 'required|numeric',
+            'nav' => 'nullable|numeric',
+            'trader_id' => 'required|exists:users,id',
+        ])->validate();
+
+        // Update the QuickTicket instance
+        $quickTicket->update($validatedData);
+
+        // Update purchaseNav if needed
+        if ($request->has('actual_total_amt')) {
+            $nav_value = purchaseNavValueForQuickTicket($quickTicket, $request->input('actual_total_amt'));
+            $quickTicket->update(['nav'=> $nav_value]);
+        }
+        
+        return redirect()->route('dealer.quick_tickets.index')
+            ->with('success', 'Quick Ticket updated successfully.');
     }
 
     /**

@@ -18,7 +18,7 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::whereUserId(Auth::user()->id)
-         ->orderBy('created_at', 'desc')
+         ->orderBy('updated_at', 'desc')
          ->paginate(10);
 
          return view('trader.tickets.index', compact('tickets'));

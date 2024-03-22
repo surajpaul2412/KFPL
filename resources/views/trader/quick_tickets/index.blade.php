@@ -7,16 +7,6 @@ Ticket Management
 @section('content')
 
 @include('topmessages')
-
-<div class="d-sm-flex mb-4">
-
-    <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
-        <a type="button" href="{{route('dealer.quick_tickets.create')}}" class="btn btn-primary d-flex align-items-center gap-2">
-            <i class="ri-bar-chart-2-line fs-18 lh-1"></i><span class="d-none d-sm-inline">Create Ticket</span>
-        </a>
-    </div>
-</div>
-
 <div class="row justify-content-center g-3">
     <div class="col-xl-12">
         <div class="row g-3">
@@ -30,11 +20,11 @@ Ticket Management
                                     <th>Security Name</th>
                                     <th>Buy/Sell</th>
                                     <th>Payment Mode</th>
-                                    <th>Ticket Value</th>
+                                    <th>No of Units</th>
+                                    <th>NAV</th>
                                     <th>Created On</th>
-                                    <th>Last Modified</th>
                                     <th>Ticket Creator</th>
-                                    <!-- <th>Action</th> -->
+                                    <th>Convert</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,20 +44,10 @@ Ticket Management
                                         @endif
                                     </td>
                                     <td>{{$ticket->basket_no * $ticket->basket_size}}</td>
+                                    <td>{{$ticket->nav}}</td>
                                     <td>{{$ticket->created_at->format('Y-m-d')}}</td>
-                                    <td>{{$ticket->updated_at->format('Y-m-d')}}</td>
                                     <td>{{$ticket->user->name}}</td>
-                                    <!-- <td>
-                                        @if($ticket->status_id == 6 || $ticket->status_id == 7)
-                                        <a href="{{ route('dealer.quick_tickets.show', $ticket->id) }}" title="View">
-                                            <i class="ri-pencil-fill"></i>
-                                        </a>
-                                        @else
-                                        <a href="{{url('/dealer/quick_tickets/' . $ticket->id . '/edit')}}" title="Edit">
-                                            <i class="ri-pencil-fill"></i>
-                                        </a>
-                                        @endif
-                                    </td> -->
+                                    <td><a href="{{ route('trader.quick_tickets.show', $ticket->id) }}"><i class='ri-toggle-line'></i></a></td>
                                 </tr>
                                 @endforeach
                                @else
