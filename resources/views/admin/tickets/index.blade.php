@@ -39,7 +39,7 @@ Ticket Management
             </select>
             <input type="text" class="form-input form-control" name="sel_query" placeholder="Enter Name, Symbol, ISIN code or Ticket ID" value="{{$sel_query}}"/>
           </div>
-          
+
           <button type="submit" class="btn btn-primary" title="Search">
             <i class="ri-search-line"></i> Search
           </button>
@@ -123,7 +123,7 @@ Ticket Management
 
                         <!-- Pagination links -->
                         <div class="d-flex justify-content-center my-3">
-                            {{ $tickets->links() }}
+                            {{ $tickets->withQueryString()->links() }}
                         </div>
                     </div>
                 </div>

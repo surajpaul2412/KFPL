@@ -92,7 +92,7 @@
                             <!-- Pagination links -->
                             @if($securities->hasPages())
                                 <div class="d-flex justify-content-center my-3">
-                                    {{ $securities->links() }}
+                                    {{ $securities->withQueryString()->links() }}
                                 </div>
                             @endif
                         </div>

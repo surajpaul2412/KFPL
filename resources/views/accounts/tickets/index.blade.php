@@ -89,7 +89,7 @@ Ticket Management
 
                         <!-- Pagination links -->
                         <div class="d-flex justify-content-center my-3">
-                            {{ $tickets->links() }}
+                            {{ $tickets->withQueryString()->links() }}
                         </div>
                     </div>
                 </div>

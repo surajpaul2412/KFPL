@@ -48,7 +48,7 @@
                 </div>
                 @endif
 
-                <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{ route('admin.tickets.update', $ticket->id) }}" enctype="multipart/form-data">
+                <form class="col-12 col-md-12 col-xl-12 pt-3" onsubmit="showWait()" method="post" action="{{ route('admin.tickets.update', $ticket->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card card-one card-product">
@@ -285,7 +285,7 @@
                                 @endif
 
                                 @if($ticket->status_id == 9)
-                                  
+
 									@if($ticket->type == 1)
                                   	<div class="col-6 my-3">
                                   		<div class="w-25 pb-1">
@@ -413,7 +413,7 @@
                                         </div>
                                     </div>
                                     @endif
-                                  @endif  
+                                  @endif
                                 @endif
 
                                 @if($ticket->status_id == 11)
@@ -510,8 +510,10 @@
                                 <!-- Update button text for edit page -->
                                 <div class="text-align-center">
                                     @if($ticket->status_id != 14)
-                                    <button type="submit" class="btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
+                                    <button type="submit" class="btnSubmit btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
                                     @endif
+
+                                    <div class='waitmsg' style='display:none;'>Please Wait ... </div>
                                 </div>
                             </div>
                         </div><!-- card-body -->
@@ -525,6 +527,12 @@
 
 @section('script')
 <script>
+    function showWait()
+    {
+      jQuery('.btnSubmit').remove();
+      jQuery('.waitmsg').show();
+    }
+
     function showhidefields(show)
     {
       if (show){

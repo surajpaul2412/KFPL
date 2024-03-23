@@ -123,7 +123,7 @@ Employee Management
 
                         <!-- Pagination links -->
                         <div class="d-flex justify-content-center my-3">
-                            {{ $employees->links() }}
+                            {{ $employees->withQueryString()->links() }}
                         </div>
                     </div>
                 </div>
