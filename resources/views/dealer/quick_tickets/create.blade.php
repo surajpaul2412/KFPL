@@ -115,7 +115,7 @@ Ticket Management
                                 </div>
                             </div>
 
-                            <div class="col-6 my-3 sellopts">
+                            <div class="col-6 my-3">
                                <div style='width:49%;float:left;'>
                                 <div class="pb-1">
                                     Actual Trade Value
@@ -225,23 +225,23 @@ Ticket Management
 
 
 
-    $('input[name="actual_total_amt"]').on('input', function() {
-          // Get the entered value
-          var actualTotalAmt = $(this).val();
+    // $('input[name="actual_total_amt"]').on('input', function() {
+    //       // Get the entered value
+    //       var actualTotalAmt = $(this).val();
 
-          // Perform an AJAX request to calculate and update the NAV value
-          $.ajax({
-              url: '/dealer-calculate-purchase-nav', // Replace with your actual route
-              method: 'POST',
-              data: { actual_total_amt: actualTotalAmt, _token: '{{ csrf_token() }}' },
-              success: function(data) {
-                  // Update the NAV input with the calculated value
-                  $('input[name="nav"]').val(data.navValue);
-              },
-              error: function(error) {
-                  console.error('Error:', error);
-              }
-          });
-       });
+    //       // Perform an AJAX request to calculate and update the NAV value
+    //       $.ajax({
+    //           url: '/dealer-calculate-purchase-nav', // Replace with your actual route
+    //           method: 'POST',
+    //           data: { actual_total_amt: actualTotalAmt, _token: '{{ csrf_token() }}' },
+    //           success: function(data) {
+    //               // Update the NAV input with the calculated value
+    //               $('input[name="nav"]').val(data.navValue);
+    //           },
+    //           error: function(error) {
+    //               console.error('Error:', error);
+    //           }
+    //       });
+    //    });
 </script>
 @endsection
