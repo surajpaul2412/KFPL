@@ -200,7 +200,6 @@ class TicketController extends Controller
                     FormService::GenerateDocument($ticket);
                 }
                 $ticket->save();
-                FormService::GenerateDocument($ticket);
                 $ticket->update($data);
             } elseif ($ticket->status_id == 3) {
                 // BUY case
