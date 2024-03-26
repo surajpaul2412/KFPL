@@ -262,7 +262,7 @@ Ticket Management
             if (basketNo && basketSize && rate && markupPercentage) {
                 var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate) * markupPercentage / 100;
                 var markupPrice = rate + rate * markupPercentage/100;
-                totalAmount = parseFloat(totalAmount.toFixed(2));
+                totalAmount = Math.round(totalAmount);
                 markupPrice = parseFloat(markupPrice.toFixed(2));
 
                 $('input[name="total_amt"]').val(totalAmount);
