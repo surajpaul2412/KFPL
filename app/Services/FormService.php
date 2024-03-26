@@ -118,7 +118,7 @@ class FormService
 			  $utr_no = $ticket->utr_no;
 			  if($utr_no !='')
 			  {
-				$textannotations[] = ["text"=> "INFT/035710244391,INFT/035711583961,INFT/035710244391,INFT/035711583961", "x"=> 25.11, "y"=> 320.88,"size"=>5,"width"=> 125.52, "height"=> 20, "pages"=> "0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$utr_no", "x"=> 25.11, "y"=> 320.88,"size"=>5,"width"=> 125.52, "height"=> 20, "pages"=> "0", "type"=> "text"];
 			  }
 
 		  }
