@@ -47,7 +47,7 @@ class FormService
 				  ];
 
 				$textannotations[] = ["text"=> "$total_amt", "x"=> 92.37, "y"=> 347,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
-				$textannotations[] = ["text"=> "$word_text", "x"=> 236.72, "y"=> 346.39,  "width"=> 300,"size"=>7,"height"=> 13, "pages"=> "0", "type"=> "text"];		
+				$textannotations[] = ["text"=> "$word_text", "x"=> 238.43, "y"=> 343.58, "width"=> 158.47,"size"=>6,"height"=> 20.16, "pages"=> "0", "type"=> "text"];		
 				  
 		  }
 		  // SELL CASES
@@ -67,7 +67,7 @@ class FormService
 		  Log::info("About to call API");
 		  
 		  // call API 
-		  $urlToken = "filetoken://fdfcae17dcb7ec00fd43a19785bb7106d7a07b839682e03c09";
+		  $urlToken = "filetoken://45143685a2149be764a4187019f1868a0242a2cb545987edd5";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
@@ -309,58 +309,66 @@ class FormService
 			}
 
 			$productCheckArr = ["url" => $checkboxImageData, "x" => 15.27, "y" =>0.0, "size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];
+			$prodFound = 0;
 			if(strtolower($sec_name) == 'motilal oswal nifty 50 etf')
 			{
-			  $productCheckArr['y'] = 393.76; 
+			  $productCheckArr['y'] = 405; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal nifty midcap 100 etf')
 			{
-			  $productCheckArr["y"] = 413.76; 
+			  $productCheckArr["y"] = 423; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal nasdaq 100 etf')
 			{
-			  $productCheckArr["y"] = 433.76; 
+			  $productCheckArr["y"] = 441; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal nifty 5 year benchmark g-sec etf')
 			{
-			  $productCheckArr["y"] = 453.76; 
+			  $productCheckArr["y"] = 459; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal nasdaq q 50 etf')
 			{
-			  $productCheckArr["y"] = 473.76; 
+			  $productCheckArr["y"] = 477; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal nifty 200 momentum 30 etf')
 			{
-			  $productCheckArr["y"] = 493.76; 
+			  $productCheckArr["y"] = 495; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal s&p bse low volatility etf')
 			{
-			  $productCheckArr["y"] = 513.76; 
+			  $productCheckArr["y"] = 513; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal s&p bse healthcare etf')
 			{
-			  $productCheckArr["y"] = 533.76; 
+			  $productCheckArr["y"] = 531; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal s&p bse quality etf')
 			{
-			  $productCheckArr["y"] = 553.76; 
+			  $productCheckArr["y"] = 549; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal s&p bse enhanced value etf')
 			{
-			  $productCheckArr["y"] = 573.76; 
+			  $productCheckArr["y"] = 567; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal nifty 500 etf')
 			{
-			  $productCheckArr["y"] = 593.76; 
+			  $productCheckArr["y"] = 585; $prodFound = 1;
 			}
-
-			$images[] = $productCheckArr;
-
+			
+			if( $prodFound )
+			{
+			  $images[] = $productCheckArr;
+			}
+			
+			// DATE 
+			$date = date("d-m-Y", time());
+			$textannotations[] = ["text"=> "$date", "x"=>52.68, "y"=>51.18,"size"=>9,"width"=> 115.45, "height"=> 12.97, "pages"=> "0", "type" => "text"];
+			
 			// Total Amount
 			$textannotations[] = ["text"=> "$total_amt", "x"=>84.5, "y"=>702.61,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 			
 			// UTR
-		    $textannotations[] = ["text"=> "$utr_no", "x"=>127.76, "y"=>727.41,"size"=>7,"width"=>180.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+		    $textannotations[] = ["text"=> "$utr_no", "x"=>121.94, "y"=>724.96,"size"=>6,"width"=>460.35, "height"=>20.18, "pages"=> "0", "type" => "text"];
 
 			// Ticket Basket
 		    $textannotations[] = ["text" => "$ticket_basket", "x" =>126.03, "y" =>660.52,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
@@ -1450,6 +1458,7 @@ class FormService
 				   $textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>225.96, "y"=>445.53, "width"=> 102.65]);
 				   $textannotations[] = array_merge($config, ["text"=>"$word_text", "x"=>331.05, "y"=>445.53, "width"=> 245]);
 				}
+				$images[] = array_merge($imageArr, ["x" => 13.46, "y" =>  437.6]);
 			}
 			else if(strtolower($sec_name) == 'bajaj finserv nifty bank etf') {
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>225.96, "y"=>458.28, "width"=>102.65]);
@@ -1459,12 +1468,13 @@ class FormService
 				   $textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>225.96, "y"=>471.63, "width"=> 102.65]);
 				   $textannotations[] = array_merge($config, ["text"=>"$word_text", "x"=>331.05, "y"=>471.63, "width"=> 245]);
 				}
+				$images[] = array_merge($imageArr, ["x" => 13.46, "y" =>  464.51]);
 			}
 			
 			// UTR 	
 			if ($ticket->type == 1) 
 			{
-			   $textannotations[] = array_merge($config, ["text"=>"$utr_no", "x"=>364.45, "y"=>572.39, "width"=> 85.86]);
+			   $textannotations[] = array_merge($config, ["text"=>"$utr_no", "x"=>364.45, "y"=>567.74, "width"=> 214.66, "height"=>16.66, "size" => 7]);
 			}
 			
 		    $urlToken = "filetoken://de7adca6ec7c687579e30d9ca8e3225b4b2cb193d2c6f20c65";
