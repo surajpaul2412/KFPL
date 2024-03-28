@@ -96,4 +96,27 @@
         <div class="font-weight-bold"> N/A </div>
         @endif
     </div>
+    <div class="col-3">
+        <div>Deal ticket</div>
+        <div class="font-weight-bold">N/A</div>
+
+
+
+        {{--@if (Storage::exists('public/' . $ticket->deal_ticket))
+        <div class="font-weight-bold"><a href="{{ asset("storage/{$ticket->deal_ticket}") }}" target="_blank" download>Download <i class="ri-download-2-line"></i></a></div>
+        @else
+        <div class="font-weight-bold">N/A</div>
+        @endif--}}
+    </div>
+    <div class="col-3">
+        <div>Screenshot</div>
+        <div class="font-weight-bold">N/A</div>
+
+
+        {{--@if (Storage::exists('public/' . $ticket->screenshot))
+        <div class="font-weight-bold"><a href="{{ asset("storage/{$ticket->screenshot}") }}" target="_blank" download>Download <i class="ri-download-2-line"></i></a></div>
+        @else
+        <div class="font-weight-bold">N/A</div>
+        @endif--}}
+    </div>
 </div>
