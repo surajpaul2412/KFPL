@@ -229,7 +229,7 @@ class FormService
 		  }
 		  
 		  // UTR and TOTAL Amount 
-		  $textannotations[] = ["text"=> "$utr_no", "x"=>73.85, "y"=>700.82,"size"=>7,"width"=> 140.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+		  $textannotations[] = ["text"=> "$utr_no", "x"=>73.85, "y"=>698.89,"size"=>6,"width"=> 503.51, "height"=> 17.77, "pages"=> "0", "type" => "text"];
 		  $textannotations[] = ["text"=> "$total_amt", "x"=>69.78, "y"=>718.48,"size"=>7,"width"=> 140.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 		  
 		  // call API 
@@ -960,7 +960,8 @@ class FormService
 			
 			if ($ticket->type == 1) {
 				// UTR NUMBER 
-				$config[] = array_merge($base, ["text"=> "$utr_no", "x"=>439.98, "y"=>506.55, "width"=> 150.21]);	
+				$fs = strlen($utr_no) > 30 ? 5 : 7;
+				$config[] = array_merge($base, ["text"=> "$utr_no", "x"=>441.59, "y"=>507.28, "width"=>150.21, "size"=>$fs, "height"=>14.42]);	
 				// Total Number of Units
 				$config[] = array_merge($base, ["text"=> "$total_amt", "x"=>120.34, "y"=>526.01, "width"=> 99.21]);		
 				// Total Number of Units in WORDS
@@ -1612,6 +1613,199 @@ class FormService
 	  
 	}
 	
+	// Handle QUANTUM FORM
+	private static function handleQUANTUMForm($ticket) 
+	{
+
+		try 
+		{	
+		    // VARIABLES
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
+			$urlToken = "";
+			
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
+
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+			
+			$date = date("d-m-Y", time());
+			
+		    $config = ["size"=>7,"height"=> 10, "pages"=> "0", "type"=> "text"];
+			
+			$imageArr = ["url" => $checkboxImageData, "width" => 10, "height" => 10.25, "pages" => "1", "keepAspectRatio" => true ];
+			
+			// Total UNITS 
+			$str = "$total_units_in_float ($total_units_in_words)";
+			$textannotations[] = array_merge($config, ["text"=>"$str", "x"=>175.8, "y"=>488.45, "width"=>338.7, "pages"=>"1"]);
+			
+			if($ticket->type == 1)
+			{
+				$str = "$total_amt ($word_text)";
+				$textannotations[] = array_merge($config, ["text"=>"$str", "x"=>132.76, "y"=>506, "width"=>380.98, "pages"=>"1"]);
+			}
+				
+			// BUY CASES
+			if ($ticket->type == 1) {
+				// Product Tick 
+				$images[] = array_merge($imageArr, ["x" => 42.57, "y" => 573.03]);
+				
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 255.43, "y" => 593.21]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 107.51, "y" => 593.21]);
+				}
+				
+				// Total Units in Figures
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>119.05, "y"=>610.51, "width"=>45.46, "pages"=>"1"]);
+				
+				// Total Units in WORDS
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>209.97, "y"=>610.51, "width"=>378.09, "pages"=>"1"]);
+				
+				// UTR
+				$textannotations[] = array_merge($config, ["text"=>"$utr_no", "x"=>199.87, "y"=>74.74, "width"=>217.91, "pages"=>"2", "height" => 18.74, "size"=>5]);
+				
+				// Total AMount in Figures
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>108.07, "y"=>91.54, "width"=>114, "pages"=>"2", "height" => 13.74, "size"=>7]);
+				
+			}
+			
+			// SELL CASES
+			if ($ticket->type == 2) {
+				// Product Tick 
+				$images[] = array_merge($imageArr, ["x" => 177.5, "y" => 653.77]);
+				
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 254.71, "y" => 670.35]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 108.24, "y" => 670.35]);
+				}
+				
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>122.66, "y"=>707.1, "width"=>112.56, "pages"=>"1"]);
+				
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>76.48, "y"=>725.12, "width"=>455, "pages"=>"1"]);
+			}
+			
+			// DATE
+			$textannotations[] = array_merge($config, ["text"=>"$date", "x"=>461.79, "y"=>75.96, "width"=>102.46, "pages"=>"2", "height" => 13.74, "size"=>8]);
+			
+			// DATE 
+			$textannotations[] = array_merge($config, ["text"=>"$date", "x"=>328.31, "y"=>527.18, "width"=>102.46, "pages"=>"2", "height" => 13.74, "size"=>8]);	
+
+			// DATE 
+			$textannotations[] = array_merge($config, ["text"=>"$date", "x"=>63.33, "y"=>208.15, "width"=>102.46, "pages"=>"4", "height" => 13.74, "size"=>8]);				
+				
+		    $urlToken = "filetoken://cf26aaeadffe97a5c448432fb26708cd60cf961d55788ba9e7";
+			
+			// call API 
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
+	
+	
+	// Handle NAVI FORM
+	private static function handleNAVIForm($ticket) 
+	{
+
+		try 
+		{	
+		    // VARIABLES
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
+			$urlToken = "";
+			
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
+
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+			
+			$date = date("d-m-Y", time());
+			
+		    $config = ["size"=>7,"height"=> 10, "pages"=> "0", "type"=> "text"];
+			
+			$imageArr = ["url" => $checkboxImageData, "width" => 10, "height" => 10.25, "pages" => "0", "keepAspectRatio" => true ];
+			
+			
+			
+			// BUY CASES
+			if ($ticket->type == 1) {
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 204.54, "y" => 504.2]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 255.72, "y" =>  504.2]);
+				}
+				
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>191.73, "y"=>583.01, "width"=>102.65]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>333.01, "y"=>584.46, "width"=>258.05]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>173.71, "y"=>596, "width"=>118.21]);
+				$textannotations[] = array_merge($config, ["text"=>"$word_text", "x"=>325.08, "y"=>595.28, "width"=>267.42, "size"=>6, "height" => 16.6]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>259.49, "y"=>675.38, "width"=>116.77]);
+			}
+			
+			// SELL CASES
+			if ($ticket->type == 2) {
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" => 384.74, "y" => 504.2]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" => 440.24, "y" =>  504.2]);
+				}
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>180.2, "y"=>555.59, "width"=>108.84]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>322.2, "y"=>555.59, "width"=>268.14]);
+			}
+			
+		    $urlToken = "filetoken://b77d45511d4f4d4374ab21ffc86afdaecdd3bf571f6783053f";
+			
+			// call API 
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
+	
 	private static function callAPIandSaveFile(
         $urlToken,
         $images,
@@ -1765,6 +1959,12 @@ class FormService
 			} elseif (stripos($sec_name, "HDFC") !== false) {
                 Log::info("Generating PDF for HDFC");
                 self::handleHDFCForm($ticket);						
+            } elseif (stripos($sec_name, "NAVI") !== false) {
+                Log::info("Generating PDF for NAVI");
+                self::handleNAVIForm($ticket);						
+			} elseif (stripos($sec_name, "Quantum") !== false) {
+                Log::info("Generating PDF for QUANTUM");
+                self::handleQUANTUMForm($ticket);						
             } else { 
                 Log::info("Generating PDF :: No Matching AMC Name Found");
             }
