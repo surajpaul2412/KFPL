@@ -196,8 +196,8 @@ class FormService
 		  {
 			  $images[] = ["url" => $checkboxImageData, "x" => 124.85, "y" => 335.77,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
 			  $textannotations[] = ["text" => "$ticket_basket", "x" => 256.4, "y" => 335.77,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28,  "y"=> 438.61,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>438.61,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28,  "y"=> 335.77,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>335.77,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 		  }
 		  else if(strtolower($sec_name) == 'uti sensex etf')
 		  {
@@ -379,7 +379,7 @@ class FormService
 		  
 			// call API 
 			Log::info("About to call PDF API");
-			$urlToken = "filetoken://e288c52222b635ada94d16f5ba83630aca4a08759ecc7ef93a";
+			$urlToken = "filetoken://84116ea7e1b061d9ef03a1f7fc2aba07205864fdbb002fffe2";
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
@@ -974,7 +974,7 @@ class FormService
 			}
 			else if(strtolower($sec_name) == 'tata nifty etf')
 			{
-				$urlToken = "filetoken://0b3d997eeec12385604c58a3071098c0eac45881ec3648c517";
+				$urlToken = "filetoken://83610c24a1c810232abedd085a243496c99f14d9dc164b2060";
 			}
 			else if(strtolower($sec_name) == 'tata nifty private bank etf')
 			{
@@ -1663,6 +1663,10 @@ class FormService
 				
 			// BUY CASES
 			if ($ticket->type == 1) {
+				
+				// Subscription Tick 
+				$images[] = array_merge($imageArr, ["x" => 99.29, "y" => 309.27, "pages"=>"0"]);
+				
 				// Product Tick 
 				$images[] = array_merge($imageArr, ["x" => 42.57, "y" => 573.03]);
 				
@@ -1689,6 +1693,10 @@ class FormService
 			
 			// SELL CASES
 			if ($ticket->type == 2) {
+				
+				// SELL/REDEMPTION Tick 
+				$images[] = array_merge($imageArr, ["x" => 162.78, "y" => 309.27, "pages"=>"0"]);
+				
 				// Product Tick 
 				$images[] = array_merge($imageArr, ["x" => 177.5, "y" => 653.77]);
 				
