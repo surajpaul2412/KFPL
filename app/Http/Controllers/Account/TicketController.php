@@ -123,17 +123,16 @@ class TicketController extends Controller
                 }
 
                 // Deal Ticket Workings
-                if (
-                    $request->hasFile("deal_ticket") &&
-                    $ticket->deal_ticket
-                ) {
-                    Storage::delete($ticket->deal_ticket);
+                if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {
+                    // Delete the existing deal_ticket file
+                    Storage::disk("public")->delete($ticket->deal_ticket);
                 }
 
+                // Check if the request has a file for "deal_ticket"
                 if ($request->hasFile("deal_ticket")) {
-                    $imagePath = $request
-                        ->file("deal_ticket")
-                        ->store("deal_ticket", "public");
+                    // Store the uploaded file and update the deal_ticket path
+                    $imagePath = $request->file("deal_ticket")->store("deal_ticket", "public");
+                    // Set the deal_ticket path without the "storage/" prefix
                     $ticket->deal_ticket = $imagePath;
                 }
 
