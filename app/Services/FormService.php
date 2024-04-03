@@ -763,10 +763,17 @@ class FormService
 			{
 				// DATE 
 			    $config[] = array_merge($base, ["text"=> "$date", "x"=>456.2, "y"=>116.34, "width"=> 80.21]);
-				// UNITS 
-				$config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>346.82, "y"=>280.75, "width"=> 150.21]);
 				
-				$urlToken = "filetoken://a74e8b360d41e75c02801fdef21e750bf4735fe2565718a7d0";
+				// UNITS 
+				// $config[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>346.82, "y"=>280.75, "width"=> 150.21]);
+				
+				$urlToken = "filetoken://3fad23df98f0fffae59b782a722a1dfcf7af61723d00ee3ba5";
+				
+				// total amount 
+				if ($ticket->type == 1) 
+			    {
+				  $config[] = array_merge($base, ["text"=> "$total_amt", "x"=>366.86, "y"=>280.83, "width"=> 180.21]);	
+				}
 			}
 			else if(strtolower($sec_name) == 'kotak nifty midcap 50 etf')
 			{
@@ -970,7 +977,7 @@ class FormService
 			
 			if(strtolower($sec_name) == 'tata nifty india digital etf')
 			{
-				$urlToken = "filetoken://f88a466945f2a1feb001f2a2524343a30537f3f360db0ac58d";
+				$urlToken = "filetoken://e49c86f792d673d36940d563d0fa2cbab7ca15ba4e423ff491";
 			}
 			else if(strtolower($sec_name) == 'tata nifty etf')
 			{
@@ -978,7 +985,7 @@ class FormService
 			}
 			else if(strtolower($sec_name) == 'tata nifty private bank etf')
 			{
-				$urlToken = "filetoken://8e5a57d23e382c144779f918b9e194b6d57bd035effa9f9c98";
+				$urlToken = "filetoken://e53f455c262a6bd2b46b78e257ec319dc4b234ce2f4ad942b0";
 			}
 			
 			$textannotations = $config;
@@ -1478,7 +1485,7 @@ class FormService
 			   $textannotations[] = array_merge($config, ["text"=>"$utr_no", "x"=>364.45, "y"=>567.74, "width"=> 214.66, "height"=>16.66, "size" => 7]);
 			}
 			
-		    $urlToken = "filetoken://de7adca6ec7c687579e30d9ca8e3225b4b2cb193d2c6f20c65";
+		    $urlToken = "filetoken://8bcaa2ec1226204cd84217223fa3554f97cebf9a600058cf08";
 			
 			// call API 
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
@@ -1802,7 +1809,7 @@ class FormService
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>322.2, "y"=>555.59, "width"=>268.14]);
 			}
 			
-		    $urlToken = "filetoken://b77d45511d4f4d4374ab21ffc86afdaecdd3bf571f6783053f";
+		    $urlToken = "filetoken://fbc0f380b58a21e2594c0bd5f3e78cd23dd837c0b9171152eb";
 			
 			// call API 
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
