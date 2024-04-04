@@ -81,10 +81,8 @@ class FormService
 	// Handle MIRAE FORM
 	private static function handleMIRAEForm($ticket) 
 	{
-
 		try 
 		{	
-		  
 		  $marker_json = [];
 		  $textannotations = [];
 		  $images = [];
@@ -104,35 +102,59 @@ class FormService
 		  $total_amt = $ticket->total_amt;
 		  $word_text = trim(self::NumberintoWords($total_amt));
 		  $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
-
+		  $utr_no = $ticket->utr_no;
 		  $checkboxImageData = self::$tickImage;
 		  
 		   // BUY CASES
 		  if ($ticket->type == 1) {
-			  // INSERT PLAN NAME
-			  $textannotations[] = ["text"=> "$sec_name", "x"=> 58.72, "y"=> 232.43,"size"=>7,"width"=> 200, "height"=> 10, "pages"=> "0", "type"=> "text"];
 			  
-			  $textannotations[] = ["text"=> "$total_amt", "x"=> 252.77, "y"=> 322.58,"size"=>7, "width"=> 120, "height"=> 10, "pages"=> "0", "type"=> "text"];
+			  // CASH OR BASKET 
+			  if($ticket->payment_type == 1)
+			  {
+				  $images[] = ["url" => $checkboxImageData, "x"=>138.15, "y"=>435.14, "width"=>10, "height"=>10, "pages"=>"0", "keepAspectRatio" => true];
+			  }
+			  else if($ticket->payment_type == 2)
+			  {
+				  $images[] = ["url" => $checkboxImageData, "x"=>192.19, "y"=>435.14, "width"=>10, "height"=>10, "pages"=>"0", "keepAspectRatio" => true];
+			  }
+			  
+			  // INSERT Total Amount 
+			  $textannotations[] = ["text"=> "$total_amt", "x"=> 74.46, "y"=> 530.13,"size"=>7,"width"=>221.97, "height"=>12.76, "pages"=>"0", "type"=>"text"];
 			  
 			  // INSERT UTR Number 
-			  $utr_no = $ticket->utr_no;
 			  if($utr_no !='')
 			  {
-				$textannotations[] = ["text"=> "$utr_no", "x"=> 25.11, "y"=> 320.88,"size"=>5,"width"=> 125.52, "height"=> 20, "pages"=> "0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$utr_no", "x"=>103.54, "y"=> 542.7,"size"=>5,"width"=>197.85, "height"=>19.14, "pages"=>"0", "type"=>"text"];
 			  }
-
 		  }
 		  // SELL CASES
 		  else if ($ticket->type == 2) {
-			 // INSERT PLAN NAME
-			  $textannotations[] = ["text"=> "$sec_name", "x"=> 58.72, "y"=> 438.98,"size"=>7,"width"=> 200, "height"=> 10, "pages"=> "0", "type"=> "text"]; 
-
+			  
+			  // CASH OR BASKET 
+			  if($ticket->payment_type == 1)
+			  {
+				  $images[] = ["url" => $checkboxImageData, "x"=>475.14, "y"=>435.14, "width"=>10, "height"=>10, "pages"=>"0", "keepAspectRatio" => true];
+			  }
+			  else if($ticket->payment_type == 2)
+			  {
+				  $images[] = ["url" => $checkboxImageData, "x"=>524.06, "y"=>435.14, "width"=>10, "height"=>10, "pages"=>"0", "keepAspectRatio" => true];
+			  }
 		  }
 		  
+		  // INSERT PLAN NAME
+		  $textannotations[] = ["text"=> "$sec_name", "x"=>26.24, "y"=> 474.26,"size"=>7,"width"=>102.12, "height"=> 40.41, "pages"=> "0", "type"=> "text"];
+		  // BAsket SIZE
+		  $textannotations[] = ["text"=> "$basket_size", "x"=>131.9, "y"=> 474.97,"size"=>7, "width"=> 110, "height"=> 12, "pages"=> "0", "type"=> "text"];
+		  // No. of BAsket
+		  $textannotations[] = ["text"=> "$ticket_basket", "x"=>246.66, "y"=> 474.97,"size"=>7, "width"=> 82, "height"=> 12, "pages"=> "0", "type"=> "text"];
+		  // Total Units in BAsket
+		  $textannotations[] = ["text"=> "$total_units_in_float", "x"=>331.88, "y"=> 474.97,"size"=>7, "width"=> 139.7, "height"=> 12, "pages"=> "0", "type"=> "text"];
+		  // Total Units in BAsket, in WORDS
+		  $textannotations[] = ["text"=> "$total_units_in_words", "x"=>472.59, "y"=> 474.97,"size"=>7, "width"=> 139.7, "height"=> 39, "pages"=> "0", "type"=> "text"];
 		  
 		  // call API 
 		  Log::info("About to call API");
-		  $urlToken = "filetoken://3f6997fadf719169ba3441d8aad68aac8243ffd3be528001c5";
+		  $urlToken = "filetoken://36a44dc2a9f869b394fbec2a96bd9ffecd49ae612887b4031f";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
@@ -1592,23 +1614,141 @@ class FormService
 			// Total UNits In Words (Third Page)
 			$t = $total_units_in_float . " (" . $total_units_in_words . ")";
 			$textannotations[] = array_merge($config, ["text"=>"$t", "x"=>158.74, "y"=>55.5, "width"=>356.44, "pages"=>"2"]);
+			
+			// IF BUY CASE
 			if ($ticket->type == 1) 
 			{
+				// Total Amount
 				$t = $total_amt . " (" . $word_text . ")";
 				$textannotations[] = array_merge($config, ["text"=>"$t", "x"=>119.06, "y"=>69.92, "width"=>398.29, "pages"=>"2"]);
+				
+				// UTR NUMBER 
+				$textannotations[] = array_merge($config, ["text"=>"$utr_no", "x"=>253.98, "y"=>209.03, "width"=>67.1, "height"=>18.74, "pages"=>"2"]);
+		
+				// Total AMount 
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>387.47, "y"=>207.59, "width"=>88.03, "height"=>18.74, "pages"=>"2"]);
 			}
-	
-			// UTR NUMBER 
-			$textannotations[] = array_merge($config, ["text"=>"$utr_no", "x"=>253.98, "y"=>209.03, "width"=>67.1, "height"=>18.74, "pages"=>"2"]);
-	
+
 			// Todays DATE 
 			$date = date("d-m-Y", time());
 			$textannotations[] = array_merge($config, ["text"=>"$date", "x"=>321.81, "y"=>209.03, "width"=>67.1, "height"=>18.74, "pages"=>"2"]);
-			
-			// Total AMount 
-			$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>387.47, "y"=>207.59, "width"=>88.03, "height"=>18.74, "pages"=>"2"]);
-			
+
 		    $urlToken = "filetoken://36ecc0df2b8cc2568be589ccd70651de0ecd8597e91e39ec7b";
+			
+			// call API 
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			dd($e->getMessage());
+		}
+	  
+	}
+	
+	// Handle SBI FORM
+	private static function handleSBIForm($ticket) 
+	{
+
+		try 
+		{	
+		    // VARIABLES
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
+			$urlToken = "";
+			
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
+
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+			
+			$date = date("d-m-Y", time());
+			
+		    $config = ["size"=>7,"height"=> 10, "pages"=> "0", "type"=> "text"];
+			
+			$imageArr = ["url" => $checkboxImageData, "width" => 10, "height" => 10.25, "pages" => "0", "keepAspectRatio" => true ];
+			
+			// MARK -> BUY / SELL
+			if ($ticket->type == 1) { // BUY CASES
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" =>144.54, "y" =>379.56]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" =>225.87, "y" =>379.56]);
+				}
+			}
+			if ($ticket->type == 2) { // SELL CASES
+				if ($payment_type == 1) {  // CASH
+					$images[] = array_merge($imageArr, ["x" =>420.23, "y" =>379.56]);
+				}
+				if ($payment_type == 2) { // BASKET
+				  $images[] = array_merge($imageArr, ["x" =>498.8, "y" =>379.56]);
+				}
+			}
+			
+			// BUILD DATA for PRODUCTS
+			// DEFAULT VALUES
+			$X1=186.27; $X2=257.33; $X3=315.84; $X4=393.11; 
+			$Y1=0; // for Product's other Params 
+			$Y2=0; // for Product Tick IMage 
+			
+			if(strtolower($sec_name) == 'sbi nifty 50 etf'){ $Y1 = 427.3; $Y2=426.75;}
+			if(strtolower($sec_name) == 'sbi s&p bse sensex etf'){ $Y1 = 442.83; $Y2=440.59;}
+			if(strtolower($sec_name) == 'sbi nifty next 50 etf'){ $Y1 = 455.67; $Y2=455.81; }
+			if(strtolower($sec_name) == 'sbi s&p bse 100 etf'){ $Y1 = 470.89; $Y2=469.65;}
+			if(strtolower($sec_name) == 'sbi nifty bank etf'){ $Y1 = 485.42; $Y2=484.18;}
+			if(strtolower($sec_name) == 'sbi nifty 10 yr benchmark g-sec etf'){ $Y1 = 501.33; $Y2=500.09; }
+			if(strtolower($sec_name) == 'sbi s&p bse sensex next 50 etf'){ $Y1 = 516.55; $Y2=516;}
+			if(strtolower($sec_name) == 'sbi nifty it etf'){ $Y1 = 531.77; $Y2= 529.83; }
+			if(strtolower($sec_name) == 'sbi nifty private bank etf'){ $Y1= 546.3; $Y2=546.43; }
+			if(strtolower($sec_name) == 'sbi nifty 200 quality 30 etf'){ $Y1= 560.14; $Y2=560.27; }
+			if(strtolower($sec_name) == 'sbi nifty consumption etf'){ $Y1 = 574.67; $Y2=576.87; }
+			if(strtolower($sec_name) == 'sbi gold etf'){ $Y1 = 590.58; $Y2=591.4; }
+			
+			// Product Tick Mark
+			$images[] = array_merge($imageArr, ["x"=> $X1, "y"=>$Y2]);
+			
+			// No. of Basket 
+			$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>$X2, "y"=>$Y1, "width"=> 51.69]);
+			
+			// Total UNits In Figures
+			$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>$X3, "y"=>$Y1, "width"=>71.68]);
+			
+			// Total UNits In Words
+			$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>$X4, "y"=>$Y1, "width"=>228.14]);
+			
+			if ($ticket->type == 1) 
+			{
+				// total AMount in figures
+				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>126.75, "y"=>640.98, "width"=> 102.7]);
+
+				// total AMount in WORDS
+				$textannotations[] = array_merge($config, ["text"=>"$word_text", "x"=>303.51, "y"=>640.67, "width"=> 314.29]);
+				
+				// UTR NUMBER
+				$len = strlen($utr_no);
+				if($len > 115) $size = 5;
+				else if	($len > 45) $size = 6;
+				else $size = 7;
+			    $textannotations[] = array_merge($config, ["text"=>"$utr_no", "x"=>445.04, "y"=>616.99, "width"=>179.2, "height"=>17.29, "size"=>$size]);
+			}				
+			
+		    $urlToken = "filetoken://09bbf623bed38062e3ef7b404200327665c19f92280bfeffec";
 			
 			// call API 
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
@@ -1980,7 +2120,10 @@ class FormService
 			} elseif (stripos($sec_name, "Quantum") !== false) {
                 Log::info("Generating PDF for QUANTUM");
                 self::handleQUANTUMForm($ticket);						
-            } else { 
+            } elseif (stripos($sec_name, "SBI") !== false) {
+                Log::info("Generating PDF for SBI");
+                self::handleSBIForm($ticket);						
+			} else { 
                 Log::info("Generating PDF :: No Matching AMC Name Found");
             }
         }
