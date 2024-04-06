@@ -115,3 +115,10 @@
         @endif
     </div>
 </div>
+<hr/>
+<div class="row px-md-4">
+    <div class="col-3">
+        <div>Refund/Redemption</div>
+        <div class="font-weight-bold"> {{$ticket->refund ?? 'N/A'}} </div>
+    </div>
+</div>
