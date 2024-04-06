@@ -305,8 +305,9 @@ class TicketController extends Controller
 
                 $ticket->update($data);
             } elseif ($ticket->status_id == 9) {
+                $actual_total_amt = $ticket->actual_total_amt;
                 $request->validate([
-                    "refund" => "required|numeric",
+                    "refund" => ["required", "numeric", "lt:" . $actual_total_amt],
                     "deal_ticket" => "nullable",
                     "screenshot" =>
                         "nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
@@ -357,8 +358,8 @@ class TicketController extends Controller
                 if ($ticket->type == 2) {
                     $request->validate([
                         "screenshot" =>
-                            "nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
-                        "deal_ticket" => "nullable",
+                            "required|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
+                        "deal_ticket" => "required",
                     ]);
 
                     if ($request->hasFile("screenshot")) {
@@ -391,6 +392,8 @@ class TicketController extends Controller
 
 
                     $ticket->status_id = 12; // SELL CASE
+                    // mailing for sell
+                    FormService::GenerateDocument($ticket);
                     $ticket->save();
                 }
             } elseif ($ticket->status_id == 11) {
@@ -486,7 +489,9 @@ class TicketController extends Controller
                 ->route("admin.tickets.index")
                 ->with("success", "Ticket updated successfully.");
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            // dd($e->getMessage());
+            return redirect()->back()
+                ->with("error", $e->getMessage());
         }
     }
 
@@ -505,14 +510,22 @@ class TicketController extends Controller
 
     public function mail(Ticket $ticket)
     {
-        $emailString = $ticket->security->amc->email ?? null;
-        $emailArray = explode(", ", $emailString);
-        $toEmail = array_map("trim", $emailArray);
+        // sell case with null screenshot check
+        if ($ticket->type == 2 && $ticket->screenshot == null) {
+            $ticket->status_id = 7;
+            $ticket->update();
+        } else {
+            $emailString = $ticket->security->amc->email ?? null;
+            $emailArray = explode(", ", $emailString);
+            $toEmail = array_map("trim", $emailArray);
 
-        Mail::to($toEmail)->send(new MailToAMC($ticket));
+            Mail::to($toEmail)->send(new MailToAMC($ticket));
 
-        $ticket->status_id = 7;
-        $ticket->update();
+            $ticket->status_id = 7;
+            $ticket->update();
+        }
+
+        
         return redirect()
             ->route("admin.tickets.index")
             ->with("success", "Mailed all the AMC controllers successfully.");
