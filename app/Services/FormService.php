@@ -1074,6 +1074,9 @@ class FormService
 		    $config = [];
 			$imageArr = [ "url" => $checkboxImageData, "height" => 14, "pages" => "0", "keepAspectRatio" => true ];
 			
+			// Date 
+			$textannotations[] = array_merge($base, ["text"=> "$date", "x"=>100.42, "y"=>112.59, "width"=>84.59, "size"=>9 ]);	
+				
 			// BUY CASES
 			if ($ticket->type == 1) {
 				// Date 
@@ -1092,7 +1095,7 @@ class FormService
 				$textannotations[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>451.42, "y"=>363.71, "width"=>100, "height"=>17.69 ]); 
 				
 				// FILE TOKEN
-				$urlToken = "filetoken://631ff352ca74f00cb76d2941a940664d0c7b3210aefbe71fc8";
+				$urlToken = "filetoken://ac1b17545bcd4890e45b4580b4f1033f579d1011ef14d947ae";
 			}
 			
 			// SELL CASES
