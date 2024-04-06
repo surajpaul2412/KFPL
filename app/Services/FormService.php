@@ -366,15 +366,23 @@ class FormService
 			}
 			else if(strtolower($sec_name) == 'motilal oswal s&p bse quality etf')
 			{
-			  $productCheckArr["y"] = 549; $prodFound = 1;
+			  $productCheckArr["y"] = 553; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal s&p bse enhanced value etf')
 			{
-			  $productCheckArr["y"] = 567; $prodFound = 1;
+			  $productCheckArr["y"] = 574; $prodFound = 1;
 			}
 			else if(strtolower($sec_name) == 'motilal oswal nifty 500 etf')
 			{
-			  $productCheckArr["y"] = 585; $prodFound = 1;
+			  $productCheckArr["y"] = 593; $prodFound = 1;
+			}
+			else if(strtolower($sec_name) == 'motilal oswal nifty realty etf')
+			{
+			  $productCheckArr["y"] = 611; $prodFound = 1;
+			}
+			else if(strtolower($sec_name) == 'motilal oswal nifty smallcap 250 etf')
+			{
+			  $productCheckArr["y"] = 630; $prodFound = 1;
 			}
 			
 			if( $prodFound )
@@ -384,24 +392,27 @@ class FormService
 			
 			// DATE 
 			$date = date("d-m-Y", time());
-			$textannotations[] = ["text"=> "$date", "x"=>52.68, "y"=>51.18,"size"=>9,"width"=> 115.45, "height"=> 12.97, "pages"=> "0", "type" => "text"];
+			$textannotations[] = ["text"=> "$date", "x"=>52.68, "y"=>51.18,"size"=>10,"width"=> 115.45, "height"=> 12.97, "pages"=> "0", "type" => "text"];
 			
-			// Total Amount
-			$textannotations[] = ["text"=> "$total_amt", "x"=>84.5, "y"=>702.61,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			if ($ticket->type == 1) {
 			
-			// UTR
-		    $textannotations[] = ["text"=> "$utr_no", "x"=>121.94, "y"=>724.96,"size"=>6,"width"=>460.35, "height"=>20.18, "pages"=> "0", "type" => "text"];
+				// Total Amount
+				$textannotations[] = ["text"=> "$total_amt", "x"=>84.5, "y"=>724.96,"size"=>10,"width"=> 200.74, "height"=> 14.94, "pages"=> "0", "type" => "text"];
+				
+				// UTR
+				$textannotations[] = ["text"=> "$utr_no", "x"=>117.61, "y"=>747.02,"size"=>6,"width"=>459.63, "height"=>18.74, "pages"=> "0", "type" => "text"];
 
+			}
+			
 			// Ticket Basket
-		    $textannotations[] = ["text" => "$ticket_basket", "x" =>126.03, "y" =>660.52,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+		    $textannotations[] = ["text" => "$ticket_basket", "x" =>124.11, "y" =>682.43,"size"=>10, "width" => 168.84, "height" => 14.37, "pages" => "0", "type" => "text"];	  
 			
 			// Total Units
-			$textannotations[] = ["text"=> "$total_units", "x"=>419.05,  "y"=>661.1,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			$textannotations[] = ["text"=> "$total_units", "x"=>413.45,  "y"=>682.43,"size"=>10,"width"=> 168.21, "height"=> 14.34, "pages"=> "0", "type" => "text"];
 			  
-		  
 			// call API 
 			Log::info("About to call PDF API");
-			$urlToken = "filetoken://84116ea7e1b061d9ef03a1f7fc2aba07205864fdbb002fffe2";
+			$urlToken = "filetoken://f91edf47d3637b6ed791f83c6e02dbee311694bb59b0d6cb2e";
 			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
@@ -1024,6 +1035,100 @@ class FormService
 	  
 	}
 	
+	// Handle INVESCO FORM
+	private static function handleINVESCOForm($ticket) 
+	{
+
+		try 
+		{	
+		    // VARIABLES
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
+			$urlToken = "";
+			
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
+
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+			
+			$date = date("d-m-Y", time());
+			
+			$base = ["height"=> 11.94, "pages"=> "0", "type" => "text", "alignment" => "center", "size"=>8];
+		 
+		    $config = [];
+			$imageArr = [ "url" => $checkboxImageData, "height" => 14, "pages" => "0", "keepAspectRatio" => true ];
+			
+			// BUY CASES
+			if ($ticket->type == 1) {
+				// Date 
+				$textannotations[] = array_merge($base, ["text"=> "$date", "x"=>316.84, "y"=>237.21, "width"=>84.59, "size"=>9 ]);	
+				
+				// Scheme Name 
+				$textannotations[] = array_merge($base, ["text"=> "$sec_name", "x"=>69.98, "y"=>362.64, "width"=>201.49, "height"=>27.68 ]);
+				
+				// Basket Size 
+				$textannotations[] = array_merge($base, ["text"=> "$basket_size", "x"=>280.7, "y"=>365.25, "width"=>74.6, "height"=>17.69 ]);
+
+				// Basket Number 
+				$textannotations[] = array_merge($base, ["text"=> "$ticket_basket", "x"=>365.29, "y"=>365.25, "width"=>77.67, "height"=>17.69 ]); 
+				
+				// Total No. Units 
+				$textannotations[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>451.42, "y"=>363.71, "width"=>100, "height"=>17.69 ]); 
+				
+				// FILE TOKEN
+				$urlToken = "filetoken://631ff352ca74f00cb76d2941a940664d0c7b3210aefbe71fc8";
+			}
+			
+			// SELL CASES
+			if ($ticket->type == 2) {
+				// Date 
+				$textannotations[] = array_merge($base, ["text"=> "$date", "x"=>316.84, "y"=>237.21, "width"=>84.59, "size"=>9 ]);	
+				
+				// Scheme Name 
+				$textannotations[] = array_merge($base, ["text"=> "$sec_name", "x"=>69.98, "y"=>362.64, "width"=>185.34, "height"=>27.68 ]);
+				
+				// Basket Size 
+				$textannotations[] = array_merge($base, ["text"=> "$basket_size", "x"=>280.7, "y"=>365.25, "width"=>83.82, "height"=>17.69 ]);
+
+				// Basket Number 
+				$textannotations[] = array_merge($base, ["text"=> "$ticket_basket", "x"=>365.29, "y"=>365.25, "width"=>86.9, "height"=>17.69 ]); 
+				
+				// Total No. Units 
+				$textannotations[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>451.42, "y"=>363.71, "width"=>100, "height"=>17.69 ]); 
+				
+				// FILE TOKEN
+				$urlToken = "filetoken://835904dd39de8dbfa90133444b74a637f57786739c8da34f09";
+			}
+		
+
+			// call API 
+			Log::info("ABOUT to call PDF API");
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+		}
+		catch (\Exception $e) 
+		{
+			Log::info("Exception in TATA PDF generation");
+			dd($e->getMessage());
+		}
+	  
+	}
+	
 	// Handle NIPPON FORM
 	private static function handleNIPPONForm($ticket) 
 	{
@@ -1310,6 +1415,7 @@ class FormService
 				}
 			}
 
+
 			if(strtolower($sec_name) == 'icici prudential s&p bse sensex etf') {
 				$images[] = array_merge($imageArr, ["x" => 56.97, "y" => 491.55, "width" => 7.05, "height" => 6.41]);
 			}
@@ -1334,6 +1440,8 @@ class FormService
 			else if(strtolower($sec_name) == 'icici prudential s&p bse liquid rate etf') {
 				$images[] = array_merge($imageArr, ["x" => 56.97, "y" => 545.18, "width" => 7.05, "height" => 6.41]);
 			}
+			
+			
 			else if(strtolower($sec_name) == 'icici prudential nifty bank etf') {
 				$images[] = array_merge($imageArr, ["x" => 170.03, "y" => 491.55, "width" => 7.05, "height" => 6.41]);
 			}
@@ -1358,6 +1466,8 @@ class FormService
 			else if(strtolower($sec_name) == 'icici prudential nifty next 50 etf') {
 				$images[] = array_merge($imageArr, ["x" => 170.03, "y" => 545.18, "width" => 7.05, "height" => 6.41]);
 			}
+			
+			
 			else if(strtolower($sec_name) == 'icici prudential nifty auto etf') {
 				$images[] = array_merge($imageArr, ["x" => 284.24, "y" => 491.55, "width" => 7.05, "height" => 6.41]);
 			}
@@ -1382,6 +1492,8 @@ class FormService
 			else if(strtolower($sec_name) == 'icici prudential nifty infrastructure etf') {
 				$images[] = array_merge($imageArr, ["x" => 284.24, "y" => 545.18, "width" => 7.05, "height" => 6.41]);
 			}
+			
+			
 			else if(strtolower($sec_name) == 'icici prudential nifty financial services ex-bank etf') {
 				$images[] = array_merge($imageArr, ["x" => 423.83, "y" => 491.55, "width" => 7.05, "height" => 6.41]);
 			}
@@ -1397,19 +1509,31 @@ class FormService
 			else if(strtolower($sec_name) == 'icici prudential nifty 200 quality 30 etf') {
 				$images[] = array_merge($imageArr, ["x" => 423.83, "y" => 522.69, "width" => 7.05, "height" => 6.41]);
 			}
-			 
-			if ($ticket->type == 1) {
-			    // Total Units in Figure 
-			    $textannotations[] = array_merge($config, ["text"=> "$total_units_in_float", "x"=>167.28, "y"=>581.25, "width"=> 94.02]);		
+
+								
+			// Total Units in Figure 
+			if ($ticket->type == 1) {	
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>166.12, "y"=>581.25, "width"=> 100]);		
 				// Total Units in WORDS 
-				$textannotations[] = array_merge($config, ["text"=> "$total_units_in_words", "x"=>298.21, "y"=>581.83, "width"=> 283.79]);		
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>301.48, "y"=>581.25, "width"=> 288.41]);	
+
 				// Total Amount in Figure 
-			    $textannotations[] = array_merge($config, ["text"=> "$total_amt", "x"=>160.36, "y"=>592.21, "width"=> 94.02]);
+			    $textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>160.97, "y"=>591.25, "width"=> 110]);
 				// Total Amount in WORDS 
-			    $textannotations[] = array_merge($config, ["text"=> "$word_text", "x"=>303.41, "y"=>591.06, "width"=> 283.79]);
-			}			
+			    $textannotations[] = array_merge($config, ["text"=>"$word_text", "x"=>305.33, "y"=>592.78, "width"=> 285.33]);				
+				
+				// UTR 
+			    $textannotations[] = array_merge($config, ["text"=>"$utr_no", "x"=>260.18, "y"=>658.9, "width"=>122.29, "size"=>5]);				
+			}
+			
+			if ($ticket->type == 2) {	
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>162.29, "y"=>556.1, "width"=> 100]);		
+				// Total Units in WORDS 
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>297.64, "y"=>555.11, "width"=> 292.25]);		
+			}
+			
 		 
-		    $urlToken = "";
+		    $urlToken = "filetoken://2e946494f0495b931735a3a1c7368f50072c92632f3e4b301d";
 			
 			// call API 
 			Log::info("About to call PDF API");
@@ -2122,7 +2246,10 @@ class FormService
                 self::handleQUANTUMForm($ticket);						
             } elseif (stripos($sec_name, "SBI") !== false) {
                 Log::info("Generating PDF for SBI");
-                self::handleSBIForm($ticket);						
+                self::handleSBIForm($ticket);		
+			} elseif (stripos($sec_name, "INVESCO") !== false) {
+                Log::info("Generating PDF for INVESCO");
+                self::handleINVESCOForm($ticket);			
 			} else { 
                 Log::info("Generating PDF :: No Matching AMC Name Found");
             }
