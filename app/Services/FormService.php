@@ -1074,13 +1074,14 @@ class FormService
 		    $config = [];
 			$imageArr = [ "url" => $checkboxImageData, "height" => 14, "pages" => "0", "keepAspectRatio" => true ];
 			
-			// Date 
+			// Date 1
 			$textannotations[] = array_merge($base, ["text"=> "$date", "x"=>100.42, "y"=>112.59, "width"=>84.59, "size"=>9 ]);	
+			
+			// Date 2
+			$textannotations[] = array_merge($base, ["text"=> "$date", "x"=>316.84, "y"=>237.21, "width"=>84.59, "size"=>9 ]);	
 				
 			// BUY CASES
 			if ($ticket->type == 1) {
-				// Date 
-				$textannotations[] = array_merge($base, ["text"=> "$date", "x"=>316.84, "y"=>237.21, "width"=>84.59, "size"=>9 ]);	
 				
 				// Scheme Name 
 				$textannotations[] = array_merge($base, ["text"=> "$sec_name", "x"=>69.98, "y"=>362.64, "width"=>201.49, "height"=>27.68 ]);
@@ -1100,8 +1101,6 @@ class FormService
 			
 			// SELL CASES
 			if ($ticket->type == 2) {
-				// Date 
-				$textannotations[] = array_merge($base, ["text"=> "$date", "x"=>316.84, "y"=>237.21, "width"=>84.59, "size"=>9 ]);	
 				
 				// Scheme Name 
 				$textannotations[] = array_merge($base, ["text"=> "$sec_name", "x"=>69.98, "y"=>362.64, "width"=>185.34, "height"=>27.68 ]);
