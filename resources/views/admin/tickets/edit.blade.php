@@ -386,14 +386,14 @@
                                     </div>
                                 @endif
 
-                                @if($ticket->status_id == 5 || $ticket->status_id == 10)
+                                @if($ticket->status_id == 5)
                                   @if($ticket->type == 2)
                                     <div class="col-6 my-3">
                                       <div class="w-25 pb-1">
                                         Upload Screenshot
                                       </div>
                                       <div class="w-75">
-                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*" required>
+                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
                                         @error('screenshot')
                                           <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -401,17 +401,37 @@
                                         @enderror
                                       </div>
                                     </div>
-
-                                    <div class="col-6 my-3">
-                                        <div class="w-25 pb-1">
-                                            Upload Deal Ticket
-                                        </div>
-                                        <div class="w-75">
-                                            <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-                                              value="" required>
-                                        </div>
-                                    </div>
                                   @endif
+                                @endif
+
+                                @if($ticket->status_id == 10)
+                                    @if($ticket->type == 2)
+                                        @if($ticket->screenshot == null)
+                                        <div class="col-6 my-3">
+                                          <div class="w-25 pb-1">
+                                            Upload Screenshot
+                                          </div>
+                                          <div class="w-75">
+                                            <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*" required>
+                                            @error('screenshot')
+                                              <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                              </span>
+                                            @enderror
+                                          </div>
+                                        </div>
+                                        @endif
+
+                                        <div class="col-6 my-3">
+                                            <div class="w-25 pb-1">
+                                                Upload Deal Ticket
+                                            </div>
+                                            <div class="w-75">
+                                                <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                                  value="" required>
+                                            </div>
+                                        </div>
+                                      @endif
                                 @endif
 
                                 @if($ticket->status_id == 11)
@@ -480,7 +500,7 @@
                                         </div>
                                         <div class="w-75">
                                             <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-                                              value="" >
+                                              value="" required>
                                         </div>
                                     </div>
                                     @endif

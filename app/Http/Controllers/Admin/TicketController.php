@@ -236,7 +236,7 @@ class TicketController extends Controller
                     $request->validate([
                         "total_amt_input" => "required|numeric",
                         "utr_no" => "required|string",
-                        "screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
+                        "screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
                     ]);
 
                     if ($ticket->total_amt == $request->get("total_amt_input")) {
@@ -275,7 +275,7 @@ class TicketController extends Controller
                     // SELL CASE
                     $request->validate([
                         "screenshot" =>
-                            "nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
+                            "nullable|image|mimes:jpeg,png,jpg,gif,webp",
                     ]);
 
                     // Screenshot Workings
@@ -317,7 +317,7 @@ class TicketController extends Controller
                 if ($ticket->type == 2) {
                     $request->validate([
                         "screenshot" =>
-                            "nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
+                            "nullable|image|mimes:jpeg,png,jpg,gif,webp",
                     ]);
 
                     if ($request->hasFile("screenshot")) {
@@ -375,7 +375,7 @@ class TicketController extends Controller
                     "refund" => ["required", "numeric", "lt:" . $actual_total_amt],
                     "deal_ticket" => "nullable",
                     "screenshot" =>
-                        "nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
+                        "nullable|image|mimes:jpeg,png,jpg,gif,webp",
                 ]);
 
                 // Check if the request has a file for "deal_ticket" and if the existing deal_ticket is not null
@@ -436,7 +436,7 @@ class TicketController extends Controller
                 if ($ticket->type == 2) {
                     $request->validate([
                         "screenshot" =>
-                            "required|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
+                            "required|image|mimes:jpeg,png,jpg,gif,webp",
                         "deal_ticket" => "required",
                     ]);
 
@@ -467,7 +467,6 @@ class TicketController extends Controller
                         // Set the deal_ticket path without the "storage/" prefix
                         $ticket->deal_ticket = $imagePath;
                     }
-
 
                     $ticket->status_id = 12; // SELL CASE
                     // mailing for sell
@@ -529,10 +528,7 @@ class TicketController extends Controller
                     "deal_ticket" => "nullable",
                 ]);
 
-                if (
-                    $request->get("received_units") ==
-                    $ticket->basket_size * $ticket->basket_no
-                ) {
+                if ( $request->get("received_units") == $ticket->basket_size * $ticket->basket_no ) {
                     $request->validate([
                         "dispute_comment" => "nullable|string",
                     ]);
@@ -544,6 +540,7 @@ class TicketController extends Controller
                         );
                     }
                 }
+
                 // Deal Ticket Workings
                 if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {
                     // Delete the existing deal_ticket file
@@ -559,6 +556,7 @@ class TicketController extends Controller
                 }
 
                 $data["status_id"] = 14; //condition can be placed here//
+                $ticket->update($data);
             }
 
             // $ticket->update($data);
