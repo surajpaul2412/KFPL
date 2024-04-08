@@ -173,90 +173,151 @@ class FormService
 		try 
 		{	
 		  
-		  $marker_json = [];
-		  $textannotations = [];
-		  $images = [];
+			$marker_json = [];
+			$textannotations = [];
+			$images = [];
 
-		  // Payment TYPE
-		  $payment_type = $ticket->payment_type ;
-		  // Security Name
-		  $sec_name = $ticket->security->name;
-		  // UTR NO.
-		  $utr_no = $ticket->utr_no;
-		  
-		  // OTHER DETAILS
-		  $basket_size   = $ticket->basket_size;
-		  $ticket_basket = $ticket->basket_no; // NO. of Basket
-		  $total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
-		  $total_units_in_float = (float) $total_units;
-		  $total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
-		  $total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
-		  $total_amt = $ticket->total_amt;
-		  $word_text = trim(self::NumberintoWords($total_amt));
-		  $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+			// Payment TYPE
+			$payment_type = $ticket->payment_type ;
+			// Security Name
+			$sec_name = $ticket->security->name;
+			// UTR NO.
+			$utr_no = $ticket->utr_no;
 
-		  $checkboxImageData = self::$tickImage;
-		  
-		  // BUY CASES
-		  if ($ticket->type == 1) {
-			  
-			  $images[] =  [
-				"url" => $checkboxImageData, "x"=>149.51, "y"=>276.0, "width"=>17, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
-			  ];
+			// OTHER DETAILS
+			$basket_size   = $ticket->basket_size;
+			$ticket_basket = $ticket->basket_no; // NO. of Basket
+			$total_units   = (double) $ticket->basket_size * (double) $ticket->basket_no;
+			$total_units_in_float = (float) $total_units;
+			$total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
+			$total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
+			$total_amt = $ticket->total_amt;
+			$word_text = trim(self::NumberintoWords($total_amt));
+			$word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
+
+			$checkboxImageData = self::$tickImage;
+
+			// BUY CASES
+			if ($ticket->type == 1) {
+			  if ($ticket->payment_type == 1) { 
+				  $images[] =  [
+					"url" => $checkboxImageData, "x"=>150.5, "y"=>254.81, "width"=>14, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
+				  ];
+			  }
+			  else 
+			  {
+				  $images[] =  [
+					"url" => $checkboxImageData, "x"=>185.7, "y"=>254.81, "width"=>14, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
+				  ];
+			  }
 			 
-		  }
-		  // SELL CASES
-		  else if ($ticket->type == 2) {
+			}
+			// SELL CASES
+			else if ($ticket->type == 2) {
 			 
-			  $images[] = [
-				"url" => $checkboxImageData, "x"=>442.0, "y"=>276.0, "width"=>17, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
-			  ];			 
-		  }
+			  if ($ticket->payment_type == 1) { 
+				  $images[] =  [
+					"url" => $checkboxImageData, "x"=>443.01, "y"=>254.81, "width"=>14, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
+				  ];
+			  }
+			  else 
+			  {
+				  $images[] =  [
+					"url" => $checkboxImageData, "x"=>479.49, "y"=>254.81, "width"=>14, "height"=>14, "pages"=>"0", "keepAspectRatio" => true
+				  ];
+			  }			 
+			}
+
+			if(strtolower($sec_name) == 'uti nifty 50 etf')
+			{
+				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" => 309.31,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+				$textannotations[] = ["text" => "$ticket_basket", "x" => 272.67, "y" =>309.23,"size"=>7, "width" => 83.21, "height" => 11.94, "pages" => "0", "type" => "text"]; 
+				$textannotations[] = ["text"=> "$total_units", "x"=>362.29,  "y"=>309.23,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				if ($ticket->type == 1) {
+					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>309.23,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				}
+			}
+			else if(strtolower($sec_name) == 'uti s&p bse sensex etf')
+			{
+				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" => 322.11,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>322.11,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>322.11,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				if ($ticket->type == 1) {
+					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>322.11,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				}
+			}
 		  
-		  
-		  if(strtolower($sec_name) == 'uti nifty etf')
-		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 124.85, "y" => 335.77,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 256.4, "y" => 335.77,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28,  "y"=> 335.77,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>335.77,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-		  }
-		  else if(strtolower($sec_name) == 'uti sensex etf')
-		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 124.85, "y" => 355.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 256.4, "y" => 355.47,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28,  "y"=> 355.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>355.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-		  }
-		  else if(strtolower($sec_name) == 'uti nifty next 50 etf')
-		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 124.85, "y" => 375.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 256.4, "y" => 375.47,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28,  "y"=> 375.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>375.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-		  }
-		  else if(strtolower($sec_name) == 'uti bank etf')
-		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 124.85, "y"=>395.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 256.4, "y"=>395.47,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28, "y"=>395.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>395.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-		  }
-		  else if(strtolower($sec_name) == 'uti s&p bse sensex next 50 etf')
-		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 124.85, "y"=>415.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 256.4, "y"=>415.47,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 350.28, "y"=>415.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_amt", "x"=>465.02, "y"=>415.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-		  }
-		  
+			else if(strtolower($sec_name) == 'uti nifty next 50 etf')
+			{
+				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>336.19,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
+				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>335.47,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>335.47,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				if ($ticket->type == 1) {
+					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>335.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				}
+			}
+			else if(strtolower($sec_name) == 'uti nifty bank etf')
+			{
+				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>348.35,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
+				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>348.91,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>348.91,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				if ($ticket->type == 1) {
+					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>348.91,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				}
+			}
+			else if(strtolower($sec_name) == 'uti s&p bse sensex next 50 etf')
+			{
+				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>361.79,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
+				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>361.71,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>361.71,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				if ($ticket->type == 1) {
+					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>361.71,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				}
+			}
+			else if(strtolower($sec_name) == 'uti nifty midcap 150 etf')
+			{
+				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>373.95,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
+				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>375.15,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>375.15,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				if ($ticket->type == 1) {
+					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>375.15,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				}
+			}
+			else if(strtolower($sec_name) == 'uti nifty it etf')
+			{
+				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>388.03,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
+				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>387.31,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>387.31,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				if ($ticket->type == 1) {
+					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>387.31,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				}
+			}
+			else if(strtolower($sec_name) == 'uti nifty 5 yr benchmark g-sec etf')
+			{
+				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>401.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
+				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>400.11,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>400.11,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				if ($ticket->type == 1) {
+					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>400.11,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				}
+			}
+			else if(strtolower($sec_name) == 'uti nifty 10 yr benchmark g-sec etf')
+			{
+				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>413.63,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
+				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>414.84,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>414.84,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				if ($ticket->type == 1) {
+					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>414.84,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+				}
+			}
+
 		  // UTR and TOTAL Amount 
-		  $textannotations[] = ["text"=> "$utr_no", "x"=>73.85, "y"=>698.89,"size"=>6,"width"=> 503.51, "height"=> 17.77, "pages"=> "0", "type" => "text"];
-		  $textannotations[] = ["text"=> "$total_amt", "x"=>69.78, "y"=>718.48,"size"=>7,"width"=> 140.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+		  $textannotations[] = ["text"=> "$utr_no", "x"=>69.13, "y"=>696.56,"size"=>6,"width"=>512.71, "height"=> 15, "pages"=> "0", "type" => "text"];
+		  $textannotations[] = ["text"=> "$total_amt", "x"=>76.81, "y"=>715.13,"size"=>7,"width"=>236.83, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 		  
 		  // call API 
 		  Log::info("About to call API");
-		  $urlToken = "filetoken://be6e5905de092f6eea647c5341dc305a222abdcf167a001fd5";
+		  $urlToken = "filetoken://604c96a606a9eabf8944c684bed999bbf41c81c5347ac66f30";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
