@@ -88,11 +88,13 @@ class MailToAMC extends Mailable
                      ]);
 
             // Check if the screenshot file exists
-            if (file_exists(storage_path('app/public/' . $this->ticket->screenshot))) {
-                $mail->attach(storage_path('app/public/' . $this->ticket->screenshot), [
-                    'as' => 'screenshot.jpg', // Change the file extension accordingly
-                    'mime' => 'image/jpeg', // Change the MIME type accordingly
-                ]);
+            if($this->ticket->screenshot != null){
+                if (file_exists(storage_path('app/public/' . $this->ticket->screenshot))) {
+                    $mail->attach(storage_path('app/public/' . $this->ticket->screenshot), [
+                        'as' => 'screenshot.jpg', // Change the file extension accordingly
+                        'mime' => 'image/jpeg', // Change the MIME type accordingly
+                    ]);
+                }
             }
 
             return $mail;
