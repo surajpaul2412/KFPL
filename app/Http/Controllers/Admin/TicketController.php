@@ -179,6 +179,19 @@ class TicketController extends Controller
                 ]);
 
                 $data["status_id"] = 2;
+				
+				// BUY / BASKET cases
+				if($ticket->type == 1 && $ticket->payment_type == 2)
+				{
+					$data["status_id"] = 2;
+				}
+				
+				// SELL / BASKET cases
+				if($ticket->type == 2 && $ticket->payment_type == 2)
+				{
+					$data["status_id"] = 2;
+				}
+				
                 $ticket->update($data);
             } elseif ($ticket->status_id == 2) {
                 if ($ticket->type == 1) {
@@ -191,12 +204,28 @@ class TicketController extends Controller
 
                     if ($request->get("verification") == 1) {
                         $ticket->status_id = 3;
+						
+						// Basket CASE 
+						if( $ticket->payment_type == 2 )
+						{
+							$ticket->status_id = 6;
+						}
+						
                     } else {
                         $ticket->status_id = 1;
                     }
+					
                 } else {
-                    // SALE CASES
-                    $ticket->status_id = 5;
+                    
+					// SALE CASES
+					$ticket->status_id = 5;
+					
+					// BASKET CASES
+					if($ticket->type == 2 && $ticket->payment_type == 2)
+					{
+						$data["status_id"] = 5;
+					}
+                    
                     FormService::GenerateDocument($ticket);
                 }
                 $ticket->save();
@@ -226,10 +255,16 @@ class TicketController extends Controller
                         }
 
                         $ticket->utr_no = $request->get("utr_no");
-                        if ($ticket->payment_type == 1) {
+                        
+						// CASH cases
+						if ($ticket->payment_type == 1) {
                             $ticket->status_id = 6;
                         }
-
+						// BASKET CASES
+						if ($ticket->payment_type == 2) {
+                            $ticket->status_id = 13;
+                        }
+					
                         //Save Ticket
                         $ticket->save();
                         $ticket->update($request->except("screenshot"));
@@ -258,9 +293,15 @@ class TicketController extends Controller
                             ->store("screenshot", "public");
                         $ticket->screenshot = $imagePath;
                     }
-
+					
+					// SELL + CASH CASES
                     if ($ticket->payment_type == 1) {
                         $ticket->status_id = 6;
+                    }
+					
+					// SELL + BASKET CASES
+					if ($ticket->payment_type == 2) {
+                        $ticket->status_id = 13;
                     }
 
                     //Save Ticket
@@ -271,7 +312,8 @@ class TicketController extends Controller
                 FormService::GenerateDocument($ticket);
                 // Pdf Workings :: END
             } elseif ($ticket->status_id == 5) {
-                // SELL Cases
+                
+				// SELL Cases
                 if ($ticket->type == 2) {
                     $request->validate([
                         "screenshot" =>
@@ -293,9 +335,32 @@ class TicketController extends Controller
                     }
 
                     $ticket->status_id = 6;
+					
+					// BASKET CASES
+					if($ticket->payment_type == 2)
+					{
+						$ticket->status_id = 6;
+					}
+					
                     $ticket->save();
                 }
-            } elseif ($ticket->status_id == 8) {
+            
+			} elseif ($ticket->status_id == 6) {
+				
+				// BUY + BASKET
+				if($ticket->type == 1 && $ticket->payment_type == 2)
+				{
+				  $ticket->status_id = 9;
+                  $ticket->save();
+				}
+				
+				// SELL + BASKET CASES
+				if($ticket->type == 2 && $ticket->payment_type == 2)
+				{
+					$ticket->status_id = 9;
+				}
+				
+			} elseif ($ticket->status_id == 8) {
                 $request->validate([
                     // "actual_total_amt" => "required|numeric",
                     "nav" => "required|numeric",
@@ -345,10 +410,23 @@ class TicketController extends Controller
                     $ticket->screenshot = "storage/" . $imagePath;
                 }
 
-                if ($ticket->type == 1) {
-                    $ticket->status_id = 11; // BUY CASE
-                } elseif ($ticket->type == 2) {
-                    $ticket->status_id = 10; // SELL CASE
+                if ($ticket->type == 1)  // BUY CASE
+				{ 
+                    $ticket->status_id = 11; 
+					if($ticket->payment_type == 2)
+					{
+						$ticket->status_id = 3; 
+					}
+				} 
+				elseif ($ticket->type == 2) // SELL CASE
+				{
+                    $ticket->status_id = 10;
+
+					// SELL + BASKET CASES
+					if($ticket->payment_type == 2)
+					{
+						$ticket->status_id = 3;
+					}					
                 }
 
                 // Update Ticket with POST DAta
