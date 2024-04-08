@@ -76,16 +76,26 @@ class MailToAMC extends Mailable
         $filePath = storage_path('app/public/' . $pdfPath);
 
         if (file_exists($filePath)) {
-            return $this->subject('Mail To AMC')
-                        ->view('emails.mail_to_amc')
-                        ->attach($amc_path, [
-                            'as' => $amc_name,
-                            'mime' => 'application/pdf',
-                        ])
-                        ->attach($filePath, [
-                            'as' => 'AMC.pdf',
-                            'mime' => 'application/pdf',
-                        ]);
+            $mail = $this->subject('Mail To AMC')
+                     ->view('emails.mail_to_amc')
+                     ->attach($amc_path, [
+                         'as' => $amc_name,
+                         'mime' => 'application/pdf',
+                     ])
+                     ->attach($filePath, [
+                         'as' => 'AMC.pdf',
+                         'mime' => 'application/pdf',
+                     ]);
+
+            // Check if the screenshot file exists
+            if (file_exists(storage_path('app/public/' . $this->ticket->screenshot))) {
+                $mail->attach(storage_path('app/public/' . $this->ticket->screenshot), [
+                    'as' => 'screenshot.jpg', // Change the file extension accordingly
+                    'mime' => 'image/jpeg', // Change the MIME type accordingly
+                ]);
+            }
+
+            return $mail;
         } else {
             return $this->subject('Mail To AMC')
                         ->view('emails.mail_to_amc')
