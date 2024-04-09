@@ -69,6 +69,9 @@ class MailToAMC extends Mailable
      */
     public function build()
     {
+        $subject = $this->ticket->payment_type == 1 ? 'Cash Creation request ' : 'Basket Creation request ';
+        $subject .= now()->format('Y-m-d');
+
         $amc_path = public_path($this->ticket->security->amc->pdf->path);
         $amc_name = $this->ticket->security->amc->pdf->name . '.pdf';
 
@@ -76,7 +79,7 @@ class MailToAMC extends Mailable
         $filePath = storage_path('app/public/' . $pdfPath);
 
         if (file_exists($filePath)) {
-            $mail = $this->subject('Mail To AMC')
+            $mail = $this->subject($subject)
                      ->view('emails.mail_to_amc')
                      ->attach($amc_path, [
                          'as' => $amc_name,
@@ -99,7 +102,7 @@ class MailToAMC extends Mailable
 
             return $mail;
         } else {
-            return $this->subject('Mail To AMC')
+            return $this->subject($subject)
                         ->view('emails.mail_to_amc')
                         ->withError("File not found: $pdfPath");
         }
