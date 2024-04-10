@@ -37,8 +37,11 @@ class MailToAMC extends Mailable
      */
     public function envelope(): Envelope
     {
+        $subject = $this->ticket->payment_type == 1 ? 'Cash Creation request ' : 'Basket Creation request ';
+        $subject .= now()->format('Y-m-d');
+
         return new Envelope(
-            subject: 'Mail To AMC',
+            subject: $subject,
         );
     }
 
