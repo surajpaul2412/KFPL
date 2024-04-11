@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Mail\MailToAMC;
+use App\Services\FormService;
 use Illuminate\Support\Facades\Mail;
 
 class TicketController extends Controller
@@ -65,27 +66,82 @@ class TicketController extends Controller
         $data = $request->all();
 
         if ($ticket->status_id == 2) {
-            $request->validate([
-                'verification' => 'required|in:1,2',
-                'rate' => 'nullable|numeric',
-                'remark' => 'nullable',
-            ]);
+            if ($ticket->type == 1) {
+                // BUY cases
+                $request->validate([
+                    "verification" => "required|in:1,2",
+                    "rate" => "nullable|numeric",
+                    "remark" => "nullable",
+                ]);
 
-            if ($request->get('verification') == 1) {
-                $data['status_id'] = 3;
+                if ($request->get("verification") == 1) {
+                    $ticket->status_id = 3; 
+                    // Basket CASE 
+                    if( $ticket->payment_type == 2 )
+                    {
+                        $ticket->status_id = 6;
+                    }
+                } else {
+                    $ticket->status_id = 1;
+                }
             } else {
-                $data['status_id'] = 1;
+                
+                // SALE CASES
+                $ticket->status_id = 5;
+                
+                // BASKET CASES
+                if($ticket->type == 2 && $ticket->payment_type == 2)
+                {
+                    $data["status_id"] = 5;
+                }
+                
+                FormService::GenerateDocument($ticket);
             }
+            $ticket->save();
+            $ticket->update($data);
+        } elseif ($ticket->status_id == 5) {
+            // SELL Cases
+            if ($ticket->type == 2) {
+                $request->validate([
+                    "screenshot" =>
+                        "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+                ]);
 
+                if ($request->hasFile("screenshot")) {
+                    // IF Old one exists, remove it
+                    if ($ticket->screenshot != "") {
+                        if (file_exists($ticket->screenshot)) {
+                            \Storage::delete($ticket->screenshot);
+                        }
+                    }
+                    // SAVE new FILE
+                    $imagePath = $request
+                        ->file("screenshot")
+                        ->store("screenshot", "public");
+                    $ticket->screenshot = $imagePath;
+                }
+
+                $ticket->status_id = 6;
+                
+                // BASKET CASES
+                if($ticket->payment_type == 2)
+                {
+                    $ticket->status_id = 6;
+                }
+                
+                $ticket->save();
+            }
+        
         } elseif ($ticket->status_id == 9) {
+            $actual_total_amt = $ticket->actual_total_amt;
             $request->validate([
-                "refund" => "required|numeric",
+                "refund" => ["required", "numeric", "lt:" . $actual_total_amt],
                 "deal_ticket" => "nullable",
                 "screenshot" =>
-                    "nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048",
+                    "nullable|image|mimes:jpeg,png,jpg,gif,webp",
             ]);
 
-            // Deal Ticket Wrokings
+            // Check if the request has a file for "deal_ticket" and if the existing deal_ticket is not null
             if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {
                 // Delete the existing deal_ticket file
                 Storage::disk("public")->delete($ticket->deal_ticket);
@@ -99,6 +155,7 @@ class TicketController extends Controller
                 $ticket->deal_ticket = $imagePath;
             }
 
+            // screeshot
             if ($request->hasFile("screenshot")) {
                 // IF Old one exists, remove it
                 if ($ticket->screenshot != "") {
@@ -116,15 +173,81 @@ class TicketController extends Controller
                 $ticket->screenshot = "storage/" . $imagePath;
             }
 
-            if ($ticket->type == 1) {
-                $ticket->status_id = 11; // BUY CASE
-            } elseif ($ticket->type == 2) {
-                $ticket->status_id = 10; // SELL CASE
+            if ($ticket->type == 1)  // BUY CASE
+            { 
+                $ticket->status_id = 11; 
+                if($ticket->payment_type == 2)
+                {
+                    $ticket->status_id = 3; 
+                }
+            } 
+            elseif ($ticket->type == 2) // SELL CASE
+            {
+                $ticket->status_id = 10;
+
+                // SELL + BASKET CASES
+                if($ticket->payment_type == 2)
+                {
+                    $ticket->status_id = 3;
+                }                   
             }
 
             // Update Ticket with POST DAta
             $ticket->refund = $data["refund"] ? $data["refund"] : 0;
             $ticket->save();
+        } elseif ($ticket->status_id == 10) {
+            if ($ticket->type == 2) {
+                $request->validate([
+                    "screenshot" =>
+                        "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+                    "deal_ticket" => "nullable",
+                ]);
+
+                if ($request->hasFile("screenshot")) {
+                    // IF Old one exists, remove it
+                    if ($ticket->screenshot != "") {
+                        if (file_exists($ticket->screenshot)) {
+                            \Storage::delete($ticket->screenshot);
+                        }
+                    }
+                    // SAVE new FILE
+                    $imagePath = $request
+                        ->file("screenshot")
+                        ->store("screenshot", "public");
+                    $ticket->screenshot = $imagePath;
+                }
+
+                // Deal Ticket Workings
+                if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {
+                    // Delete the existing deal_ticket file
+                    Storage::disk("public")->delete($ticket->deal_ticket);
+                }
+
+                // Check if the request has a file for "deal_ticket"
+                if ($request->hasFile("deal_ticket")) {
+                    // Store the uploaded file and update the deal_ticket path
+                    $imagePath = $request->file("deal_ticket")->store("deal_ticket", "public");
+                    // Set the deal_ticket path without the "storage/" prefix
+                    $ticket->deal_ticket = $imagePath;
+                }
+
+                $ticket->status_id = 12; // SELL CASE
+                // mailing for sell
+                FormService::GenerateDocument($ticket);
+                $ticket->save();
+
+                // Trigger mail if SS uploaded
+                if ($request->hasFile("screenshot")) {
+                    $emailString = $ticket->security->amc->email ?? null;
+                    $emailArray = explode(", ", $emailString);
+                    $toEmail = array_map("trim", $emailArray);
+
+                    Mail::to($toEmail)->send(new MailToAMC($ticket));
+
+                    $ticket->status_id = 12;
+                    $ticket->update();
+                }
+            }
         } elseif ($ticket->status_id == 13) {
             $request->validate([
                 // 'verification' => 'required|in:1,2',
@@ -178,15 +301,25 @@ class TicketController extends Controller
         //
     }
 
-    public function mail(Ticket $ticket) {
-        $emailString = $ticket->security->amc->email??null;
-        $emailArray = explode(', ', $emailString);
-        $toEmail = array_map('trim', $emailArray);
+    public function mail(Ticket $ticket)
+    {
+        // sell case with null screenshot check
+        if ($ticket->type == 2 && $ticket->screenshot == null) {
+            $ticket->status_id = 7;
+            $ticket->update();
+        } else {
+            $emailString = $ticket->security->amc->email ?? null;
+            $emailArray = explode(", ", $emailString);
+            $toEmail = array_map("trim", $emailArray);
 
-        Mail::to($toEmail)->send(new MailToAMC($ticket));
+            Mail::to($toEmail)->send(new MailToAMC($ticket));
 
-        $ticket->status_id = 7;
-        $ticket->update();
-        return redirect()->route('ops.tickets.index')->with('success', 'Mailed all the AMC controllers successfully.');
+            $ticket->status_id = 7;
+            $ticket->update();
+        }
+        
+        return redirect()
+            ->route("ops.tickets.index")
+            ->with("success", "Mailed all the AMC controllers successfully.");
     }
 }

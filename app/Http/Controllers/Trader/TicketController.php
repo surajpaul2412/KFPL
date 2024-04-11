@@ -39,18 +39,25 @@ class TicketController extends Controller
     public function store(Request $request)
     {    
         $validatedData = $request->validate([
-            'security_id' => 'required|exists:securities,id',
-            'type' => 'required|integer|in:1,2',
-            'payment_type' => 'required|integer|in:1,2,3',
-            'basket_no' => 'required|integer',
-            'basket_size' => 'required|integer',
-            'rate' => 'required|numeric',
-            'security_price' => 'required|numeric',
-            'markup_percentage' => 'required|numeric',
+            "security_id" => "required|exists:securities,id",
+            "type" => "required|integer|in:1,2",
+            "payment_type" => "required|integer|in:1,2,3",
+            "basket_no" => "required|integer",
+            "basket_size" => "required|integer",
+            "rate" => "required|numeric",
+            "security_price" => "required|numeric",
+            "markup_percentage" => "required|numeric"
         ]);
 
-        $validatedData['user_id'] = Auth::user()->id;
-        $validatedData['status_id'] = 2;
+        // if SELL
+        if ($validatedData["type"] == 2) {
+            $validatedData["markup_percentage"] = 0;
+            $validatedData["rate"] = 0;
+            $validatedData["security_price"] = 0;
+        }
+
+        $validatedData["user_id"] = Auth::user()->id;
+        $validatedData["status_id"] = 2;
 
         $ticket = Ticket::create($validatedData);
         return redirect()->route('trader.tickets.index')->with('success', 'Ticket created successfully.');

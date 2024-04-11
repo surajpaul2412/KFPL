@@ -70,7 +70,7 @@ Ticket Management
                                     <td>{{$ticket->status_id}}</td>
                                     <td>{{$ticket->user->name}}</td>
                                     <td>
-                                        @if($ticket->status_id == 2 || $ticket->status_id == 9 || $ticket->status_id == 13)
+                                        @if($ticket->status_id == 2 || $ticket->status_id == 5 || $ticket->status_id == 9 || $ticket->status_id == 10 || $ticket->status_id == 13)
                                         <a href="{{url('/ops/tickets/' . $ticket->id . '/edit')}}" title="Edit">
                                             <i class="ri-pencil-fill"></i>
                                         </a>
