@@ -154,7 +154,7 @@ class FormService
 		  
 		  // call API 
 		  Log::info("About to call API");
-		  $urlToken = "filetoken://36a44dc2a9f869b394fbec2a96bd9ffecd49ae612887b4031f";
+		  $urlToken = "filetoken://8a3a7b7bbc03bc04f7de356ed489a17827d47e6cee7e2ceefb";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
@@ -504,7 +504,10 @@ class FormService
       $total_units_in_float = (float) $total_units;
       $total_units_in_words = trim(self::NumberintoWords( $total_units_in_float)); // Total Units in Words
       $total_units_in_words = ('' == $total_units_in_words ? 'Zero Only' : $total_units_in_words . ' Only');
-
+	
+	  // ALIAS for TOTAL Unites
+      $tuif = $total_units_in_float;
+	  
       $total_amt = $ticket->total_amt;
       $word_text = trim(self::NumberintoWords($total_amt));
       $word_text = ('' == $word_text ? 'Zero Only' : $word_text . ' Only');
@@ -566,55 +569,55 @@ class FormService
 	  if(strtolower($sec_name) == 'axis gold etf')
       {
           $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 438.6,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.22, "y" => 436.6,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+		  $textannotations[] = ["text" => "$tuif", "x" => 165.22, "y" => 436.6,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
           $textannotations[] = ["text"=> "$total_amt", "x"=> 278.17,  "y"=> 438.61,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
       }
 	  else if(strtolower($sec_name) == 'axis nifty 50 etf')
       {
           $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 457.56,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.22, "y" => 457.56,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+		  $textannotations[] = ["text" => "$tuif", "x" => 165.22, "y" => 457.56,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
           $textannotations[] = ["text"=> "$total_amt", "x"=> 278.17,  "y"=> 457.56,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
       }
 	  else if(strtolower($sec_name) == 'axis nifty bank etf')
       {
           $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 476.51,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.22, "y" => 476.51,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+		  $textannotations[] = ["text" => "$tuif", "x" => 165.22, "y" => 476.51,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
           $textannotations[] = ["text"=> "$total_amt", "x"=> 278.17,  "y"=> 476.51,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
       }
 	  else if(strtolower($sec_name) == 'axis nifty it etf')
       {
           $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 494.63,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.22, "y" => 494.63,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+		  $textannotations[] = ["text" => "$tuif", "x" => 165.22, "y" => 494.63,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
           $textannotations[] = ["text"=> "$total_amt", "x"=> 278.17,  "y"=> 494.63,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
       }
 	  else if(strtolower($sec_name) == 'axis nifty aaa bond plus sdl apr 2026 50:50 etf')
       {
           $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 513.52,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.25, "y" => 513.52,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+		  $textannotations[] = ["text" => "$tuif", "x" => 165.25, "y" => 513.52,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
           $textannotations[] = ["text"=> "$total_amt", "x"=> 278.17,  "y"=> 513.52,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
       }
 	  else if(strtolower($sec_name) == 'axis nifty healthcare etf')
       {
           $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 532.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.25, "y" => 532.47,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+		  $textannotations[] = ["text" => "$tuif", "x" => 165.25, "y" => 532.47,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
           $textannotations[] = ["text"=> "$total_amt", "x"=> 278.17,  "y"=> 532.47,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
       }
 	  else if(strtolower($sec_name) == 'axis nifty india consumption etf')
       {
           $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 551.42,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.25, "y" => 551.42,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+		  $textannotations[] = ["text" => "$tuif", "x" => 165.25, "y" => 551.42,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
           $textannotations[] = ["text"=> "$total_amt", "x"=> 278.17,  "y"=> 551.42,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
       }
 	  else if(strtolower($sec_name) == 'axis silver etf')
       {
           $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 571.19,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.25, "y" => 571.19,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+		  $textannotations[] = ["text" => "$tuif", "x" => 165.25, "y" => 571.19,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
           $textannotations[] = ["text"=> "$total_amt", "x"=> 278.17,  "y"=> 571.19,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
       }
 	  else if(strtolower($sec_name) == 'axis s&p bse sensex etf')
       {
           $images[] = ["url" => $checkboxImageData, "x" => 20.94, "y" => 590.14,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
-		  $textannotations[] = ["text" => "$ticket_basket", "x" => 165.25, "y" => 590.14,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
+		  $textannotations[] = ["text" => "$tuif", "x" => 165.25, "y" => 590.14,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];	  
           $textannotations[] = ["text"=> "$total_amt", "x"=> 278.17,  "y"=> 590.14,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
       }
 	  
@@ -2121,7 +2124,7 @@ class FormService
 				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_words", "x"=>333.01, "y"=>584.46, "width"=>258.05]);
 				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>173.71, "y"=>596, "width"=>118.21]);
 				$textannotations[] = array_merge($config, ["text"=>"$word_text", "x"=>325.08, "y"=>595.28, "width"=>267.42, "size"=>6, "height" => 16.6]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>259.49, "y"=>675.38, "width"=>116.77]);
+				$textannotations[] = array_merge($config, ["text"=>"$utr_no", "x"=>259.49, "y"=>675.38, "width"=>116.77,"size"=>4,"height"=>13]);
 			}
 			
 			// SELL CASES
