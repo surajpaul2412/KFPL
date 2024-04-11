@@ -37,8 +37,11 @@ class MailToAMC extends Mailable
      */
     public function envelope(): Envelope
     {
+        $subject = $this->ticket->payment_type == 1 ? 'Cash Creation request ' : 'Basket Creation request ';
+        $subject .= now()->format('Y-m-d');
+
         return new Envelope(
-            subject: 'Mail To AMC',
+            subject: $subject,
         );
     }
 
@@ -69,6 +72,9 @@ class MailToAMC extends Mailable
      */
     public function build()
     {
+        $subject = $this->ticket->payment_type == 1 ? 'Cash Creation request ' : 'Basket Creation request ';
+        $subject .= now()->format('Y-m-d');
+
         $amc_path = public_path($this->ticket->security->amc->pdf->path);
         $amc_name = $this->ticket->security->amc->pdf->name . '.pdf';
 
@@ -76,18 +82,30 @@ class MailToAMC extends Mailable
         $filePath = storage_path('app/public/' . $pdfPath);
 
         if (file_exists($filePath)) {
-            return $this->subject('Mail To AMC')
-                        ->view('emails.mail_to_amc')
-                        ->attach($amc_path, [
-                            'as' => $amc_name,
-                            'mime' => 'application/pdf',
-                        ])
-                        ->attach($filePath, [
-                            'as' => 'AMC.pdf',
-                            'mime' => 'application/pdf',
-                        ]);
+            $mail = $this->subject($subject)
+                     ->view('emails.mail_to_amc')
+                     ->attach($amc_path, [
+                         'as' => $amc_name,
+                         'mime' => 'application/pdf',
+                     ])
+                     ->attach($filePath, [
+                         'as' => 'AMC.pdf',
+                         'mime' => 'application/pdf',
+                     ]);
+
+            // Check if the screenshot file exists
+            if($this->ticket->screenshot != null){
+                if (file_exists(storage_path('app/public/' . $this->ticket->screenshot))) {
+                    $mail->attach(storage_path('app/public/' . $this->ticket->screenshot), [
+                        'as' => 'screenshot.jpg', // Change the file extension accordingly
+                        'mime' => 'image/jpeg', // Change the MIME type accordingly
+                    ]);
+                }
+            }
+
+            return $mail;
         } else {
-            return $this->subject('Mail To AMC')
+            return $this->subject($subject)
                         ->view('emails.mail_to_amc')
                         ->withError("File not found: $pdfPath");
         }

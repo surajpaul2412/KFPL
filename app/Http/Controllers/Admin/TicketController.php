@@ -436,8 +436,8 @@ class TicketController extends Controller
                 if ($ticket->type == 2) {
                     $request->validate([
                         "screenshot" =>
-                            "required|image|mimes:jpeg,png,jpg,gif,webp",
-                        "deal_ticket" => "required",
+                            "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+                        "deal_ticket" => "nullable",
                     ]);
 
                     if ($request->hasFile("screenshot")) {
@@ -472,6 +472,18 @@ class TicketController extends Controller
                     // mailing for sell
                     FormService::GenerateDocument($ticket);
                     $ticket->save();
+
+                    // Trigger mail if SS uploaded
+                    if ($request->hasFile("screenshot")) {
+                        $emailString = $ticket->security->amc->email ?? null;
+                        $emailArray = explode(", ", $emailString);
+                        $toEmail = array_map("trim", $emailArray);
+
+                        Mail::to($toEmail)->send(new MailToAMC($ticket));
+
+                        $ticket->status_id = 12;
+                        $ticket->update();
+                    }
                 }
             } elseif ($ticket->status_id == 11) {
                 if ($request->get("verification") == 1) {
