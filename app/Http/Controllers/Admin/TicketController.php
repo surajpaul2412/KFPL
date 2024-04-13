@@ -169,6 +169,7 @@ class TicketController extends Controller
 
             // SET STATUS as per OTHER PARAMETERS
             if ($ticket->status_id == 1) {
+
                 $validatedData = $request->validate([
                     "security_id" => "required|exists:securities,id",
                     "type" => "required|integer|in:1,2",
@@ -179,21 +180,23 @@ class TicketController extends Controller
                 ]);
 
                 $data["status_id"] = 2;
-				
+
 				// BUY / BASKET cases
 				if($ticket->type == 1 && $ticket->payment_type == 2)
 				{
 					$data["status_id"] = 2;
 				}
-				
+
 				// SELL / BASKET cases
 				if($ticket->type == 2 && $ticket->payment_type == 2)
 				{
 					$data["status_id"] = 2;
 				}
-				
+
                 $ticket->update($data);
+
             } elseif ($ticket->status_id == 2) {
+
                 if ($ticket->type == 1) {
                     // BUY cases
                     $request->validate([
@@ -204,29 +207,31 @@ class TicketController extends Controller
 
                     if ($request->get("verification") == 1) {
                         $ticket->status_id = 3;
-						
-						// Basket CASE 
-						if( $ticket->payment_type == 2 )
-						{
-							$ticket->status_id = 6;
-						}
-						
+
+            						// Basket CASE
+            						if( $ticket->payment_type == 2 )
+            						{
+            							$ticket->status_id = 6;
+            						}
+
                     } else {
                         $ticket->status_id = 1;
                     }
-					
+
                 } else {
-                    
-					// SALE CASES
-					$ticket->status_id = 5;
-					
-					// BASKET CASES
-					if($ticket->type == 2 && $ticket->payment_type == 2)
-					{
-						$data["status_id"] = 5;
-					}
-                    
-                    FormService::GenerateDocument($ticket);
+
+          					// SALE CASES
+          					$ticket->status_id = 5;
+
+          					// BASKET CASES
+          					if($ticket->payment_type == 2)
+          					{
+          						$data["status_id"] = 5;
+
+          						// PDF is generated for BASKET / SELL cases
+          						FormService::GenerateDocument($ticket);
+          					}
+
                 }
                 $ticket->save();
                 $ticket->update($data);
@@ -255,7 +260,7 @@ class TicketController extends Controller
                         }
 
                         $ticket->utr_no = $request->get("utr_no");
-                        
+
 						// CASH cases
 						if ($ticket->payment_type == 1) {
                             $ticket->status_id = 6;
@@ -264,7 +269,7 @@ class TicketController extends Controller
 						if ($ticket->payment_type == 2) {
                             $ticket->status_id = 13;
                         }
-					
+
                         //Save Ticket
                         $ticket->save();
                         $ticket->update($request->except("screenshot"));
@@ -293,12 +298,12 @@ class TicketController extends Controller
                             ->store("screenshot", "public");
                         $ticket->screenshot = $imagePath;
                     }
-					
+
 					// SELL + CASH CASES
                     if ($ticket->payment_type == 1) {
                         $ticket->status_id = 6;
                     }
-					
+
 					// SELL + BASKET CASES
 					if ($ticket->payment_type == 2) {
                         $ticket->status_id = 13;
@@ -312,7 +317,7 @@ class TicketController extends Controller
                 FormService::GenerateDocument($ticket);
                 // Pdf Workings :: END
             } elseif ($ticket->status_id == 5) {
-                
+
 				// SELL Cases
                 if ($ticket->type == 2) {
                     $request->validate([
@@ -335,31 +340,31 @@ class TicketController extends Controller
                     }
 
                     $ticket->status_id = 6;
-					
+
 					// BASKET CASES
 					if($ticket->payment_type == 2)
 					{
 						$ticket->status_id = 6;
 					}
-					
+
                     $ticket->save();
                 }
-            
+
 			} elseif ($ticket->status_id == 6) {
-				
+
 				// BUY + BASKET
 				if($ticket->type == 1 && $ticket->payment_type == 2)
 				{
 				  $ticket->status_id = 9;
                   $ticket->save();
 				}
-				
+
 				// SELL + BASKET CASES
 				if($ticket->type == 2 && $ticket->payment_type == 2)
 				{
 					$ticket->status_id = 9;
 				}
-				
+
 			} elseif ($ticket->status_id == 8) {
                 $request->validate([
                     // "actual_total_amt" => "required|numeric",
@@ -411,13 +416,14 @@ class TicketController extends Controller
                 }
 
                 if ($ticket->type == 1)  // BUY CASE
-				{ 
-                    $ticket->status_id = 11; 
+				{
+                    $ticket->status_id = 11;
+					// BUY + BASKET CASES
 					if($ticket->payment_type == 2)
 					{
-						$ticket->status_id = 3; 
+						$ticket->status_id = 3;
 					}
-				} 
+				}
 				elseif ($ticket->type == 2) // SELL CASE
 				{
                     $ticket->status_id = 10;
@@ -426,7 +432,7 @@ class TicketController extends Controller
 					if($ticket->payment_type == 2)
 					{
 						$ticket->status_id = 3;
-					}					
+					}
                 }
 
                 // Update Ticket with POST DAta
@@ -599,24 +605,31 @@ class TicketController extends Controller
     public function mail(Ticket $ticket)
     {
         // sell case with null screenshot check
+        $sendMail = 0;
+        
         if ($ticket->type == 2 && $ticket->screenshot == null) {
             $ticket->status_id = 7;
             $ticket->update();
+        } else if ($ticket->type == 1 && $ticket->payment_type == 2) {
+            $sendMail = 1;
+            $ticket->status_id = 9;
+            $ticket->update();
         } else {
-            $emailString = $ticket->security->amc->email ?? null;
-            $emailArray = explode(", ", $emailString);
-            $toEmail = array_map("trim", $emailArray);
-
-            Mail::to($toEmail)->send(new MailToAMC($ticket));
-
+            $sendMail = 1;
             $ticket->status_id = 7;
             $ticket->update();
         }
 
-        
+        if ($sendMail) {
+          $emailString = $ticket->security->amc->email ?? null;
+          $emailArray = explode(", ", $emailString);
+          $toEmail = array_map("trim", $emailArray);
+          // Mail::to($toEmail)->send(new MailToAMC($ticket));
+        }
+
         return redirect()
-            ->route("admin.tickets.index")
-            ->with("success", "Mailed all the AMC controllers successfully.");
+             ->route("admin.tickets.index")
+             ->with("success", "Mailed all the AMC controllers successfully.");
     }
 
     public function statusUpdate(Ticket $ticket)

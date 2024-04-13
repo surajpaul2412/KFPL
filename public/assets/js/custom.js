@@ -80,7 +80,7 @@ function setPaymode(x,y)
 }
 // making "cash default"
 $(document).ready(function () {
-    setPaymode(0, 1);
+    //setPaymode(0, 1);
 });
 
 function setVerification(x,y)

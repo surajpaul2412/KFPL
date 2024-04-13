@@ -73,8 +73,12 @@ var optionOne = {
   }
 };
 
-var chartOne = new ApexCharts(document.querySelector('#apexChart1'), optionOne);
-chartOne.render();
+var chartOne = '';
+if( document.querySelector('#apexChart1') )
+{
+  chartOne = new ApexCharts(document.querySelector('#apexChart1'), optionOne);
+  chartOne.render();
+}
 
 //------------------------------------------
 
@@ -135,8 +139,14 @@ var optionTwo = {
   legend: { show: false }
 };
 
-var chartTwo = new ApexCharts(document.querySelector('#apexChart2'), optionTwo);
-chartTwo.render();
+var chartTwo = '';
+
+if( document.querySelector('#apexChart2') )
+{
+  chartTwo = new ApexCharts(document.querySelector('#apexChart2'), optionTwo);
+  chartTwo.render();
+}
+
 
 //------------------------------------------------
 
@@ -197,8 +207,13 @@ var optionThree = {
   legend: { show: false }
 };
 
-var chartThree = new ApexCharts(document.querySelector('#apexChart3'), optionThree);
-chartThree.render();
+var chartThree = '';
+
+if( document.querySelector('#apexChart3') )
+{
+  chartThree = new ApexCharts(document.querySelector('#apexChart3'), optionThree);
+  chartThree.render();
+}
 
 //------------------------------------------------------
 
@@ -259,8 +274,13 @@ var optionFour = {
   legend: { show: false }
 };
 
-var chartFour = new ApexCharts(document.querySelector('#apexChart4'), optionFour);
-chartFour.render();
+var chartFour = '';
+
+if( document.querySelector('#apexChart4') )
+{
+  chartFour = new ApexCharts(document.querySelector('#apexChart4'), optionFour);
+  chartFour.render();
+}
 
 //------------------------------------------------
 
@@ -349,8 +369,13 @@ var optionFive = {
   }
 };
 
-var chartFive = new ApexCharts(document.querySelector('#apexChart5'), optionFive);
-chartFive.render();
+var chartFive = '';
+
+if( document.querySelector('#apexChart5') )
+{
+  chartFive = new ApexCharts(document.querySelector('#apexChart5'), optionFive);
+  chartFive.render();
+}
 
 // Dark skin integration
 function switchDark(enabled) {

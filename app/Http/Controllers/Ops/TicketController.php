@@ -75,8 +75,8 @@ class TicketController extends Controller
                 ]);
 
                 if ($request->get("verification") == 1) {
-                    $ticket->status_id = 3; 
-                    // Basket CASE 
+                    $ticket->status_id = 3;
+                    // Basket CASE
                     if( $ticket->payment_type == 2 )
                     {
                         $ticket->status_id = 6;
@@ -85,16 +85,16 @@ class TicketController extends Controller
                     $ticket->status_id = 1;
                 }
             } else {
-                
+
                 // SALE CASES
                 $ticket->status_id = 5;
-                
+
                 // BASKET CASES
                 if($ticket->type == 2 && $ticket->payment_type == 2)
                 {
                     $data["status_id"] = 5;
                 }
-                
+
                 FormService::GenerateDocument($ticket);
             }
             $ticket->save();
@@ -122,16 +122,16 @@ class TicketController extends Controller
                 }
 
                 $ticket->status_id = 6;
-                
+
                 // BASKET CASES
                 if($ticket->payment_type == 2)
                 {
                     $ticket->status_id = 6;
                 }
-                
+
                 $ticket->save();
             }
-        
+
         } elseif ($ticket->status_id == 9) {
             $actual_total_amt = $ticket->actual_total_amt;
             $request->validate([
@@ -174,13 +174,13 @@ class TicketController extends Controller
             }
 
             if ($ticket->type == 1)  // BUY CASE
-            { 
-                $ticket->status_id = 11; 
+            {
+                $ticket->status_id = 11;
                 if($ticket->payment_type == 2)
                 {
-                    $ticket->status_id = 3; 
+                    $ticket->status_id = 3;
                 }
-            } 
+            }
             elseif ($ticket->type == 2) // SELL CASE
             {
                 $ticket->status_id = 10;
@@ -189,7 +189,7 @@ class TicketController extends Controller
                 if($ticket->payment_type == 2)
                 {
                     $ticket->status_id = 3;
-                }                   
+                }
             }
 
             // Update Ticket with POST DAta
@@ -286,11 +286,11 @@ class TicketController extends Controller
 
             $data["status_id"] = 14; //condition can be placed here//
         } else {
-            
+
         }
-        
+
         $ticket->update($data);
-        return redirect()->route('ops.tickets.index')->with('success', 'Ticket updated successfully.');        
+        return redirect()->route('ops.tickets.index')->with('success', 'Ticket updated successfully.');
     }
 
     /**
@@ -317,7 +317,7 @@ class TicketController extends Controller
             $ticket->status_id = 7;
             $ticket->update();
         }
-        
+
         return redirect()
             ->route("ops.tickets.index")
             ->with("success", "Mailed all the AMC controllers successfully.");
