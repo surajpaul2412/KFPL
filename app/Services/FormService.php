@@ -1142,44 +1142,44 @@ class FormService
 			$textannotations[] = array_merge($base, ["text"=> "$date", "x"=>100.42, "y"=>112.59, "width"=>84.59, "size"=>9 ]);	
 			
 			// Date 2
-			$textannotations[] = array_merge($base, ["text"=> "$date", "x"=>316.84, "y"=>237.21, "width"=>84.59, "size"=>9 ]);	
+			$textannotations[] = array_merge($base, ["text"=> "$date", "x"=>316.84, "y"=>209.54, "width"=>84.59, "size"=>9 ]);	
 				
 			// BUY CASES
 			if ($ticket->type == 1) {
 				
 				// Scheme Name 
-				$textannotations[] = array_merge($base, ["text"=> "$sec_name", "x"=>69.98, "y"=>362.64, "width"=>201.49, "height"=>27.68 ]);
+				$textannotations[] = array_merge($base, ["text"=> "$sec_name", "x"=>70.66, "y"=>338.8, "width"=>201.49, "height"=>27.68 ]);
 				
 				// Basket Size 
-				$textannotations[] = array_merge($base, ["text"=> "$basket_size", "x"=>280.7, "y"=>365.25, "width"=>74.6, "height"=>17.69 ]);
+				$textannotations[] = array_merge($base, ["text"=> "$basket_size", "x"=>280.7, "y"=>338.8, "width"=>74.6, "height"=>17.69 ]);
 
 				// Basket Number 
-				$textannotations[] = array_merge($base, ["text"=> "$ticket_basket", "x"=>365.29, "y"=>365.25, "width"=>77.67, "height"=>17.69 ]); 
+				$textannotations[] = array_merge($base, ["text"=> "$ticket_basket", "x"=>365.29, "y"=>338.8, "width"=>77.67, "height"=>17.69 ]); 
 				
 				// Total No. Units 
-				$textannotations[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>451.42, "y"=>363.71, "width"=>100, "height"=>17.69 ]); 
+				$textannotations[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>451.42, "y"=>338.8, "width"=>100, "height"=>17.69 ]); 
 				
 				// FILE TOKEN
-				$urlToken = "filetoken://ac1b17545bcd4890e45b4580b4f1033f579d1011ef14d947ae";
+				$urlToken = "filetoken://0b80ce1398d30f343fb3cfb558458d28ebc6c3b3eb0525815e";
 			}
 			
 			// SELL CASES
 			if ($ticket->type == 2) {
 				
 				// Scheme Name 
-				$textannotations[] = array_merge($base, ["text"=> "$sec_name", "x"=>69.98, "y"=>362.64, "width"=>185.34, "height"=>27.68 ]);
+				$textannotations[] = array_merge($base, ["text"=> "$sec_name", "x"=>69.98, "y"=>327.39, "width"=>185.34, "height"=>27.68 ]);
 				
 				// Basket Size 
-				$textannotations[] = array_merge($base, ["text"=> "$basket_size", "x"=>280.7, "y"=>365.25, "width"=>83.82, "height"=>17.69 ]);
+				$textannotations[] = array_merge($base, ["text"=> "$basket_size", "x"=>280.7, "y"=>327.39, "width"=>83.82, "height"=>17.69 ]);
 
 				// Basket Number 
-				$textannotations[] = array_merge($base, ["text"=> "$ticket_basket", "x"=>365.29, "y"=>365.25, "width"=>86.9, "height"=>17.69 ]); 
+				$textannotations[] = array_merge($base, ["text"=> "$ticket_basket", "x"=>365.29, "y"=>327.39, "width"=>86.9, "height"=>17.69 ]); 
 				
 				// Total No. Units 
-				$textannotations[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>451.42, "y"=>363.71, "width"=>100, "height"=>17.69 ]); 
+				$textannotations[] = array_merge($base, ["text"=> "$total_units_in_float", "x"=>451.42, "y"=>327.39, "width"=>100, "height"=>17.69 ]); 
 				
 				// FILE TOKEN
-				$urlToken = "filetoken://835904dd39de8dbfa90133444b74a637f57786739c8da34f09";
+				$urlToken = "filetoken://7629bc88885108b6ad0d4e9a2454d00144ac553bb1797cadb2";
 			}
 		
 
