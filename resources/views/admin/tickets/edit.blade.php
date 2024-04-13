@@ -324,7 +324,7 @@
                                     </div>
 									@elseif($ticket->type == 2)
                                     <div class="col-6 my-3">
-                                      <div class="w-25 pb-1">
+                                      <div class="w-75 pb-1">
                                         Redemption Amount
                                       </div>
                                       <div class="w-75">
