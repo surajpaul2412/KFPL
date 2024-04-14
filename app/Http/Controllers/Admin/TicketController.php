@@ -607,7 +607,8 @@ class TicketController extends Controller
         // sell case with null screenshot check
         $sendMail = 0;
         
-        if ($ticket->type == 2 && $ticket->screenshot == null) {
+        if ($ticket->type == 2) {
+            $sendMail = 1;
             $ticket->status_id = 7;
             $ticket->update();
         } else if ($ticket->type == 1 && $ticket->payment_type == 2) {
@@ -624,7 +625,19 @@ class TicketController extends Controller
           $emailString = $ticket->security->amc->email ?? null;
           $emailArray = explode(", ", $emailString);
           $toEmail = array_map("trim", $emailArray);
-          // Mail::to($toEmail)->send(new MailToAMC($ticket));
+          Mail::to($toEmail)->send(new MailToAMC($ticket));
+        }
+
+        return redirect()
+             ->route("admin.tickets.index")
+             ->with("success", "Mailed all the AMC controllers successfully.");
+    }
+
+    public function skip(Ticket $ticket)
+    {
+        if ($ticket->type == 2) {
+            $ticket->status_id = 7;
+            $ticket->update();
         }
 
         return redirect()

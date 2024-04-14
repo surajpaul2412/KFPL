@@ -29,6 +29,8 @@ Ticket Details
                         @if($ticket->status_id == 6)
                         <div class="text-align-center">
                             <a href="{{route('admin.tickets.mail', $ticket)}}" onclick="showWait()" class="btn btnSubmit btn-primary active my-5 px-5 text-ali">Submit </a>
+                            
+                            <a href="{{route('admin.tickets.skip', $ticket)}}" onclick="showWait()" class="btn btnSubmit btn-success active my-5 px-5 text-ali text-white">Skip Mail </a>
                         </div>
                         @elseif($ticket->status_id == 7)
                         <div class="text-align-center">

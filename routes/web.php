@@ -60,6 +60,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
         'destroy' // Exclude the destroy method from the resourceful routes
     ]);
     Route::get('/admin/tickets/{ticket}/mail', [AdminTicketController::class, 'mail'])->name('admin.tickets.mail');
+    Route::get('/admin/tickets/{ticket}/skip', [AdminTicketController::class, 'skip'])->name('admin.tickets.skip');
     Route::get('/admin/tickets/{ticket}/statusUpdate', [AdminTicketController::class, 'statusUpdate'])->name('admin.tickets.statusUpdate');
     // AMC Management
     Route::resource('/admin/amcs', AmcController::class);
@@ -139,6 +140,7 @@ Route::middleware(['auth', 'isOps'])->group(function () {
         'destroy' => 'ops.tickets.destroy',
     ]);
     Route::get('/ops/tickets/{ticket}/mail', [OpsTicketController::class, 'mail'])->name('ops.tickets.mail');
+    Route::get('/ops/tickets/{ticket}/skip', [OpsTicketController::class, 'skip'])->name('ops.tickets.skip');
 });
 
 // Backoffice Dashboard
