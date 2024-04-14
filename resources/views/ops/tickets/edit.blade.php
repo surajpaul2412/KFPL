@@ -91,32 +91,42 @@ Ticket Management
 
                         @if($ticket->status_id == 9)
                             @if($ticket->type == 1)
-                            <div class="col-6 my-3">
-                                <div class="w-25 pb-1">
-                                    Refund Amount
+                                <div class="col-6 my-3">
+                                    <div class="w-25 pb-1">
+                                        Refund Amount
+                                    </div>
+                                    <div class="w-75">
+                                        <input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
+                                          value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
+                                    </div>
                                 </div>
-                                <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
-                                      value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
-                                </div>
-                            </div>
 
-                            @if($ticket->screenshot == null)
-                            <div class="col-6 my-3">
-                                <div class="w-25 pb-1">
-                                    Upload Screenshot
+                                @if($ticket->screenshot == null)
+                                <div class="col-6 my-3">
+                                    <div class="w-25 pb-1">
+                                        Upload Screenshot
+                                    </div>
+                                    <div class="w-75">
+                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
+                                        @error('screenshot')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
-                                <div class="w-75">
-                                    <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
-                                    @error('screenshot')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                @endif
+                            @elseif($ticket->type == 2)
+                                <div class="col-6 my-3">
+                                  <div class="w-75 pb-1">
+                                    Redemption Amount
+                                  </div>
+                                  <div class="w-75">
+                                    <input type="text" class="form-control w-100" placeholder="Redemption Amount" name="refund"
+                                      value="" required>
+                                  </div>
                                 </div>
-                            </div>
                             @endif
-
                             <div class="col-6 my-3">
                                 <div class="w-25 pb-1">
                                     Upload Deal Ticket
@@ -125,18 +135,7 @@ Ticket Management
                                     <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
                                       value="" >
                                 </div>
-                            </div>
-                            @elseif($ticket->type == 2)
-                            <div class="col-6 my-3">
-                              <div class="w-75 pb-1">
-                                Redemption Amount
-                              </div>
-                              <div class="w-75">
-                                <input type="text" class="form-control w-100" placeholder="Redemption Amount" name="refund"
-                                  value="" required>
-                              </div>
-                            </div>
-                            @endif                                  
+                            </div>                                 
                         @endif
 
                         @if($ticket->status_id == 10)
@@ -158,6 +157,7 @@ Ticket Management
                                     </div>
                                     @endif
 
+                                    @if($ticket->deal_ticket == null)
                                     <div class="col-6 my-3">
                                         <div class="w-75 pb-1">
                                             Upload Deal Ticket
@@ -167,6 +167,7 @@ Ticket Management
                                               value="" required>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                               @endif
                         @endif

@@ -14,6 +14,7 @@ use Auth;
 use Storage;
 use App\Services\FormService;
 use App\Mail\MailToAMC;
+use App\Mail\MailScreenshotToAMC;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 
@@ -375,9 +376,8 @@ class TicketController extends Controller
 
                 $ticket->update($data);
             } elseif ($ticket->status_id == 9) {
-                $actual_total_amt = $ticket->actual_total_amt;
                 $request->validate([
-                    "refund" => ["required", "numeric", "lt:" . $actual_total_amt],
+                    "refund" => ["required", "numeric"],
                     "deal_ticket" => "nullable",
                     "screenshot" =>
                         "nullable|image|mimes:jpeg,png,jpg,gif,webp",
@@ -485,7 +485,7 @@ class TicketController extends Controller
                         $emailArray = explode(", ", $emailString);
                         $toEmail = array_map("trim", $emailArray);
 
-                        Mail::to($toEmail)->send(new MailToAMC($ticket));
+                        Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
 
                         $ticket->status_id = 12;
                         $ticket->update();
