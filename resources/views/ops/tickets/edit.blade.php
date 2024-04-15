@@ -31,7 +31,7 @@ Ticket Management
 
             <form class="col-12 col-md-12 col-xl-12 pt-3" onsubmit="showWait()" method="post" action="{{route('ops.tickets.update', $ticket->id)}}" enctype="multipart/form-data">
                 @csrf
-                @method('put')
+                @method('PUT')
                 <div class="card card-one card-product">
                     <div class="card-body p-3">
                         @if($ticket->status_id == 2 && $ticket->type == 1)
@@ -102,19 +102,19 @@ Ticket Management
                                 </div>
 
                                 @if($ticket->screenshot == null)
-                                <div class="col-6 my-3">
-                                    <div class="w-25 pb-1">
-                                        Upload Screenshot
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Upload Screenshot
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
+                                            @error('screenshot')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    <div class="w-75">
-                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
-                                        @error('screenshot')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
                                 @endif
                             @elseif($ticket->type == 2)
                                 <div class="col-6 my-3">
@@ -127,15 +127,15 @@ Ticket Management
                                   </div>
                                 </div>
                             @endif
-                            <div class="col-6 my-3">
-                                <div class="w-25 pb-1">
-                                    Upload Deal Ticket
-                                </div>
-                                <div class="w-75">
-                                    <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-                                      value="" >
-                                </div>
-                            </div>                                 
+                                <div class="col-6 my-3">
+                                    <div class="w-75 pb-1">
+                                        Upload Deal Ticket
+                                    </div>
+                                    <div class="w-75">
+                                        <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                          value="" >
+                                    </div>
+                                </div>                                 
                         @endif
 
                         @if($ticket->status_id == 10)

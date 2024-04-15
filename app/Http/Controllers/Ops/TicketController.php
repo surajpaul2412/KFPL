@@ -9,6 +9,12 @@ use App\Mail\MailToAMC;
 use App\Mail\MailScreenshotToAMC;
 use App\Services\FormService;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Auth;
+use Storage;
+use Exception;
+use Validator;
+use Illuminate\Database\Eloquent\Builder;
 
 class TicketController extends Controller
 {
@@ -245,7 +251,7 @@ class TicketController extends Controller
                     Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
 
                     $ticket->status_id = 12;
-                    $ticket->update();
+                    $ticket->save();
                 }
             }
         } elseif ($ticket->status_id == 13) {
@@ -285,11 +291,9 @@ class TicketController extends Controller
             }
 
             $data["status_id"] = 14; //condition can be placed here//
-        } else {
-
+            $ticket->save();
         }
-
-        $ticket->update($data);
+        
         return redirect()->route('ops.tickets.index')->with('success', 'Ticket updated successfully.');
     }
 
