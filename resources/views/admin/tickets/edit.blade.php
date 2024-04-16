@@ -329,6 +329,7 @@
 											</div>
 										</div>
 										@endif
+
 										
 										@if($ticket->payment_type == 2)
 										<div class="col-6 my-3">
@@ -336,7 +337,7 @@
 												Upload Basket File
 											</div>
 											<div class="w-75">
-												<input type="file" class="form-control w-100 @error('basketfile') is-invalid @enderror" placeholder="Upload Basket File" name="basketfile" accept="image/*" required>
+												<input type="file" class="form-control w-100 @error('basketfile') is-invalid @enderror" placeholder="Upload Basket File" name="basketfile" required>
 												@error('basketfile')
 													<span class="invalid-feedback" role="alert">
 														<strong>{{ $message }}</strong>
@@ -404,6 +405,7 @@
 										</div>
 										@endif
 									@endif
+
                                 @endif
 
                                 @if($ticket->status_id == 3)
@@ -520,6 +522,7 @@
                                         </div>
                                         @endif
 
+                                        @if($ticket->deal_ticket == null)
                                         <div class="col-6 my-3">
                                             <div class="w-25 pb-1">
                                                 Upload Deal Ticket
@@ -529,6 +532,7 @@
                                                   value="" required>
                                             </div>
                                         </div>
+                                        @endif
                                       @endif
                                 @endif
 

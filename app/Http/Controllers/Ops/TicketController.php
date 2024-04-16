@@ -6,8 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Mail\MailToAMC;
+use App\Mail\MailScreenshotToAMC;
 use App\Services\FormService;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Auth;
+use Storage;
+use Exception;
+use Validator;
+use Illuminate\Database\Eloquent\Builder;
 
 class TicketController extends Controller
 {
@@ -133,9 +140,8 @@ class TicketController extends Controller
             }
 
         } elseif ($ticket->status_id == 9) {
-            $actual_total_amt = $ticket->actual_total_amt;
             $request->validate([
-                "refund" => ["required", "numeric", "lt:" . $actual_total_amt],
+                "refund" => ["required", "numeric"],
                 "deal_ticket" => "nullable",
                 "screenshot" =>
                     "nullable|image|mimes:jpeg,png,jpg,gif,webp",
@@ -242,10 +248,10 @@ class TicketController extends Controller
                     $emailArray = explode(", ", $emailString);
                     $toEmail = array_map("trim", $emailArray);
 
-                    Mail::to($toEmail)->send(new MailToAMC($ticket));
+                    Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
 
                     $ticket->status_id = 12;
-                    $ticket->update();
+                    $ticket->save();
                 }
             }
         } elseif ($ticket->status_id == 13) {
@@ -285,11 +291,9 @@ class TicketController extends Controller
             }
 
             $data["status_id"] = 14; //condition can be placed here//
-        } else {
-
+            $ticket->save();
         }
-
-        $ticket->update($data);
+        
         return redirect()->route('ops.tickets.index')->with('success', 'Ticket updated successfully.');
     }
 
@@ -304,7 +308,13 @@ class TicketController extends Controller
     public function mail(Ticket $ticket)
     {
         // sell case with null screenshot check
-        if ($ticket->type == 2 && $ticket->screenshot == null) {
+        if ($ticket->type == 2) {
+            $emailString = $ticket->security->amc->email ?? null;
+            $emailArray = explode(", ", $emailString);
+            $toEmail = array_map("trim", $emailArray);
+
+            Mail::to($toEmail)->send(new MailToAMC($ticket));
+
             $ticket->status_id = 7;
             $ticket->update();
         } else {
@@ -321,5 +331,17 @@ class TicketController extends Controller
         return redirect()
             ->route("ops.tickets.index")
             ->with("success", "Mailed all the AMC controllers successfully.");
+    }
+
+    public function skip(Ticket $ticket)
+    {
+        if ($ticket->type == 2) {
+            $ticket->status_id = 7;
+            $ticket->update();
+        }
+
+        return redirect()
+             ->route("ops.tickets.index")
+             ->with("success", "Mailed all the AMC controllers successfully.");
     }
 }

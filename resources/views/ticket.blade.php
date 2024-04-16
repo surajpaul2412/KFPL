@@ -121,4 +121,22 @@
         <div>Refund/Redemption</div>
         <div class="font-weight-bold"> {{$ticket->refund ?? 'N/A'}} </div>
     </div>
+    <div class="col-3">
+          <div>Cash Component</div>
+          <div class="font-weight-bold"> {{$ticket->cashcomp ?? 'N/A'}} </div>
+    </div>
+	  <div class="col-3">
+        <div>Stamp Duty</div>
+        <div class="font-weight-bold"> {{$ticket->totalstampduty ?? 'N/A'}} </div>
+    </div>
+
+	  <div class="col-3">
+        <div>Basket File</div>
+
+        @if ($ticket->basketfile && Storage::exists('public/' . $ticket->basketfile))
+            <div class="font-weight-bold"><a href="{{ asset("storage/{$ticket->basketfile}") }}" target="_blank" download>Download <i class="ri-download-2-line"></i></a></div>
+        @else
+            <div class="font-weight-bold">N/A</div>
+        @endif
+    </div>
 </div>

@@ -14,6 +14,7 @@ use Auth;
 use Storage;
 use App\Services\FormService;
 use App\Mail\MailToAMC;
+use App\Mail\MailScreenshotToAMC;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 
@@ -208,11 +209,11 @@ class TicketController extends Controller
                     if ($request->get("verification") == 1) {
                         $ticket->status_id = 3;
 
-            						// Basket CASE
-            						if( $ticket->payment_type == 2 )
-            						{
-            							$ticket->status_id = 6;
-            						}
+						// Basket CASE
+						if( $ticket->payment_type == 2 )
+						{
+							$ticket->status_id = 6;
+						}
 
                     } else {
                         $ticket->status_id = 1;
@@ -220,22 +221,27 @@ class TicketController extends Controller
 
                 } else {
 
-          					// SALE CASES
-          					$ticket->status_id = 5;
+					// SALE CASES
+					$ticket->status_id = 5;
 
-          					// BASKET CASES
-          					if($ticket->payment_type == 2)
-          					{
-          						$data["status_id"] = 5;
+					// BASKET CASES
+					if($ticket->payment_type == 2)
+					{
+						$data["status_id"] = 5;
 
-          						// PDF is generated for BASKET / SELL cases
-          						FormService::GenerateDocument($ticket);
-          					}
+						// PDF is generated for BASKET / SELL cases
+						FormService::GenerateDocument($ticket);
+					}
 
                 }
+				
                 $ticket->save();
                 $ticket->update($data);
-            } elseif ($ticket->status_id == 3) {
+				
+				// Pdf Workings :: START
+                FormService::GenerateDocument($ticket);
+            
+			} elseif ($ticket->status_id == 3) {
                 // BUY case
                 if ($ticket->type == 1) {
 					if($ticket->payment_type == 1)
@@ -317,6 +323,11 @@ class TicketController extends Controller
 							"totalstampduty" => "required|string",
 							"utr_no" => "required|string",
 						]);
+						
+						if( $ticket->totalstampduty != $request->get("totalstampduty")) 
+						{
+							return redirect()->back()->with("error","Please verify entered Stamp Duty.");
+						}
 						
 						$request->totalstampduty = $request->totalstampduty;
 						$request->utr_no = $request->utr_no;
@@ -422,7 +433,6 @@ class TicketController extends Controller
 				if($ticket->type == 1 && $ticket->payment_type == 2)
 				{
 				  $ticket->status_id = 9;
-                  $ticket->save();
 				}
 
 				// SELL + BASKET CASES
@@ -430,6 +440,7 @@ class TicketController extends Controller
 				{
 					$ticket->status_id = 9;
 				}
+				$ticket->save();
 
 			} elseif ($ticket->status_id == 8) {
                 $request->validate([
@@ -441,7 +452,7 @@ class TicketController extends Controller
 
                 $ticket->update($data);
             } elseif ($ticket->status_id == 9) {
-                
+   
 				$actual_total_amt = $ticket->actual_total_amt;
 				
 				// cash Basket cases
@@ -450,7 +461,7 @@ class TicketController extends Controller
 					$request->validate([
 						"cashcomp"    => ["required", "numeric"],
 						"deal_ticket" => "nullable",
-						"basketfile"  => "required|image|mimes:jpeg,png,jpg,gif,webp",
+						"basketfile"  => "required",
 					]);
 					
 					// Check if the request has a file for "basketfile" and if the existing deal_ticket is not null
@@ -487,10 +498,9 @@ class TicketController extends Controller
 				{
 					// BUY - CASH cases
 					$request->validate([
-						"refund" => ["required", "numeric", "lt:" . $actual_total_amt],
+						"refund"      => ["required", "numeric", "lt:" . $actual_total_amt],
 						"deal_ticket" => "nullable",
-						"screenshot" =>
-						"nullable|image|mimes:jpeg,png,jpg,gif,webp",
+						"screenshot"  => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
 					]);
 					
 					$ticket->refund = $request->refund;
@@ -597,7 +607,7 @@ class TicketController extends Controller
                         $emailArray = explode(", ", $emailString);
                         $toEmail = array_map("trim", $emailArray);
 
-                        Mail::to($toEmail)->send(new MailToAMC($ticket));
+                        Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
 
                         $ticket->status_id = 12;
                         $ticket->update();
@@ -651,7 +661,8 @@ class TicketController extends Controller
                 }
 
                 $ticket->save();
-            } elseif ($ticket->status_id == 13) {
+            
+			} elseif ($ticket->status_id == 13) {
                 $request->validate([
                     // 'verification' => 'required|in:1,2',
                     "received_units" => "required|numeric",
@@ -683,6 +694,7 @@ class TicketController extends Controller
                     $imagePath = $request->file("deal_ticket")->store("deal_ticket", "public");
                     // Set the deal_ticket path without the "storage/" prefix
                     $ticket->deal_ticket = $imagePath;
+					$ticket->save();
                 }
 
                 $data["status_id"] = 14; //condition can be placed here//
@@ -719,7 +731,8 @@ class TicketController extends Controller
         // sell case with null screenshot check
         $sendMail = 0;
         
-        if ($ticket->type == 2 && $ticket->screenshot == null) {
+        if ($ticket->type == 2) {
+            $sendMail = 1;
             $ticket->status_id = 7;
             $ticket->update();
         } else if ($ticket->type == 1 && $ticket->payment_type == 2) {
@@ -736,7 +749,19 @@ class TicketController extends Controller
           $emailString = $ticket->security->amc->email ?? null;
           $emailArray = explode(", ", $emailString);
           $toEmail = array_map("trim", $emailArray);
-          // Mail::to($toEmail)->send(new MailToAMC($ticket));
+          Mail::to($toEmail)->send(new MailToAMC($ticket));
+        }
+
+        return redirect()
+             ->route("admin.tickets.index")
+             ->with("success", "Mailed all the AMC controllers successfully.");
+    }
+
+    public function skip(Ticket $ticket)
+    {
+        if ($ticket->type == 2) {
+            $ticket->status_id = 7;
+            $ticket->update();
         }
 
         return redirect()
