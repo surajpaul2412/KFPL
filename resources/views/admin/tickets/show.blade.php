@@ -25,7 +25,7 @@ Ticket Details
                 <div class="card card-one card-product">
                     <form class="card-body p-3 py-4">
                         @include('ticket')
-                        
+
                         @if($ticket->status_id == 6)
                         <div class="text-align-center">
                             <a href="{{route('admin.tickets.mail', $ticket)}}" onclick="showWait()" class="btn btnSubmit btn-primary active my-5 px-5 text-ali">Submit </a>
@@ -36,7 +36,7 @@ Ticket Details
                         </div>
                         @endif
                     </form>
-					<div class='waitmsg' style='display:none;text-align:center;padding-bottom:10px;font-weight:bold;'>Please Wait ... </div>
+					          <div class='waitmsg' style='display:none;text-align:center;padding-bottom:10px;font-weight:bold;'>Please Wait ... </div>
                 </div>
             </div>
 

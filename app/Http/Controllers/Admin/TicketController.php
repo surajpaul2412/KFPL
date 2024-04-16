@@ -154,7 +154,7 @@ class TicketController extends Controller
     public function edit(string $id)
     {
         $ticket = Ticket::findOrFail($id);
-        $securities = Security::whereStatus(1)->get();
+		$securities = Security::whereStatus(1)->get();
         return view("admin.tickets.edit", compact("ticket", "securities"));
     }
 
@@ -238,50 +238,97 @@ class TicketController extends Controller
             } elseif ($ticket->status_id == 3) {
                 // BUY case
                 if ($ticket->type == 1) {
-                    $request->validate([
-                        "total_amt_input" => "required|numeric",
-                        "utr_no" => "required|string",
-                        "screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
-                    ]);
+					if($ticket->payment_type == 1)
+					{
+						$request->validate([
+							"total_amt_input" => "required|numeric",
+							"utr_no" => "required|string",
+							"screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+						]);
+					}
+					else if($ticket->payment_type == 2)
+					{
+						$request->validate([
+							//"total_amt_input" => "required|numeric",
+							"cashcomp" => "required|string",
+							"utr_no" => "required|string",
+							"screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+						]);
+					}
+					
+					// Screenshot Workings
+					if (
+						$request->hasFile("screenshot") &&
+						$ticket->screenshot
+					) {
+						\Storage::delete($ticket->screenshot);
+					}
+					if ($request->hasFile("screenshot")) {
+						$imagePath = $request
+							->file("screenshot")
+							->store("screenshot", "public");
+						$ticket->screenshot = $imagePath;
+					}
+					
+					// Handle Cash Component
+					if($request->cashcomp != '')
+					{
+						$ticket->cashcomp = $request->cashcomp;
+					}
+					
+					// VALIDATION for CASH cases	
+                    if ( $ticket->payment_type == 1 )
+					{	
+					    if( $ticket->total_amt == $request->get("total_amt_input")) 
+						{
 
-                    if ($ticket->total_amt == $request->get("total_amt_input")) {
-                        // Screenshot Workings
-                        if (
-                            $request->hasFile("screenshot") &&
-                            $ticket->screenshot
-                        ) {
-                            \Storage::delete($ticket->screenshot);
-                        }
-                        if ($request->hasFile("screenshot")) {
-                            $imagePath = $request
-                                ->file("screenshot")
-                                ->store("screenshot", "public");
-                            $ticket->screenshot = $imagePath;
-                        }
+							$ticket->utr_no = $request->get("utr_no");
 
-                        $ticket->utr_no = $request->get("utr_no");
-
-						// CASH cases
-						if ($ticket->payment_type == 1) {
-                            $ticket->status_id = 6;
-                        }
-						// BASKET CASES
-						if ($ticket->payment_type == 2) {
-                            $ticket->status_id = 13;
-                        }
-
-                        //Save Ticket
-                        $ticket->save();
-                        $ticket->update($request->except("screenshot"));
-                    } else {
-                        return redirect()->back()->with("error","Please verify your entered amount.");
-                    }
+							// CASH cases
+							if ($ticket->payment_type == 1) {
+								$ticket->status_id = 6;
+							}
+							
+							// BASKET CASES
+							if ($ticket->payment_type == 2) {
+								$ticket->status_id = 13;
+							}
+							
+							//Save Ticket
+							$ticket->save();
+							$ticket->update($request->except("screenshot"));
+						} else {
+							return redirect()->back()->with("error","Please verify your entered amount.");
+						}
+					}
+					
+					if ( $ticket->payment_type == 2 )
+					{
+						$ticket->status_id = 4;
+						$ticket->save();
+					}
+					
+					
                 } else {
                     // SELL CASE
-                    $request->validate([
-                        "screenshot" =>
-                            "nullable|image|mimes:jpeg,png,jpg,gif,webp",
-                    ]);
+					if( $ticket->type == 2 && $ticket->payment_type == 2 )
+					{
+						$request->validate([
+							"totalstampduty" => "required|string",
+							"utr_no" => "required|string",
+						]);
+						
+						$request->totalstampduty = $request->totalstampduty;
+						$request->utr_no = $request->utr_no;
+
+					}
+					else 
+					{
+						$request->validate([
+							"screenshot" =>
+								"nullable|image|mimes:jpeg,png,jpg,gif,webp",
+						]);
+					}
 
                     // Screenshot Workings
                     if (
@@ -316,14 +363,33 @@ class TicketController extends Controller
                 // Pdf Workings :: START
                 FormService::GenerateDocument($ticket);
                 // Pdf Workings :: END
-            } elseif ($ticket->status_id == 5) {
+            } elseif ($ticket->status_id == 4) {
+				
+				if($ticket->type == 1 && $ticket->payment_type == 2)
+				{
+					$ticket->status_id = 13;
+					$ticket->save();
+				}
+				
+			} elseif ($ticket->status_id == 5) {
 
 				// SELL Cases
                 if ($ticket->type == 2) {
-                    $request->validate([
-                        "screenshot" =>
-                            "nullable|image|mimes:jpeg,png,jpg,gif,webp",
-                    ]);
+                    
+					if($ticket->payment_type == 2)
+					{
+						$request->validate([
+							"screenshot" =>
+								"required|image|mimes:jpeg,png,jpg,gif,webp",
+						]);
+					}
+					else 
+					{
+						$request->validate([
+							"screenshot" =>
+								"nullable|image|mimes:jpeg,png,jpg,gif,webp",
+						]);
+					}
 
                     if ($request->hasFile("screenshot")) {
                         // IF Old one exists, remove it
@@ -375,13 +441,60 @@ class TicketController extends Controller
 
                 $ticket->update($data);
             } elseif ($ticket->status_id == 9) {
-                $actual_total_amt = $ticket->actual_total_amt;
-                $request->validate([
-                    "refund" => ["required", "numeric", "lt:" . $actual_total_amt],
-                    "deal_ticket" => "nullable",
-                    "screenshot" =>
-                        "nullable|image|mimes:jpeg,png,jpg,gif,webp",
-                ]);
+                
+				$actual_total_amt = $ticket->actual_total_amt;
+				
+				// cash Basket cases
+				if($ticket->type == 1 && $ticket->payment_type == 2)
+				{
+					$request->validate([
+						"cashcomp"    => ["required", "numeric"],
+						"deal_ticket" => "nullable",
+						"basketfile"  => "required|image|mimes:jpeg,png,jpg,gif,webp",
+					]);
+					
+					// Check if the request has a file for "basketfile" and if the existing deal_ticket is not null
+					if ($request->hasFile("basketfile")) 
+					{
+	
+						// Delete the existing basketfile file
+						$f = $ticket->basketfile;
+						if(  $f!= '' && Storage::disk("public")->exists($f) )
+						{
+							Storage::disk("public")->delete($f);
+						}
+						
+						$bfPath = $request->file("basketfile")->store("basket_file", "public");
+						// Set the deal_ticket path without the "storage/" prefix
+						$ticket->basketfile = $bfPath;
+						
+					}
+					
+					$ticket->cashcomp = $request->cashcomp;
+				}
+				elseif($ticket->type == 2 && $ticket->payment_type == 2)
+				{
+					$request->validate([
+						"cashcomp"    => ["required", "numeric"],
+						"deal_ticket" => "nullable",
+						"totalstampduty" => ["required", "numeric"],
+					]);
+				
+					$ticket->cashcomp = $request->cashcomp;
+					$ticket->totalstampduty = $request->totalstampduty;
+				}
+				else 
+				{
+					// BUY - CASH cases
+					$request->validate([
+						"refund" => ["required", "numeric", "lt:" . $actual_total_amt],
+						"deal_ticket" => "nullable",
+						"screenshot" =>
+						"nullable|image|mimes:jpeg,png,jpg,gif,webp",
+					]);
+					
+					$ticket->refund = $request->refund;
+				}
 
                 // Check if the request has a file for "deal_ticket" and if the existing deal_ticket is not null
                 if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {
@@ -435,9 +548,8 @@ class TicketController extends Controller
 					}
                 }
 
-                // Update Ticket with POST DAta
-                $ticket->refund = $data["refund"] ? $data["refund"] : 0;
                 $ticket->save();
+				
             } elseif ($ticket->status_id == 10) {
                 if ($ticket->type == 2) {
                     $request->validate([

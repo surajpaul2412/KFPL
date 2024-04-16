@@ -25,8 +25,11 @@ class Ticket extends Model
         'actual_total_amt',
         'nav',
         'refund',
+        'totalstampduty',
         'expected_refund',
+		    'cashcomp',  // Cash Component Amount
         'deal_ticket',
+		    'basketfile', // Basket File Upload
         'utr_no',
         'screenshot',
         'remark','dispute',
