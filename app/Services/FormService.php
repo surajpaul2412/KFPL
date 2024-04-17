@@ -45,10 +45,13 @@ class FormService
 				$images[] =  [
 					  "url" => $checkboxImageData, "x" => 39, "y" => 330.06, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
 				  ];
-
-				$textannotations[] = ["text"=> "$total_amt", "x"=> 92.37, "y"=> 347,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
-				$textannotations[] = ["text"=> "$word_text", "x"=> 238.43, "y"=> 343.58, "width"=> 158.47,"size"=>6,"height"=> 20.16, "pages"=> "0", "type"=> "text"];		
-				  
+				
+				// SHOW Total AMOUNT for only BUY/CASH cases
+				if($ticket->payment_type == 1)
+				{
+					$textannotations[] = ["text"=> "$total_amt", "x"=> 92.37, "y"=> 347,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+					$textannotations[] = ["text"=> "$word_text", "x"=> 238.43, "y"=> 343.58, "width"=> 158.47,"size"=>6,"height"=> 20.16, "pages"=> "0", "type"=> "text"];		
+				}	  
 		  }
 		  // SELL CASES
 		  else if ($ticket->type == 2) {
@@ -108,24 +111,27 @@ class FormService
 		   // BUY CASES
 		  if ($ticket->type == 1) {
 			  
-			  // CASH OR BASKET 
-			  if($ticket->payment_type == 1)
-			  {
-				  $images[] = ["url" => $checkboxImageData, "x"=>138.15, "y"=>435.14, "width"=>10, "height"=>10, "pages"=>"0", "keepAspectRatio" => true];
-			  }
-			  else if($ticket->payment_type == 2)
-			  {
-				  $images[] = ["url" => $checkboxImageData, "x"=>192.19, "y"=>435.14, "width"=>10, "height"=>10, "pages"=>"0", "keepAspectRatio" => true];
-			  }
-			  
-			  // INSERT Total Amount 
-			  $textannotations[] = ["text"=> "$total_amt", "x"=> 74.46, "y"=> 530.13,"size"=>7,"width"=>221.97, "height"=>12.76, "pages"=>"0", "type"=>"text"];
-			  
-			  // INSERT UTR Number 
-			  if($utr_no !='')
-			  {
+			// CASH OR BASKET 
+			if($ticket->payment_type == 1)
+			{
+				$images[] = ["url" => $checkboxImageData, "x"=>138.15, "y"=>435.14, "width"=>10, "height"=>10, "pages"=>"0", "keepAspectRatio" => true];
+			}
+			else if($ticket->payment_type == 2)
+			{
+				$images[] = ["url" => $checkboxImageData, "x"=>192.19, "y"=>435.14, "width"=>10, "height"=>10, "pages"=>"0", "keepAspectRatio" => true];
+			}
+
+			// SHOW Total AMOUNT for only BUY/CASH cases
+			if($ticket->payment_type == 1)
+			{
+				// INSERT Total Amount 
+				$textannotations[] = ["text"=> "$total_amt", "x"=> 74.46, "y"=> 530.13,"size"=>7,"width"=>221.97, "height"=>12.76, "pages"=>"0", "type"=>"text"];
+			}			  
+			// INSERT UTR Number 
+			if($utr_no !='')
+			{
 				$textannotations[] = ["text"=> "$utr_no", "x"=>103.54, "y"=> 542.7,"size"=>5,"width"=>197.85, "height"=>19.14, "pages"=>"0", "type"=>"text"];
-			  }
+			}
 		  }
 		  // SELL CASES
 		  else if ($ticket->type == 2) {
@@ -233,7 +239,9 @@ class FormService
 				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" => 309.31,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
 				$textannotations[] = ["text" => "$ticket_basket", "x" => 272.67, "y" =>309.23,"size"=>7, "width" => 83.21, "height" => 11.94, "pages" => "0", "type" => "text"]; 
 				$textannotations[] = ["text"=> "$total_units", "x"=>362.29,  "y"=>309.23,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-				if ($ticket->type == 1) {
+				
+				// SHOW TOTAL AMOUNT :: BUY CASH CASES
+				if ($ticket->type == 1 && $ticket->payment_type == 1) {
 					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>309.23,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 				}
 			}
@@ -242,7 +250,9 @@ class FormService
 				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" => 322.11,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
 				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>322.11,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
 				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>322.11,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-				if ($ticket->type == 1) {
+				
+				// SHOW TOTAL AMOUNT :: BUY CASH CASES
+				if ($ticket->type == 1 && $ticket->payment_type == 1) {
 					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>322.11,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 				}
 			}
@@ -252,7 +262,9 @@ class FormService
 				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>336.19,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];  
 				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>335.47,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
 				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>335.47,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-				if ($ticket->type == 1) {
+				
+				// SHOW TOTAL AMOUNT :: BUY CASH CASES
+				if ($ticket->type == 1 && $ticket->payment_type == 1) {
 					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>335.47,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 				}
 			}
@@ -261,7 +273,9 @@ class FormService
 				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>348.35,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
 				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>348.91,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
 				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>348.91,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-				if ($ticket->type == 1) {
+				
+				// SHOW TOTAL AMOUNT :: BUY CASH CASES
+				if ($ticket->type == 1 && $ticket->payment_type == 1) {
 					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>348.91,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 				}
 			}
@@ -270,7 +284,9 @@ class FormService
 				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>361.79,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
 				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>361.71,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
 				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>361.71,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-				if ($ticket->type == 1) {
+				
+				// SHOW TOTAL AMOUNT :: BUY CASH CASES
+				if ($ticket->type == 1 && $ticket->payment_type == 1) {
 					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>361.71,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 				}
 			}
@@ -279,7 +295,9 @@ class FormService
 				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>373.95,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
 				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>375.15,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
 				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>375.15,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-				if ($ticket->type == 1) {
+				
+				// SHOW TOTAL AMOUNT :: BUY CASH CASES
+				if ($ticket->type == 1 && $ticket->payment_type == 1) {
 					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>375.15,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 				}
 			}
@@ -288,7 +306,9 @@ class FormService
 				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>388.03,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
 				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>387.31,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
 				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>387.31,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-				if ($ticket->type == 1) {
+				
+				// SHOW TOTAL AMOUNT :: BUY CASH CASES
+				if ($ticket->type == 1 && $ticket->payment_type == 1) {
 					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>387.31,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 				}
 			}
@@ -297,7 +317,9 @@ class FormService
 				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>401.47,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
 				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>400.11,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
 				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>400.11,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-				if ($ticket->type == 1) {
+				
+				// SHOW TOTAL AMOUNT :: BUY CASH CASES
+				if ($ticket->type == 1 && $ticket->payment_type == 1) {
 					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>400.11,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 				}
 			}
@@ -306,19 +328,24 @@ class FormService
 				$images[] = ["url" => $checkboxImageData, "x" => 151.13, "y" =>413.63,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true]; 
 				$textannotations[] = ["text" => "$ticket_basket", "x"=>272.67, "y"=>414.84,"size"=>7, "width"=>83.21, "height"=>11.94, "pages"=>"0", "type"=> "text"];
 				$textannotations[] = ["text"=> "$total_units", "x"=>362.29, "y"=>414.84,"size"=>7,"width"=>96.65, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-				if ($ticket->type == 1) {
+				
+				// SHOW TOTAL AMOUNT :: BUY CASH CASES
+				if ($ticket->type == 1 && $ticket->payment_type == 1) {
 					$textannotations[] = ["text"=> "$total_amt", "x"=>467.26, "y"=>414.84,"size"=>7,"width"=> 100.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
 				}
 			}
 
-		  // UTR and TOTAL Amount 
-		  $textannotations[] = ["text"=> "$utr_no", "x"=>69.13, "y"=>696.56,"size"=>6,"width"=>512.71, "height"=> 15, "pages"=> "0", "type" => "text"];
-		  $textannotations[] = ["text"=> "$total_amt", "x"=>76.81, "y"=>715.13,"size"=>7,"width"=>236.83, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-		  
-		  // call API 
-		  Log::info("About to call API");
-		  $urlToken = "filetoken://604c96a606a9eabf8944c684bed999bbf41c81c5347ac66f30";
-		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
+			// UTR and TOTAL Amount 
+			$textannotations[] = ["text"=> "$utr_no", "x"=>69.13, "y"=>696.56,"size"=>6,"width"=>512.71, "height"=> 15, "pages"=> "0", "type" => "text"];
+			// SHOW TOTAL AMOUNT :: BUY CASH CASES
+			if ($ticket->type == 1 && $ticket->payment_type == 1) {
+				$textannotations[] = ["text"=> "$total_amt", "x"=>76.81, "y"=>715.13,"size"=>7,"width"=>236.83, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			}
+
+			// call API 
+			Log::info("About to call API");
+			$urlToken = "filetoken://604c96a606a9eabf8944c684bed999bbf41c81c5347ac66f30";
+			self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 		}
 		catch (\Exception $e) 
 		{
@@ -457,8 +484,11 @@ class FormService
 			
 			if ($ticket->type == 1) {
 			
-				// Total Amount
-				$textannotations[] = ["text"=> "$total_amt", "x"=>84.5, "y"=>724.96,"size"=>10,"width"=> 200.74, "height"=> 14.94, "pages"=> "0", "type" => "text"];
+				// SHOW TOTAL AMOUNT :: BUY CASH CASES
+				if ($ticket->type == 1 && $ticket->payment_type == 1) {
+					// Total Amount
+					$textannotations[] = ["text"=> "$total_amt", "x"=>84.5, "y"=>724.96,"size"=>10,"width"=> 200.74, "height"=> 14.94, "pages"=> "0", "type" => "text"];
+				}
 				
 				// UTR
 				$textannotations[] = ["text"=> "$utr_no", "x"=>117.61, "y"=>747.02,"size"=>6,"width"=>459.63, "height"=>18.74, "pages"=> "0", "type" => "text"];

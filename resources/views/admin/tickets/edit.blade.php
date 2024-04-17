@@ -593,7 +593,9 @@
                                 @endif
 
                                 @if($ticket->status_id == 13)
-                                	<div class="col-6 my-3">
+                                	
+									@if( !($ticket->type == 1 && $ticket->payment_type == 2  ) )
+								    <div class="col-6 my-3">
                                 		<div class="w-25 pb-1">
                                 			Received Units
                                 		</div>
@@ -601,7 +603,8 @@
                                 			<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="{{$ticket->basket_size * $ticket->basket_no}}">
                                 		</div>
                                 	</div>
-
+									@endif
+									
                                     @if($ticket->deal_ticket == null)
                                     <div class="col-6 my-3">
                                         <div class="w-25 pb-1">
@@ -614,6 +617,20 @@
                                     </div>
                                     @endif
 
+									<div class="col-6 my-3">
+									  <div class="w-25 pb-1">
+										Upload Screenshot
+									  </div>
+									  <div class="w-75">
+										<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*" required>
+										@error('screenshot')
+										  <span class="invalid-feedback" role="alert">
+											<strong>{{ $message }}</strong>
+										  </span>
+										@enderror
+									  </div>
+									</div>
+										
                                 	<div class="col-6 my-3">
                                 		<div class="w-25 pb-1">
                                 			Dispute Comment

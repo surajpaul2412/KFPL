@@ -378,7 +378,11 @@ class TicketController extends Controller
                     $ticket->update($data);
                 }
                 // Pdf Workings :: START
-                FormService::GenerateDocument($ticket);
+				// Prevent PDF generation in STEP 3 for BUY BASKET CASES
+				if( ! ( $ticket->type == 1 && $ticket->payment_type == 2) )
+				{
+					FormService::GenerateDocument($ticket);
+				}
                 // Pdf Workings :: END
             } elseif ($ticket->status_id == 4) {
 				
@@ -569,7 +573,7 @@ class TicketController extends Controller
             } elseif ($ticket->status_id == 10) {
                 if ($ticket->type == 2) {
                     $request->validate([
-                        "screenshot" =>
+                        "screenshot"  => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
                         "nullable|image|mimes:jpeg,png,jpg,gif,webp",
                         "deal_ticket" => "nullable",
                     ]);
@@ -671,6 +675,7 @@ class TicketController extends Controller
 			} elseif ($ticket->status_id == 13) {
                 $request->validate([
                     // 'verification' => 'required|in:1,2',
+					"screenshot"     => "required|image|mimes:jpeg,png,jpg,gif,webp",
                     "received_units" => "required|numeric",
                     "deal_ticket"    => "required|image|mimes:jpeg,png,jpg,gif,webp",
                 ]);
