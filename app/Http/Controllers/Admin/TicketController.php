@@ -256,10 +256,16 @@ class TicketController extends Controller
 					{
 						$request->validate([
 							//"total_amt_input" => "required|numeric",
-							"cashcomp" => "required|string",
+							"cashcomp" => "required|numeric",
 							"utr_no" => "required|string",
 							"screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
 						]);
+						
+						// if cashcomponent not matching
+						if( $ticket->cashcomp != $request->cashcomp ) 
+						{
+							return redirect()->back()->with("error","Please verify Cash Component Figure.");
+						}
 					}
 					
 					// Screenshot Workings
@@ -564,7 +570,7 @@ class TicketController extends Controller
                 if ($ticket->type == 2) {
                     $request->validate([
                         "screenshot" =>
-                            "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+                        "nullable|image|mimes:jpeg,png,jpg,gif,webp",
                         "deal_ticket" => "nullable",
                     ]);
 
@@ -666,7 +672,7 @@ class TicketController extends Controller
                 $request->validate([
                     // 'verification' => 'required|in:1,2',
                     "received_units" => "required|numeric",
-                    "deal_ticket" => "nullable",
+                    "deal_ticket"    => "required|image|mimes:jpeg,png,jpg,gif,webp",
                 ]);
 
                 if ( $request->get("received_units") == $ticket->basket_size * $ticket->basket_no ) {

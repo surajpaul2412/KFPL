@@ -360,6 +360,14 @@
 										
 										@if($ticket->payment_type == 2)
 											<!-- will appear in case of SELL BASKET only -->
+											<div class="col-6 my-3">
+												<div class="w-50 pb-1">
+													Enter Cash Component
+												</div>
+												<div class="w-75">
+													<input type="number" class="form-control w-100" placeholder="Enter Cash Component" name="cashcomp" value="" required>
+												</div>
+											</div>
 											
 											<div class="col-6 my-3">
 												<div class="pb-1">
@@ -385,14 +393,7 @@
 												</div>
 											</div>
 										
-											<div class="col-6 my-3">
-												<div class="w-50 pb-1">
-													Enter Cash Component
-												</div>
-												<div class="w-75">
-													<input type="number" class="form-control w-100" placeholder="Enter Cash Component" name="cashcomp" value="" required>
-												</div>
-											</div>
+											
 										@else 
 										<div class="col-6 my-3">
 										  <div class="w-75 pb-1">
@@ -427,22 +428,7 @@
                                     </div>
                                    @endif
 
-                                   @if($ticket->type == 1 || ( $ticket->type == 2 && $ticket->payment_type == 2 ) )
-                                    <!-- will appear in case of BUY only -->
-                                    <div class="col-6 my-3">
-                                    	<div class="pb-1">
-                                    		UTR Number
-                                    	</div>
-                                    	<div class="">
-                                    		<input type="text" name="utr_no" class="form-control @error('utr_no') is-invalid @enderror" value="{{$ticket->utr_no}}" placeholder="Enter UTR no" required>
-                                    		@error('utr_no')
-                                    			<span class="invalid-feedback" role="alert">
-                                    				<strong>{{ $message }}</strong>
-                                    			</span>
-                                    		@enderror
-                                    	</div>
-                                    </div>
-                                   @endif
+                                   
 
 								   @if($ticket->type == 1 && $ticket->payment_type == 2)
 									<div class="col-6 my-3">
@@ -471,6 +457,25 @@
 										</div>
 									</div>
 								   @endif
+								   
+								   @if($ticket->type == 1 || ( $ticket->type == 2 && $ticket->payment_type == 2 ) )
+                                    <!-- will appear in case of BUY only -->
+                                    <div class="col-6 my-3">
+                                    	<div class="pb-1">
+                                    		UTR Number
+                                    	</div>
+                                    	<div class="">
+                                    		<input type="text" name="utr_no" class="form-control @error('utr_no') is-invalid @enderror" value="{{$ticket->utr_no}}" placeholder="Enter UTR no" required>
+                                    		@error('utr_no')
+                                    			<span class="invalid-feedback" role="alert">
+                                    				<strong>{{ $message }}</strong>
+                                    			</span>
+                                    		@enderror
+                                    	</div>
+                                    </div>
+                                   @endif
+								   
+								    <!-- 
                                     <div class="col-6 my-3">
                                     	<div class="w-25 pb-1">
                                     		Upload Screenshot
@@ -484,6 +489,8 @@
                                     		@enderror
                                     	</div>
                                     </div>
+									-->
+									
                                 @endif
 
                                 @if($ticket->status_id == 5)
