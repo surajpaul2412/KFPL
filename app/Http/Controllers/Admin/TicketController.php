@@ -450,6 +450,7 @@ class TicketController extends Controller
 				{
 					$ticket->status_id = 9;
 				}
+				
 				$ticket->save();
 
 			} elseif ($ticket->status_id == 8) {
@@ -770,7 +771,8 @@ class TicketController extends Controller
 
     public function skip(Ticket $ticket)
     {
-        if ($ticket->type == 2) {
+        if ($ticket->type == 2) 
+		{
             $ticket->status_id = 7;
             $ticket->update();
         }

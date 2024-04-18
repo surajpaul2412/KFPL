@@ -36,19 +36,27 @@
     </div>
     <div class="col-3">
         <div>Ticket Rate</div>
-        @if($ticket->rate != 0)
-        <div class="font-weight-bold"> {{$ticket->rate  ?? 'N/A'}} </div>
-        @else
-        <div class="font-weight-bold"> N/A </div>
-        @endif
+        <div class="font-weight-bold">
+          @if($ticket->type == 1 and $ticket->payment_type == 2)
+            N/A
+          @elseif($ticket->rate != 0)
+            {{$ticket->rate  ?? 'N/A'}}
+          @else
+            N/A
+          @endif
+        </div>
     </div>
     <div class="col-3">
         <div>Total Amount</div>
-        @if($ticket->total_amt)
-        <div class="font-weight-bold"> {{$ticket->total_amt  ?? 'N/A'}} </div>
-        @else
-        <div class="font-weight-bold"> N/A </div>
-        @endif
+        <div class="font-weight-bold">
+          @if($ticket->type == 1 and $ticket->payment_type == 2)
+            0.00
+          @elseif($ticket->total_amt)
+           {{$ticket->total_amt  ?? 'N/A'}}
+          @else
+           N/A
+          @endif
+        </div>
     </div>
 </div>
 <hr/>
