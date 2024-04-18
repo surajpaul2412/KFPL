@@ -228,9 +228,6 @@ class TicketController extends Controller
 					if($ticket->payment_type == 2)
 					{
 						$data["status_id"] = 5;
-
-						// PDF is generated for BASKET / SELL cases
-						FormService::GenerateDocument($ticket);
 					}
 
                 }
@@ -238,8 +235,11 @@ class TicketController extends Controller
                 $ticket->save();
                 $ticket->update($data);
 				
-				// Pdf Workings :: START
-                FormService::GenerateDocument($ticket);
+				if($ticket->payment_type == 2)
+				{
+					// Pdf Workings :: START
+					FormService::GenerateDocument($ticket);
+				}
             
 			} elseif ($ticket->status_id == 3) {
                 // BUY case
@@ -436,22 +436,6 @@ class TicketController extends Controller
 
                     $ticket->save();
                 }
-
-			} elseif ($ticket->status_id == 6) {
-
-				// BUY + BASKET
-				if($ticket->type == 1 && $ticket->payment_type == 2)
-				{
-				  $ticket->status_id = 9;
-				}
-
-				// SELL + BASKET CASES
-				if($ticket->type == 2 && $ticket->payment_type == 2)
-				{
-					$ticket->status_id = 9;
-				}
-				
-				$ticket->save();
 
 			} elseif ($ticket->status_id == 8) {
                 $request->validate([
@@ -742,21 +726,37 @@ class TicketController extends Controller
     {
         // sell case with null screenshot check
         $sendMail = 0;
-        
-        if ($ticket->type == 2) {
-            $sendMail = 1;
-            $ticket->status_id = 7;
-            $ticket->update();
-        } else if ($ticket->type == 1 && $ticket->payment_type == 2) {
-            $sendMail = 1;
-            $ticket->status_id = 9;
-            $ticket->update();
-        } else {
-            $sendMail = 1;
-            $ticket->status_id = 7;
-            $ticket->update();
-        }
+        // CASH
+		if( $ticket->payment_type == 1)
+		{
+			if ($ticket->type == 2) {
+				$sendMail = 1;
+				$ticket->status_id = 7;				
+			} else {
+				$sendMail = 1;
+				$ticket->status_id = 7;
+			}
+		} elseif ( $ticket->payment_type == 2) { // BASKET 
+		
+			// BUY + BASKET
+			if($ticket->type == 1 )
+			{
+			    $sendMail = 1;
+			    $ticket->status_id = 9;
+			}
 
+			// SELL + BASKET CASES
+			if($ticket->type == 2 )
+			{
+				$sendMail = 1;
+				$ticket->status_id = 9;
+			}
+		}
+		
+		// Ticket Updation
+		$ticket->save();
+
+		// MAIL Trigger
         if ($sendMail) {
           $emailString = $ticket->security->amc->email ?? null;
           $emailArray = explode(", ", $emailString);
