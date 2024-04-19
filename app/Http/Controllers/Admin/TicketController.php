@@ -771,11 +771,32 @@ class TicketController extends Controller
 
     public function skip(Ticket $ticket)
     {
-        if ($ticket->type == 2) 
+
+        // CASH
+		if( $ticket->payment_type == 1)
 		{
-            $ticket->status_id = 7;
-            $ticket->update();
-        }
+			if ($ticket->type == 2) {
+				$ticket->status_id = 7;				
+			} else {
+				$ticket->status_id = 7;
+			}
+		} elseif ( $ticket->payment_type == 2) { // BASKET 
+		
+			// BUY + BASKET
+			if($ticket->type == 1 )
+			{
+			    $ticket->status_id = 9;
+			}
+
+			// SELL + BASKET CASES
+			if($ticket->type == 2 )
+			{
+				$ticket->status_id = 9;
+			}
+		}
+		
+		// Ticket Updation
+		$ticket->save();
 
         return redirect()
              ->route("admin.tickets.index")
