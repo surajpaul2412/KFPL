@@ -235,15 +235,17 @@ class TicketController extends Controller
                 $ticket->save();
                 $ticket->update($data);
 				
-				if($ticket->payment_type == 2)
+				if($ticket->payment_type == 2 || ($ticket->type == 2 && $ticket->payment_type == 1) )
 				{
 					// Pdf Workings :: START
 					FormService::GenerateDocument($ticket);
 				}
             
 			} elseif ($ticket->status_id == 3) {
-                // BUY case
+                
+				// BUY case
                 if ($ticket->type == 1) {
+					
 					if($ticket->payment_type == 1)
 					{
 						$request->validate([
