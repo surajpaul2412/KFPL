@@ -39,11 +39,14 @@
     <script src="{{ asset('lib/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('lib/prismjs/prism.js') }}"></script>
     <script src="{{ asset('lib/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('lib/chart.js/chart.min.js') }}"></script>
     <script src="{{ asset('lib/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('lib/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/db.product.js') }}"></script>
+    <script src="{{ asset('assets/js/db.data.js') }}"></script>
+    <!-- <script src="{{ asset('assets/js/db.helpdesk.js') }}"></script> -->
     <script>
       'use strict'
 

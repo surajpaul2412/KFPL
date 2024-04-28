@@ -16,6 +16,9 @@ hr {
 	align-items: center;
 	border-radius: 32px;
 }
+.card-title {
+	font-weight: bold;
+}
 th {
 	background: #F8F8F8 !important;
 }
