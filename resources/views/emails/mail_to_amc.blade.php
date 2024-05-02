@@ -42,9 +42,10 @@
     </div>
 
     <div style="padding-top: 3rem;">
+	   @if($ticket->payment_type != 2)
         <strong><u> Payment details mentioned below:</u></strong>
         <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
-
+	   @endif
         <div style="padding-top: 2rem;">
             With Regards,<br/>
             ETF Operations Team<br/>
@@ -96,9 +97,11 @@
     </div>
 
     <div style="padding-top: 3rem;">
-        <strong><u> Payment details mentioned below:</u></strong>
+        @if($ticket->payment_type != 2)
+		<strong><u> Payment details mentioned below:</u></strong>
         <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
-
+		@endif 
+		
         <div style="padding-top: 2rem;">
             With Regards,<br/>
             ETF Operations Team<br/>
@@ -150,9 +153,11 @@
     </div>
 
     <div style="padding-top: 3rem;">
+		@if($ticket->payment_type != 2)
         <strong><u> Payment details mentioned below:</u></strong>
         <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
-
+		@endif 
+		
         <div style="padding-top: 2rem;">
             With Regards,<br/>
             ETF Operations Team<br/>
@@ -204,9 +209,11 @@
     </div>
 
     <div style="padding-top: 3rem;">
+		@if($ticket->payment_type != 2)
         <strong><u> Payment details mentioned below:</u></strong>
         <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
-
+		@endif 
+		
         <div style="padding-top: 2rem;">
             With Regards,<br/>
             ETF Operations Team<br/>

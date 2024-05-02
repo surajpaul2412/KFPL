@@ -291,7 +291,7 @@
                                 @if($ticket->status_id == 9)
 									
 									@if($ticket->type == 1)
-										<!-- CASH CASES -->
+										<!-- ALL BUY CASES -->
 									    @if($ticket->payment_type == 2)
 										<div class="col-6 my-3">
 											<div class="w-50 pb-1">
@@ -337,7 +337,7 @@
 												Upload Basket File
 											</div>
 											<div class="w-75">
-												<input type="file" class="form-control w-100 @error('basketfile') is-invalid @enderror" placeholder="Upload Basket File" name="basketfile" required>
+												<input type="file" class="form-control w-100 @error('basketfile') is-invalid @enderror" placeholder="Upload Basket File" name="basketfile">
 												@error('basketfile')
 													<span class="invalid-feedback" role="alert">
 														<strong>{{ $message }}</strong>
@@ -392,7 +392,23 @@
 													  value="">
 												</div>
 											</div>
-										
+											
+											@if($ticket->screenshot == null && $ticket->payment_type == 2)
+											<div class="col-6 my-3">
+												<div class="w-25 pb-1">
+													Upload Screenshot
+												</div>
+												<div class="w-75">
+													<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*" required>
+													@error('screenshot')
+														<span class="invalid-feedback" role="alert">
+															<strong>{{ $message }}</strong>
+														</span>
+													@enderror
+												</div>
+											</div>
+											@endif
+									
 											
 										@else 
 										<div class="col-6 my-3">
@@ -494,13 +510,16 @@
                                 @endif
 
                                 @if($ticket->status_id == 5)
-                                  @if($ticket->type == 2)
+                                  
+									@if($ticket->type == 2)
                                     <div class="col-6 my-3">
                                       <div class="w-25 pb-1">
                                         Upload Screenshot
                                       </div>
                                       <div class="w-75">
-                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*" required>
+                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*" 
+										{{$ticket->payment_type == 2 ? '' : 'required'}}
+										>
                                         @error('screenshot')
                                           <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -508,7 +527,7 @@
                                         @enderror
                                       </div>
                                     </div>
-                                  @endif
+									@endif
                                 @endif
 
                                 @if($ticket->status_id == 10)
@@ -594,13 +613,13 @@
 
                                 @if($ticket->status_id == 13)
                                 	
-									@if( !($ticket->type == 1 && $ticket->payment_type == 2  ) )
+									@if( $ticket->type == 1 )
 								    <div class="col-6 my-3">
                                 		<div class="w-25 pb-1">
                                 			Received Units
                                 		</div>
                                 		<div class="w-75">
-                                			<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="{{$ticket->basket_size * $ticket->basket_no}}">
+                                			<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="{{$ticket->basket_size * $ticket->basket_no}}" required>
                                 		</div>
                                 	</div>
 									@endif
@@ -616,6 +635,19 @@
                                         </div>
                                     </div>
                                     @endif
+									
+									<!-- BUY BASKET cases where Basket File Upload is Missing -->
+									@if( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->basketfile == null )
+									<div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Upload Basket File
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="file" class="form-control w-100" placeholder="Upload" name="basketfile"
+                                              value="" required>
+                                        </div>
+                                    </div>
+									@endif 
 
 									<div class="col-6 my-3">
 									  <div class="w-25 pb-1">
