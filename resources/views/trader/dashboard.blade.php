@@ -62,122 +62,82 @@ Dashboard
     <div class="row">
         <div class="col-xl-9">
           <div class="card card-one py-2">
-            <div class="card-header">
-              <h6 class="card-title">Current Ticket Status</h6>
-              <nav class="nav nav-icon nav-icon-sm ms-auto">
-                <a href="" class="nav-link"><i class="ri-refresh-line"></i></a>
-                <a href="" class="nav-link"><i class="ri-more-2-fill"></i></a>
-              </nav>
-            </div><!-- card-header -->
-            <div class="card-body">
-              <div class="chartjs-one"><canvas id="chartJS1"></canvas></div>
-            </div><!-- card-body -->
+
+            <div class="card-body p-3">
+              <div class="table-responsive">
+                <table class="table table-four table-bordered">
+                  <thead>
+                    <tr>
+                      <th>&nbsp;</th>
+                      <th colspan="2">Buy</th>
+                      <th colspan="2">Sell</th>
+                    </tr>
+                    <tr>
+                      <th>Symbol Name</th>
+                      <th>No. of Basket</th>
+                      <th>NAV</th>
+                      <th>No. of Basket</th>
+                      <th>NAV</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><a href="">Organic search</a></td>
+                      <td>350</td>
+                      <td>22</td>
+                      <td>5,628</td>
+                      <td>25.60%</td>
+                    </tr>
+                    <tr>
+                      <td><a href="">Social media</a></td>
+                      <td>276</td>
+                      <td>18</td>
+                      <td>5,100</td>
+                      <td>23.66%</td>
+                    </tr>
+                    <tr>
+                      <td><a href="">Referral</a></td>
+                      <td>246</td>
+                      <td>17</td>
+                      <td>4,880</td>
+                      <td>26.22%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
           </div><!-- card -->
         </div>
         <div class="col-xl-3">
             <div class="row">
                 <div class="col-12 col-xl-12">
+
                   <div class="card card-one">
                     <div class="card-body p-3">
-                      <div class="d-flex d-sm-block d-xl-flex align-items-center">
-                        <div class="helpdesk-icon bg-ui-02 text-white"><i class="ri-blaze-fill"></i></div>
-                        <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                          <h2 class="card-value d-flex align-items-baseline mb-0">296 </h2>
-                          <label class="card-label fs-sm fw-medium mb-1">Complaints Received</label>
-                          
-                        </div>
-                      </div>
-                    </div>
+                      <div class="d-block fs-40 lh-1 text-primary mb-1"><i class="ri-calendar-todo-line"></i></div>
+                      <h1 class="card-value mb-0 ls--1 fs-32">358</h1>
+                      <label class="d-block mb-1 fw-medium text-dark">Scheduled Events</label>
+                    </div><!-- card-body -->
                   </div>
+
                 </div>
                 <div class="col-12 col-xl-12 mt-3">
-                    <div class="card card-one">
-                      <div class="card-body p-3">
-                        <div class="d-flex d-sm-block d-xl-flex align-items-center">
-                          <div class="helpdesk-icon bg-primary text-white"><i class="ri-bell-line"></i></div>
-                          <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                            <h2 class="card-value d-flex align-items-baseline mb-0">387 </h2>
-                            <label class="card-label fs-sm fw-medium mb-1">Support Requests</label>
-                            
-                          </div>
-                        </div>
-                      </div><!-- card-body -->
-                    </div><!-- card -->
-                </div>
-                <div class="col-12 col-xl-12 mt-3">
-                    <div class="card card-one">
-                      <div class="card-body p-3">
-                        <div class="d-flex d-sm-block d-xl-flex align-items-center">
-                          <div class="helpdesk-icon bg-ui-03 text-white"><i class="ri-star-smile-line"></i></div>
-                          <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                            <h2 class="card-value d-flex align-items-baseline mb-0">198 </h2>
-                            <label class="card-label fs-sm fw-medium mb-1">Complaints Resolved</label>
-                            
-                          </div>
-                        </div>
-                      </div><!-- card-body -->
-                    </div>
+                  <div class="card card-one">
+                    <div class="card-body p-3">
+                      <div class="d-block fs-40 lh-1 text-primary mb-1"><i class="ri-calendar-check-line"></i></div>
+                      <h1 class="card-value mb-0 ls--1 fs-32">358</h1>
+                      <label class="d-block mb-1 fw-medium text-dark">Scheduled Events</label>
+                    </div><!-- card-body -->
+                  </div>
                 </div>
             </div>
         </div>
     </div>
   </div>
-
-
 </div><!-- row -->
 @endsection
 
 @section('script')
-<script type="text/javascript">
-var ctx1 = document.getElementById('chartJS1').getContext('2d');
-var chart1 = new Chart(ctx1, {
-  type: 'bar',
-  data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    datasets: [{
-      data: [20, 60, 50, 45, 50, 60, 70, 40, 45, 35, 25, 30],
-      backgroundColor: '#0cb785',
-      barPercentage: 0.5
-    }, {
-      data: [10, 40, 30, 40, 60, 55, 45, 35, 30, 20, 15, 20],
-      backgroundColor: '#dc3545',
-      barPercentage: 0.5
-    }]
-  },
-  options: {
-    maintainAspectRatio: false,
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false
-      }
-    },
-    scales: {
-      y: {
-        beginAtZero:true,
-        max: 80,
-        ticks: {
-          color: '#a1aab3',
-          font: {
-            size: 10
-          }
-        },
-        grid: {
-          borderColor: '#e2e5ec',
-          borderWidth: 1.5,
-          color: 'rgba(65,80,95,.08)'
-        }
-      },
-      x: {
-        ticks: {
-          color: '#313c47'
-        },
-        grid: {
-          color: 'rgba(65,80,95,.08)'
-        }
-      }
-    }
-  }
-});
-</script>
+
 @endsection

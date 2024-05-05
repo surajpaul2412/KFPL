@@ -24,40 +24,6 @@ Dashboard
 </div>
 
 <div class="row g-3">
-  <div class="col-6 col-xl-3">
-    <div class="card card-one py-2">
-      <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Unique Purchases</label>
-        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> 8,327</h3>
-      </div><!-- card-body -->
-    </div><!-- card-one -->
-  </div><!-- col -->
-  <div class="col-6 col-xl-3">
-    <div class="card card-one py-2">
-      <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Order Value</label>
-        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>$</span>12,105</h3>
-      </div><!-- card-body -->
-    </div><!-- card-one -->
-  </div><!-- col -->
-  <div class="col-6 col-xl-3">
-    <div class="card card-one py-2">
-      <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Order Quantity</label>
-        <h3 class="card-value mb-1"><i class="ri-inbox-line"></i> 4,598</h3>
-      </div><!-- card-body -->
-    </div><!-- card-one -->
-  </div><!-- col -->
-  <div class="col-6 col-xl-3">
-    <div class="card card-one py-2">
-      <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Conversion Rate</label>
-        <h3 class="card-value mb-1"><i class="ri-bar-chart-box-line"></i> 6.28<span>%</span></h3>
-      </div><!-- card-body -->
-    </div><!-- card-one -->
-  </div><!-- col -->
-
-  
   <div class="col-12">
     <div class="row">
         <div class="col-xl-9">
@@ -77,48 +43,88 @@ Dashboard
         <div class="col-xl-3">
             <div class="row">
                 <div class="col-12 col-xl-12">
-                  <div class="card card-one">
-                    <div class="card-body p-3">
-                      <div class="d-flex d-sm-block d-xl-flex align-items-center">
-                        <div class="helpdesk-icon bg-ui-02 text-white"><i class="ri-blaze-fill"></i></div>
-                        <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                          <h2 class="card-value d-flex align-items-baseline mb-0">296 </h2>
-                          <label class="card-label fs-sm fw-medium mb-1">Complaints Received</label>
-                          
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+
+                  <div class="card card-one py-2">
+                    <div class="card-body">
+                      <label class="card-title fs-sm fw-medium mb-1">Unique Purchases</label>
+                      <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> 8,327</h3>
+                    </div><!-- card-body -->
+                  </div><!-- card-one -->
+
+                </div>
+                <div class="col-12 col-xl-12 mt-3">
+                  <div class="card card-one py-2">
+                    <div class="card-body">
+                      <label class="card-title fs-sm fw-medium mb-1">Unique Purchases</label>
+                      <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> 8,327</h3>
+                    </div><!-- card-body -->
+                  </div><!-- card-one -->
                 </div>
                 <div class="col-12 col-xl-12 mt-3">
                     <div class="card card-one">
-                      <div class="card-body p-3">
-                        <div class="d-flex d-sm-block d-xl-flex align-items-center">
-                          <div class="helpdesk-icon bg-primary text-white"><i class="ri-bell-line"></i></div>
-                          <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                            <h2 class="card-value d-flex align-items-baseline mb-0">387 </h2>
-                            <label class="card-label fs-sm fw-medium mb-1">Support Requests</label>
-                            
-                          </div>
-                        </div>
-                      </div><!-- card-body -->
-                    </div><!-- card -->
-                </div>
-                <div class="col-12 col-xl-12 mt-3">
-                    <div class="card card-one">
-                      <div class="card-body p-3">
-                        <div class="d-flex d-sm-block d-xl-flex align-items-center">
-                          <div class="helpdesk-icon bg-ui-03 text-white"><i class="ri-star-smile-line"></i></div>
-                          <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                            <h2 class="card-value d-flex align-items-baseline mb-0">198 </h2>
-                            <label class="card-label fs-sm fw-medium mb-1">Complaints Resolved</label>
-                            
-                          </div>
-                        </div>
-                      </div><!-- card-body -->
+                      <div class="card card-one py-2">
+                        <div class="card-body">
+                          <label class="card-title fs-sm fw-medium mb-1">Unique Purchases</label>
+                          <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> 8,327</h3>
+                        </div><!-- card-body -->
+                      </div><!-- card-one -->
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="row">
+        <div class="col-xl-12">
+          <div class="card card-one py-2">
+
+            <div class="card-body p-3">
+              <div class="table-responsive">
+                <table class="table table-four table-bordered">
+                  <thead>
+                    <tr>
+                      <th>&nbsp;</th>
+                      <th colspan="2">Buy</th>
+                      <th colspan="2">Sell</th>
+                    </tr>
+                    <tr>
+                      <th>Symbol Name</th>
+                      <th>No. of Basket</th>
+                      <th>NAV</th>
+                      <th>No. of Basket</th>
+                      <th>NAV</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><a href="">Organic search</a></td>
+                      <td>350</td>
+                      <td>22</td>
+                      <td>5,628</td>
+                      <td>25.60%</td>
+                    </tr>
+                    <tr>
+                      <td><a href="">Social media</a></td>
+                      <td>276</td>
+                      <td>18</td>
+                      <td>5,100</td>
+                      <td>23.66%</td>
+                    </tr>
+                    <tr>
+                      <td><a href="">Referral</a></td>
+                      <td>246</td>
+                      <td>17</td>
+                      <td>4,880</td>
+                      <td>26.22%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div><!-- card -->
         </div>
     </div>
   </div>
