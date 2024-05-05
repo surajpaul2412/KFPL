@@ -687,7 +687,7 @@ class TicketController extends Controller
 					$arr['basketfile'] = 'required';
 				}
 				
-				if( $ticket->type == 1 ) {
+				if( $ticket->type == 1 && $ticket->payment_type == 1 ) {
 					$arr['received_units'] = 'required|numeric';
 				}
 				
