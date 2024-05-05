@@ -619,7 +619,8 @@
                                 			Received Units
                                 		</div>
                                 		<div class="w-75">
-                                			<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="{{$ticket->basket_size * $ticket->basket_no}}" required>
+										    <!-- OLD VAL {{$ticket->basket_size * $ticket->basket_no}} -->
+                                			<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="" required>
                                 		</div>
                                 	</div>
 									@endif

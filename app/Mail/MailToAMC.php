@@ -10,6 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Ticket;
+use Illuminate\Support\Facades\Log;
 
 class MailToAMC extends Mailable
 {
@@ -21,15 +22,17 @@ class MailToAMC extends Mailable
      * @var Ticket
      */
     public $ticket;
+	public $splCase;
 
     /**
      * Create a new message instance.
      *
      * @param Ticket $ticket
      */
-    public function __construct(Ticket $ticket)
+    public function __construct(Ticket $ticket, $splCase = '')
     {
         $this->ticket = $ticket;
+		$this->splCase = $splCase != '' ? $splCase : 0;
     }
 
     /**
@@ -50,9 +53,24 @@ class MailToAMC extends Mailable
      */
     public function content(): Content
     {
-        return new Content(
-            view: 'emails.mail_to_amc',
-        );
+        if( $this->splCase == 3) // STEP 3 EMAILs for Buy SELL Basket
+		{
+			return new Content(
+				view: 'emails.spl_case_mail3',
+			);
+		}
+		elseif( $this->splCase == 13) // STEP 13 EMAILs for Buy Basket
+		{
+			return new Content(
+				view: 'emails.spl_case_mail13',
+			);
+		}
+		else 
+		{
+			return new Content(
+				view: 'emails.mail_to_amc',
+			);
+		}
     }
 
     /**
@@ -72,7 +90,43 @@ class MailToAMC extends Mailable
      */
     public function build()
     {
-        $subject = $this->ticket->payment_type == 1 ? 'Cash Creation request ' : 'Basket Creation request ';
+        
+		// SPECIAL case when TICKET UPDATED at STATUS_ID = 3
+		if( $this->splCase == 3 )
+		{
+			Log::info("MAilSending in a special case 3 :: Buy/Sell Basket");
+			
+			$subject = "Basket Creation request " . now()->format('Y-m-d');
+
+			$mail = $this->subject($subject)->view('emails.spl_case_mail3');
+
+			// Check if the screenshot file exists
+			return $mail;
+		}
+		
+		// SPECIAL case when TICKET UPDATED at STATUS_ID = 13
+		if( $this->splCase == 13 )
+		{
+			Log::info("MAilSending in a special case 13 :: Buy Basket");
+			
+			$subject = "Basket Creation request " . now()->format('Y-m-d');
+
+			$mail = $this->subject($subject)->view('emails.spl_case_mail13');
+			
+			// Check if the screenshot file exists
+            if($this->ticket->screenshot != null){
+                if (file_exists(storage_path('app/public/' . $this->ticket->screenshot))) {
+                    $mail->attach(storage_path('app/public/' . $this->ticket->screenshot), [
+                        'as' => 'screenshot.jpg', // Change the file extension accordingly
+                        'mime' => 'image/jpeg', // Change the MIME type accordingly
+                    ]);
+                }
+            }
+			// Check if the screenshot file exists
+			return $mail;
+		}
+		
+		$subject = $this->ticket->payment_type == 1 ? 'Cash Creation request ' : 'Basket Creation request ';
         $subject .= now()->format('Y-m-d');
 
         $amc_path = public_path($this->ticket->security->amc->pdf->path);

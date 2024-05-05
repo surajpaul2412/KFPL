@@ -17,6 +17,7 @@ use App\Mail\MailToAMC;
 use App\Mail\MailScreenshotToAMC;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Database\Eloquent\Builder;
 
@@ -391,8 +392,8 @@ class TicketController extends Controller
 				{
 					$emailString = $ticket->security->amc->email ?? null;
 					$emailArray = explode(", ", $emailString);
-					$toEmail = array_map("trim", $emailArray);
-					Mail::to($toEmail)->send(new MailToAMC($ticket));
+					$toEmail = array_map("trim", $emailArray);					
+					Mail::to($toEmail)->send(new MailToAMC($ticket, 3)); // 3 is to denote SPECIAL case
 				}
                 // Pdf Workings :: END
             } elseif ($ticket->status_id == 4) {
@@ -621,9 +622,7 @@ class TicketController extends Controller
                         $emailString = $ticket->security->amc->email ?? null;
                         $emailArray = explode(", ", $emailString);
                         $toEmail = array_map("trim", $emailArray);
-
                         Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
-
                         $ticket->status_id = 12;
                         $ticket->update();
                     }
@@ -682,15 +681,18 @@ class TicketController extends Controller
 				$arr = [
                     // 'verification' => 'required|in:1,2',
 					"screenshot"     => "required|image|mimes:jpeg,png,jpg,gif,webp",
-                    "received_units" => "required|numeric",
                 ];
 				
 				if( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->basketfile == null ) {
 					$arr['basketfile'] = 'required';
 				}
 				
+				if( $ticket->type == 1 ) {
+					$arr['received_units'] = 'required|numeric';
+				}
+				
 				if( $ticket->deal_ticket == null ) {
-					$arr['deal_ticket'] = 'required|image|mimes:jpeg,png,jpg,gif,webp';
+					$arr['deal_ticket'] = 'required';
 				}
 				
 				$request->validate( $arr );
@@ -703,7 +705,7 @@ class TicketController extends Controller
                     if ($data["dispute_comment"] == null) {
                         return back()->with(
                             "error",
-                            "Please fill the Dispute Comment if you changes the unit"
+                            "Please fill the Dispute Comment if you changed the unit"
                         );
                     }
                 }
@@ -732,8 +734,11 @@ class TicketController extends Controller
 					$emailString = $ticket->security->amc->email ?? null;
 					$emailArray = explode(", ", $emailString);
 					$toEmail = array_map("trim", $emailArray);
-					Mail::to($toEmail)->send(new MailToAMC($ticket));
+					Log::info("Status 13:: Email Sending");
+					Mail::to($toEmail)->send(new MailToAMC($ticket, 13));
 				}
+				
+				
             }
 
             // $ticket->update($data);
