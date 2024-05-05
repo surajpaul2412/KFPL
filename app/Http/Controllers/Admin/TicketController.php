@@ -338,8 +338,8 @@ class TicketController extends Controller
 							return redirect()->back()->with("error","Please verify entered Stamp Duty.");
 						}
 						
-						$request->totalstampduty = $request->totalstampduty;
-						$request->utr_no = $request->utr_no;
+						$ticket->totalstampduty = $request->totalstampduty;
+						$ticket->utr_no = $request->utr_no;
 
 					}
 					else 
@@ -687,7 +687,7 @@ class TicketController extends Controller
 					$arr['basketfile'] = 'required';
 				}
 				
-				if( $ticket->type == 1 && $ticket->payment_type == 1 ) {
+				if( $ticket->type == 1 ) {
 					$arr['received_units'] = 'required|numeric';
 				}
 				
