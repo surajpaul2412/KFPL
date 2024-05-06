@@ -245,7 +245,8 @@ class TicketController extends Controller
 			} elseif ($ticket->status_id == 3) {
                 
 				// BUY case
-                if ($ticket->type == 1) {
+                if ($ticket->type == 1) 
+				{
 					
 					if($ticket->payment_type == 1)
 					{
@@ -292,13 +293,12 @@ class TicketController extends Controller
 					}
 					
 					// VALIDATION for CASH cases	
-                    if ( $ticket->payment_type == 1 )
+                    $ticket->utr_no = $request->get("utr_no");
+					
+					if ( $ticket->payment_type == 1 )
 					{	
 					    if( $ticket->total_amt == $request->get("total_amt_input")) 
 						{
-
-							$ticket->utr_no = $request->get("utr_no");
-
 							// CASH cases
 							if ($ticket->payment_type == 1) {
 								$ticket->status_id = 6;
