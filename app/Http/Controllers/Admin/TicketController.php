@@ -55,10 +55,10 @@ class TicketController extends Controller
             $ticketQuery->where("status_id", $sel_status_id);
         }
         if ($sel_from_date != "") {
-            $ticketQuery->where("updated_at", ">=", $sel_from_date);
+            $ticketQuery->where("updated_at", ">=", $sel_from_date . " 00:00:00");
         }
         if ($sel_to_date != "") {
-            $ticketQuery->where("updated_at", "<=", $sel_to_date);
+            $ticketQuery->where("updated_at", "<=", $sel_to_date . " 23:59:59");
         }
         if ($sel_query != "") {
             $ticketQuery->whereHas("security", function (Builder $query) use (
@@ -232,22 +232,22 @@ class TicketController extends Controller
 					}
 
                 }
-				
+
                 $ticket->save();
                 $ticket->update($data);
-				
+
 				if($ticket->payment_type == 2 || ($ticket->type == 2 && $ticket->payment_type == 1) )
 				{
 					// Pdf Workings :: START
 					FormService::GenerateDocument($ticket);
 				}
-            
+
 			} elseif ($ticket->status_id == 3) {
-                
+
 				// BUY case
-                if ($ticket->type == 1) 
+                if ($ticket->type == 1)
 				{
-					
+
 					if($ticket->payment_type == 1)
 					{
 						$request->validate([
@@ -264,14 +264,14 @@ class TicketController extends Controller
 							"utr_no" => "required|string",
 							"screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
 						]);
-						
+
 						// if cashcomponent not matching
-						if( $ticket->cashcomp != $request->cashcomp ) 
+						if( $ticket->cashcomp != $request->cashcomp )
 						{
 							return redirect()->back()->with("error","Please verify Cash Component Figure.");
 						}
 					}
-					
+
 					// Screenshot Workings
 					if (
 						$request->hasFile("screenshot") &&
@@ -285,30 +285,30 @@ class TicketController extends Controller
 							->store("screenshot", "public");
 						$ticket->screenshot = $imagePath;
 					}
-					
+
 					// Handle Cash Component
 					if($request->cashcomp != '')
 					{
 						$ticket->cashcomp = $request->cashcomp;
 					}
-					
-					// VALIDATION for CASH cases	
+
+					// VALIDATION for CASH cases
                     $ticket->utr_no = $request->get("utr_no");
-					
+
 					if ( $ticket->payment_type == 1 )
-					{	
-					    if( $ticket->total_amt == $request->get("total_amt_input")) 
+					{
+					    if( $ticket->total_amt == $request->get("total_amt_input"))
 						{
 							// CASH cases
 							if ($ticket->payment_type == 1) {
 								$ticket->status_id = 6;
 							}
-							
+
 							// BASKET CASES
 							if ($ticket->payment_type == 2) {
 								$ticket->status_id = 13;
 							}
-							
+
 							//Save Ticket
 							$ticket->save();
 							$ticket->update($request->except("screenshot"));
@@ -316,14 +316,14 @@ class TicketController extends Controller
 							return redirect()->back()->with("error","Please verify your entered amount.");
 						}
 					}
-					
+
 					if ( $ticket->payment_type == 2 )
 					{
 						$ticket->status_id = 4;
 						$ticket->save();
 					}
-					
-					
+
+
                 } else {
                     // SELL CASE
 					if( $ticket->type == 2 && $ticket->payment_type == 2 )
@@ -332,17 +332,17 @@ class TicketController extends Controller
 							"totalstampduty" => "required|string",
 							"utr_no" => "required|string",
 						]);
-						
-						if( $ticket->totalstampduty != $request->get("totalstampduty")) 
+
+						if( $ticket->totalstampduty != $request->get("totalstampduty"))
 						{
 							return redirect()->back()->with("error","Please verify entered Stamp Duty.");
 						}
-						
+
 						$ticket->totalstampduty = $request->totalstampduty;
 						$ticket->utr_no = $request->utr_no;
 
 					}
-					else 
+					else
 					{
 						$request->validate([
 							"screenshot" =>
@@ -386,29 +386,29 @@ class TicketController extends Controller
 				{
 					FormService::GenerateDocument($ticket);
 				}
-				
+
 				// SEND EMAIL on BASKET CASES
 				if( $ticket->payment_type == 2 )
 				{
 					$emailString = $ticket->security->amc->email ?? null;
 					$emailArray = explode(", ", $emailString);
-					$toEmail = array_map("trim", $emailArray);					
+					$toEmail = array_map("trim", $emailArray);
 					Mail::to($toEmail)->send(new MailToAMC($ticket, 3)); // 3 is to denote SPECIAL case
 				}
                 // Pdf Workings :: END
             } elseif ($ticket->status_id == 4) {
-				
+
 				if($ticket->type == 1 && $ticket->payment_type == 2)
 				{
 					$ticket->status_id = 13;
 					$ticket->save();
 				}
-				
+
 			} elseif ($ticket->status_id == 5) {
 
 				// SELL Cases
                 if ($ticket->type == 2) {
-                    
+
 					if($ticket->payment_type == 2)
 					{
 						// SELL BASKET CASES :: Screenshots are not mandatory
@@ -416,9 +416,9 @@ class TicketController extends Controller
 							"screenshot" =>
 								"image|mimes:jpeg,png,jpg,gif,webp",
 						]);
-						
+
 					}
-					else 
+					else
 					{
 						$request->validate([
 							"screenshot" =>
@@ -461,9 +461,9 @@ class TicketController extends Controller
 
                 $ticket->update($data);
             } elseif ($ticket->status_id == 9) {
-   
+
 				$actual_total_amt = $ticket->actual_total_amt;
-				
+
 				// Buy Basket cases
 				if($ticket->type == 1 && $ticket->payment_type == 2)
 				{
@@ -471,46 +471,46 @@ class TicketController extends Controller
 						"cashcomp"    => ["required", "numeric"],
 						"deal_ticket" => "nullable",
 					]);
-					
+
 					// Check if the request has a file for "basketfile" and if the existing deal_ticket is not null
-					if ($request->hasFile("basketfile")) 
+					if ($request->hasFile("basketfile"))
 					{
-	
+
 						// Delete the existing basketfile file
 						$f = $ticket->basketfile;
 						if(  $f!= '' && Storage::disk("public")->exists($f) )
 						{
 							Storage::disk("public")->delete($f);
 						}
-						
+
 						$bfPath = $request->file("basketfile")->store("basket_file", "public");
 						// Set the deal_ticket path without the "storage/" prefix
 						$ticket->basketfile = $bfPath;
-						
+
 					}
-					
+
 					$ticket->cashcomp = $request->cashcomp;
 				}
 				// SELL BASKET CASES
 				elseif($ticket->type == 2 && $ticket->payment_type == 2)
 				{
-					$arr = 
+					$arr =
 					[
 						"cashcomp"    => ["required", "numeric"],
 						"deal_ticket" => "nullable",
 						"totalstampduty" => ["required", "numeric"],
 					];
-					
+
 					if( $ticket->screenshot == null ) {
 						$arr["screenshot"] = "required|image|mimes:jpeg,png,jpg,gif,webp";
-					}						
-					
+					}
+
 					$request->validate( $arr );
-				
+
 					$ticket->cashcomp = $request->cashcomp;
 					$ticket->totalstampduty = $request->totalstampduty;
 				}
-				else 
+				else
 				{
 					// BUY - CASH cases
 					$request->validate([
@@ -518,7 +518,7 @@ class TicketController extends Controller
 						"deal_ticket" => "nullable",
 						"screenshot"  => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
 					]);
-					
+
 					$ticket->refund = $request->refund;
 				}
 
@@ -575,7 +575,7 @@ class TicketController extends Controller
                 }
 
                 $ticket->save();
-				
+
             } elseif ($ticket->status_id == 10) {
                 if ($ticket->type == 2) {
                     $request->validate([
@@ -675,26 +675,26 @@ class TicketController extends Controller
                 }
 
                 $ticket->save();
-            
+
 			} elseif ($ticket->status_id == 13) {
-                
+
 				$arr = [
                     // 'verification' => 'required|in:1,2',
 					"screenshot"     => "required|image|mimes:jpeg,png,jpg,gif,webp",
                 ];
-				
+
 				if( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->basketfile == null ) {
 					$arr['basketfile'] = 'required';
 				}
-				
+
 				if( $ticket->type == 1 ) {
 					$arr['received_units'] = 'required|numeric';
 				}
-				
+
 				if( $ticket->deal_ticket == null ) {
 					$arr['deal_ticket'] = 'required';
 				}
-				
+
 				$request->validate( $arr );
 
                 if ( $request->get("received_units") == $ticket->basket_size * $ticket->basket_no ) {
@@ -727,7 +727,7 @@ class TicketController extends Controller
 
                 $data["status_id"] = 14; //condition can be placed here//
                 $ticket->update($data);
-				
+
 				// SEND EMAIL on BUY/BASKET CASES
 				if( $ticket->type == 1 && $ticket->payment_type == 2 )
 				{
@@ -737,8 +737,8 @@ class TicketController extends Controller
 					Log::info("Status 13:: Email Sending");
 					Mail::to($toEmail)->send(new MailToAMC($ticket, 13));
 				}
-				
-				
+
+
             }
 
             // $ticket->update($data);
@@ -775,13 +775,13 @@ class TicketController extends Controller
 		{
 			if ($ticket->type == 2) {
 				$sendMail = 1;
-				$ticket->status_id = 7;				
+				$ticket->status_id = 7;
 			} else {
 				$sendMail = 1;
 				$ticket->status_id = 7;
 			}
-		} elseif ( $ticket->payment_type == 2) { // BASKET 
-		
+		} elseif ( $ticket->payment_type == 2) { // BASKET
+
 			// BUY + BASKET
 			if($ticket->type == 1 )
 			{
@@ -796,7 +796,7 @@ class TicketController extends Controller
 				$ticket->status_id = 9;
 			}
 		}
-		
+
 		// Ticket Updation
 		$ticket->save();
 
@@ -820,12 +820,12 @@ class TicketController extends Controller
 		if( $ticket->payment_type == 1)
 		{
 			if ($ticket->type == 2) {
-				$ticket->status_id = 7;				
+				$ticket->status_id = 7;
 			} else {
 				$ticket->status_id = 7;
 			}
-		} elseif ( $ticket->payment_type == 2) { // BASKET 
-		
+		} elseif ( $ticket->payment_type == 2) { // BASKET
+
 			// BUY + BASKET
 			if($ticket->type == 1 )
 			{
@@ -838,7 +838,7 @@ class TicketController extends Controller
 				$ticket->status_id = 9;
 			}
 		}
-		
+
 		// Ticket Updation
 		$ticket->save();
 

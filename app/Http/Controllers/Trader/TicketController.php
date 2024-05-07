@@ -5,23 +5,76 @@ namespace App\Http\Controllers\Trader;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
+use App\Models\Role;
+use App\Models\User;
 use App\Models\Security;
 use Exception;
 use Validator;
 use Auth;
+use DB;
 
 class TicketController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tickets = Ticket::whereUserId(Auth::user()->id)
-         ->orderBy('updated_at', 'desc')
-         ->paginate(10);
 
-         return view('trader.tickets.index', compact('tickets'));
+      // SEARCH PArameters
+      $sel_from_date = isset($request["sel_from_date"])
+          ? $request["sel_from_date"]
+          : "";
+      $sel_to_date = isset($request["sel_to_date"])
+          ? $request["sel_to_date"]
+          : "";
+      $sel_query = isset($request["sel_query"]) ? $request["sel_query"] : "";
+
+      // GET ALL ROLES
+      $roles = Role::where("id", "<>", 1)->get();
+
+      DB::enableQueryLog();
+
+      $ticketQuery = Ticket::with("security");
+
+      if ($sel_from_date != "") {
+          $ticketQuery->where("updated_at", ">=", $sel_from_date . " 00:00:00");
+      }
+      if ($sel_to_date != "") {
+          $ticketQuery->where("updated_at", "<=", $sel_to_date . " 23:59:59");
+      }
+      if ($sel_query != "") {
+          $ticketQuery->whereHas("security", function (Builder $query) use (
+              $sel_query
+          ) {
+              $query
+                  ->where("tickets.id", "LIKE", "%{$sel_query}%")
+                  ->orWhere("securities.name", "LIKE", "%{$sel_query}%")
+                  ->orWhere("securities.symbol", "LIKE", "%{$sel_query}%")
+                  ->orWhere("securities.isin", "LIKE", "%{$sel_query}%");
+          });
+      }
+
+      $tickets = $ticketQuery->whereUserId(Auth::user()->id)
+                             ->orderBy("updated_at", "desc")
+                             ->paginate(10);
+
+      $sql = DB::getQueryLog();
+      // dd($sql);
+
+      return view(
+          "trader.tickets.index",
+          compact(
+              "tickets",
+              "roles",
+
+              "sel_from_date",
+              "sel_to_date",
+
+              "sel_query"
+          )
+      );
+
     }
 
     /**
@@ -37,7 +90,7 @@ class TicketController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {    
+    {
         $validatedData = $request->validate([
             "security_id" => "required|exists:securities,id",
             "type" => "required|integer|in:1,2",

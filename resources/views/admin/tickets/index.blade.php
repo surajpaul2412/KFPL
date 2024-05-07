@@ -10,7 +10,7 @@ Ticket Management
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
 
-        <form method="get" action"">
+        <form method="get" action="">
           <div style="display:inline-flex;margin-right:10px;">
             <select class="form-select mx-2" name="sel_status_id" style="width:130px;">
                 <option value="">All Status </option>
@@ -144,6 +144,6 @@ Ticket Management
 </form>
 
 <script>
-	    var base_url = "@php echo url('/admin/employees'); @endphp";
+	    var base_url = "@php echo url('/admin/tickets'); @endphp";
 </script>
 @endsection

@@ -25,7 +25,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label d-flex justify-content-between">{{ __('Password') }} 
+                            <label class="form-label d-flex justify-content-between">{{ __('Password') }}
                                 <!-- <a href="{{ route('password.request') }}">{{ __('Forgot password?') }}</a> -->
                             </label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
