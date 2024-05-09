@@ -35,23 +35,27 @@ Ticket Management
                 <div class="card card-one card-product">
                     <div class="card-body p-3">
                         <div class="row px-md-4">
-                            <div class="col-6 my-3">
-                                <div class="w-25 pb-1">
-                                    Actual Trade Value
-                                </div>
-                                <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
-                                </div>
-                            </div>
+                            
+							<!-- EXTRA FIELDS ADDITION :: STARTS -->
+							@if($ticket->status_id == 8)
+								<div class="col-6 my-3">
+									<div class="w-25 pb-1">
+										Actual Trade Value
+									</div>
+									<div class="w-75">
+										<input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
+									</div>
+								</div>
 
-                            <div class="col-6 my-3">
-                                <div class="w-25 pb-1">
-                                    NAV value
-                                </div>
-                                <div class="w-75">
-                                    <input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" readonly value="" >
-                                </div>
-                            </div>
+								<div class="col-6 my-3">
+									<div class="w-25 pb-1">
+										NAV value
+									</div>
+									<div class="w-75">
+										<input type="text" class="form-control w-100" placeholder="NAV Value" name="nav" readonly value="" >
+									</div>
+								</div>
+							@endif
                         </div>
 
                         <div class="text-align-center">

@@ -35,97 +35,120 @@
                     <div class="card card-one card-product">
                         <div class="card-body p-3">
                             <div class="row px-md-4">
-                                @if($ticket->status_id == 3)
-                                <div class="col-6 my-3">
-                                    <div class="pb-1">
-                                        Enter Total Amount
-                                    </div>
-                                    <div class="">
-                                        <input type="text" name="total_amt_input" class="form-control @error('total_amt_input') is-invalid @enderror" placeholder="Enter Total Amount" required>
-                                        @error('total_amt')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
+                                
+								@if($ticket->status_id == 3)
 
-                                <div class="col-6 my-3">
-                                    <div class="pb-1">
-                                        UTR Number
+                                   @if($ticket->type == 1 && $ticket->payment_type != 2)
+                                    <!-- will appear in case of BUY only -->
+                                    <div class="col-6 my-3">
+                                    	<div class="pb-1">
+                                    		Enter Total Amount
+                                    	</div>
+                                    	<div class="">
+                                    		<input type="text" name="total_amt_input" class="form-control @error('total_amt_input') is-invalid @enderror" placeholder="Enter Total Amount" required>
+                                    		@error('total_amt_input')
+                                    			<span class="invalid-feedback" role="alert">
+                                    				<strong>{{ $message }}</strong>
+                                    			</span>
+                                    		@enderror
+                                    	</div>
                                     </div>
-                                    <div class="">
-                                        <input type="text" name="utr_no" class="form-control @error('utr_no') is-invalid @enderror" value="{{$ticket->utr_no}}" placeholder="Enter UTR no" required>
-                                        @error('utr_no')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                   @endif
+								   
+								   @if($ticket->type == 1 && $ticket->payment_type == 2)
+									<div class="col-6 my-3">
+										<div class="w-50 pb-1">
+											Enter Cash Component
+										</div>
+										<div class="w-75">
+											<input type="number" class="form-control w-100" placeholder="Enter Cash Component" name="cashcomp"
+											  value="" required>
+										</div>
+									</div>
+                                   @endif
+								   
+								   @if($ticket->type == 2 && $ticket->payment_type == 2)
+									<div class="col-6 my-3">
+										<div class="pb-1">
+											Total Stamp Duty
+										</div>
+										<div class="">
+											<input type="number" name="totalstampduty" class="form-control @error('utr_no') is-invalid @enderror" value="0" placeholder="Enter Total Stamp Duty" required>
+											@error('totalstampduty')
+												<span class="invalid-feedback" role="alert">
+													<strong>{{ $message }}</strong>
+												</span>
+											@enderror
+										</div>
+									</div>
+								   @endif
+								   
+								   @if($ticket->type == 1 || ( $ticket->type == 2 && $ticket->payment_type == 2 ) )
+                                    <!-- will appear in case of BUY only -->
+                                    <div class="col-6 my-3">
+                                    	<div class="pb-1">
+                                    		UTR Number
+                                    	</div>
+                                    	<div class="">
+                                    		<input type="text" name="utr_no" class="form-control @error('utr_no') is-invalid @enderror" value="{{$ticket->utr_no}}" placeholder="Enter UTR no" required>
+                                    		@error('utr_no')
+                                    			<span class="invalid-feedback" role="alert">
+                                    				<strong>{{ $message }}</strong>
+                                    			</span>
+                                    		@enderror
+                                    	</div>
                                     </div>
-                                </div>
-
-                                <div class="col-6 my-3">
-                                    <div class="w-25 pb-1">
-                                        Upload Screenshot
-                                    </div>
-                                    <div class="w-75">
-                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
-                                        @error('screenshot')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
+                                   @endif
+									
                                 @endif
+								
+								@if($ticket->status_id == 11)
+                                    <div class="col-6 my-3">
+                                        <div class="pb-1">
+                                            Refund Verification
+                                        </div>
+                                        <div class="">
+                                            <input type="hidden" name="verification" value="" required>
+                                            <span class='verification' onclick="setVerification2(0,1)">Accept</span>
+                                            <span class='verification' onclick="setVerification2(1,2)">Reject</span>
+                                            @error('verification')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
 
-                                @if($ticket->status_id == 11)
-                                <div class="col-6 my-3">
-                                    <div class="pb-1">
-                                        Refund Verification
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Refund Received
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="text" class="form-control w-100" placeholder="Enter Amount" name="expected_refund"
+                                              value="{{$ticket->refund??$ticket->expected_refund}}" disabled>
+                                        </div>
                                     </div>
-                                    <div class="">
-                                        <input type="hidden" name="verification" value="" required>
-                                        <span class='verification' onclick="setVerification1(0,1)">Accept</span>
-                                        <span class='verification' onclick="setVerification1(1,2)">Reject</span>
-                                        @error('verification')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
 
-                                <div class="col-6 my-3">
-                                    <div class="w-25 pb-1">
-                                        Refund Received
+                                    @if($ticket->deal_ticket == null)
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Upload Deal Ticket
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                              value="" >
+                                        </div>
                                     </div>
-                                    <div class="w-75">
-                                        <input type="text" class="form-control w-100" placeholder="Enter Amount" name="expected_refund"
-                                          value="{{$ticket->refund??$ticket->expected_refund}}" disabled>
-                                    </div>
-                                </div>
+                                    @endif
 
-                                @if($ticket->deal_ticket == null)
-                                <div class="col-6 my-3">
-                                    <div class="w-25 pb-1">
-                                        Upload Deal Ticket
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Dispute Comment
+                                        </div>
+                                        <div class="w-75">
+                                            <textarea class="form-control w-100" name="dispute" placeholder="Write here">{{Session::get('error')??$ticket->dispute}}</textarea>
+                                        </div>
                                     </div>
-                                    <div class="w-75">
-                                        <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-                                          value="" >
-                                    </div>
-                                </div>
-                                @endif
-
-                                <div class="col-6 my-3">
-                                    <div class="w-25 pb-1">
-                                        Dispute Comment
-                                    </div>
-                                    <div class="w-75">
-                                        <textarea class="form-control w-100" name="dispute" placeholder="Write here">{{Session::get('error')??$ticket->dispute}}</textarea>
-                                    </div>
-                                </div>
                                 @endif
                             </div>
 

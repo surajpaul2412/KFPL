@@ -9,18 +9,23 @@ Ticket Management
 @include('topmessages')
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <form>
-      <div style="display:inline-block;margin-right:10px;">
-        <select class="form-select mx-2" name="role_id">
-            <option value="">All Stages </option>
-        </select>
-      </div>
-      <button type="submit" class="actn-bttn" title="Search">
-        <i class="ri-search-line"></i>
-      </button>
-      <button type="reset" class="actn-bttn" title="Reset Search" onclick="resetsearch()">
-        <i class="ri-refresh-line"></i>
-      </button>
+    <form method="get" action="">
+          <div style="display:inline-flex;margin-right:10px;">
+            
+            <input type="date" class="form-select" name="sel_from_date" placeholder="From Date" style="margin-right:10px;" value="{{$sel_from_date}}"/>
+            <input type="date" class="form-select" name="sel_to_date" placeholder="To Date" value="{{$sel_to_date}}"/>
+            <input type="text" class="form-input form-control" name="sel_query" placeholder="Enter Name, Symbol, ISIN code or Ticket ID" 
+			value="{{$sel_query}}" style="margin-left:10px;"/>
+          </div>
+
+          <button type="submit" class="btn btn-primary" title="Search">
+            <i class="ri-search-line"></i> Search
+          </button>
+		  
+		  <button type="reset" class="btn btn-primary actn-bttn" title="Reset Search" onclick="resetsearch()">
+			<i class="ri-refresh-line"></i>
+		  </button>
+		  
     </form>
 </div>
 
@@ -104,6 +109,6 @@ Ticket Management
 </form>
 
 <script>
-	    var base_url = "@php echo url('/admin/employees'); @endphp";
+	var base_url = "@php echo url('/accounts/tickets'); @endphp";
 </script>
 @endsection
