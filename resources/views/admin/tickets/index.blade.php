@@ -99,8 +99,8 @@ Ticket Management
                   										{{$ticket->total_amt}}
                   									@endif
                   									</td>
-                                    <td>{{$ticket->created_at->format('Y-m-d')}}</td>
-                                    <td>{{$ticket->updated_at->format('Y-m-d')}}</td>
+                                    <td>{{$ticket->created_at->format('d-m-Y')}}</td>
+                                    <td>{{$ticket->updated_at->format('d-m-Y')}}</td>
                                     <td>{{$ticket->status_id}}</td>
                                     <td>{{$ticket->user->name}}</td>
                                     <td>

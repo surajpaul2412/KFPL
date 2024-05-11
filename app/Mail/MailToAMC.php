@@ -41,7 +41,7 @@ class MailToAMC extends Mailable
     public function envelope(): Envelope
     {
         $subject = $this->ticket->payment_type == 1 ? 'Cash Creation request ' : 'Basket Creation request ';
-        $subject .= now()->format('Y-m-d');
+        $subject .= now()->format('d-m-Y');
 
         return new Envelope(
             subject: $subject,
@@ -96,7 +96,7 @@ class MailToAMC extends Mailable
 		{
 			Log::info("MAilSending in a special case 3 :: Buy/Sell Basket");
 			
-			$subject = "Basket Creation request " . now()->format('Y-m-d');
+			$subject = "Basket Creation request " . now()->format('d-m-Y');
 
 			$mail = $this->subject($subject)->view('emails.spl_case_mail3');
 
@@ -109,18 +109,24 @@ class MailToAMC extends Mailable
 		{
 			Log::info("MAilSending in a special case 13 :: Buy Basket");
 			
-			$subject = "Basket Creation request " . now()->format('Y-m-d');
+			$subject = "Basket Creation request " . now()->format('d-m-Y');
 
 			$mail = $this->subject($subject)->view('emails.spl_case_mail13');
 			
 			// Check if the screenshot file exists
             if($this->ticket->screenshot != null){
+				Log::info("MAilSending in a special case 13 :: Screenshot field value not NULL");
                 if (file_exists(storage_path('app/public/' . $this->ticket->screenshot))) {
+					Log::info("MAilSending in a special case 13 :: Screenshot file available");
                     $mail->attach(storage_path('app/public/' . $this->ticket->screenshot), [
                         'as' => 'screenshot.jpg', // Change the file extension accordingly
                         'mime' => 'image/jpeg', // Change the MIME type accordingly
                     ]);
                 }
+				else 
+				{
+					Log::info("MAilSending in a special case 13 :: Screenshot file NOT available for attaching");
+				}
             }
 			// Check if the screenshot file exists
 			return $mail;

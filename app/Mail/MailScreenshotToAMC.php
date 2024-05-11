@@ -38,7 +38,7 @@ class MailScreenshotToAMC extends Mailable
     public function envelope(): Envelope
     {
         $subject = 'Transfer of ETF Units ';
-        $subject .= now()->format('Y-m-d');
+        $subject .= now()->format('d-m-Y');
 
         return new Envelope(
             subject: $subject,

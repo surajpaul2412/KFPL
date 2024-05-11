@@ -11,21 +11,21 @@ Ticket Management
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <form method="get" action="">
           <div style="display:inline-flex;margin-right:10px;">
-            
+
             <input type="date" class="form-select" name="sel_from_date" placeholder="From Date" style="margin-right:10px;" value="{{$sel_from_date}}"/>
             <input type="date" class="form-select" name="sel_to_date" placeholder="To Date" value="{{$sel_to_date}}"/>
-            <input type="text" class="form-input form-control" name="sel_query" placeholder="Enter Name, Symbol, ISIN code or Ticket ID" 
+            <input type="text" class="form-input form-control" name="sel_query" placeholder="Enter Name, Symbol, ISIN code or Ticket ID"
 			value="{{$sel_query}}" style="margin-left:10px;"/>
           </div>
 
           <button type="submit" class="btn btn-primary" title="Search">
             <i class="ri-search-line"></i> Search
           </button>
-		  
+
 		  <button type="reset" class="btn btn-primary actn-bttn" title="Reset Search" onclick="resetsearch()">
 			<i class="ri-refresh-line"></i>
 		  </button>
-		  
+
     </form>
 </div>
 
@@ -72,12 +72,12 @@ Ticket Management
                                     <td>
 									@if($ticket->type == 1 && $ticket->payment_type == 2)
 										0.00
-									@else 
+									@else
 										{{$ticket->total_amt}}
 									@endif
 									</td>
-                                    <td>{{$ticket->created_at->format('Y-m-d')}}</td>
-                                    <td>{{$ticket->updated_at->format('Y-m-d')}}</td>
+                                    <td>{{$ticket->created_at->format('d-m-Y')}}</td>
+                                    <td>{{$ticket->updated_at->format('d-m-Y')}}</td>
                                     <td>{{$ticket->status_id}}</td>
                                     <td>{{$ticket->user->name}}</td>
                                     <td>

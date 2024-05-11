@@ -151,7 +151,8 @@ Ticket Management
 									</div>
 								</div>
 								@endif
-
+								
+								@if($ticket->payment_type != 2)
 								<div class="col-6 my-3">
 									<div class="w-25 pb-1">
 										Upload Deal Ticket
@@ -161,6 +162,7 @@ Ticket Management
 										  value="">
 									</div>
 								</div>
+								@endif
 							@elseif($ticket->type == 2)
 
 								@if($ticket->payment_type == 2)
@@ -324,11 +326,39 @@ Ticket Management
 								</div>
 							</div>
 						@endif
+						
+						@if($ticket->status_id == 14 && $ticket->payment_type == 2)
+							<!-- BUY BASKET CASES -->
+							@if( $ticket->type == 1 )
+							<div class="col-6 my-3">
+								<div class="w-25 pb-1">
+									Received Units
+								</div>
+								<div class="w-75">
+									<!-- OLD VAL {{$ticket->basket_size * $ticket->basket_no}} -->
+									<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="" required>
+								</div>
+							</div>
+							
+							<div class="col-6 my-3">
+								<div class="w-25 pb-1">
+									Upload Deal Ticket
+								</div>
+								<div class="w-75">
+									<input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+									  value="" required>
+								</div>
+							</div>
+							@endif    
+						@endif
 
-                        <div class="text-align-center">
-                            <button type="submit" class="btnSubmit btn btn-primary active my-5 px-5 text-ali">Submit </button>
-                        </div>
-
+                        <!-- Update button text for edit page -->
+						@if($ticket->status_id <= 14)
+						<div class="text-align-center">
+							<button type="submit" class="btnSubmit btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
+						</div>
+						@endif
+						
                         <div class='waitmsg' style='display:none;text-align:center;padding-bottom:10px;font-weight:bold;'>Please Wait ... </div>
 
                     </div>

@@ -68,7 +68,10 @@ Ticket Management
                                     <input type="hidden" name="payment_type" value="1" required>
                                     <span class='payMode defaultPayMode selected' onclick="setPaymode(0,1);showBasketFields(1);" data-value="1">Cash</span>
                                     <span class='payMode' onclick="setPaymode(1,2);showBasketFields(2);" data-value="2">Basket</span>
-                                    <span class='payMode' onclick="setPaymode(2,3);showBasketFields(3);" data-value="3">Net Settlement</span>
+                                    @php
+                                     // <span class='payMode' onclick="setPaymode(2,3);showBasketFields(3);" data-value="3">Net Settlement</span>
+                                    @endphp
+                                     
                                     @error('payment_type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

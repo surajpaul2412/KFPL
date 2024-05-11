@@ -70,7 +70,9 @@ Ticket Management
                                     <input type="hidden" name="payment_type" value="{{ $ticket->payment_type }}" required>
                                     <span class='payMode {{ $ticket->payment_type == 1 ? "selected" : "" }}' onclick="setPaymode(0,1)">Cash</span>
                                     <span class='payMode {{ $ticket->payment_type == 2 ? "selected" : "" }}' onclick="setPaymode(1,2)">Basket</span>
-                                    <span class='payMode {{ $ticket->payment_type == 3 ? "selected" : "" }}' onclick="setPaymode(2,3)">Net Settlement</span>
+                                    @php
+                                    //<span class='payMode {{ $ticket->payment_type == 3 ? "selected" : "" }}' onclick="setPaymode(2,3)">Net Settlement</span>
+                                    @endphp
                                     @error('payment_type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

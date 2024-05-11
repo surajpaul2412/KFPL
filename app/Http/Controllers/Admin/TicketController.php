@@ -724,7 +724,22 @@ class TicketController extends Controller
                     $ticket->deal_ticket = $imagePath;
 					$ticket->save();
                 }
-
+				
+				if ($request->hasFile("screenshot")) {
+					// IF Old one exists, remove it
+					if ($ticket->screenshot != "") {
+						if (file_exists($ticket->screenshot)) {
+							\Storage::delete($ticket->screenshot);
+						}
+					}
+					// SAVE new FILE
+					$imagePath = $request
+						->file("screenshot")
+						->store("screenshot", "public");
+					$ticket->screenshot = $imagePath;
+					$ticket->save();
+				}
+				
                 $data["status_id"] = 14; //condition can be placed here//
                 $ticket->update($data);
 
@@ -735,14 +750,44 @@ class TicketController extends Controller
 					$emailArray = explode(", ", $emailString);
 					$toEmail = array_map("trim", $emailArray);
 					Log::info("Status 13:: Email Sending");
-					Mail::to($toEmail)->send(new MailToAMC($ticket, 13));
+					Mail::to($toEmail)->send(new MailToAMC($ticket, 13) );
 				}
 
 
-            }
+            } elseif ($ticket->status_id == 14) {
 
-            // $ticket->update($data);
+				$arr = [];
+				// BUY basket cases
+				if( $ticket->type == 1 && $ticket->payment_type == 2 ) {
+					$arr['deal_ticket'] = 'required';
+					$arr['received_units'] = 'required|numeric';
+				}
 
+				$request->validate( $arr );
+				if ( $request->get("received_units") != $ticket->basket_size * $ticket->basket_no ) {
+					return redirect()->back()->with("error", "Received Units value is wrong");
+				}
+				
+				// Deal Ticket Workings
+                if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {
+                    // Delete the existing deal_ticket file
+                    Storage::disk("public")->delete($ticket->deal_ticket);
+                }
+
+                // Check if the request has a file for "deal_ticket"
+                if ($request->hasFile("deal_ticket")) {
+                    // Store the uploaded file and update the deal_ticket path
+                    $imagePath = $request->file("deal_ticket")->store("deal_ticket", "public");
+                    // Set the deal_ticket path without the "storage/" prefix
+                    $ticket->deal_ticket = $imagePath;
+					$ticket->save();
+                }
+				
+				$ticket->status_id = 15;
+				$ticket->save();
+                
+			}
+			
             return redirect()
                 ->route("admin.tickets.index")
                 ->with("success", "Ticket updated successfully.");

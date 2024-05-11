@@ -102,7 +102,10 @@
                                             <input type="hidden" name="payment_type" value="{{ $ticket->payment_type }}" required>
                                             <span class="payMode {{ $ticket->payment_type == '1' ? 'selected' : '' }}" onclick="setPaymode(0,1);showBasketFields(1);">Cash</span>
                                             <span class="payMode {{ $ticket->payment_type == '2' ? 'selected' : '' }}" onclick="setPaymode(1,2);showBasketFields(2);">Basket</span>
-                                            <span class="payMode {{ $ticket->payment_type == '3' ? 'selected' : '' }}" onclick="setPaymode(2,3);showBasketFields(3);">Net Settlement</span>
+                                            @php
+                                            // <span class="payMode {{ $ticket->payment_type == '3' ? 'selected' : '' }}" onclick="setPaymode(2,3);showBasketFields(3);">Net Settlement</span>
+                                            @endphp
+
                                             @error('payment_type')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -247,8 +250,8 @@
                                         </div>
                                     </div>
                                 @endif
-                                
-								
+
+
 								@if($ticket->status_id == 2 && $ticket->type == 1)
                                     <!-- <div class="row px-md-4"> -->
                                     	<div class="col-6 my-3">
@@ -276,8 +279,8 @@
 												<input type="number" step="any" class="form-control w-100" placeholder="Edit Ticket Rate" name="rate" value="{{ $ticket->rate }}" disabled>
 											</div>
 										</div>
-										@endif 
-										
+										@endif
+
 										<div class="col-6 my-3">
 											<div class="w-25">
 												Remark
@@ -289,7 +292,7 @@
                                 @endif
 
                                 @if($ticket->status_id == 9)
-									
+
 									@if($ticket->type == 1)
 										<!-- ALL BUY CASES -->
 									    @if($ticket->payment_type == 2)
@@ -302,7 +305,7 @@
 												  value="" required>
 											</div>
 										</div>
-										@else 
+										@else
 										<div class="col-6 my-3">
 											<div class="w-25 pb-1">
 												Refund Amount
@@ -312,8 +315,8 @@
 												  value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
 											</div>
 										</div>
-										@endif 
-										
+										@endif
+
 										@if($ticket->screenshot == null && $ticket->payment_type != 2)
 										<div class="col-6 my-3">
 											<div class="w-25 pb-1">
@@ -330,7 +333,7 @@
 										</div>
 										@endif
 
-										
+
 										@if($ticket->payment_type == 2)
 										<div class="col-6 my-3">
 											<div class="w-25 pb-1">
@@ -347,6 +350,7 @@
 										</div>
 										@endif
 										
+										@if($ticket->payment_type != 2)
 										<div class="col-6 my-3">
 											<div class="w-25 pb-1">
 												Upload Deal Ticket
@@ -356,8 +360,9 @@
 												  value="">
 											</div>
 										</div>
+										@endif
 									@elseif($ticket->type == 2)
-										
+										<!-- ALL SALE CASES -->	
 										@if($ticket->payment_type == 2)
 											<!-- will appear in case of SELL BASKET only -->
 											<div class="col-6 my-3">
@@ -368,7 +373,7 @@
 													<input type="number" class="form-control w-100" placeholder="Enter Cash Component" name="cashcomp" value="" required>
 												</div>
 											</div>
-											
+
 											<div class="col-6 my-3">
 												<div class="pb-1">
 													Total Stamp Duty
@@ -382,7 +387,7 @@
 													@enderror
 												</div>
 											</div>
-											
+
 											<div class="col-6 my-3">
 												<div class="w-25 pb-1">
 													Upload Deal Ticket
@@ -392,7 +397,7 @@
 													  value="">
 												</div>
 											</div>
-											
+
 											@if($ticket->screenshot == null && $ticket->payment_type == 2)
 											<div class="col-6 my-3">
 												<div class="w-25 pb-1">
@@ -408,9 +413,9 @@
 												</div>
 											</div>
 											@endif
-									
-											
-										@else 
+
+
+										@else
 										<div class="col-6 my-3">
 										  <div class="w-75 pb-1">
 											Redemption Amount
@@ -444,7 +449,7 @@
                                     </div>
                                    @endif
 
-                                   
+
 
 								   @if($ticket->type == 1 && $ticket->payment_type == 2)
 									<div class="col-6 my-3">
@@ -457,7 +462,7 @@
 										</div>
 									</div>
                                    @endif
-								   
+
 								   @if($ticket->type == 2 && $ticket->payment_type == 2)
 									<div class="col-6 my-3">
 										<div class="pb-1">
@@ -473,7 +478,7 @@
 										</div>
 									</div>
 								   @endif
-								   
+
 								   @if($ticket->type == 1 || ( $ticket->type == 2 && $ticket->payment_type == 2 ) )
                                     <!-- will appear in case of BUY only -->
                                     <div class="col-6 my-3">
@@ -490,8 +495,8 @@
                                     	</div>
                                     </div>
                                    @endif
-								   
-								    <!-- 
+
+								    <!--
                                     <div class="col-6 my-3">
                                     	<div class="w-25 pb-1">
                                     		Upload Screenshot
@@ -506,18 +511,18 @@
                                     	</div>
                                     </div>
 									-->
-									
+
                                 @endif
 
                                 @if($ticket->status_id == 5)
-                                  
+
 									@if($ticket->type == 2)
                                     <div class="col-6 my-3">
                                       <div class="w-25 pb-1">
                                         Upload Screenshot
                                       </div>
                                       <div class="w-75">
-                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*" 
+                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*"
 										{{$ticket->payment_type == 2 ? '' : 'required'}}
 										>
                                         @error('screenshot')
@@ -612,7 +617,7 @@
                                 @endif
 
                                 @if($ticket->status_id == 13)
-                                	
+
 									@if( $ticket->type == 1 )
 								    <div class="col-6 my-3">
                                 		<div class="w-25 pb-1">
@@ -624,7 +629,7 @@
                                 		</div>
                                 	</div>
 									@endif
-									
+
                                     @if($ticket->deal_ticket == null)
                                     <div class="col-6 my-3">
                                         <div class="w-25 pb-1">
@@ -636,7 +641,7 @@
                                         </div>
                                     </div>
                                     @endif
-									
+
 									<!-- BUY BASKET cases where Basket File Upload is Missing -->
 									@if( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->basketfile == null )
 									<div class="col-6 my-3">
@@ -648,7 +653,7 @@
                                               value="" required>
                                         </div>
                                     </div>
-									@endif 
+									@endif
 
 									<div class="col-6 my-3">
 									  <div class="w-25 pb-1">
@@ -663,7 +668,7 @@
 										@enderror
 									  </div>
 									</div>
-										
+
                                 	<div class="col-6 my-3">
                                 		<div class="w-25 pb-1">
                                 			Dispute Comment
@@ -674,7 +679,34 @@
                                 	</div>
                                 @endif
 
-                                @if($ticket->status_id == 14)
+								@if($ticket->status_id == 14 && $ticket->payment_type == 2)
+                                    <!-- BUY BASKET CASES -->
+									@if( $ticket->type == 1 )
+								    <div class="col-6 my-3">
+                                		<div class="w-25 pb-1">
+                                			Received Units
+                                		</div>
+                                		<div class="w-75">
+										    <!-- OLD VAL {{$ticket->basket_size * $ticket->basket_no}} -->
+                                			<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="" required>
+                                		</div>
+                                	</div>
+									
+									<div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Upload Deal Ticket
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                              value="" required>
+                                        </div>
+                                    </div>
+									
+									@endif    
+								
+                                @endif
+								
+                                @if($ticket->status_id == 15)
                                     <div class="col-12 my-3" align="center">
                                         <div class="">
                                             Congratulations !! your ticket has been closed.
@@ -686,7 +718,7 @@
 
                                 <!-- Update button text for edit page -->
                                 <div class="text-align-center">
-                                    @if($ticket->status_id != 14)
+                                    @if($ticket->status_id <= 14)
                                     <button type="submit" class="btnSubmit btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
                                     @endif
                                 </div>
@@ -695,7 +727,7 @@
 						<div class='waitmsg' style='display:none;text-align:center;padding-bottom:10px;font-weight:bold;'>Please Wait ... </div>
                     </div><!-- card -->
                 </form><!-- col -->
-				
+
             </div><!-- row -->
         </div><!-- col -->
     </div><!-- row -->
@@ -736,7 +768,7 @@
         jQuery(".sellopts").hide();
       }
     }
-    
+
     jQuery(document).ready(function(){
       @if($ticket->type == 1)
        showhidefields(1);
@@ -744,8 +776,8 @@
        showhidefields(0);
       @endif
 
-      
-	  // SET CASH default 
+
+	  // SET CASH default
 	  @if( !$ticket->payment_type )
 		  setPaymode(0, 1);
 	  @endif
