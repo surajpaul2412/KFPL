@@ -15,11 +15,17 @@ Dashboard
     </div>
 
     <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
-        <button type="button" class="btn btn-white btn-icon"><i class="ri-share-line fs-18 lh-1"></i></button>
-        <button type="button" class="btn btn-white btn-icon"><i class="ri-printer-line fs-18 lh-1"></i></button>
-        <button type="button" class="btn btn-primary d-flex align-items-center gap-2">
-            <i class="ri-bar-chart-2-line fs-18 lh-1"></i>Generate<span class="d-none d-sm-inline"> Report</span>
-        </button>
+      <form class="form-inline d-flex">
+        <div class="form-group mr-3">
+            <!-- <label for="from_date" class="mr-2">From:</label> -->
+            <input type="date" class="form-control" id="from_date" name="from_date">
+        </div>
+        <div class="form-group mx-3">
+            <!-- <label for="to_date" class="mr-2">To:</label> -->
+            <input type="date" class="form-control" id="to_date" name="to_date">
+        </div>
+        <button type="submit" class="btn btn-white btn-icon"><i class="ri-search-line fs-18 lh-1"></i></button>
+      </form>
     </div>
 </div>
 
@@ -27,32 +33,32 @@ Dashboard
   <div class="col-6 col-xl-3">
     <div class="card card-one py-2">
       <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Unique Purchases</label>
-        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> 8,327</h3>
+        <label class="card-title fs-sm fw-medium mb-1 text-success">BUY - Executed</label>
+        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ $data['buyExecuted']}}</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
   <div class="col-6 col-xl-3">
     <div class="card card-one py-2">
       <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Order Value</label>
-        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>$</span>12,105</h3>
+        <label class="card-title fs-sm fw-medium mb-1 text-success">BUY - Quick Ticket</label>
+        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>0</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
   <div class="col-6 col-xl-3">
     <div class="card card-one py-2">
       <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Order Quantity</label>
-        <h3 class="card-value mb-1"><i class="ri-inbox-line"></i> 4,598</h3>
+        <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Executed</label>
+        <h3 class="card-value mb-1"><i class="ri-bar-chart-box-line"></i> <span>₹</span> {{ $data['sellExecuted'] }}</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
   <div class="col-6 col-xl-3">
     <div class="card card-one py-2">
       <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Conversion Rate</label>
-        <h3 class="card-value mb-1"><i class="ri-bar-chart-box-line"></i> 6.28<span>%</span></h3>
+        <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Quick Ticket</label>
+        <h3 class="card-value mb-1"><i class="ri-bar-chart-box-line"></i> <span>₹</span> 0</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
@@ -64,10 +70,6 @@ Dashboard
           <div class="card card-one py-2">
             <div class="card-header">
               <h6 class="card-title">Current Ticket Status</h6>
-              <nav class="nav nav-icon nav-icon-sm ms-auto">
-                <a href="" class="nav-link"><i class="ri-refresh-line"></i></a>
-                <a href="" class="nav-link"><i class="ri-more-2-fill"></i></a>
-              </nav>
             </div><!-- card-header -->
             <div class="card-body">
               <div class="chartjs-one"><canvas id="chartJS1"></canvas></div>
@@ -82,7 +84,7 @@ Dashboard
                       <div class="d-flex d-sm-block d-xl-flex align-items-center">
                         <div class="helpdesk-icon bg-ui-02 text-white"><i class="ri-blaze-fill"></i></div>
                         <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                          <h2 class="card-value d-flex align-items-baseline mb-0">296 </h2>
+                          <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
                           <label class="card-label fs-sm fw-medium mb-1">Complaints Received</label>
                           
                         </div>
@@ -96,7 +98,7 @@ Dashboard
                         <div class="d-flex d-sm-block d-xl-flex align-items-center">
                           <div class="helpdesk-icon bg-primary text-white"><i class="ri-bell-line"></i></div>
                           <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                            <h2 class="card-value d-flex align-items-baseline mb-0">387 </h2>
+                            <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
                             <label class="card-label fs-sm fw-medium mb-1">Support Requests</label>
                             
                           </div>
@@ -110,7 +112,7 @@ Dashboard
                         <div class="d-flex d-sm-block d-xl-flex align-items-center">
                           <div class="helpdesk-icon bg-ui-03 text-white"><i class="ri-star-smile-line"></i></div>
                           <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                            <h2 class="card-value d-flex align-items-baseline mb-0">198 </h2>
+                            <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
                             <label class="card-label fs-sm fw-medium mb-1">Complaints Resolved</label>
                             
                           </div>
@@ -133,7 +135,7 @@ var ctx1 = document.getElementById('chartJS1').getContext('2d');
 var chart1 = new Chart(ctx1, {
   type: 'bar',
   data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13','14'],
     datasets: [{
       data: [20, 60, 50, 45, 50, 60, 70, 40, 45, 35, 25, 30],
       backgroundColor: '#0cb785',

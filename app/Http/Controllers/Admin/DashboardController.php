@@ -9,39 +9,25 @@ use Twilio\Rest\Client;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Logic to retrieve data for the admin dashboard
+        $buyExecuted = Ticket::where('status_id', '>', 8)
+                    ->where('type', 1)
+                    ->where('payment_type', 1)
+                    ->sum('actual_total_amt');
+
+        $sellExecuted = Ticket::where('status_id', '>', 8)
+                    ->where('type', 2)
+                    ->where('payment_type', 1)
+                    ->sum('actual_total_amt');
+
+
         $data = [
-            'title' => 'Admin Dashboard',
-            // Add other data as needed
+            'buyExecuted' => $buyExecuted,
+            'sellExecuted' => $sellExecuted            
         ];
 
-
-// Instantiate the Twilio client
-// $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
-
-// $recipients = [
-//     'whatsapp:+919810785074',
-//     'whatsapp:+918076043823',
-// ];
-// $from = 'whatsapp:+14155238886';
-
-// foreach ($recipients as $to) {
-//     $message = $twilio->messages->create(
-//         $to,
-//         [
-//             'from' => $from,
-//             'body' => 'Hello, your ticket has been tested!'
-//         ]
-//     );
-
-//     // Output the message SID for each recipient
-//     echo "Message SID for $to: " . $message->sid . PHP_EOL;
-// }
-
-        // Return the admin dashboard view with the data
-        return view('admin.dashboard', $data);
+        return view('admin.dashboard', compact('data'));
     }
 
     public function calculatePurchaseNav(Request $request) {
