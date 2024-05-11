@@ -35,7 +35,7 @@ Ticket Management
                 <div class="card card-one card-product">
                     <div class="card-body p-3">
                         <div class="row px-md-4">
-                            
+
 							<!-- EXTRA FIELDS ADDITION :: STARTS -->
 							@if($ticket->status_id == 8)
 								<div class="col-6 my-3">
@@ -56,7 +56,7 @@ Ticket Management
 									</div>
 								</div>
 							@endif
-                        </div>
+              </div>
 
                         <div class="text-align-center">
                             <button type="submit" class="btn btn-primary active my-5 px-5 text-ali">Submit </button>

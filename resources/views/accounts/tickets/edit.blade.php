@@ -29,13 +29,13 @@
                     </div>
                 </div>
 
-                <form class="col-12 col-md-12 col-xl-12 pt-3" method="post" action="{{route('accounts.tickets.update', $ticket->id)}}" enctype="multipart/form-data">
+                <form class="col-12 col-md-12 col-xl-12 pt-3" onsubmit="showWait()" method="post" action="{{route('accounts.tickets.update', $ticket->id)}}" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="card card-one card-product">
                         <div class="card-body p-3">
                             <div class="row px-md-4">
-                                
+
 								@if($ticket->status_id == 3)
 
                                    @if($ticket->type == 1 && $ticket->payment_type != 2)
@@ -54,7 +54,7 @@
                                     	</div>
                                     </div>
                                    @endif
-								   
+
 								   @if($ticket->type == 1 && $ticket->payment_type == 2)
 									<div class="col-6 my-3">
 										<div class="w-50 pb-1">
@@ -66,7 +66,7 @@
 										</div>
 									</div>
                                    @endif
-								   
+
 								   @if($ticket->type == 2 && $ticket->payment_type == 2)
 									<div class="col-6 my-3">
 										<div class="pb-1">
@@ -82,7 +82,7 @@
 										</div>
 									</div>
 								   @endif
-								   
+
 								   @if($ticket->type == 1 || ( $ticket->type == 2 && $ticket->payment_type == 2 ) )
                                     <!-- will appear in case of BUY only -->
                                     <div class="col-6 my-3">
@@ -99,9 +99,9 @@
                                     	</div>
                                     </div>
                                    @endif
-									
+
                                 @endif
-								
+
 								@if($ticket->status_id == 11)
                                     <div class="col-6 my-3">
                                         <div class="pb-1">
@@ -153,8 +153,11 @@
                             </div>
 
                             <div class="text-align-center">
-                                <button type="submit" class="btn btn-primary active my-5 px-5 text-ali">Submit </button>
+                                <button type="submit" class="btnSubmit btn btn-primary active my-5 px-5 text-ali">Submit </button>
                             </div>
+
+                            <div class='waitmsg' style='display:none;text-align:center;padding-bottom:10px;font-weight:bold;'>Please Wait ... </div>
+
                         </div>
                     </div>
                 </form>
@@ -166,6 +169,12 @@
 
 @section('script')
 <script>
+    function showWait()
+    {
+      jQuery('.btnSubmit').remove();
+      jQuery('.waitmsg').show();
+    }
+
     function setVerification1(x, y) {
         var verificationInput = document.querySelector("[name='verification']");
         var rateInput = document.querySelector("[name='expected_refund']");

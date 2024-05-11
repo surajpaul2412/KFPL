@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Storage;
-use DB;
+use App\Mail\MailToAMC;
+use App\Mail\MailScreenshotToAMC;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\FormService;
@@ -16,9 +20,9 @@ class TicketController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        
+
 		// SEARCH PArameters
         $sel_from_date = isset($request["sel_from_date"])
             ? $request["sel_from_date"]
@@ -44,7 +48,7 @@ class TicketController extends Controller
         }
 
         if ($sel_query != "") {
-            $ticketQuery->whereHas("security", function (Builder $query) use ( $sel_query ) {
+            $ticketQuery->whereHas("security", function ($query) use ( $sel_query ) {
                 $query
                     ->where("tickets.id", "LIKE", "%{$sel_query}%")
                     ->orWhere("securities.name", "LIKE", "%{$sel_query}%")
@@ -52,11 +56,13 @@ class TicketController extends Controller
                     ->orWhere("securities.isin", "LIKE", "%{$sel_query}%");
             });
         }
-		
-		$tickets = $ticketQuery->whereIn('status_id', [3, 11, 12])
-				 ->orderBy('updated_at', 'desc')
-				 ->paginate(10);
 
+        $tickets = $ticketQuery->whereIn('status_id', [3, 11, 12])
+    				 ->orderBy('updated_at', 'desc')
+    				 ->paginate(10);
+
+        //$sql = DB::getQueryLog();
+        //dd($sql);
         return view('accounts.tickets.index', compact(
 			 "tickets",
              "roles",
@@ -262,7 +268,7 @@ class TicketController extends Controller
 				Mail::to($toEmail)->send(new MailToAMC($ticket, 3)); // 3 is to denote SPECIAL case
 			}
 			// Pdf Workings :: END
-		 
+
 		} elseif ($ticket->status_id == 11) {
 			if ($request->get("verification") == 1) {
 				$request->validate([
@@ -313,7 +319,7 @@ class TicketController extends Controller
 			$ticket->save();
 
 		}
-			
+
         return redirect()->route('accounts.tickets.index')->with('success', 'Ticket updated successfully.');
     }
 

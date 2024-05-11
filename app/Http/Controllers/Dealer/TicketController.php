@@ -7,16 +7,20 @@ use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Models\Role;
 use App\Models\User;
-use DB;
+use App\Mail\MailToAMC;
+use App\Mail\MailScreenshotToAMC;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        
+
 		// SEARCH PArameters
         $sel_from_date = isset($request["sel_from_date"])
             ? $request["sel_from_date"]
@@ -42,7 +46,7 @@ class TicketController extends Controller
         }
 
         if ($sel_query != "") {
-            $ticketQuery->whereHas("security", function (Builder $query) use (
+            $ticketQuery->whereHas("security", function ($query) use (
                 $sel_query
             ) {
                 $query
@@ -52,7 +56,7 @@ class TicketController extends Controller
                     ->orWhere("securities.isin", "LIKE", "%{$sel_query}%");
             });
         }
-		
+
 		$tickets = $ticketQuery->whereIn('status_id', [7, 8])
 					 ->orderBy('updated_at', 'desc')
 					 ->paginate(10);
@@ -121,7 +125,7 @@ class TicketController extends Controller
             ]);
 
             $data['status_id'] = 9;
-        }        
+        }
 
         $ticket->update($data);
         return redirect()->route('dealer.tickets.index')->with('success', 'Ticket updated successfully.');

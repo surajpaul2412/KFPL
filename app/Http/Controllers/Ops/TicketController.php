@@ -10,6 +10,7 @@ use App\Mail\MailScreenshotToAMC;
 use App\Services\FormService;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\Role;
 use App\Models\User;
 use Auth;
@@ -50,7 +51,7 @@ class TicketController extends Controller
         }
 
         if ($sel_query != "") {
-            $ticketQuery->whereHas("security", function (Builder $query) use (
+            $ticketQuery->whereHas("security", function ($query) use (
                 $sel_query
             ) {
                 $query
@@ -119,7 +120,7 @@ class TicketController extends Controller
             $ticket = Ticket::findOrFail($id);
             $data = $request->all();
 
-            if ($ticket->status_id == 2) 
+            if ($ticket->status_id == 2)
 			{
                 if ($ticket->type == 1) {
                     // BUY cases
@@ -130,7 +131,7 @@ class TicketController extends Controller
                     ]);
 
                     if ($request->get("verification") == 1) {
-                        
+
 						$ticket->status_id = 3;
 
 						// Basket CASE
@@ -445,17 +446,17 @@ class TicketController extends Controller
             }
 
             // $ticket->update($data);
-			return redirect()->route('ops.tickets.index')->with('success', 'Ticket updated successfully.');	
-			
+			return redirect()->route('ops.tickets.index')->with('success', 'Ticket updated successfully.');
+
         } catch (\Exception $e) {
             // dd($e->getMessage());
             return redirect()->back()
                 ->with("error", $e->getMessage());
         }
 
-        
 
-        
+
+
     }
 
     /**
@@ -469,24 +470,43 @@ class TicketController extends Controller
     public function mail(Ticket $ticket)
     {
         // sell case with null screenshot check
-        if ($ticket->type == 2) {
-            $emailString = $ticket->security->amc->email ?? null;
-            $emailArray = explode(", ", $emailString);
-            $toEmail = array_map("trim", $emailArray);
+        $sendMail = 0;
+        // CASH
+		if( $ticket->payment_type == 1)
+		{
+			if ($ticket->type == 2) {
+				$sendMail = 1;
+				$ticket->status_id = 7;
+			} else {
+				$sendMail = 1;
+				$ticket->status_id = 7;
+			}
+		} elseif ( $ticket->payment_type == 2) { // BASKET
 
-            Mail::to($toEmail)->send(new MailToAMC($ticket));
+			// BUY + BASKET
+			if($ticket->type == 1 )
+			{
+			    $sendMail = 1;
+			    $ticket->status_id = 9;
+			}
 
-            $ticket->status_id = 7;
-            $ticket->update();
-        } else {
-            $emailString = $ticket->security->amc->email ?? null;
-            $emailArray = explode(", ", $emailString);
-            $toEmail = array_map("trim", $emailArray);
+			// SELL + BASKET CASES
+			if($ticket->type == 2 )
+			{
+				$sendMail = 1;
+				$ticket->status_id = 9;
+			}
+		}
 
-            Mail::to($toEmail)->send(new MailToAMC($ticket));
+		// Ticket Updation
+		$ticket->save();
 
-            $ticket->status_id = 7;
-            $ticket->update();
+		// MAIL Trigger
+        if ($sendMail) {
+          $emailString = $ticket->security->amc->email ?? null;
+          $emailArray = explode(", ", $emailString);
+          $toEmail = array_map("trim", $emailArray);
+          Mail::to($toEmail)->send(new MailToAMC($ticket));
         }
 
         return redirect()
@@ -496,10 +516,31 @@ class TicketController extends Controller
 
     public function skip(Ticket $ticket)
     {
-        if ($ticket->type == 2) {
-            $ticket->status_id = 7;
-            $ticket->update();
-        }
+        // CASH
+		if( $ticket->payment_type == 1)
+		{
+			if ($ticket->type == 2) {
+				$ticket->status_id = 7;
+			} else {
+				$ticket->status_id = 7;
+			}
+		} elseif ( $ticket->payment_type == 2) { // BASKET
+
+			// BUY + BASKET
+			if($ticket->type == 1 )
+			{
+			    $ticket->status_id = 9;
+			}
+
+			// SELL + BASKET CASES
+			if($ticket->type == 2 )
+			{
+				$ticket->status_id = 9;
+			}
+		}
+
+		// Ticket Updation
+		$ticket->save();
 
         return redirect()
              ->route("ops.tickets.index")

@@ -33,7 +33,7 @@ Ticket Management
                 @csrf
                 @method('PUT')
                 <div class="card card-one card-product">
-                    <div class="card-body p-3">
+                    <div class="card-body p-3 row px-md-4">
 						@if($ticket->status_id == 2 && $ticket->type == 1)
 							<!-- <div class="row px-md-4"> -->
 								<div class="col-6 my-3">
@@ -61,8 +61,8 @@ Ticket Management
 										<input type="number" step="any" class="form-control w-100" placeholder="Edit Ticket Rate" name="rate" value="{{ $ticket->rate }}" disabled>
 									</div>
 								</div>
-								@endif 
-								
+								@endif
+
 								<div class="col-6 my-3">
 									<div class="w-25">
 										Remark
@@ -73,14 +73,14 @@ Ticket Management
 								</div>
 						@endif
 
-						@if($ticket->status_id == 5) 
+						@if($ticket->status_id == 5)
 							@if($ticket->type == 2)
 							<div class="col-6 my-3">
 							  <div class="w-25 pb-1">
 								Upload Screenshot
 							  </div>
 							  <div class="w-75">
-								<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*" 
+								<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*"
 								{{$ticket->payment_type == 2 ? '' : 'required'}}
 								>
 								@error('screenshot')
@@ -94,7 +94,7 @@ Ticket Management
 						@endif
 
                         @if($ticket->status_id == 9)
-									
+
 							@if($ticket->type == 1)
 								<!-- ALL BUY CASES -->
 								@if($ticket->payment_type == 2)
@@ -107,7 +107,7 @@ Ticket Management
 										  value="" required>
 									</div>
 								</div>
-								@else 
+								@else
 								<div class="col-6 my-3">
 									<div class="w-25 pb-1">
 										Refund Amount
@@ -117,8 +117,8 @@ Ticket Management
 										  value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
 									</div>
 								</div>
-								@endif 
-								
+								@endif
+
 								@if($ticket->screenshot == null && $ticket->payment_type != 2)
 								<div class="col-6 my-3">
 									<div class="w-25 pb-1">
@@ -135,7 +135,7 @@ Ticket Management
 								</div>
 								@endif
 
-								
+
 								@if($ticket->payment_type == 2)
 								<div class="col-6 my-3">
 									<div class="w-25 pb-1">
@@ -151,7 +151,7 @@ Ticket Management
 									</div>
 								</div>
 								@endif
-								
+
 								<div class="col-6 my-3">
 									<div class="w-25 pb-1">
 										Upload Deal Ticket
@@ -162,7 +162,7 @@ Ticket Management
 									</div>
 								</div>
 							@elseif($ticket->type == 2)
-								
+
 								@if($ticket->payment_type == 2)
 									<!-- will appear in case of SELL BASKET only -->
 									<div class="col-6 my-3">
@@ -173,7 +173,7 @@ Ticket Management
 											<input type="number" class="form-control w-100" placeholder="Enter Cash Component" name="cashcomp" value="" required>
 										</div>
 									</div>
-									
+
 									<div class="col-6 my-3">
 										<div class="pb-1">
 											Total Stamp Duty
@@ -187,7 +187,7 @@ Ticket Management
 											@enderror
 										</div>
 									</div>
-									
+
 									<div class="col-6 my-3">
 										<div class="w-25 pb-1">
 											Upload Deal Ticket
@@ -197,7 +197,7 @@ Ticket Management
 											  value="">
 										</div>
 									</div>
-									
+
 									@if($ticket->screenshot == null && $ticket->payment_type == 2)
 									<div class="col-6 my-3">
 										<div class="w-25 pb-1">
@@ -213,9 +213,9 @@ Ticket Management
 										</div>
 									</div>
 									@endif
-							
-									
-								@else 
+
+
+								@else
 								<div class="col-6 my-3">
 								  <div class="w-75 pb-1">
 									Redemption Amount
@@ -263,7 +263,7 @@ Ticket Management
 						@endif
 
                         @if($ticket->status_id == 13)
-                                	
+
 							@if( $ticket->type == 1 )
 							<div class="col-6 my-3">
 								<div class="w-25 pb-1">
@@ -275,7 +275,7 @@ Ticket Management
 								</div>
 							</div>
 							@endif
-							
+
 							@if($ticket->deal_ticket == null)
 							<div class="col-6 my-3">
 								<div class="w-25 pb-1">
@@ -287,7 +287,7 @@ Ticket Management
 								</div>
 							</div>
 							@endif
-							
+
 							<!-- BUY BASKET cases where Basket File Upload is Missing -->
 							@if( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->basketfile == null )
 							<div class="col-6 my-3">
@@ -299,7 +299,7 @@ Ticket Management
 									  value="" required>
 								</div>
 							</div>
-							@endif 
+							@endif
 
 							<div class="col-6 my-3">
 							  <div class="w-25 pb-1">
@@ -314,7 +314,7 @@ Ticket Management
 								@enderror
 							  </div>
 							</div>
-								
+
 							<div class="col-6 my-3">
 								<div class="w-25 pb-1">
 									Dispute Comment
@@ -326,8 +326,11 @@ Ticket Management
 						@endif
 
                         <div class="text-align-center">
-                            <button type="submit" class="btn btn-primary active my-5 px-5 text-ali">Submit </button>
+                            <button type="submit" class="btnSubmit btn btn-primary active my-5 px-5 text-ali">Submit </button>
                         </div>
+
+                        <div class='waitmsg' style='display:none;text-align:center;padding-bottom:10px;font-weight:bold;'>Please Wait ... </div>
+
                     </div>
                 </div>
             </form>
@@ -339,6 +342,12 @@ Ticket Management
 
 @section('script')
 <script>
+    function showWait()
+    {
+      jQuery('.btnSubmit').remove();
+      jQuery('.waitmsg').show();
+    }
+
     function setVerification1(x, y) {
         var verificationInput = document.querySelector("[name='verification']");
         var rateInput = document.querySelector("[name='rate']");

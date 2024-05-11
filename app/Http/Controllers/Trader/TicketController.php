@@ -11,7 +11,11 @@ use App\Models\Security;
 use Exception;
 use Validator;
 use Auth;
-use DB;
+use App\Mail\MailToAMC;
+use App\Mail\MailScreenshotToAMC;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
@@ -44,7 +48,7 @@ class TicketController extends Controller
           $ticketQuery->where("updated_at", "<=", $sel_to_date . " 23:59:59");
       }
       if ($sel_query != "") {
-          $ticketQuery->whereHas("security", function (Builder $query) use (
+          $ticketQuery->whereHas("security", function ($query) use (
               $sel_query
           ) {
               $query
