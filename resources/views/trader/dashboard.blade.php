@@ -27,37 +27,36 @@ Dashboard
   <div class="col-6 col-xl-3">
     <div class="card card-one py-2">
       <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Unique Purchases</label>
-        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> 8,327</h3>
+        <label class="card-title fs-sm fw-medium mb-1 text-success">BUY - Executed</label>
+        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ $data['buyExecuted']}}</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
   <div class="col-6 col-xl-3">
     <div class="card card-one py-2">
       <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Order Value</label>
-        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>$</span>12,105</h3>
+        <label class="card-title fs-sm fw-medium mb-1 text-success">BUY - Quick Ticket</label>
+        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ $data['buyQuickTicket'] }}</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
   <div class="col-6 col-xl-3">
     <div class="card card-one py-2">
       <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Order Quantity</label>
-        <h3 class="card-value mb-1"><i class="ri-inbox-line"></i> 4,598</h3>
+        <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Executed</label>
+        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ $data['sellExecuted'] }}</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
   <div class="col-6 col-xl-3">
     <div class="card card-one py-2">
       <div class="card-body">
-        <label class="card-title fs-sm fw-medium mb-1">Conversion Rate</label>
-        <h3 class="card-value mb-1"><i class="ri-bar-chart-box-line"></i> 6.28<span>%</span></h3>
+        <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Quick Ticket</label>
+        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ $data['sellQuickTicket'] }}</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
-
-  
+    
   <div class="col-12">
     <div class="row">
         <div class="col-xl-9">

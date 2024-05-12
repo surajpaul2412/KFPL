@@ -42,7 +42,7 @@ Dashboard
     <div class="card card-one py-2">
       <div class="card-body">
         <label class="card-title fs-sm fw-medium mb-1 text-success">BUY - Quick Ticket</label>
-        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>0</h3>
+        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ $data['buyQuickTicket'] }}</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
@@ -50,7 +50,7 @@ Dashboard
     <div class="card card-one py-2">
       <div class="card-body">
         <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Executed</label>
-        <h3 class="card-value mb-1"><i class="ri-bar-chart-box-line"></i> <span>₹</span> {{ $data['sellExecuted'] }}</h3>
+        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ $data['sellExecuted'] }}</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
@@ -58,12 +58,11 @@ Dashboard
     <div class="card card-one py-2">
       <div class="card-body">
         <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Quick Ticket</label>
-        <h3 class="card-value mb-1"><i class="ri-bar-chart-box-line"></i> <span>₹</span> 0</h3>
+        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ $data['sellQuickTicket'] }}</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
 
-  
   <div class="col-12">
     <div class="row">
         <div class="col-xl-9">
@@ -77,50 +76,47 @@ Dashboard
           </div><!-- card -->
         </div>
         <div class="col-xl-3">
-            <div class="row">
-                <div class="col-12 col-xl-12">
-                  <div class="card card-one">
-                    <div class="card-body p-3">
-                      <div class="d-flex d-sm-block d-xl-flex align-items-center">
-                        <div class="helpdesk-icon bg-ui-02 text-white"><i class="ri-blaze-fill"></i></div>
-                        <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                          <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
-                          <label class="card-label fs-sm fw-medium mb-1">Complaints Received</label>
-                          
-                        </div>
-                      </div>
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <div class="card card-one">
+                <div class="card-body p-3">
+                  <div class="d-flex d-sm-block d-xl-flex align-items-center">
+                    <div class="helpdesk-icon bg-ui-02 text-white"><i class="ri-blaze-fill"></i></div>
+                    <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
+                      <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
+                      <label class="card-label fs-sm fw-medium mb-1">Complaints Received</label>                          
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-xl-12 mt-3">
-                    <div class="card card-one">
-                      <div class="card-body p-3">
-                        <div class="d-flex d-sm-block d-xl-flex align-items-center">
-                          <div class="helpdesk-icon bg-primary text-white"><i class="ri-bell-line"></i></div>
-                          <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                            <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
-                            <label class="card-label fs-sm fw-medium mb-1">Support Requests</label>
-                            
-                          </div>
-                        </div>
-                      </div><!-- card-body -->
-                    </div><!-- card -->
-                </div>
-                <div class="col-12 col-xl-12 mt-3">
-                    <div class="card card-one">
-                      <div class="card-body p-3">
-                        <div class="d-flex d-sm-block d-xl-flex align-items-center">
-                          <div class="helpdesk-icon bg-ui-03 text-white"><i class="ri-star-smile-line"></i></div>
-                          <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                            <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
-                            <label class="card-label fs-sm fw-medium mb-1">Complaints Resolved</label>
-                            
-                          </div>
-                        </div>
-                      </div><!-- card-body -->
+              </div>
+            </div>
+            <div class="col-12 col-xl-12 mt-3">
+                <div class="card card-one">
+                  <div class="card-body p-3">
+                    <div class="d-flex d-sm-block d-xl-flex align-items-center">
+                      <div class="helpdesk-icon bg-primary text-white"><i class="ri-bell-line"></i></div>
+                      <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
+                        <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
+                        <label class="card-label fs-sm fw-medium mb-1">Support Requests</label>                            
+                      </div>
                     </div>
+                  </div><!-- card-body -->
+                </div><!-- card -->
+            </div>
+            <div class="col-12 col-xl-12 mt-3">
+                <div class="card card-one">
+                  <div class="card-body p-3">
+                    <div class="d-flex d-sm-block d-xl-flex align-items-center">
+                      <div class="helpdesk-icon bg-ui-03 text-white"><i class="ri-star-smile-line"></i></div>
+                      <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
+                        <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
+                        <label class="card-label fs-sm fw-medium mb-1">Complaints Resolved</label>                            
+                      </div>
+                    </div>
+                  </div><!-- card-body -->
                 </div>
             </div>
+          </div>
         </div>
     </div>
   </div>
@@ -137,11 +133,11 @@ var chart1 = new Chart(ctx1, {
   data: {
     labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13','14'],
     datasets: [{
-      data: [20, 60, 50, 45, 50, 60, 70, 40, 45, 35, 25, 30],
+      data: <?php echo json_encode($data['arrangedBuyCounts']); ?>,
       backgroundColor: '#0cb785',
       barPercentage: 0.5
     }, {
-      data: [10, 40, 30, 40, 60, 55, 45, 35, 30, 20, 15, 20],
+      data: <?php echo json_encode($data['arrangedSellCounts']); ?>,
       backgroundColor: '#dc3545',
       barPercentage: 0.5
     }]
@@ -156,8 +152,8 @@ var chart1 = new Chart(ctx1, {
     },
     scales: {
       y: {
-        beginAtZero:true,
-        max: 80,
+        beginAtZero:false,
+        max: 10,
         ticks: {
           color: '#a1aab3',
           font: {
