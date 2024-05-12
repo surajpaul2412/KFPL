@@ -18,6 +18,7 @@ use App\Http\Controllers\Account\TicketController as AccountsTicketController;
 use App\Http\Controllers\Dealer\TicketController as DealerTicketController;
 use App\Http\Controllers\Dealer\QuickTicketController as DealerQuickTicketController;
 use App\Http\Controllers\Trader\QuickTicketController as TraderQuickTicketController;
+use App\Http\Controllers\Admin\QuickTicketController as AdminQuickTicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,11 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::resource('/admin/securities', SecurityController::class);
     // Disputes
     Route::resource('/admin/disputes', DisputeController::class);
+    // quick ticket
+    Route::resource('/admin/quick_tickets', AdminQuickTicketController::class)->names([
+        'index' => 'admin.quick_tickets.index',
+        'show' => 'admin.quick_tickets.show',
+    ]);
 });
 
 // Dealer Dashboard

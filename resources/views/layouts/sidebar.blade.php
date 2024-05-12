@@ -18,24 +18,18 @@
                     <a href="{{ route('admin.tickets.index') }}" class="nav-link {{ Request::is('admin/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('admin.quick_tickets.index') }}" class="nav-link {{ Request::is('admin/quick_tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Quick Tickets</span></a>
+                </li>
+                <li class="nav-item">
                     <a href="" class="nav-link has-sub {{ Request::is('admin/amcs*') ? 'active' : '' }} {{ Request::is('admin/securities*') ? 'active' : '' }}"><i class="ri-user-2-line"></i> <span>AMC Manager</span></a>
                     <nav class="nav nav-sub" style="{{ Request::is('admin/amcs*') || Request::is('admin/securities*') ? 'display: block;' : 'display: none;' }}">
                         <a href="{{ route('amcs.index') }}" class="nav-sub-link">AMC</a>
                         <a href="{{ route('securities.index') }}" class="nav-sub-link">Security</a>
                     </nav>
                 </li>
-                <!-- <li class="nav-item">
-                    <a href="" class="nav-link"><i class="ri-notification-4-line"></i> <span>Alerts</span></a>
-                </li> -->
                 <li class="nav-item">
                     <a href="{{ route('disputes.index') }}" class="nav-link {{ Request::is('admin/disputes*') ? 'active' : '' }}"><i class="ri-alarm-warning-line"></i> <span>Disputes</span></a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a href="" class="nav-link"><i class="ri-funds-box-line"></i> <span>Reports</span></a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link"><i class="ri-article-line"></i> <span>Templates</span></a>
-                </li> -->
                 @else
                     @php
                       $user_roles =  auth()->user()->roles;
