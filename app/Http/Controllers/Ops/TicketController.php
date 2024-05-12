@@ -254,7 +254,8 @@ class TicketController extends Controller
 						"totalstampduty" => ["required", "numeric"],
 					];
 
-					if( $ticket->screenshot == null ) {
+					if( empty($ticket->screenshot) )
+					{
 						$arr["screenshot"] = "required|image|mimes:jpeg,png,jpg,gif,webp";
 					}
 
@@ -383,10 +384,16 @@ class TicketController extends Controller
 
 			} elseif ($ticket->status_id == 13) {
 
-				$arr = [
-                    // 'verification' => 'required|in:1,2',
-					"screenshot"     => "required|image|mimes:jpeg,png,jpg,gif,webp",
-                ];
+				$arr = [];
+				
+				if( !empty($ticket->screenshot) && $ticket->type == 2 && $ticket->payment_type == 2 )
+				{
+					// No Screenshot VErification		
+				}
+				else 
+				{
+					$arr["screenshot"] = "required|image|mimes:jpeg,png,jpg,gif,webp";
+				}
 
 				if( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->basketfile == null ) {
 					$arr['basketfile'] = 'required';

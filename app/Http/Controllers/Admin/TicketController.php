@@ -390,10 +390,17 @@ class TicketController extends Controller
 				// SEND EMAIL on BASKET CASES
 				if( $ticket->payment_type == 2 )
 				{
-					$emailString = $ticket->security->amc->email ?? null;
-					$emailArray = explode(", ", $emailString);
-					$toEmail = array_map("trim", $emailArray);
-					Mail::to($toEmail)->send(new MailToAMC($ticket, 3)); // 3 is to denote SPECIAL case
+					if( $ticket->type == 2 && $ticket->totalstampduty == 0 )
+					{
+						// DO Nothing for SELL-BASKET case with STAMPDUTY 0
+					}
+					else 
+					{
+						$emailString = $ticket->security->amc->email ?? null;
+						$emailArray = explode(", ", $emailString);
+						$toEmail = array_map("trim", $emailArray);
+						Mail::to($toEmail)->send(new MailToAMC($ticket, 3)); // 3 is to denote SPECIAL case
+					}
 				}
                 // Pdf Workings :: END
             } elseif ($ticket->status_id == 4) {
@@ -500,9 +507,12 @@ class TicketController extends Controller
 						"deal_ticket" => "nullable",
 						"totalstampduty" => ["required", "numeric"],
 					];
-
-					if( $ticket->screenshot == null ) {
-						$arr["screenshot"] = "required|image|mimes:jpeg,png,jpg,gif,webp";
+					
+					if( empty($ticket->screenshot) )
+					{
+						$arr = [
+							"screenshot"     => "required|image|mimes:jpeg,png,jpg,gif,webp",
+						];
 					}
 
 					$request->validate( $arr );
@@ -678,10 +688,16 @@ class TicketController extends Controller
 
 			} elseif ($ticket->status_id == 13) {
 
-				$arr = [
-                    // 'verification' => 'required|in:1,2',
-					"screenshot"     => "required|image|mimes:jpeg,png,jpg,gif,webp",
-                ];
+				$arr = [];
+				
+				if( !empty($ticket->screenshot) && $ticket->type == 2 && $ticket->payment_type == 2 )
+				{
+					// No Screenshot VErification		
+				}
+				else 
+				{
+					$arr["screenshot"] = "required|image|mimes:jpeg,png,jpg,gif,webp";
+				}
 
 				if( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->basketfile == null ) {
 					$arr['basketfile'] = 'required';

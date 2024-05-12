@@ -398,7 +398,7 @@
 												</div>
 											</div>
 
-											@if($ticket->screenshot == null && $ticket->payment_type == 2)
+											@if( empty($ticket->screenshot))
 											<div class="col-6 my-3">
 												<div class="w-25 pb-1">
 													Upload Screenshot
@@ -654,7 +654,10 @@
                                         </div>
                                     </div>
 									@endif
-
+									
+									@if( !empty($ticket->screenshot) && $ticket->type == 2 && $ticket->payment_type == 2 )
+										<!-- do Nothng -->
+									@else 
 									<div class="col-6 my-3">
 									  <div class="w-25 pb-1">
 										Upload Screenshot
@@ -668,7 +671,8 @@
 										@enderror
 									  </div>
 									</div>
-
+									@endif 
+									
                                 	<div class="col-6 my-3">
                                 		<div class="w-25 pb-1">
                                 			Dispute Comment

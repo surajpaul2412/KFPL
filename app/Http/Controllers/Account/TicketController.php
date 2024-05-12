@@ -262,10 +262,17 @@ class TicketController extends Controller
 			// SEND EMAIL on BASKET CASES
 			if( $ticket->payment_type == 2 )
 			{
-				$emailString = $ticket->security->amc->email ?? null;
-				$emailArray = explode(", ", $emailString);
-				$toEmail = array_map("trim", $emailArray);
-				Mail::to($toEmail)->send(new MailToAMC($ticket, 3)); // 3 is to denote SPECIAL case
+				if( $ticket->type == 2 && $ticket->totalstampduty == 0 )
+				{
+					// DO Nothing for SELL-BASKET case with STAMPDUTY 0
+				}
+				else 
+				{
+					$emailString = $ticket->security->amc->email ?? null;
+					$emailArray = explode(", ", $emailString);
+					$toEmail = array_map("trim", $emailArray);
+					Mail::to($toEmail)->send(new MailToAMC($ticket, 3)); // 3 is to denote SPECIAL case
+				}
 			}
 			// Pdf Workings :: END
 
