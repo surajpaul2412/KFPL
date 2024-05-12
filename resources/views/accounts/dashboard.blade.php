@@ -139,13 +139,13 @@ var ctx1 = document.getElementById('chartJS1').getContext('2d');
 var chart1 = new Chart(ctx1, {
   type: 'bar',
   data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13','14'],
     datasets: [{
-      data: [20, 60, 50, 45, 50, 60, 70, 40, 45, 35, 25, 30],
+      data: [1, 2, 3, 4, 5, 6, 7, 4, 4, 3, 2, 3, 0, 2],
       backgroundColor: '#0cb785',
       barPercentage: 0.5
     }, {
-      data: [10, 40, 30, 40, 60, 55, 45, 35, 30, 20, 15, 20],
+      data: [1, 2, 3, 4, 5, 6, 7, 4, 4, 3, 2, 3, 0, 2],
       backgroundColor: '#dc3545',
       barPercentage: 0.5
     }]
@@ -161,7 +161,7 @@ var chart1 = new Chart(ctx1, {
     scales: {
       y: {
         beginAtZero:true,
-        max: 80,
+        max: 10,
         ticks: {
           color: '#a1aab3',
           font: {

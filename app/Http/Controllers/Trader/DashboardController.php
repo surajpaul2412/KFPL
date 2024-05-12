@@ -30,14 +30,14 @@ class DashboardController extends Controller
                     ->sum('actual_total_amt');
 
         $buyQuickTicket = QuickTicket::where('type', 1)
-                    ->whereUserId(Auth::user()->id)
+                    ->whereTraderId(Auth::user()->id)
                     ->where('payment_type', 1)
                     ->whereDate('updated_at', $today)
                     ->orWhereDate('created_at', $today)
                     ->sum('actual_total_amt');
 
         $sellQuickTicket = QuickTicket::where('type', 2)
-                    ->whereUserId(Auth::user()->id)
+                    ->whereTraderId(Auth::user()->id)
                     ->where('payment_type', 1)
                     ->whereDate('updated_at', $today)
                     ->orWhereDate('created_at', $today)
