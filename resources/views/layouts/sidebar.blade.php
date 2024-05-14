@@ -18,7 +18,7 @@
                     <a href="{{ route('admin.tickets.index') }}" class="nav-link {{ Request::is('admin/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.quick_tickets.index') }}" class="nav-link {{ Request::is('admin/quick_tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Quick Tickets</span></a>
+                    <a href="{{ route('admin.quick_tickets.index') }}" class="nav-link {{ Request::is('admin/quick_tickets*') ? 'active' : '' }}"><i class="ri-timer-line"></i> <span>Quick Tickets</span></a>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link has-sub {{ Request::is('admin/amcs*') ? 'active' : '' }} {{ Request::is('admin/securities*') ? 'active' : '' }}"><i class="ri-user-2-line"></i> <span>AMC Manager</span></a>
@@ -50,7 +50,7 @@
                           <a href="{{ route('trader.tickets.index') }}" class="nav-link {{ Request::is('trader/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
                       </li>
                       <li class="nav-item">
-                          <a href="{{ route('trader.quick_tickets.index') }}" class="nav-link {{ Request::is('trader/quick_tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Quick Tickets</span></a>
+                          <a href="{{ route('trader.quick_tickets.index') }}" class="nav-link {{ Request::is('trader/quick_tickets*') ? 'active' : '' }}"><i class="ri-timer-line"></i> <span>Quick Tickets</span></a>
                       </li>
                       @endif
                       @if(auth()->user()->isOps())
@@ -77,7 +77,7 @@
                           <a href="{{ route('dealer.tickets.index') }}" class="nav-link {{ Request::is('dealer/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span></a>
                       </li>
                       <li class="nav-item">
-                          <a href="{{ route('dealer.quick_tickets.index') }}" class="nav-link {{ Request::is('dealer/quick_tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Quick Tickets</span></a>
+                          <a href="{{ route('dealer.quick_tickets.index') }}" class="nav-link {{ Request::is('dealer/quick_tickets*') ? 'active' : '' }}"><i class="ri-timer-line"></i> <span>Quick Tickets</span></a>
                       </li>
                       @endif
                     @endif
