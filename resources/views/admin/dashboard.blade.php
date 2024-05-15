@@ -34,7 +34,7 @@ Dashboard
     <div class="card card-one py-2">
       <div class="card-body">
         <label class="card-title fs-sm fw-medium mb-1 text-success">BUY - Executed</label>
-        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ $data['buyExecuted']}}</h3>
+        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ convertToCrore($data['buyExecuted']) }} Cr</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
@@ -42,7 +42,7 @@ Dashboard
     <div class="card card-one py-2">
       <div class="card-body">
         <label class="card-title fs-sm fw-medium mb-1 text-success">BUY - Quick Ticket</label>
-        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ $data['buyQuickTicket'] }}</h3>
+        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ convertToCrore($data['buyQuickTicket']) }} Cr</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
@@ -50,7 +50,7 @@ Dashboard
     <div class="card card-one py-2">
       <div class="card-body">
         <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Executed</label>
-        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ $data['sellExecuted'] }}</h3>
+        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ convertToCrore($data['sellExecuted']) }} Cr</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->
@@ -58,7 +58,7 @@ Dashboard
     <div class="card card-one py-2">
       <div class="card-body">
         <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Quick Ticket</label>
-        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ $data['sellQuickTicket'] }}</h3>
+        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ convertToCrore($data['sellQuickTicket']) }} Cr</h3>
       </div><!-- card-body -->
     </div><!-- card-one -->
   </div><!-- col -->

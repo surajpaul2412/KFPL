@@ -40,25 +40,29 @@ function totalUnits(Ticket $ticket) {
 	return $total_units;
 }
 
-
-
-
-
-
-
 function purchaseNavValueForQuickTicket(QuickTicket $quickTicket, $actualTotalAmt) {
 	$nav_value = purchaseConsiderationForQuickTicket($quickTicket, $actualTotalAmt)/totalUnitsForQuickTicket($quickTicket);
 	return round($nav_value, 4);
 }
+
 function purchaseConsiderationForQuickTicket(QuickTicket $quickTicket, $actualTotalAmt) {
 	$purchase_consideration = $actualTotalAmt + (($quickTicket->security->amc->expense_percentage)/100 * $actualTotalAmt) + ($quickTicket->security->cash_component * $quickTicket->basket_no);
 	return $purchase_consideration;
 }
+
 function totalUnitsForQuickTicket(QuickTicket $quickTicket) {
 	$no_of_basket = $quickTicket->basket_no;
 	$basket_size = $quickTicket->basket_size;
 	$total_units = $no_of_basket * $basket_size;
 	return $total_units;
+}
+
+
+
+function convertToCrore($amount) {
+    $crore = $amount / 10000000;
+    $crore_formatted = number_format((float)$crore, 2, '.', '');
+    return $crore_formatted;
 }
 
 ?>
