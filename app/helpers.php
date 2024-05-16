@@ -57,8 +57,6 @@ function totalUnitsForQuickTicket(QuickTicket $quickTicket) {
 	return $total_units;
 }
 
-
-
 function convertToCrore($amount) {
     $crore = $amount / 10000000;
     $crore_formatted = number_format((float)$crore, 2, '.', '');

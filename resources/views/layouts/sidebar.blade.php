@@ -80,6 +80,11 @@
                           <a href="{{ route('dealer.quick_tickets.index') }}" class="nav-link {{ Request::is('dealer/quick_tickets*') ? 'active' : '' }}"><i class="ri-timer-line"></i> <span>Quick Tickets</span></a>
                       </li>
                       @endif
+                      @if(auth()->user()->isBackoffice())
+                        <li class="nav-item">
+                            <a href="{{ route('backoffice.dashboard') }}" class="nav-link {{ Request::is('backoffice/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
+                        </li>
+                      @endif
                     @endif
 
 

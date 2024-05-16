@@ -151,7 +151,7 @@ Route::middleware(['auth', 'isOps'])->group(function () {
 
 // Backoffice Dashboard
 Route::middleware(['auth', 'isBackoffice'])->group(function () {
-    Route::get('/backoffice/dashboard', [BackOfficeDashboardController::class, 'index'])->name('backOffice.dashboard');
+    Route::get('/backoffice/dashboard', [BackOfficeDashboardController::class, 'index'])->name('backoffice.dashboard');
 });
 
 

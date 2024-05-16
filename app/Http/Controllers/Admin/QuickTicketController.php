@@ -19,7 +19,7 @@ class QuickTicketController extends Controller
      */
     public function index()
     {
-        $tickets = QuickTicket::paginate(10);
+        $tickets = QuickTicket::orderBy("updated_at", "desc")->paginate(10);
         return view(
             "admin.quick_tickets.index",
             compact(

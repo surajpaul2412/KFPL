@@ -9,7 +9,7 @@ Dashboard
     <div>
         <ol class="breadcrumb fs-sm mb-1">
             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Admin Dashboard</li>
+            <li class="breadcrumb-item active" aria-current="page">Accounts Dashboard</li>
         </ol>
         <h4 class="main-title mb-0">Welcome to Dashboard</h4>
     </div>

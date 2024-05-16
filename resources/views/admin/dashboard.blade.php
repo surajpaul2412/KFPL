@@ -31,7 +31,7 @@ Dashboard
 
 <div class="row g-3">
   <div class="col-6 col-xl-3">
-    <div class="card card-one py-2">
+    <div class="card card-one">
       <div class="card-body">
         <label class="card-title fs-sm fw-medium mb-1 text-success">BUY - Executed</label>
         <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ convertToCrore($data['buyExecuted']) }} Cr</h3>
@@ -39,7 +39,7 @@ Dashboard
     </div><!-- card-one -->
   </div><!-- col -->
   <div class="col-6 col-xl-3">
-    <div class="card card-one py-2">
+    <div class="card card-one">
       <div class="card-body">
         <label class="card-title fs-sm fw-medium mb-1 text-success">BUY - Quick Ticket</label>
         <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ convertToCrore($data['buyQuickTicket']) }} Cr</h3>
@@ -47,7 +47,7 @@ Dashboard
     </div><!-- card-one -->
   </div><!-- col -->
   <div class="col-6 col-xl-3">
-    <div class="card card-one py-2">
+    <div class="card card-one">
       <div class="card-body">
         <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Executed</label>
         <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ convertToCrore($data['sellExecuted']) }} Cr</h3>
@@ -55,7 +55,7 @@ Dashboard
     </div><!-- card-one -->
   </div><!-- col -->
   <div class="col-6 col-xl-3">
-    <div class="card card-one py-2">
+    <div class="card card-one">
       <div class="card-body">
         <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Quick Ticket</label>
         <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ convertToCrore($data['sellQuickTicket']) }} Cr</h3>
@@ -66,7 +66,7 @@ Dashboard
   <div class="col-12">
     <div class="row">
         <div class="col-xl-9">
-          <div class="card card-one py-2">
+          <div class="card card-one">
             <div class="card-header">
               <h6 class="card-title">Current Ticket Status</h6>
             </div><!-- card-header -->
@@ -77,14 +77,38 @@ Dashboard
         </div>
         <div class="col-xl-3">
           <div class="row">
+            <div class="col-6 col-xl-6">
+              <div class="card card-one">
+                <div class="card-body p-3">
+                  <div class="d-flex d-sm-block d-xl-flex align-items-center">
+                    <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
+                      <h5 class="card-value d-flex align-items-baseline mb-0">{{ $data['unitsToBeTransfered'] }}</h5>
+                      <label class="card-label fs-sm fw-medium mb-1">Units To Be Transfered</label>                          
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 col-xl-6">
+              <div class="card card-one">
+                <div class="card-body p-3">
+                  <div class="d-flex d-sm-block d-xl-flex align-items-center">
+                    <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
+                      <h5 class="card-value d-flex align-items-baseline mb-0">{{ $data['unitsTransfered'] }}</h5>
+                      <label class="card-label fs-sm fw-medium mb-1">Units Transfered</label>                          
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="col-12 col-xl-12">
               <div class="card card-one">
                 <div class="card-body p-3">
                   <div class="d-flex d-sm-block d-xl-flex align-items-center">
                     <div class="helpdesk-icon bg-ui-02 text-white"><i class="ri-blaze-fill"></i></div>
                     <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                      <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
-                      <label class="card-label fs-sm fw-medium mb-1">Complaints Received</label>                          
+                      <h2 class="card-value d-flex align-items-baseline mb-0">{{ convertToCrore($data['redemptionAmountReceivable']) }} Cr</h2>
+                      <label class="card-label fs-sm fw-medium mb-1">Redemption Amount Receivable</label>                          
                     </div>
                   </div>
                 </div>
@@ -96,8 +120,8 @@ Dashboard
                     <div class="d-flex d-sm-block d-xl-flex align-items-center">
                       <div class="helpdesk-icon bg-primary text-white"><i class="ri-bell-line"></i></div>
                       <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                        <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
-                        <label class="card-label fs-sm fw-medium mb-1">Support Requests</label>                            
+                        <h2 class="card-value d-flex align-items-baseline mb-0">{{ convertToCrore($data['redemptionAmountReceived']) }} Cr</h2>
+                        <label class="card-label fs-sm fw-medium mb-1">Redemption Amount Received</label>                            
                       </div>
                     </div>
                   </div><!-- card-body -->
@@ -109,8 +133,8 @@ Dashboard
                     <div class="d-flex d-sm-block d-xl-flex align-items-center">
                       <div class="helpdesk-icon bg-ui-03 text-white"><i class="ri-star-smile-line"></i></div>
                       <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                        <h2 class="card-value d-flex align-items-baseline mb-0">0 </h2>
-                        <label class="card-label fs-sm fw-medium mb-1">Complaints Resolved</label>                            
+                        <h2 class="card-value d-flex align-items-baseline mb-0">{{ convertToCrore($data['refundAmountReceived']) }} Cr</h2>
+                        <label class="card-label fs-sm fw-medium mb-1">Refund Amount to be Received</label>                            
                       </div>
                     </div>
                   </div><!-- card-body -->

@@ -27,17 +27,49 @@ class DashboardController extends Controller
                     ->whereDate('updated_at', $today)
                     ->sum('actual_total_amt');
 
-        $buyQuickTicket = QuickTicket::where('type', 1)
-                    ->where('payment_type', 1)
-                    ->whereDate('updated_at', $today)
-                    ->orWhereDate('created_at', $today)
-                    ->sum('actual_total_amt');
+        $buyQuickTicket = QuickTicket::where(function($query) use ($today) {
+                                $query->whereDate('updated_at', $today)
+                                    ->orWhereDate('created_at', $today);
+                            })
+                            ->where('type', 1)
+                            ->sum('actual_total_amt');
 
-        $sellQuickTicket = QuickTicket::where('type', 2)
-                    ->where('payment_type', 1)
+        $sellQuickTicket = QuickTicket::where(function($query) use ($today) {
+                                $query->whereDate('updated_at', $today)
+                                    ->orWhereDate('created_at', $today);
+                            })
+                            ->where('type', 2)
+                            ->sum('actual_total_amt');
+
+        // Units To Be Transfered
+        $unitsToBeTransfered = Ticket::where('type', 2)
+                    ->whereBetween('status_id', [2, 5])
                     ->whereDate('updated_at', $today)
-                    ->orWhereDate('created_at', $today)
-                    ->sum('actual_total_amt');
+                    ->count();
+
+        // Units Transfered
+        $unitsTransfered = Ticket::where('type', 2)
+                    ->where('status_id', '>', 6)
+                    ->whereDate('updated_at', $today)
+                    ->count();  
+
+        // Redemption Amount Receivable
+        $redemptionAmountReceivable = Ticket::where('type', 2)
+                                            ->where('payment_type', 1)
+                                            ->where('status_id', '>', 9)
+                                            ->sum('refund');
+
+        // Redemption Amount Received
+        $redemptionAmountReceived = Ticket::where('type', 2)
+                                            ->wherePaymentType(1)
+                                            ->where('status_id', '>', 12)
+                                            ->sum('refund');
+
+        // Refund Amount Received
+        $refundAmountReceived = Ticket::where('type', 1)
+                                            ->wherePaymentType(1)
+                                            ->where('status_id', '>', 11)
+                                            ->sum('refund');
 
         // Graph
         $statuses = [
@@ -66,9 +98,14 @@ class DashboardController extends Controller
             'buyExecuted' => $buyExecuted,
             'sellExecuted' => $sellExecuted,
             'buyQuickTicket' => $buyQuickTicket,
-            'sellQuickTicket' => $sellQuickTicket,            
+            'sellQuickTicket' => $sellQuickTicket,
+            'redemptionAmountReceivable' => $redemptionAmountReceivable,
+            'redemptionAmountReceived' => $redemptionAmountReceived,
+            'refundAmountReceived' => $refundAmountReceived,           
             'arrangedBuyCounts' => $arrangedBuyCounts,
             'arrangedSellCounts' => $arrangedSellCounts,
+            'unitsToBeTransfered' => $unitsToBeTransfered,
+            'unitsTransfered' => $unitsTransfered
         ];
         return view('admin.dashboard', compact('data'));
     }
