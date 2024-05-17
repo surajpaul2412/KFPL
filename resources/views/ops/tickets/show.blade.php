@@ -27,7 +27,7 @@ Ticket Management
                         @include('ticket')
 
                         <div class="text-align-center">
-                            <a href="{{route('ops.tickets.mail', $ticket)}}" class="btn btn-primary active my-5 px-5 text-ali">Submit </a>
+                            <a href="{{route('ops.tickets.mail', $ticket)}}" onclick="showWait()" class="btn btnSubmit btn-primary active my-5 px-5 text-ali">Submit </a>
 
                             <a href="{{route('ops.tickets.skip', $ticket)}}" onclick="showWait()" class="btn btnSubmit btn-success active my-5 px-5 text-ali text-white">Skip Mail </a>
                         </div>
@@ -39,4 +39,13 @@ Ticket Management
         </div>
     </div>
 </div>
+<script>
+function showWait()
+{
+  jQuery('.btnSubmit').remove();
+  jQuery('.waitmsg').show();
+}
+</script>
 @endsection
+
+	

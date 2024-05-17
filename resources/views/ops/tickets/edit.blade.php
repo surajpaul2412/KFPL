@@ -151,15 +151,14 @@ Ticket Management
 									</div>
 								</div>
 								@endif
-								
+
 								@if($ticket->payment_type != 2)
 								<div class="col-6 my-3">
 									<div class="w-25 pb-1">
 										Upload Deal Ticket
 									</div>
 									<div class="w-75">
-										<input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-										  value="">
+										<input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket" value="" />
 									</div>
 								</div>
 								@endif
@@ -172,7 +171,7 @@ Ticket Management
 											Enter Cash Component
 										</div>
 										<div class="w-75">
-											<input type="number" class="form-control w-100" placeholder="Enter Cash Component" name="cashcomp" value="" required>
+											<input type="number" class="form-control w-100" placeholder="Enter Cash Component" name="cashcomp" value="" required />
 										</div>
 									</div>
 
@@ -181,22 +180,12 @@ Ticket Management
 											Total Stamp Duty
 										</div>
 										<div class="">
-											<input type="number" name="totalstampduty" class="form-control @error('utr_no') is-invalid @enderror" value="0" placeholder="Enter Total Stamp Duty" required>
+											<input type="number" name="totalstampduty" class="form-control @error('utr_no') is-invalid @enderror" value="0" placeholder="Enter Total Stamp Duty" required />
 											@error('totalstampduty')
 												<span class="invalid-feedback" role="alert">
 													<strong>{{ $message }}</strong>
 												</span>
 											@enderror
-										</div>
-									</div>
-
-									<div class="col-6 my-3">
-										<div class="w-25 pb-1">
-											Upload Deal Ticket
-										</div>
-										<div class="w-75">
-											<input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-											  value="">
 										</div>
 									</div>
 
@@ -266,30 +255,6 @@ Ticket Management
 
                         @if($ticket->status_id == 13)
 
-							@if( $ticket->type == 1 )
-							<div class="col-6 my-3">
-								<div class="w-25 pb-1">
-									Received Units
-								</div>
-								<div class="w-75">
-									<!-- OLD VAL {{$ticket->basket_size * $ticket->basket_no}} -->
-									<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="" required>
-								</div>
-							</div>
-							@endif
-
-							@if($ticket->deal_ticket == null)
-							<div class="col-6 my-3">
-								<div class="w-25 pb-1">
-									Upload Deal Ticket
-								</div>
-								<div class="w-75">
-									<input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-									  value="" required>
-								</div>
-							</div>
-							@endif
-
 							<!-- BUY BASKET cases where Basket File Upload is Missing -->
 							@if( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->basketfile == null )
 							<div class="col-6 my-3">
@@ -303,10 +268,10 @@ Ticket Management
 							</div>
 							@endif
 
-							
+
 							@if( !empty($ticket->screenshot) && $ticket->type == 2 && $ticket->payment_type == 2 )
 								<!-- do Nothng -->
-							@else 
+							@else
 							<div class="col-6 my-3">
 							  <div class="w-25 pb-1">
 								Upload Screenshot
@@ -320,8 +285,8 @@ Ticket Management
 								@enderror
 							  </div>
 							</div>
-							@endif 
-							
+							@endif
+
 							<div class="col-6 my-3">
 								<div class="w-25 pb-1">
 									Dispute Comment
@@ -331,7 +296,7 @@ Ticket Management
 								</div>
 							</div>
 						@endif
-						
+
 						@if($ticket->status_id == 14 && $ticket->payment_type == 2)
 							<!-- BUY BASKET CASES -->
 							@if( $ticket->type == 1 )
@@ -344,7 +309,7 @@ Ticket Management
 									<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="" required>
 								</div>
 							</div>
-							
+
 							<div class="col-6 my-3">
 								<div class="w-25 pb-1">
 									Upload Deal Ticket
@@ -354,7 +319,7 @@ Ticket Management
 									  value="" required>
 								</div>
 							</div>
-							@endif    
+							@endif
 						@endif
 
                         <!-- Update button text for edit page -->
@@ -363,9 +328,8 @@ Ticket Management
 							<button type="submit" class="btnSubmit btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
 						</div>
 						@endif
-						
-                        <div class='waitmsg' style='display:none;text-align:center;padding-bottom:10px;font-weight:bold;'>Please Wait ... </div>
 
+                        <div class='waitmsg' style='display:none;text-align:center;padding-bottom:10px;font-weight:bold;'>Please Wait ... </div>
                     </div>
                 </div>
             </form>

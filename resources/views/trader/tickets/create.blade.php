@@ -49,7 +49,7 @@ Ticket Management
                                     Ticket Type
                                 </div>
                                 <div class="">
-                                    <input type="hidden" name="type" value="" required>
+                                    <input type="hidden" name="type" value="1" required>
                                     <span class='ticketType selected' onclick="setTicketType(0,1);showhidefields(1);">Buy</span>
                                     <span class='ticketType' onclick="setTicketType(1,2);showhidefields(0);">Sell</span>
                                     @error('type')
@@ -71,7 +71,7 @@ Ticket Management
                                     @php
                                     //<span class='payMode' onclick="setPaymode(2,3);showBasketFields(3);" data-value="3">Net Settlement</span>
                                     @endphp
-                                    
+
                                     @error('payment_type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

@@ -349,18 +349,6 @@
 											</div>
 										</div>
 										@endif
-										
-										@if($ticket->payment_type != 2)
-										<div class="col-6 my-3">
-											<div class="w-25 pb-1">
-												Upload Deal Ticket
-											</div>
-											<div class="w-75">
-												<input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-												  value="">
-											</div>
-										</div>
-										@endif
 									@elseif($ticket->type == 2)
 										<!-- ALL SALE CASES -->	
 										@if($ticket->payment_type == 2)
@@ -617,30 +605,6 @@
                                 @endif
 
                                 @if($ticket->status_id == 13)
-
-									@if( $ticket->type == 1 )
-								    <div class="col-6 my-3">
-                                		<div class="w-25 pb-1">
-                                			Received Units
-                                		</div>
-                                		<div class="w-75">
-										    <!-- OLD VAL {{$ticket->basket_size * $ticket->basket_no}} -->
-                                			<input type="text" class="form-control w-100" placeholder="Enter units" name="received_units" value="" required>
-                                		</div>
-                                	</div>
-									@endif
-
-                                    @if($ticket->deal_ticket == null)
-                                    <div class="col-6 my-3">
-                                        <div class="w-25 pb-1">
-                                            Upload Deal Ticket
-                                        </div>
-                                        <div class="w-75">
-                                            <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
-                                              value="" required>
-                                        </div>
-                                    </div>
-                                    @endif
 
 									<!-- BUY BASKET cases where Basket File Upload is Missing -->
 									@if( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->basketfile == null )
