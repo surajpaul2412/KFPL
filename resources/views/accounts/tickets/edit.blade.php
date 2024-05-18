@@ -195,5 +195,26 @@
 
         document.querySelectorAll(".verification")[x].classList.add('selected');
     }
+
+    function setVerification2(x, y) {
+        var verificationInput = document.querySelector("[name='verification']");
+        var rateInput = document.querySelector("[name='expected_refund']");
+
+        if (verificationInput) {
+            verificationInput.value = y;
+        }
+
+        // Toggle the "disabled" attribute based on the verification status
+        if (rateInput) {
+            rateInput.disabled = (y !== 1); // Adjust the value based on your accepted verification logic
+        }
+
+        // Highlight the selected verification status
+        document.querySelectorAll(".verification").forEach(function(element) {
+            element.classList.remove('selected');
+        });
+
+        document.querySelectorAll(".verification")[x].classList.add('selected');
+    }
 </script>
 @endsection

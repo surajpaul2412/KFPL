@@ -157,6 +157,10 @@ class TicketController extends Controller
 
                 }
 
+				if( !empty($request->remark) )
+				{
+					$ticket->dispute = $request->remark;	
+				}
                 $ticket->save();
                 $ticket->update($data);
 
@@ -189,17 +193,21 @@ class TicketController extends Controller
 					}
 
                     if ($request->hasFile("screenshot")) {
-                        // IF Old one exists, remove it
+                        
+						// IF Old one exists, remove it
                         if ($ticket->screenshot != "") {
                             if (file_exists($ticket->screenshot)) {
                                 \Storage::delete($ticket->screenshot);
                             }
                         }
-                        // SAVE new FILE
-                        $imagePath = $request
-                            ->file("screenshot")
-                            ->store("screenshot", "public");
-                        $ticket->screenshot = $imagePath;
+                        
+						// SAVE new ScreenshotFILE
+						$scf = $request->file("screenshot");
+						$path = 'screenshot';
+						$storePath = Storage::put('public/' . $path, $scf);
+						$fileName = basename($storePath);
+						$ticket->screenshot = $path . '/' . $fileName;
+						unset($data['screenshot']);	
                     }
 
                     $ticket->status_id = 6;
@@ -399,16 +407,9 @@ class TicketController extends Controller
 					$arr['basketfile'] = 'required';
 				}
 
-				if( $ticket->type == 1 ) {
-					$arr['received_units'] = 'required|numeric';
-				}
-
-				if( $ticket->deal_ticket == null ) {
-					$arr['deal_ticket'] = 'required';
-				}
-
 				$request->validate( $arr );
-
+				
+				/*
                 if ( $request->get("received_units") == $ticket->basket_size * $ticket->basket_no ) {
                     $request->validate([
                         "dispute_comment" => "nullable|string",
@@ -421,6 +422,7 @@ class TicketController extends Controller
                         );
                     }
                 }
+				*/
 
                 // Deal Ticket Workings
                 if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {
@@ -431,10 +433,14 @@ class TicketController extends Controller
                 // Check if the request has a file for "deal_ticket"
                 if ($request->hasFile("deal_ticket")) {
                     // Store the uploaded file and update the deal_ticket path
-                    $imagePath = $request->file("deal_ticket")->store("deal_ticket", "public");
-                    // Set the deal_ticket path without the "storage/" prefix
-                    $ticket->deal_ticket = $imagePath;
+                    // Store the uploaded file and update the deal_ticket path					
+					$scf = $request->file("deal_ticket");
+					$path = 'deal_ticket';
+					$storePath = Storage::put('public/' . $path, $scf);
+					$fileName = basename($storePath);
+					$ticket->deal_ticket = $path . '/' . $fileName;
 					$ticket->save();
+					unset($data['deal_ticket']);
                 }
 
 				if ($request->hasFile("screenshot")) {
@@ -444,12 +450,14 @@ class TicketController extends Controller
 							\Storage::delete($ticket->screenshot);
 						}
 					}
-					// SAVE new FILE
-					$imagePath = $request
-						->file("screenshot")
-						->store("screenshot", "public");
-					$ticket->screenshot = $imagePath;
+					// SAVE new ScreenshotFILE
+					$scf = $request->file("screenshot");
+					$path = 'screenshot';
+					$storePath = Storage::put('public/' . $path, $scf);
+					$fileName = basename($storePath);
+					$ticket->screenshot = $path . '/' . $fileName;
 					$ticket->save();
+					unset($data['screenshot']);	
 				}
                 $data["status_id"] = 14; //condition can be placed here//
                 $ticket->update($data);
@@ -467,16 +475,20 @@ class TicketController extends Controller
             } elseif ($ticket->status_id == 14) {
 
 				$arr = [];
-				// BUY basket cases
-				if( $ticket->type == 1 && $ticket->payment_type == 2 ) {
+				// BUY/SELL basket cases
+				if( $ticket->payment_type == 2 ) 
+				{
 					$arr['deal_ticket'] = 'required';
 					$arr['received_units'] = 'required|numeric';
+				
+					$request->validate( $arr );
+					
+					if ( $request->get("received_units") != $ticket->basket_size * $ticket->basket_no ) {
+						return redirect()->back()->with("error", "Received Units value is wrong");
+					}
 				}
 
-				$request->validate( $arr );
-				if ( $request->get("received_units") != $ticket->basket_size * $ticket->basket_no ) {
-					return redirect()->back()->with("error", "Received Units value is wrong");
-				}
+				
 				
 				// Deal Ticket Workings
                 if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {

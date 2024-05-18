@@ -22,7 +22,7 @@ class MailToAMC extends Mailable
      * @var Ticket
      */
     public $ticket;
-	public $splCase;
+    public $splCase;
 
     /**
      * Create a new message instance.
@@ -31,8 +31,8 @@ class MailToAMC extends Mailable
      */
     public function __construct(Ticket $ticket, $splCase = '')
     {
-        $this->ticket = $ticket;
-		$this->splCase = $splCase != '' ? $splCase : 0;
+          $this->ticket = $ticket;
+		      $this->splCase = $splCase != '' ? $splCase : 0;
     }
 
     /**
@@ -40,8 +40,26 @@ class MailToAMC extends Mailable
      */
     public function envelope(): Envelope
     {
-        $subject = $this->ticket->payment_type == 1 ? 'Cash Creation request ' : 'Basket Creation request ';
-        $subject .= now()->format('d-m-Y');
+        $subject = "";
+        
+        if( $this->ticket->payment_type == 1 )
+        {
+          $subject .= "Cash";
+        }
+        if( $this->ticket->payment_type == 2 )
+        {
+          $subject .= "Basket";
+        }
+        if( $this->ticket->type == 1 )
+        {
+          $subject .= " Creation";
+        }
+        if( $this->ticket->type == 2 )
+        {
+          $subject .= " Redemption";
+        }
+
+        $subject .= " Request " . now()->format('d-m-Y');
 
         return new Envelope(
             subject: $subject,
@@ -65,7 +83,7 @@ class MailToAMC extends Mailable
 				view: 'emails.spl_case_mail13',
 			);
 		}
-		else 
+		else
 		{
 			return new Content(
 				view: 'emails.mail_to_amc',
@@ -90,12 +108,12 @@ class MailToAMC extends Mailable
      */
     public function build()
     {
-        
+
 		// SPECIAL case when TICKET UPDATED at STATUS_ID = 3
 		if( $this->splCase == 3 )
 		{
 			Log::info("MAilSending in a special case 3 :: Buy/Sell Basket");
-			
+
 			$subject = "Basket Creation request " . now()->format('d-m-Y');
 
 			$mail = $this->subject($subject)->view('emails.spl_case_mail3');
@@ -103,27 +121,27 @@ class MailToAMC extends Mailable
 			// Check if the screenshot file exists
 			return $mail;
 		}
-		
+
 		// SPECIAL case when TICKET UPDATED at STATUS_ID = 13
 		if( $this->splCase == 13 )
 		{
 			Log::info("MAilSending in a special case 13 :: Buy Basket");
-			
+
 			$subject = "Basket Creation request " . now()->format('d-m-Y');
 
 			$mail = $this->subject($subject)->view('emails.spl_case_mail13');
-			
+
 			// Check if the screenshot file exists
             if($this->ticket->screenshot != null){
 				Log::info("MAilSending in a special case 13 :: Screenshot field value not NULL");
                 if (file_exists(storage_path('app/public/' . $this->ticket->screenshot))) {
-					Log::info("MAilSending in a special case 13 :: Screenshot file available");
+					Log::info("MAilSending in a special case 13 :: Screenshot file available for attaching");
                     $mail->attach(storage_path('app/public/' . $this->ticket->screenshot), [
                         'as' => 'screenshot.jpg', // Change the file extension accordingly
                         'mime' => 'image/jpeg', // Change the MIME type accordingly
                     ]);
                 }
-				else 
+				else
 				{
 					Log::info("MAilSending in a special case 13 :: Screenshot file NOT available for attaching");
 				}
@@ -131,7 +149,7 @@ class MailToAMC extends Mailable
 			// Check if the screenshot file exists
 			return $mail;
 		}
-		
+
 		$subject = $this->ticket->payment_type == 1 ? 'Cash Creation request ' : 'Basket Creation request ';
         $subject .= now()->format('Y-m-d');
 
