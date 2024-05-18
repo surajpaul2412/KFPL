@@ -15,25 +15,60 @@ Dashboard
     </div>
 
     <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
-        <button type="button" class="btn btn-white btn-icon"><i class="ri-share-line fs-18 lh-1"></i></button>
-        <button type="button" class="btn btn-white btn-icon"><i class="ri-printer-line fs-18 lh-1"></i></button>
-        <button type="button" class="btn btn-primary d-flex align-items-center gap-2">
-            <i class="ri-bar-chart-2-line fs-18 lh-1"></i>Generate<span class="d-none d-sm-inline"> Report</span>
-        </button>
+      <form class="form-inline d-flex">
+        <div class="form-group mr-3">
+            <!-- <label for="from_date" class="mr-2">From:</label> -->
+            <input type="date" class="form-control" id="from_date" name="from_date">
+        </div>
+        <div class="form-group mx-3">
+            <!-- <label for="to_date" class="mr-2">To:</label> -->
+            <input type="date" class="form-control" id="to_date" name="to_date">
+        </div>
+        <button type="submit" class="btn btn-white btn-icon"><i class="ri-search-line fs-18 lh-1"></i></button>
+      </form>
     </div>
 </div>
 
 <div class="row g-3">
+  <div class="col-6 col-xl-3">
+    <div class="card card-one">
+      <div class="card-body">
+        <label class="card-title fs-sm fw-medium mb-1 text-success">BUY - Executed</label>
+        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ convertToCrore($data['buyExecuted']) }} Cr</h3>
+      </div><!-- card-body -->
+    </div><!-- card-one -->
+  </div><!-- col -->
+  <div class="col-6 col-xl-3">
+    <div class="card card-one">
+      <div class="card-body">
+        <label class="card-title fs-sm fw-medium mb-1 text-success">BUY - Quick Ticket</label>
+        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ convertToCrore($data['buyQuickTicket']) }} Cr</h3>
+      </div><!-- card-body -->
+    </div><!-- card-one -->
+  </div><!-- col -->
+  <div class="col-6 col-xl-3">
+    <div class="card card-one">
+      <div class="card-body">
+        <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Executed</label>
+        <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> <span>₹</span> {{ convertToCrore($data['sellExecuted']) }} Cr</h3>
+      </div><!-- card-body -->
+    </div><!-- card-one -->
+  </div><!-- col -->
+  <div class="col-6 col-xl-3">
+    <div class="card card-one">
+      <div class="card-body">
+        <label class="card-title fs-sm fw-medium mb-1 text-danger">SELL - Quick Ticket</label>
+        <h3 class="card-value mb-1"><i class="ri-briefcase-4-line"></i> <span>₹</span>{{ convertToCrore($data['sellQuickTicket']) }} Cr</h3>
+      </div><!-- card-body -->
+    </div><!-- card-one -->
+  </div><!-- col -->
+
   <div class="col-12">
     <div class="row">
         <div class="col-xl-9">
-          <div class="card card-one py-2">
+          <div class="card card-one">
             <div class="card-header">
               <h6 class="card-title">Current Ticket Status</h6>
-              <nav class="nav nav-icon nav-icon-sm ms-auto">
-                <a href="" class="nav-link"><i class="ri-refresh-line"></i></a>
-                <a href="" class="nav-link"><i class="ri-more-2-fill"></i></a>
-              </nav>
             </div><!-- card-header -->
             <div class="card-body">
               <div class="chartjs-one"><canvas id="chartJS1"></canvas></div>
@@ -41,90 +76,63 @@ Dashboard
           </div><!-- card -->
         </div>
         <div class="col-xl-3">
-            <div class="row">
-                <div class="col-12 col-xl-12">
-
-                  <div class="card card-one py-2">
-                    <div class="card-body">
-                      <label class="card-title fs-sm fw-medium mb-1">Unique Purchases</label>
-                      <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> 8,327</h3>
-                    </div><!-- card-body -->
-                  </div><!-- card-one -->
-
+          <div class="row">
+            <div class="col-6 col-xl-6">
+              <div class="card card-one">
+                <div class="card-body" align="center">
+                  <h2 class="">{{ $data['unitsToBeTransfered'] }}</h2>
+                  <label class="">Units To Be Transfered</label>
                 </div>
-                <div class="col-12 col-xl-12 mt-3">
-                  <div class="card card-one py-2">
-                    <div class="card-body">
-                      <label class="card-title fs-sm fw-medium mb-1">Unique Purchases</label>
-                      <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> 8,327</h3>
-                    </div><!-- card-body -->
-                  </div><!-- card-one -->
-                </div>
-                <div class="col-12 col-xl-12 mt-3">
-                    <div class="card card-one">
-                      <div class="card card-one py-2">
-                        <div class="card-body">
-                          <label class="card-title fs-sm fw-medium mb-1">Unique Purchases</label>
-                          <h3 class="card-value mb-1"><i class="ri-shopping-bag-3-line"></i> 8,327</h3>
-                        </div><!-- card-body -->
-                      </div><!-- card-one -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
-
-  <div class="col-12">
-    <div class="row">
-        <div class="col-xl-12">
-          <div class="card card-one py-2">
-
-            <div class="card-body p-3">
-              <div class="table-responsive">
-                <table class="table table-four table-bordered">
-                  <thead>
-                    <tr>
-                      <th>&nbsp;</th>
-                      <th colspan="2">Buy</th>
-                      <th colspan="2">Sell</th>
-                    </tr>
-                    <tr>
-                      <th>Symbol Name</th>
-                      <th>No. of Basket</th>
-                      <th>NAV</th>
-                      <th>No. of Basket</th>
-                      <th>NAV</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><a href="">Organic search</a></td>
-                      <td>350</td>
-                      <td>22</td>
-                      <td>5,628</td>
-                      <td>25.60%</td>
-                    </tr>
-                    <tr>
-                      <td><a href="">Social media</a></td>
-                      <td>276</td>
-                      <td>18</td>
-                      <td>5,100</td>
-                      <td>23.66%</td>
-                    </tr>
-                    <tr>
-                      <td><a href="">Referral</a></td>
-                      <td>246</td>
-                      <td>17</td>
-                      <td>4,880</td>
-                      <td>26.22%</td>
-                    </tr>
-                  </tbody>
-                </table>
               </div>
             </div>
-
-          </div><!-- card -->
+            <div class="col-6 col-xl-6">
+              <div class="card card-one">
+                <div class="card-body" align="center">
+                  <h2 class="">{{ $data['unitsTransfered'] }}</h2>
+                  <label class="">Units Transfered</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-xl-12 mt-3">
+              <div class="card card-one">
+                <div class="card-body">
+                  <div class="d-flex d-sm-block d-xl-flex align-items-center">
+                    <div class="helpdesk-icon bg-ui-02 text-white"><i class="ri-blaze-fill"></i></div>
+                    <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
+                      <h2 class="card-value d-flex align-items-baseline mb-0">{{ $data['redemptionAmountReceivable'] }}</h2>
+                      <label class="card-label fs-sm fw-medium mb-1">Redemption Amount Receivable</label>                          
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-xl-12 mt-3">
+                <div class="card card-one">
+                  <div class="card-body">
+                    <div class="d-flex d-sm-block d-xl-flex align-items-center">
+                      <div class="helpdesk-icon bg-primary text-white"><i class="ri-bell-line"></i></div>
+                      <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
+                        <h2 class="card-value d-flex align-items-baseline mb-0">{{ $data['redemptionAmountReceived'] }}</h2>
+                        <label class="card-label fs-sm fw-medium mb-1">Redemption Amount Received</label>                            
+                      </div>
+                    </div>
+                  </div><!-- card-body -->
+                </div><!-- card -->
+            </div>
+            <div class="col-12 col-xl-12 mt-3">
+                <div class="card card-one">
+                  <div class="card-body">
+                    <div class="d-flex d-sm-block d-xl-flex align-items-center">
+                      <div class="helpdesk-icon bg-ui-03 text-white"><i class="ri-star-smile-line"></i></div>
+                      <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
+                        <h2 class="card-value d-flex align-items-baseline mb-0">{{ $data['refundAmountReceived'] }}</h2>
+                        <label class="card-label fs-sm fw-medium mb-1">Refund Amount to be Received</label>                            
+                      </div>
+                    </div>
+                  </div><!-- card-body -->
+                </div>
+            </div>
+          </div>
         </div>
     </div>
   </div>
@@ -141,11 +149,11 @@ var chart1 = new Chart(ctx1, {
   data: {
     labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13','14'],
     datasets: [{
-      data: [1, 2, 3, 4, 5, 6, 7, 4, 4, 3, 2, 3, 0, 2],
+      data: <?php echo json_encode($data['arrangedBuyCounts']); ?>,
       backgroundColor: '#0cb785',
       barPercentage: 0.5
     }, {
-      data: [1, 2, 3, 4, 5, 6, 7, 4, 4, 3, 2, 3, 0, 2],
+      data: <?php echo json_encode($data['arrangedSellCounts']); ?>,
       backgroundColor: '#dc3545',
       barPercentage: 0.5
     }]
@@ -160,7 +168,7 @@ var chart1 = new Chart(ctx1, {
     },
     scales: {
       y: {
-        beginAtZero:true,
+        beginAtZero:false,
         max: 10,
         ticks: {
           color: '#a1aab3',

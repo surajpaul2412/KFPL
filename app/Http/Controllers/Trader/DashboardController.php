@@ -45,11 +45,21 @@ class DashboardController extends Controller
                             ->where('trader_id', Auth::user()->id)
                             ->sum('actual_total_amt');
 
+        $buyQuickTicketCount = QuickTicket::whereTraderId(Auth::user()->id)->whereType(1)->count();
+        $sellQuickTicketCount = QuickTicket::whereTraderId(Auth::user()->id)->whereType(2)->count();
+
+        $buyTickets = Ticket::whereBetween('status_id', [2, 9])->whereType(1)->get();
+        $sellTickets = Ticket::whereBetween('status_id', [2, 9])->whereType(2)->get();
+
         $data = [
             'buyExecuted' => $buyExecuted,
             'sellExecuted' => $sellExecuted,
             'buyQuickTicket' => $buyQuickTicket,
             'sellQuickTicket' => $sellQuickTicket,
+            'buyQuickTicketCount' => $buyQuickTicketCount,
+            'sellQuickTicketCount' => $sellQuickTicketCount,
+            'buyTickets' => $buyTickets,
+            'sellTickets' => $sellTickets
         ];
         return view('trader.dashboard', compact('data'));
     }

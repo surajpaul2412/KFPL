@@ -63,4 +63,14 @@
         font-weight: 500;
         line-height: 22px;
     }
+    .helpdesk-icon {
+        width: 50px !important;
+        height: 54px !important;
+    }
+    .helpdesk-icon i {
+        font-size: 29px;
+    }
+    .card-one .card-body {
+        padding: 8px 10px !important;
+    }
 </style>

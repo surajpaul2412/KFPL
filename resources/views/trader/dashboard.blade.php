@@ -66,41 +66,61 @@ Dashboard
               <div class="table-responsive">
                 <table class="table table-four table-bordered">
                   <thead>
-                    <tr>
-                      <th>&nbsp;</th>
-                      <th colspan="2">Buy</th>
-                      <th colspan="2">Sell</th>
-                    </tr>
-                    <tr>
-                      <th>Symbol Name</th>
-                      <th>No. of Basket</th>
-                      <th>NAV</th>
-                      <th>No. of Basket</th>
-                      <th>NAV</th>
-                    </tr>
+                      <tr>
+                          <th colspan="4">Buy</th>
+                          <th colspan="4">Sell</th>
+                      </tr>
+                      <tr>
+                          <th>ID</th>
+                          <th>Symbol</th>
+                          <th>No of Basket</th>
+                          <th>NAV</th>
+                          <th>ID</th>
+                          <th>Symbol</th>
+                          <th>No of Basket</th>
+                          <th>NAV</th>
+                      </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td><a href="">Organic search</a></td>
-                      <td>350</td>
-                      <td>22</td>
-                      <td>5,628</td>
-                      <td>25.60%</td>
-                    </tr>
-                    <tr>
-                      <td><a href="">Social media</a></td>
-                      <td>276</td>
-                      <td>18</td>
-                      <td>5,100</td>
-                      <td>23.66%</td>
-                    </tr>
-                    <tr>
-                      <td><a href="">Referral</a></td>
-                      <td>246</td>
-                      <td>17</td>
-                      <td>4,880</td>
-                      <td>26.22%</td>
-                    </tr>
+                      @php
+                          $maxRows = max(count($data['buyTickets']), count($data['sellTickets']));
+                      @endphp
+
+                      @for ($i = 0; $i < $maxRows; $i++)
+                          <tr>
+                              <td>{{ $data['buyTickets'][$i]->id ?? '-' }}</td>
+                              <td>{{ $data['buyTickets'][$i]->security->symbol ?? '-' }}</td>
+                              <td>
+                                  @if (isset($data['buyTickets'][$i]))
+                                      @php
+                                          $basketNo = $data['buyTickets'][$i]->basket_no ?? 0;
+                                          $basketSize = $data['buyTickets'][$i]->basket_size ?? 0;
+                                          $total = $basketNo * $basketSize;
+                                      @endphp
+                                      {{ $total }}
+                                  @else
+                                      -
+                                  @endif
+                              </td>
+                              <td>{{ $data['buyTickets'][$i]->nav ?? '-' }}</td>
+
+                              <td>{{ $data['sellTickets'][$i]->id ?? '-' }}</td>
+                              <td>{{ $data['sellTickets'][$i]->security->symbol ?? '-' }}</td>
+                              <td>
+                                  @if (isset($data['sellTickets'][$i]))
+                                      @php
+                                          $basketNo = $data['sellTickets'][$i]->basket_no ?? 0;
+                                          $basketSize = $data['sellTickets'][$i]->basket_size ?? 0;
+                                          $total = $basketNo * $basketSize;
+                                      @endphp
+                                      {{ $total }}
+                                  @else
+                                      -
+                                  @endif
+                              </td>
+                              <td>{{ $data['sellTickets'][$i]->nav ?? '-' }}</td>
+                          </tr>
+                      @endfor
                   </tbody>
                 </table>
               </div>
@@ -115,8 +135,8 @@ Dashboard
                   <div class="card card-one">
                     <div class="card-body p-3">
                       <div class="d-block fs-40 lh-1 text-primary mb-1"><i class="ri-calendar-todo-line"></i></div>
-                      <h1 class="card-value mb-0 ls--1 fs-32">358</h1>
-                      <label class="d-block mb-1 fw-medium text-dark">Scheduled Events</label>
+                      <h1 class="card-value mb-0 ls--1 fs-32">{{$data['buyQuickTicketCount']}}</h1>
+                      <label class="d-block mb-1 fw-medium text-success">Buy Quick Tickets</label>
                     </div><!-- card-body -->
                   </div>
 
@@ -125,8 +145,8 @@ Dashboard
                   <div class="card card-one">
                     <div class="card-body p-3">
                       <div class="d-block fs-40 lh-1 text-primary mb-1"><i class="ri-calendar-check-line"></i></div>
-                      <h1 class="card-value mb-0 ls--1 fs-32">358</h1>
-                      <label class="d-block mb-1 fw-medium text-dark">Scheduled Events</label>
+                      <h1 class="card-value mb-0 ls--1 fs-32">{{$data['sellQuickTicketCount']}}</h1>
+                      <label class="d-block mb-1 fw-medium text-danger">Sell Quick Tickets</label>
                     </div><!-- card-body -->
                   </div>
                 </div>

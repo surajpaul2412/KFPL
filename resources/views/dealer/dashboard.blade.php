@@ -115,8 +115,8 @@ Dashboard
                   <div class="card card-one">
                     <div class="card-body p-3">
                       <div class="d-block fs-40 lh-1 text-primary mb-1"><i class="ri-calendar-todo-line"></i></div>
-                      <h1 class="card-value mb-0 ls--1 fs-32">358</h1>
-                      <label class="d-block mb-1 fw-medium text-dark">Scheduled Events</label>
+                      <h1 class="card-value mb-0 ls--1 fs-32">{{$data['buyQuickTicketCount']}}</h1>
+                      <label class="d-block mb-1 fw-medium text-success">Buy Quick Tickets</label>
                     </div><!-- card-body -->
                   </div>
 
@@ -125,8 +125,8 @@ Dashboard
                   <div class="card card-one">
                     <div class="card-body p-3">
                       <div class="d-block fs-40 lh-1 text-primary mb-1"><i class="ri-calendar-check-line"></i></div>
-                      <h1 class="card-value mb-0 ls--1 fs-32">358</h1>
-                      <label class="d-block mb-1 fw-medium text-dark">Scheduled Events</label>
+                      <h1 class="card-value mb-0 ls--1 fs-32">{{$data['sellQuickTicketCount']}}</h1>
+                      <label class="d-block mb-1 fw-medium text-danger">Sell Quick Tickets</label>
                     </div><!-- card-body -->
                   </div>
                 </div>

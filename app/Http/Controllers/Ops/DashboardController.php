@@ -15,11 +15,10 @@ class DashboardController extends Controller
     {
         $today = Carbon::today();
 
-        $buyExecuted = Ticket::where('status_id', '>', 8)
-                    ->where('type', 1)
-                    ->where('payment_type', 1)
-                    ->whereDate('updated_at', $today)
-                    ->sum('actual_total_amt');
+        $orderCheck = Ticket::where('status_id', 2)->count();
+        $mailAMC = Ticket::where('status_id', 6)->count();
+        $dealSlipReceived = Ticket::where('status_id', 9)->count();
+        $UnitsReceived = Ticket::whereIn('status_id', [12, 13])->count();
 
         $sellExecuted = Ticket::where('status_id', '>', 8)
                     ->where('type', 2)
@@ -57,18 +56,21 @@ class DashboardController extends Controller
         $redemptionAmountReceivable = Ticket::where('type', 2)
                                             ->where('payment_type', 1)
                                             ->where('status_id', '>', 9)
+                                            ->whereDate('updated_at', $today)
                                             ->sum('refund');
 
         // Redemption Amount Received
         $redemptionAmountReceived = Ticket::where('type', 2)
                                             ->wherePaymentType(1)
                                             ->where('status_id', '>', 12)
+                                            ->whereDate('updated_at', $today)
                                             ->sum('refund');
 
         // Refund Amount Received
         $refundAmountReceived = Ticket::where('type', 1)
                                             ->wherePaymentType(1)
                                             ->where('status_id', '>', 11)
+                                            ->whereDate('updated_at', $today)
                                             ->sum('refund');
 
         // Graph
@@ -95,10 +97,10 @@ class DashboardController extends Controller
         }
 
         $data = [
-            'buyExecuted' => $buyExecuted,
-            'sellExecuted' => $sellExecuted,
-            'buyQuickTicket' => $buyQuickTicket,
-            'sellQuickTicket' => $sellQuickTicket,
+            'orderCheck' => $orderCheck,
+            'mailAMC' => $mailAMC,
+            'dealSlipReceived' => $dealSlipReceived,
+            'UnitsReceived' => $UnitsReceived,
             'redemptionAmountReceivable' => $redemptionAmountReceivable,
             'redemptionAmountReceived' => $redemptionAmountReceived,
             'refundAmountReceived' => $refundAmountReceived,           

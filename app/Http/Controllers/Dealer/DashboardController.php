@@ -43,11 +43,16 @@ class DashboardController extends Controller
                             ->where('user_id', Auth::user()->id)
                             ->sum('actual_total_amt');
 
+        $buyQuickTicketCount = QuickTicket::whereUserId(Auth::user()->id)->whereType(1)->count();
+        $sellQuickTicketCount = QuickTicket::whereUserId(Auth::user()->id)->whereType(2)->count();
+
         $data = [
             'buyExecuted' => $buyExecuted,
             'sellExecuted' => $sellExecuted,
             'buyQuickTicket' => $buyQuickTicket,
             'sellQuickTicket' => $sellQuickTicket,
+            'buyQuickTicketCount' => $buyQuickTicketCount,
+            'sellQuickTicketCount' => $sellQuickTicketCount
         ];
         return view('dealer.dashboard', compact('data'));
     }

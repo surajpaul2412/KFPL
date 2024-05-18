@@ -57,18 +57,21 @@ class DashboardController extends Controller
         $redemptionAmountReceivable = Ticket::where('type', 2)
                                             ->where('payment_type', 1)
                                             ->where('status_id', '>', 9)
+                                            ->whereDate('updated_at', $today)
                                             ->sum('refund');
 
         // Redemption Amount Received
         $redemptionAmountReceived = Ticket::where('type', 2)
                                             ->wherePaymentType(1)
                                             ->where('status_id', '>', 12)
+                                            ->whereDate('updated_at', $today)
                                             ->sum('refund');
 
         // Refund Amount Received
         $refundAmountReceived = Ticket::where('type', 1)
                                             ->wherePaymentType(1)
                                             ->where('status_id', '>', 11)
+                                            ->whereDate('updated_at', $today)
                                             ->sum('refund');
 
         // Graph
