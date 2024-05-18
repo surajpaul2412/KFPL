@@ -34,7 +34,7 @@ Ticket Management
                 @method('PUT')
                 <div class="card card-one card-product">
                     <div class="card-body p-3 row px-md-4">
-						@if($ticket->status_id == 2 && $ticket->type == 1)
+						@if($ticket->status_id == 2)
 							<!-- <div class="row px-md-4"> -->
 								<div class="col-6 my-3">
 									<div class="pb-1">
@@ -51,8 +51,8 @@ Ticket Management
 										@enderror
 									</div>
 								</div>
-								<!-- if NOT BASKET -->
-								@if ( $ticket->payment_type !=2 )
+								<!-- if NOT SELL -->
+								@if ( $ticket->type !=2 )
 								<div class="col-6 my-3">
 									<div class="w-25">
 										Edit Ticket Rate
@@ -81,7 +81,7 @@ Ticket Management
 							  </div>
 							  <div class="w-75">
 								<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*"
-								{{$ticket->payment_type == 2 ? '' : 'required'}}
+								{{$ticket->payment_type == 2 || ( $ticket->type == 2 && $ticket->payment_type == 1 ) ? '' : 'required'}}
 								>
 								@error('screenshot')
 								  <span class="invalid-feedback" role="alert">
@@ -286,7 +286,7 @@ Ticket Management
 							  </div>
 							</div>
 							@endif
-
+							<!--
 							<div class="col-6 my-3">
 								<div class="w-25 pb-1">
 									Dispute Comment
@@ -295,11 +295,11 @@ Ticket Management
 									<textarea class="form-control w-100" name="dispute_comment" placeholder="Write here">{{$ticket->dispute_comment}}</textarea>
 								</div>
 							</div>
+							-->
 						@endif
 
 						@if($ticket->status_id == 14 && $ticket->payment_type == 2)
-							<!-- BUY BASKET CASES -->
-							@if( $ticket->type == 1 )
+							<!-- BUY/SELL BASKET CASES -->
 							<div class="col-6 my-3">
 								<div class="w-25 pb-1">
 									Received Units
@@ -319,7 +319,6 @@ Ticket Management
 									  value="" required>
 								</div>
 							</div>
-							@endif
 						@endif
 
                         <!-- Update button text for edit page -->

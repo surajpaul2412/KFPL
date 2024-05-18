@@ -252,7 +252,7 @@
                                 @endif
 
 
-								@if($ticket->status_id == 2 && $ticket->type == 1)
+								@if($ticket->status_id == 2)
                                     <!-- <div class="row px-md-4"> -->
                                     	<div class="col-6 my-3">
                                     		<div class="pb-1">
@@ -269,8 +269,8 @@
                                     			@enderror
                                     		</div>
                                     	</div>
-										<!-- if NOT BASKET -->
-										@if ( $ticket->payment_type !=2 )
+										<!-- if NOT SELL -->
+										@if ( $ticket->type !=2 )
 										<div class="col-6 my-3">
 											<div class="w-25">
 												Edit Ticket Rate
@@ -511,7 +511,7 @@
                                       </div>
                                       <div class="w-75">
                                         <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*"
-										{{$ticket->payment_type == 2 ? '' : 'required'}}
+										{{$ticket->payment_type == 2 || ( $ticket->type == 2 && $ticket->payment_type == 1 ) ? '' : 'required'}}
 										>
                                         @error('screenshot')
                                           <span class="invalid-feedback" role="alert">
@@ -637,6 +637,7 @@
 									</div>
 									@endif 
 									
+									<!--
                                 	<div class="col-6 my-3">
                                 		<div class="w-25 pb-1">
                                 			Dispute Comment
@@ -645,11 +646,13 @@
                                 			<textarea class="form-control w-100" name="dispute_comment" placeholder="Write here">{{$ticket->dispute_comment}}</textarea>
                                 		</div>
                                 	</div>
+									-->
+									
                                 @endif
 
 								@if($ticket->status_id == 14 && $ticket->payment_type == 2)
-                                    <!-- BUY BASKET CASES -->
-									@if( $ticket->type == 1 )
+                                    <!-- BUY/SELL BASKET CASES -->
+									
 								    <div class="col-6 my-3">
                                 		<div class="w-25 pb-1">
                                 			Received Units
@@ -670,23 +673,29 @@
                                         </div>
                                     </div>
 									
-									@endif    
-								
                                 @endif
 								
-                                @if($ticket->status_id == 15)
+                                @php 
+								$isClosed = 0;
+								if( $ticket->status_id == 15 || 
+								    ( $ticket->status_id == 14 && $ticket->payment_type == 1 && $ticket->type == 1 ) )
+								{
+									$isClosed = 1;
+								@endphp			
                                     <div class="col-12 my-3" align="center">
                                         <div class="">
                                             Congratulations !! your ticket has been closed.
                                         </div>
                                     </div>
-                                @endif
+                                @php 
+								}
+								@endphp
 
                                 <!-- EXTRA FIELDS ADDITION :: ENDS -->
 
                                 <!-- Update button text for edit page -->
                                 <div class="text-align-center">
-                                    @if($ticket->status_id <= 14)
+                                    @if($ticket->status_id <= 14 && $isClosed == 0)
                                     <button type="submit" class="btnSubmit btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
                                     @endif
                                 </div>

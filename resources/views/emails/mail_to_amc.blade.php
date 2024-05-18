@@ -42,9 +42,13 @@
     </div>
 
     <div style="padding-top: 3rem;">
-	   @if($ticket->payment_type != 2)
-        <strong><u> Payment details mentioned below:</u></strong>
-        <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
+	   <!-- SHOW it in all cash CASES -->
+	   @if($ticket->payment_type != 2 )
+		<!-- show it in all BUY cases only --> 
+		@if($ticket->type != 2)  
+          <strong><u> Payment details mentioned below:</u></strong>
+          <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
+	    @endif
 	   @endif
         <div style="padding-top: 2rem;">
             With Regards,<br/>
@@ -97,11 +101,15 @@
     </div>
 
     <div style="padding-top: 3rem;">
-        @if($ticket->payment_type != 2)
-		<strong><u> Payment details mentioned below:</u></strong>
-        <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
-		@endif 
-		
+	   <!-- SHOW it in all cash CASES -->
+	   @if($ticket->payment_type != 2 )
+		<!-- show it in all BUY cases only --> 
+		@if($ticket->type != 2)  
+          <strong><u> Payment details mentioned below:</u></strong>
+          <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
+	    @endif
+	   @endif
+       		
         <div style="padding-top: 2rem;">
             With Regards,<br/>
             ETF Operations Team<br/>
@@ -153,11 +161,14 @@
     </div>
 
     <div style="padding-top: 3rem;">
-		@if($ticket->payment_type != 2)
-        <strong><u> Payment details mentioned below:</u></strong>
-        <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
-		@endif 
-		
+		<!-- SHOW it in all cash CASES -->
+	   @if($ticket->payment_type != 2 )
+		<!-- show it in all BUY cases only --> 
+		@if($ticket->type != 2)  
+          <strong><u> Payment details mentioned below:</u></strong>
+          <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
+	    @endif
+	   @endif
         <div style="padding-top: 2rem;">
             With Regards,<br/>
             ETF Operations Team<br/>
@@ -208,12 +219,16 @@
         Account Number : 000405133274
     </div>
 
-    <div style="padding-top: 3rem;">
-		@if($ticket->payment_type != 2)
-        <strong><u> Payment details mentioned below:</u></strong>
-        <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
-		@endif 
-		
+    <div style="padding-top: 3rem;">		
+	   <!-- SHOW it in all cash CASES -->
+	   @if($ticket->payment_type != 2 )
+		<!-- show it in all BUY cases only --> 
+		@if($ticket->type != 2)  
+		  <strong><u> Payment details mentioned below:</u></strong>
+		  <div><strong>{{$ticket->utr_no}} : {{$ticket->total_amt ?? 'N/A'}}</strong></div>
+		@endif
+	   @endif
+		   
         <div style="padding-top: 2rem;">
             With Regards,<br/>
             ETF Operations Team<br/>

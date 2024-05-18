@@ -157,6 +157,10 @@ class TicketController extends Controller
 
                 }
 
+				if( !empty($request->remark) )
+				{
+					$ticket->dispute = $request->remark;	
+				}
                 $ticket->save();
                 $ticket->update($data);
 
@@ -404,7 +408,8 @@ class TicketController extends Controller
 				}
 
 				$request->validate( $arr );
-
+				
+				/*
                 if ( $request->get("received_units") == $ticket->basket_size * $ticket->basket_no ) {
                     $request->validate([
                         "dispute_comment" => "nullable|string",
@@ -417,6 +422,7 @@ class TicketController extends Controller
                         );
                     }
                 }
+				*/
 
                 // Deal Ticket Workings
                 if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {
@@ -469,16 +475,20 @@ class TicketController extends Controller
             } elseif ($ticket->status_id == 14) {
 
 				$arr = [];
-				// BUY basket cases
-				if( $ticket->type == 1 && $ticket->payment_type == 2 ) {
+				// BUY/SELL basket cases
+				if( $ticket->payment_type == 2 ) 
+				{
 					$arr['deal_ticket'] = 'required';
 					$arr['received_units'] = 'required|numeric';
+				
+					$request->validate( $arr );
+					
+					if ( $request->get("received_units") != $ticket->basket_size * $ticket->basket_no ) {
+						return redirect()->back()->with("error", "Received Units value is wrong");
+					}
 				}
 
-				$request->validate( $arr );
-				if ( $request->get("received_units") != $ticket->basket_size * $ticket->basket_no ) {
-					return redirect()->back()->with("error", "Received Units value is wrong");
-				}
+				
 				
 				// Deal Ticket Workings
                 if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {
