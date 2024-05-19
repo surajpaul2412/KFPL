@@ -15,10 +15,10 @@ class DashboardController extends Controller
     {
         $today = Carbon::today();
 
-        $orderCheck = Ticket::where('status_id', 2)->count();
-        $mailAMC = Ticket::where('status_id', 6)->count();
-        $dealSlipReceived = Ticket::where('status_id', 9)->count();
-        $UnitsReceived = Ticket::whereIn('status_id', [12, 13])->count();
+        $orderCheck = Ticket::where('status_id', 2)->whereDate('created_at', $today)->count();
+        $mailAMC = Ticket::where('status_id', 6)->whereDate('created_at', $today)->count();
+        $dealSlipReceived = Ticket::where('status_id', 9)->whereDate('created_at', $today)->count();
+        $UnitsReceived = Ticket::whereIn('status_id', [12, 13])->whereDate('created_at', $today)->count();
 
         $sellExecuted = Ticket::where('status_id', '>', 8)
                     ->where('type', 2)

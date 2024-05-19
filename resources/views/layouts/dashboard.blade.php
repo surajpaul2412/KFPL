@@ -92,6 +92,48 @@
       });
 
     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
+    <script>
+      // Load the animation
+      var animation = bodymovin.loadAnimation({
+        container: document.getElementById('lottie-animation'),
+        renderer: 'svg', // Choose renderer: svg/canvas/html
+        loop: true,
+        autoplay: true,
+        path: '{{ asset('ticket_blink.json') }}' // Path to your JSON animation file
+      });
+    </script>
+    <script>
+    $(document).ready(function(){
+        $('#lottie-animation').hide();
+        var prevTicketId = {{ lastTicket() }};
+        
+        function checkNewTicket() {
+            $.ajax({
+                url: '/check-new-ticket',
+                type: 'GET',
+                success: function(response) {
+                    var latestTicketId = response.latest_ticket_id;
+
+                    if (latestTicketId !== prevTicketId) {
+                        alert("New ticket inserted!");
+                        $('#lottie-animation').show();
+                        // Update prevTicketId with the latestTicketId
+                        prevTicketId = latestTicketId;
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+        
+        // Call checkNewTicket every 5 seconds (you can adjust the interval as needed)
+        setInterval(checkNewTicket, 5000);
+    });
+    </script>
+
     @yield('script')
   </body>
 </html>

@@ -39,6 +39,7 @@ Route::redirect('/', '/login');
 
 // Home
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/check-new-ticket', [App\Http\Controllers\TicketController::class, 'checkNewTicket']);
 
 // Admin Routes
 Route::middleware(['auth', 'isAdmin'])->group(function () {

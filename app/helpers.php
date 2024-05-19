@@ -63,4 +63,9 @@ function convertToCrore($amount) {
     return $crore_formatted;
 }
 
+function lastTicket() {
+    $latestTicketId = Ticket::max('id');
+    return $latestTicketId;
+}
+
 ?>

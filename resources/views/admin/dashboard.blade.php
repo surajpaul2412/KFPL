@@ -99,7 +99,7 @@ Dashboard
                   <div class="d-flex d-sm-block d-xl-flex align-items-center">
                     <div class="helpdesk-icon bg-ui-02 text-white"><i class="ri-blaze-fill"></i></div>
                     <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                      <h2 class="card-value d-flex align-items-baseline mb-0">{{ $data['redemptionAmountReceivable'] }}</h2>
+                      <h2 class="card-value d-flex align-items-baseline mb-0">{{ convertToCrore($data['redemptionAmountReceivable']) }} Cr</h2>
                       <label class="card-label fs-sm fw-medium mb-1">Redemption Amount Receivable</label>                          
                     </div>
                   </div>
@@ -112,7 +112,7 @@ Dashboard
                     <div class="d-flex d-sm-block d-xl-flex align-items-center">
                       <div class="helpdesk-icon bg-primary text-white"><i class="ri-bell-line"></i></div>
                       <div class="ms-3 ms-sm-0 ms-xl-3 mt-sm-3 mt-xl-0">
-                        <h2 class="card-value d-flex align-items-baseline mb-0">{{ $data['redemptionAmountReceived'] }}</h2>
+                        <h2 class="card-value d-flex align-items-baseline mb-0">{{ convertToCrore($data['redemptionAmountReceived']) }} Cr</h2>
                         <label class="card-label fs-sm fw-medium mb-1">Redemption Amount Received</label>                            
                       </div>
                     </div>
