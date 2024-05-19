@@ -42,8 +42,8 @@ Ticket Management
 									</div>
 									<div class="">
 										<input type="hidden" name="verification" value="" required>
-										<span class='verification' onclick="setVerification1(0,1)">Accept</span>
-										<span class='verification' onclick="setVerification1(1,2)">Reject</span>
+										<span class='verification' onclick="setVerification1(0,1);mm(0,'remark');">Accept</span>
+										<span class='verification' onclick="setVerification1(1,2);mm(1,'remark');">Reject</span>
 										@error('verification')
 											<span class="invalid-feedback" role="alert">
 												<strong>{{ $message }}</strong>
@@ -51,8 +51,9 @@ Ticket Management
 										@enderror
 									</div>
 								</div>
-								<!-- if NOT SELL -->
-								@if ( $ticket->type !=2 )
+								
+								<!-- Show only in BUY CASH cases -->
+								@if ( $ticket->type == 1 && $ticket->payment_type == 1 )
 								<div class="col-6 my-3">
 									<div class="w-25">
 										Edit Ticket Rate
@@ -346,6 +347,19 @@ Ticket Management
       jQuery('.waitmsg').show();
     }
 
+	// Make Mandatory
+	function mm(m, target)
+	{
+		if(m)
+		{
+			jQuery("[name='"+target+"']").attr("required", "required");
+		}
+		else 
+		{
+			jQuery("[name='"+target+"']").removeAttr("required");
+		}
+	}
+	
     function setVerification1(x, y) {
         var verificationInput = document.querySelector("[name='verification']");
         var rateInput = document.querySelector("[name='rate']");

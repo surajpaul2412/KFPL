@@ -203,7 +203,7 @@ class TicketController extends Controller
                     // BUY cases
                     $request->validate([
                         "verification" => "required|in:1,2",
-                        "rate" => "nullable|numeric",
+                        "rate"   => "nullable|numeric",
                         "remark" => "nullable",
                     ]);
 
@@ -236,16 +236,20 @@ class TicketController extends Controller
 				
 				if( !empty($request->remark) )
 				{
-					$ticket->dispute = $request->remark;	
+					$ticket->remark = $request->remark;	
 				}
 				
                 $ticket->save();
                 $ticket->update($data);
-
-				if($ticket->payment_type == 2 || ($ticket->type == 2 && $ticket->payment_type == 1) )
+				
+				// If ACcepted, then PDF will be Generated
+				if( !empty($request->verification) && $request->verification == 1 )
 				{
-					// Pdf Workings :: START
-					FormService::GenerateDocument($ticket);
+					if($ticket->payment_type == 2 || ($ticket->type == 2 && $ticket->payment_type == 1) )
+					{
+						// Pdf Workings :: START
+						FormService::GenerateDocument($ticket);
+					}
 				}
 
 			} elseif ($ticket->status_id == 3) {
