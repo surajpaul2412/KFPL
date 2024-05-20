@@ -223,15 +223,14 @@ class TicketController extends Controller
 
                 } else {
 
-					// SALE CASES
-					$ticket->status_id = 5;
-
-					// BASKET CASES
-					if($ticket->payment_type == 2)
-					{
-						$data["status_id"] = 5;
+					if ($request->get("verification") == 1) {					
+						// SALE CASES
+						$ticket->status_id = 5;
 					}
-
+					else 
+					{
+						$ticket->status_id = 1;
+					}
                 }
 				
 				if( !empty($request->remark) )
@@ -280,6 +279,10 @@ class TicketController extends Controller
 						{
 							return redirect()->back()->with("error","Please verify Cash Component Figure.");
 						}
+						
+						// Handle Cash Component
+						$ticket->cashcomp = $request->cashcomp;
+						$ticket->utr_no = $request->utr_no;
 					}
 
 					// Screenshot Workings
@@ -300,11 +303,7 @@ class TicketController extends Controller
 						unset($data['screenshot']);	
 					}
 
-					// Handle Cash Component
-					if($request->cashcomp != '')
-					{
-						$ticket->cashcomp = $request->cashcomp;
-					}
+					
 
 					// VALIDATION for CASH cases
                     $ticket->utr_no = $request->get("utr_no");
@@ -538,6 +537,7 @@ class TicketController extends Controller
 					$request->validate( $arr );
 
 					$ticket->cashcomp = $request->cashcomp;
+					
 					$ticket->totalstampduty = $request->totalstampduty;
 				}
 				else
@@ -903,6 +903,53 @@ class TicketController extends Controller
         return redirect()
              ->route("admin.tickets.index")
              ->with("success", "Mailed all the AMC controllers successfully.");
+    }
+	
+	public function mailtoself(Ticket $ticket)
+    {
+        // sell case with null screenshot check
+        $sendMail = 0;
+        // CASH
+		if( $ticket->payment_type == 1)
+		{
+			if ($ticket->type == 2) {
+				$sendMail = 1;
+				$ticket->status_id = 7;
+			} else {
+				$sendMail = 1;
+				$ticket->status_id = 7;
+			}
+		} elseif ( $ticket->payment_type == 2) { // BASKET
+
+			// BUY + BASKET
+			if($ticket->type == 1 )
+			{
+			    $sendMail = 1;
+			    $ticket->status_id = 9;
+			}
+
+			// SELL + BASKET CASES
+			if($ticket->type == 2 )
+			{
+				$sendMail = 1;
+				$ticket->status_id = 9;
+			}
+		}
+
+		// Ticket Updation
+		$ticket->save();
+
+		// MAIL Trigger
+        if ($sendMail) {
+          $emailString = "etf@kcpl.ind.in";
+          $emailArray = explode(", ", $emailString);
+          $toEmail = array_map("trim", $emailArray);
+          Mail::to($toEmail)->send(new MailToAMC($ticket));
+        }
+
+        return redirect()
+             ->route("admin.tickets.index")
+             ->with("success", "'Mailed to Self' - executed successfully.");
     }
 
     public function skip(Ticket $ticket)

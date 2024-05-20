@@ -54,8 +54,8 @@
                                     </div>
                                     <div class="">
                                         <input type="hidden" name="type" value="{{ $ticket->type }}" required>
-                                        <span class='ticketType {{ $ticket->type == 1 ? "selected" : "" }}' onclick="setTicketType(0,1)">Buy</span>
-                                        <span class='ticketType {{ $ticket->type == 2 ? "selected" : "" }}' onclick="setTicketType(1,2)">Sell</span>
+                                        <span class='by ticketType {{ $ticket->type == 1 ? "selected" : "" }}' onclick="setTicketType(0,1);showhidefields(1);">Buy</span>
+                                        <span class='sl ticketType {{ $ticket->type == 2 ? "selected" : "" }}' onclick="setTicketType(1,2);showhidefields(0);">Sell</span>
                                         @error('type')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -71,8 +71,8 @@
                                     </div>
                                     <div class="">
                                         <input type="hidden" name="payment_type" value="{{ $ticket->payment_type }}" required>
-                                        <span class='payMode {{ $ticket->payment_type == 1 ? "selected" : "" }}' onclick="setPaymode(0,1)">Cash</span>
-                                        <span class='payMode {{ $ticket->payment_type == 2 ? "selected" : "" }}' onclick="setPaymode(1,2)">Basket</span>
+                                        <span class='cs payMode {{ $ticket->payment_type == 1 ? "selected" : "" }}' onclick="setPaymode(0,1);showBasketFields(1);">Cash</span>
+                                        <span class='bk payMode {{ $ticket->payment_type == 2 ? "selected" : "" }}' onclick="setPaymode(1,2);showBasketFields(2);">Basket</span>
                                         @php
                                         //<span class='payMode {{ $ticket->payment_type == 3 ? "selected" : "" }}' onclick="setPaymode(2,3)">Net Settlement</span>
                                         @endphp
@@ -127,7 +127,7 @@
                                 <!-- Repeat similar blocks for other form fields -->
 
                                 <!-- Enter Rate -->
-                                <div class="col-6 my-3">
+                                <div class="col-6 my-3 sellopts basketFields">
                                     <div class="pb-1">
                                         Enter Rate
                                     </div>
@@ -143,7 +143,7 @@
                                 </div>
 
                                 <!-- Current Price -->
-                                <div class="col-3 my-3">
+                                <div class="col-3 my-3 sellopts basketFields">
                                     <div class="pb-1">
                                         Current Price
                                     </div>
@@ -159,7 +159,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-3 my-3 sellopts">
+                                <div class="col-3 my-3 sellopts basketFields">
                                     <div class="pb-1">
                                       Markup Price
                                     </div>
@@ -169,7 +169,7 @@
                                 </div>
 
                                 <!-- Total Amount -->
-                                <div class="col-3 my-3">
+                                <div class="col-3 my-3 sellopts basketFields">
                                     <div class="pb-1">
                                         Total Amount
                                     </div>
@@ -185,7 +185,7 @@
                                 </div>
 
                                 <!-- Markup Percentage -->
-                                <div class="col-3 my-3">
+                                <div class="col-3 my-3 sellopts basketFields">
                                     <div class="pb-1">
                                         Markup Percentage
                                     </div>
@@ -216,7 +216,49 @@
 
 @section('script')
 <script>
+
+	var ticketType  = {{$ticket->type}} ;  // 1 Buy, 2 Sell
+    var paymentType = {{$ticket->payment_type}} ;
+
+    function showBasketFields(show)
+    {
+      paymentType = show;
+      // show these, fields if CASH and BUY are selected
+      if (paymentType == 1 && ticketType == 1){
+         jQuery(".basketFields").show();
+      } else {
+         jQuery(".basketFields").hide();
+      }
+    }
+
+    function showhidefields(show)
+    {
+      if (show) {
+         ticketType = 1;
+      } else {
+         ticketType = 2;
+      }
+      if (paymentType == 1 && ticketType == 1) {
+        jQuery(".sellopts").show();
+      } else {
+        jQuery(".sellopts").hide();
+      }
+    }
+	
     $(document).ready(function () {
+		
+		@if($ticket->type == 1)
+			jQuery(".by").trigger("click");
+		@else
+			jQuery(".sl").trigger("click");
+		@endif
+		
+		@if($ticket->payment_type == 1)
+			jQuery(".cs").trigger("click");
+		@else
+			jQuery(".bk").trigger("click");
+		@endif
+		
         // Change event handler for the security select
         $('select[name="security_id"]').change(function () {
             var securityId = $(this).val();

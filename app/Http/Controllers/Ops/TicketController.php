@@ -146,13 +146,13 @@ class TicketController extends Controller
 
                 } else {
 
-					// SALE CASES
-					$ticket->status_id = 5;
-
-					// BASKET CASES
-					if($ticket->payment_type == 2)
+					if ($request->get("verification") == 1) {					
+						// SALE CASES
+						$ticket->status_id = 5;
+					}
+					else 
 					{
-						$data["status_id"] = 5;
+						$ticket->status_id = 1;
 					}
 
                 }
@@ -575,6 +575,53 @@ class TicketController extends Controller
 		// MAIL Trigger
         if ($sendMail) {
           $emailString = $ticket->security->amc->email ?? null;
+          $emailArray = explode(", ", $emailString);
+          $toEmail = array_map("trim", $emailArray);
+          Mail::to($toEmail)->send(new MailToAMC($ticket));
+        }
+
+        return redirect()
+            ->route("ops.tickets.index")
+            ->with("success", "Mailed all the AMC controllers successfully.");
+    }
+	
+	public function mailtoself(Ticket $ticket)
+    {
+        // sell case with null screenshot check
+        $sendMail = 0;
+        // CASH
+		if( $ticket->payment_type == 1)
+		{
+			if ($ticket->type == 2) {
+				$sendMail = 1;
+				$ticket->status_id = 7;
+			} else {
+				$sendMail = 1;
+				$ticket->status_id = 7;
+			}
+		} elseif ( $ticket->payment_type == 2) { // BASKET
+
+			// BUY + BASKET
+			if($ticket->type == 1 )
+			{
+			    $sendMail = 1;
+			    $ticket->status_id = 9;
+			}
+
+			// SELL + BASKET CASES
+			if($ticket->type == 2 )
+			{
+				$sendMail = 1;
+				$ticket->status_id = 9;
+			}
+		}
+
+		// Ticket Updation
+		$ticket->save();
+
+		// MAIL Trigger
+        if ($sendMail) {
+          $emailString = "etf@kcpl.ind.in";
           $emailArray = explode(", ", $emailString);
           $toEmail = array_map("trim", $emailArray);
           Mail::to($toEmail)->send(new MailToAMC($ticket));

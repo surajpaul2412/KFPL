@@ -216,12 +216,6 @@ Ticket Management
     var ticketType  = 1 ;  // 1 Buy, 2 Sell
     var paymentType = 1 ;
 
-    function showWait()
-    {
-      jQuery('.btnSubmit').remove();
-      jQuery('.waitmsg').show();
-    }
-
     function showBasketFields(show)
     {
       paymentType = show;

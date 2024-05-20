@@ -13,6 +13,10 @@ Ticket Management
         </ol>
         <h4 class="main-title mb-0">{{$ticket->status->stage}}</h4>
     </div>
+	
+	<div>
+		<a href="{{route('ops.tickets.mailtoself', $ticket)}}" onclick="showWait()" class="btn btnSubmit btn-primary d-flex align-items-center gap-2">Mail To Self </a>
+	</div>
 </div>
 
 @include('topmessages')
