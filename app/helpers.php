@@ -64,8 +64,29 @@ function convertToCrore($amount) {
 }
 
 function lastTicket() {
-    $latestTicketId = Ticket::max('id');
-    return $latestTicketId;
+    $latestTicket = Ticket::orderBy('updated_at', 'desc')->first();
+    return $latestTicket ? $latestTicket->updated_at->toISOString() : null;
+}
+
+function opsCount($userId) {
+    $ticketCount = Ticket::whereIn('status_id', [2, 5, 6, 9, 10, 13])
+        // ->whereUserId($userId)
+        ->count();
+    return $ticketCount;
+}
+
+function accountsCount($userId) {
+    $ticketCount = Ticket::whereIn('status_id', [3, 11, 12])
+        // ->whereUserId($userId)
+        ->count();
+    return $ticketCount;
+}
+
+function dealerCount($userId) {
+    $ticketCount = Ticket::whereIn('status_id', [7, 8])
+        // ->whereUserId($userId)
+        ->count();
+    return $ticketCount;
 }
 
 ?>
