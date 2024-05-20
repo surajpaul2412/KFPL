@@ -621,7 +621,7 @@ class TicketController extends Controller
 
 		// MAIL Trigger
         if ($sendMail) {
-          $emailString = "etf@kcpl.ind.in";
+          $emailString = env("MAILTOSELF");
           $emailArray = explode(", ", $emailString);
           $toEmail = array_map("trim", $emailArray);
           Mail::to($toEmail)->send(new MailToAMC($ticket));
