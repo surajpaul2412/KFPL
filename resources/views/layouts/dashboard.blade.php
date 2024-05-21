@@ -111,6 +111,7 @@ $(document).ready(function(){
     $('.lottie-animation').hide();
     // var prevTicketId = {{ lastTicket() }};
     var prevUpdatedAt = new Date("{{ lastTicket() }}");
+    var audio = new Audio('/notification.mp3');
     
     function checkNewTicket() {
         $.ajax({
@@ -120,9 +121,10 @@ $(document).ready(function(){
                 var latestUpdatedAt = new Date(response.updated_at);
                 
                 // Check if the updated_at value has changed
-                if (latestUpdatedAt > prevUpdatedAt) {
-                    alert("New ticket inserted!");
+                if (latestUpdatedAt > prevUpdatedAt) {                    
                     $('#lottie-animation-admin').show();
+                    audio.play();
+                    alert("New ticket inserted!");
                     
                     // Update prevUpdatedAt with the latestUpdatedAt
                     prevUpdatedAt = latestUpdatedAt;
@@ -145,6 +147,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('.lottie-animation').hide();
     var prevCount = {{ opsCount(auth()->user()->id) }};
+    var audio1 = new Audio('/notification.mp3');
     
     function checkNewTicket() {
         $.ajax({
@@ -155,8 +158,9 @@ $(document).ready(function(){
                 
                 // Check if the latest ticket count is greater than the previous count
                 if (latestCount > prevCount) {
-                    alert("New ticket(s) updated!");
                     $('#lottie-animation-ops').show();
+                    audio1.play();
+                    alert("New ticket(s) updated!");
                     
                     // Update prevCount with the latest count
                     prevCount = latestCount;
@@ -180,6 +184,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('.lottie-animation').hide();
     var prevCount = {{ accountsCount(auth()->user()->id) }};
+    var audio2 = new Audio('/notification.mp3');
     
     function checkNewTicket() {
         $.ajax({
@@ -190,8 +195,9 @@ $(document).ready(function(){
                 
                 // Check if the latest ticket count is greater than the previous count
                 if (latestCount > prevCount) {
-                    alert("New ticket(s) updated!");
                     $('#lottie-animation-accounts').show();
+                    audio2.play();
+                    alert("New ticket(s) updated!");
                     
                     // Update prevCount with the latest count
                     prevCount = latestCount;
@@ -214,6 +220,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('.lottie-animation').hide();
     var prevCount = {{ dealerCount(auth()->user()->id) }};
+    var audio3 = new Audio('/notification.mp3');
     
     function checkNewTicket() {
         $.ajax({
@@ -224,8 +231,9 @@ $(document).ready(function(){
                 
                 // Check if the latest ticket count is greater than the previous count
                 if (latestCount > prevCount) {
-                    alert("New ticket(s) updated!");
                     $('#lottie-animation-dealer').show();
+                    audio3.play();
+                    alert("New ticket(s) updated!");
                     
                     // Update prevCount with the latest count
                     prevCount = latestCount;
