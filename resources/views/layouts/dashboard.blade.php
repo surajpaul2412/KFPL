@@ -97,42 +97,159 @@
     <script>
       // Load the animation
       var animation = bodymovin.loadAnimation({
-        container: document.getElementById('lottie-animation'),
+        container: document.querySelector('.lottie-animation'),
         renderer: 'svg', // Choose renderer: svg/canvas/html
         loop: true,
         autoplay: true,
         path: '{{ asset('ticket_blink.json') }}' // Path to your JSON animation file
       });
     </script>
-    <script>
-    $(document).ready(function(){
-        $('#lottie-animation').hide();
-        var prevTicketId = {{ lastTicket() }};
-        
-        function checkNewTicket() {
-            $.ajax({
-                url: '/check-new-ticket',
-                type: 'GET',
-                success: function(response) {
-                    var latestTicketId = response.latest_ticket_id;
 
-                    if (latestTicketId !== prevTicketId) {
-                        alert("New ticket inserted!");
-                        $('#lottie-animation').show();
-                        // Update prevTicketId with the latestTicketId
-                        prevTicketId = latestTicketId;
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
+@if(auth()->user()->isAdmin())
+<script>
+$(document).ready(function(){
+    $('.lottie-animation').hide();
+    // var prevTicketId = {{ lastTicket() }};
+    var prevUpdatedAt = new Date("{{ lastTicket() }}");
+    var audio = new Audio('/notification.mp3');
+    
+    function checkNewTicket() {
+        $.ajax({
+            url: '/check-new-ticket',
+            type: 'GET',
+            success: function(response) {
+                var latestUpdatedAt = new Date(response.updated_at);
+                
+                // Check if the updated_at value has changed
+                if (latestUpdatedAt > prevUpdatedAt) {                    
+                    $('#lottie-animation-admin').show();
+                    audio.play();
+                    alert("New ticket inserted!");
+                    
+                    // Update prevUpdatedAt with the latestUpdatedAt
+                    prevUpdatedAt = latestUpdatedAt;
                 }
-            });
-        }
-        
-        // Call checkNewTicket every 5 seconds (you can adjust the interval as needed)
-        setInterval(checkNewTicket, 5000);
-    });
-    </script>
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+    
+    // Call checkNewTicket every 5 seconds (you can adjust the interval as needed)
+    setInterval(checkNewTicket, 5000);
+});
+</script>
+@endif
+
+@if(auth()->user()->isOps())
+<script>
+$(document).ready(function(){
+    $('.lottie-animation').hide();
+    var prevCount = {{ opsCount(auth()->user()->id) }};
+    var audio1 = new Audio('/notification.mp3');
+    
+    function checkNewTicket() {
+        $.ajax({
+            url: '/check-ops-ticket',
+            type: 'GET',
+            success: function(response) {
+                var latestCount = response.ticket_count;
+                
+                // Check if the latest ticket count is greater than the previous count
+                if (latestCount > prevCount) {
+                    $('#lottie-animation-ops').show();
+                    audio1.play();
+                    alert("New ticket(s) updated!");
+                    
+                    // Update prevCount with the latest count
+                    prevCount = latestCount;
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+    
+    // Call checkNewTicket every 5 seconds (you can adjust the interval as needed)
+    setInterval(checkNewTicket, 5000);
+});
+</script>
+@endif
+
+
+@if(auth()->user()->isAccounts())
+<script>
+$(document).ready(function(){
+    $('.lottie-animation').hide();
+    var prevCount = {{ accountsCount(auth()->user()->id) }};
+    var audio2 = new Audio('/notification.mp3');
+    
+    function checkNewTicket() {
+        $.ajax({
+            url: '/check-accounts-ticket',
+            type: 'GET',
+            success: function(response) {
+                var latestCount = response.ticket_count;
+                
+                // Check if the latest ticket count is greater than the previous count
+                if (latestCount > prevCount) {
+                    $('#lottie-animation-accounts').show();
+                    audio2.play();
+                    alert("New ticket(s) updated!");
+                    
+                    // Update prevCount with the latest count
+                    prevCount = latestCount;
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+    
+    // Call checkNewTicket every 5 seconds (you can adjust the interval as needed)
+    setInterval(checkNewTicket, 5000);
+});
+</script>
+@endif
+
+@if(auth()->user()->isDealer())
+<script>
+$(document).ready(function(){
+    $('.lottie-animation').hide();
+    var prevCount = {{ dealerCount(auth()->user()->id) }};
+    var audio3 = new Audio('/notification.mp3');
+    
+    function checkNewTicket() {
+        $.ajax({
+            url: '/check-dealer-ticket',
+            type: 'GET',
+            success: function(response) {
+                var latestCount = response.ticket_count;
+                
+                // Check if the latest ticket count is greater than the previous count
+                if (latestCount > prevCount) {
+                    $('#lottie-animation-dealer').show();
+                    audio3.play();
+                    alert("New ticket(s) updated!");
+                    
+                    // Update prevCount with the latest count
+                    prevCount = latestCount;
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+    
+    // Call checkNewTicket every 5 seconds (you can adjust the interval as needed)
+    setInterval(checkNewTicket, 5000);
+});
+</script>
+@endif
 
     @yield('script')
   </body>
