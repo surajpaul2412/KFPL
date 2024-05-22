@@ -1,4 +1,5 @@
-<div class="row px-md-4">
+<!-- Ticket Details STarts -->
+<div class="row px-md-4" style="padding-top:30px;">
     <div class="col-3">
         <div>Name</div>
         <div class="font-weight-bold">{{$ticket->security->name ?? 'N/A'}}</div>
@@ -124,7 +125,7 @@
     </div>
 </div>
 <hr/>
-<div class="row px-md-4">
+<div class="row px-md-4" style="padding-bottom:30px;">
     <div class="col-3">
         <div>Refund/Redemption</div>
         <div class="font-weight-bold"> {{$ticket->refund ?? 'N/A'}} </div>
@@ -148,3 +149,4 @@
         @endif
     </div>
 </div>
+<!-- Ticket Details ENDs -->

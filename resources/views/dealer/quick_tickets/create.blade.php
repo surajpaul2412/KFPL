@@ -49,8 +49,8 @@ Ticket Management
                                     Ticket Type
                                 </div>
                                 <div class="">
-                                    <input type="hidden" name="type" value="" required>
-                                    <span class='ticketType' onclick="setTicketType(0,1);showhidefields(1);">Buy</span>
+                                    <input type="hidden" name="type" value="1" required>
+                                    <span class='ticketType selected' onclick="setTicketType(0,1);showhidefields(1);">Buy</span>
                                     <span class='ticketType' onclick="setTicketType(1,2);showhidefields(0);">Sell</span>
                                     @error('type')
                                         <span class="invalid-feedback" role="alert">
@@ -65,11 +65,12 @@ Ticket Management
                                     Payment Type
                                 </div>
                                 <div class="">
-                                    <input type="hidden" name="payment_type" value="" required>
-                                    <span class='payMode defaultPayMode' onclick="setPaymode(0,1)" data-value="1">Cash</span>
-                                    <span class='payMode' onclick="setPaymode(1,2)" data-value="2">Basket</span>
+                                    <input type="hidden" name="payment_type" value="1" required>
+                                    <span class='payMode defaultPayMode selected' onclick="setPaymode(0,1)" data-value="1">Cash</span>
+                                    
                                     @php
-                                    // <span class='payMode' onclick="setPaymode(2,3)" data-value="3">Net Settlement</span>
+                                    // <span class='payMode' onclick="setPaymode(1,2)" data-value="2">Basket</span>
+									// <span class='payMode' onclick="setPaymode(2,3)" data-value="3">Net Settlement</span>
                                     @endphp
                                     
                                     @error('payment_type')
@@ -124,7 +125,7 @@ Ticket Management
                                     Actual Trade Value
                                 </div>
                                 <div class="">
-                                    <input type="number" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
+                                    <input type="number" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" step=".01" required>
                                     @error('total_amt')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

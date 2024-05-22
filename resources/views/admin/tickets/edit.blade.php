@@ -17,20 +17,25 @@
         <div>
             <h4 class="main-title mb-0">{{$ticket->status->stage}}</h4>
         </div>
+		
+		<script>
+		function mailToSelf(mode)
+		{
+			jQuery("[name='mailtoself']").val(mode);
+			if(mode)
+			{
+				jQuery(".editForm").submit();
+			}
+		}
+		</script>	
+
+		@if($ticket->status_id == 9 && $ticket->type == 1 && $ticket->payment_type == 2)
         <div>
-            <form id="delete-ticket-form-{{ $ticket->id }}" action="{{ route('admin.tickets.destroy', $ticket->id) }}" method="POST" style="display: none;">
-                @csrf
-                @method('DELETE')
-            </form>
-            <a href="#" onclick="event.preventDefault();
-                        if (confirm('Are you sure you want to delete this ticket?')) {
-                            document.getElementById('delete-ticket-form-{{ $ticket->id }}').submit();
-                        }"
-                class="btn btn-danger"
-            >
-                Delete Ticket
+			<a href="javascript:void(0);" onclick="mailToSelf(1)" class="btn btn-primary btnmailtoself">
+                Mail to self
             </a>
         </div>
+		@endif
     </div>
 
     @include('topmessages')
@@ -48,7 +53,7 @@
                 </div>
                 @endif
 
-                <form class="col-12 col-md-12 col-xl-12 pt-3" onsubmit="showWait()" method="post" action="{{ route('admin.tickets.update', $ticket->id) }}" enctype="multipart/form-data">
+                <form class="editForm col-12 col-md-12 col-xl-12 pt-3" onsubmit="showWait()" method="post" action="{{ route('admin.tickets.update', $ticket->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card card-one card-product">
@@ -305,6 +310,7 @@
 												  value="" required>
 											</div>
 										</div>
+										
 										@else
 										<div class="col-6 my-3">
 											<div class="w-25 pb-1">
@@ -695,8 +701,19 @@
 
                                 <!-- Update button text for edit page -->
                                 <div class="text-align-center">
-                                    @if($ticket->status_id <= 14 && $isClosed == 0)
-                                    <button type="submit" class="btnSubmit btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
+									@php
+									$ets = "";
+									if($ticket->status_id == 9 && $ticket->type == 1 && $ticket->payment_type == 2)
+									{
+										echo   '<input type="hidden" name="mailtoself" value="" />';
+										$ets = ' onclick="mailToSelf(0)" ' ;
+									}
+									@endphp
+                                    
+									@if($ticket->status_id <= 14 && $isClosed == 0)
+                                    <button 
+								    {!! $ets !!} 
+								    type="submit" class="btnSubmit btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
                                     @endif
                                 </div>
                             </div>
@@ -715,6 +732,7 @@
     var ticketType = {{ $ticket->type }} ;  // 1 Buy, 2 Sell
     var paymentType = {{ $ticket->payment_type }} ;
 	
+
 	// Make Mandatory
 	function mm(m, target)
 	{

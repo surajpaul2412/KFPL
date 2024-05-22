@@ -608,6 +608,21 @@ class TicketController extends Controller
                 }
 
                 $ticket->save();
+				
+				// MAILTOSELF :: Buy Basket cases
+				if($ticket->type == 1 && $ticket->payment_type == 2)
+				{
+					$ets = $request->get('mailtoself');
+					if($ets == 1)
+					{
+						// MAIL Trigger
+						$emailString = env("MAILTOSELF");
+						$emailArray = explode(", ", $emailString);
+						$toEmail = array_map("trim", $emailArray);
+						Mail::to($toEmail)->send(new MailToAMC($ticket));
+												
+					}
+				}
 
             } elseif ($ticket->status_id == 10) {
                 if ($ticket->type == 2) {
