@@ -24,12 +24,16 @@
 			jQuery("[name='mailtoself']").val(mode);
 			if(mode)
 			{
+				jQuery(".btnmailtoself").hide();
 				jQuery(".editForm").submit();
 			}
 		}
 		</script>	
 
-		@if($ticket->status_id == 9 && $ticket->type == 1 && $ticket->payment_type == 2)
+		@if( ( $ticket->status_id == 3 && $ticket->payment_type == 2 && ( $ticket->type == 1 || $ticket->type == 2 ) ) || 
+		     ( $ticket->status_id == 13 && $ticket->payment_type == 2 && $ticket->type == 1 ) || 
+			 ( $ticket->status_id == 10 && $ticket->payment_type == 1 && $ticket->type == 2 )
+		   ) 
         <div>
 			<a href="javascript:void(0);" onclick="mailToSelf(1)" class="btn btn-primary btnmailtoself">
                 Mail to self
@@ -703,7 +707,11 @@
                                 <div class="text-align-center">
 									@php
 									$ets = "";
-									if($ticket->status_id == 9 && $ticket->type == 1 && $ticket->payment_type == 2)
+									if( 
+									  ( $ticket->status_id == 3 && $ticket->payment_type == 2 && ( $ticket->type == 1 || $ticket->type == 2 ) ) || 
+									  ( $ticket->status_id == 13 && $ticket->payment_type == 2 && $ticket->type == 1 ) || 
+									  ( $ticket->status_id == 10 && $ticket->payment_type == 1 && $ticket->type == 2 )
+									)
 									{
 										echo   '<input type="hidden" name="mailtoself" value="" />';
 										$ets = ' onclick="mailToSelf(0)" ' ;

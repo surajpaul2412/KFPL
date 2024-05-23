@@ -12,7 +12,29 @@ Ticket Management
             <li class="breadcrumb-item active" aria-current="page">Edit Ticket</li>
         </ol>
         <h4 class="main-title mb-0">{{$ticket->status->stage}}</h4>
+		
     </div>
+	
+		<script>
+		function mailToSelf(mode)
+		{
+			jQuery("[name='mailtoself']").val(mode);
+			if(mode)
+			{
+				jQuery(".btnmailtoself").hide();
+				jQuery(".editForm").submit();
+			}
+		}
+		</script>	
+		@if(  ($ticket->status_id == 13 && $ticket->payment_type == 2 && $ticket->type == 1 ) || 
+			  ($ticket->status_id == 10 && $ticket->payment_type == 1 && $ticket->type == 2 )
+		   )
+        <div>
+			<a href="javascript:void(0);" onclick="mailToSelf(1)" class="btn btn-primary btnmailtoself">
+                Mail to self
+            </a>
+        </div>
+		@endif
 </div>
 
 @include('topmessages')
@@ -29,7 +51,7 @@ Ticket Management
                 </div>
             </div>
 
-            <form class="col-12 col-md-12 col-xl-12 pt-3" onsubmit="showWait()" method="post" action="{{route('ops.tickets.update', $ticket->id)}}" enctype="multipart/form-data">
+            <form class="editForm col-12 col-md-12 col-xl-12 pt-3" onsubmit="showWait()" method="post" action="{{route('ops.tickets.update', $ticket->id)}}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="card card-one card-product">
@@ -325,7 +347,19 @@ Ticket Management
                         <!-- Update button text for edit page -->
 						@if($ticket->status_id <= 14)
 						<div class="text-align-center">
-							<button type="submit" class="btnSubmit btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
+							@php
+							$ets = "";
+							if(  ($ticket->status_id == 13 && $ticket->payment_type == 2 && $ticket->type == 1 ) || 
+								 ($ticket->status_id == 10 && $ticket->payment_type == 1 && $ticket->type == 2 )
+							  )
+							{
+								echo   '<input type="hidden" name="mailtoself" value="" />';
+								$ets = ' onclick="mailToSelf(0)" ' ;
+							}
+							@endphp
+							<button 
+							{!! $ets !!}  
+							type="submit" class="btnSubmit btn btn-primary active mb-4 px-5 text-ali">Update Ticket</button>
 						</div>
 						@endif
 

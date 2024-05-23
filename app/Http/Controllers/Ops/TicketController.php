@@ -386,7 +386,15 @@ class TicketController extends Controller
 
                     // Trigger mail if SS uploaded
                     if ($request->hasFile("screenshot")) {
-                        $emailString = $ticket->security->amc->email ?? null;
+                        
+						$emailString = $ticket->security->amc->email;
+						
+						// MAILTOSELF :: SELL CASH cases
+						$ets = $request->get('mailtoself');
+						if($ets == 1 && $ticket->payment_type == 1)
+						{
+							$emailString = env("MAILTOSELF");
+						}
                         $emailArray = explode(", ", $emailString);
                         $toEmail = array_map("trim", $emailArray);
                         Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
@@ -470,7 +478,16 @@ class TicketController extends Controller
 				// SEND EMAIL on BUY/BASKET CASES
 				if( $ticket->type == 1 && $ticket->payment_type == 2 )
 				{
-					$emailString = $ticket->security->amc->email ?? null;
+					$ets = $request->get('mailtoself');
+					// MAILTOSELF :: Buy Basket cases
+					if($ets == 1)
+					{
+						$emailString = env("MAILTOSELF");
+					}
+					else 
+					{						
+						$emailString = $ticket->security->amc->email;
+					}
 					$emailArray = explode(", ", $emailString);
 					$toEmail = array_map("trim", $emailArray);
 					Log::info("Status 13:: Email Sending");

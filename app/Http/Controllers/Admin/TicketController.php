@@ -265,7 +265,7 @@ class TicketController extends Controller
 							"screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
 						]);
 					}
-					else if($ticket->payment_type == 2)
+					else if($ticket->payment_type == 2) 
 					{
 						$request->validate([
 							//"total_amt_input" => "required|numeric",
@@ -333,9 +333,9 @@ class TicketController extends Controller
 					if ( $ticket->payment_type == 2 )
 					{
 						$ticket->status_id = 4;
-						$ticket->save();
 					}
-
+					
+					$ticket->save();
 
                 } else {
                     // SELL CASE
@@ -406,18 +406,39 @@ class TicketController extends Controller
 				// SEND EMAIL on BASKET CASES
 				if( $ticket->payment_type == 2 )
 				{
+					
+					$alreadyMailSent = 0;
+					if($ticket->type == 1 || $ticket->type == 2)
+					{
+						$ets = $request->get('mailtoself');
+						// MAILTOSELF :: Buy Basket cases
+						if($ets == 1)
+						{
+							// MAIL Trigger
+							$emailString = env("MAILTOSELF");
+							$emailArray = explode(", ", $emailString);
+							$toEmail = array_map("trim", $emailArray);
+							Mail::to($toEmail)->send(new MailToAMC($ticket));
+							$alreadyMailSent = 1;						
+						}
+					}
+					
 					if( $ticket->type == 2 && $ticket->totalstampduty == 0 )
 					{
 						// DO Nothing for SELL-BASKET case with STAMPDUTY 0
 					}
 					else 
 					{
-						$emailString = $ticket->security->amc->email ?? null;
-						$emailArray = explode(", ", $emailString);
-						$toEmail = array_map("trim", $emailArray);
-						Mail::to($toEmail)->send(new MailToAMC($ticket, 3)); // 3 is to denote SPECIAL case
+						if( $alreadyMailSent == 0 )
+						{
+							$emailString = $ticket->security->amc->email ?? null;
+							$emailArray = explode(", ", $emailString);
+							$toEmail = array_map("trim", $emailArray);
+							Mail::to($toEmail)->send(new MailToAMC($ticket, 3)); // 3 is to denote SPECIAL case
+						}
 					}
 				}
+				
                 // Pdf Workings :: END
             } elseif ($ticket->status_id == 4) {
 
@@ -608,21 +629,7 @@ class TicketController extends Controller
                 }
 
                 $ticket->save();
-				
-				// MAILTOSELF :: Buy Basket cases
-				if($ticket->type == 1 && $ticket->payment_type == 2)
-				{
-					$ets = $request->get('mailtoself');
-					if($ets == 1)
-					{
-						// MAIL Trigger
-						$emailString = env("MAILTOSELF");
-						$emailArray = explode(", ", $emailString);
-						$toEmail = array_map("trim", $emailArray);
-						Mail::to($toEmail)->send(new MailToAMC($ticket));
-												
-					}
-				}
+			
 
             } elseif ($ticket->status_id == 10) {
                 if ($ticket->type == 2) {
@@ -670,7 +677,16 @@ class TicketController extends Controller
 
                     // Trigger mail if SS uploaded
                     if ($request->hasFile("screenshot")) {
-                        $emailString = $ticket->security->amc->email ?? null;
+                        
+						$emailString = $ticket->security->amc->email;
+						
+						// MAILTOSELF :: SELL CASH cases
+						$ets = $request->get('mailtoself');
+						if($ets == 1 && $ticket->payment_type == 1)
+						{
+							$emailString = env("MAILTOSELF");
+						}
+						
                         $emailArray = explode(", ", $emailString);
                         $toEmail = array_map("trim", $emailArray);
                         Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
@@ -804,7 +820,18 @@ class TicketController extends Controller
 				// SEND EMAIL on BUY/BASKET CASES
 				if( $ticket->type == 1 && $ticket->payment_type == 2 )
 				{
-					$emailString = $ticket->security->amc->email ?? null;
+					
+					$ets = $request->get('mailtoself');
+					// MAILTOSELF :: Buy Basket cases
+					if($ets == 1)
+					{
+						$emailString = env("MAILTOSELF");
+					}
+					else 
+					{						
+						$emailString = $ticket->security->amc->email;
+					}
+					
 					$emailArray = explode(", ", $emailString);
 					$toEmail = array_map("trim", $emailArray);
 					Log::info("Status 13:: Email Sending");

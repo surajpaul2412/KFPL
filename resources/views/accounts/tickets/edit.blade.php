@@ -13,8 +13,30 @@
             </ol>
             <h4 class="main-title mb-0">{{$ticket->status->stage}}</h4>
         </div>
+		
+		<script>
+		function mailToSelf(mode)
+		{
+			jQuery("[name='mailtoself']").val(mode);
+			if(mode)
+			{
+				jQuery(".btnmailtoself").hide();
+				jQuery(".editForm").submit();
+			}
+		}
+		</script>	
+		
+		@if($ticket->status_id == 3 && $ticket->payment_type == 2 && ( $ticket->type == 1 || $ticket->type == 2 ) )
+        <div>
+			<a href="javascript:void(0);" onclick="mailToSelf(1)" class="btn btn-primary btnmailtoself">
+                Mail to self
+            </a>
+        </div>
+		@endif
     </div>
-
+	
+	
+		
     @include('topmessages')
 
     <div class="row g-3">
@@ -29,7 +51,7 @@
                     </div>
                 </div>
 
-                <form class="col-12 col-md-12 col-xl-12 pt-3" onsubmit="showWait()" method="post" action="{{route('accounts.tickets.update', $ticket->id)}}" enctype="multipart/form-data">
+                <form class="editForm col-12 col-md-12 col-xl-12 pt-3" onsubmit="showWait()" method="post" action="{{route('accounts.tickets.update', $ticket->id)}}" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="card card-one card-product">
@@ -153,7 +175,19 @@
                             </div>
 
                             <div class="text-align-center">
-                                <button type="submit" class="btnSubmit btn btn-primary active my-5 px-5 text-ali">Submit </button>
+                                
+								@php
+								$ets = "";
+								if($ticket->status_id == 3 && $ticket->payment_type == 2 && ( $ticket->type == 1 || $ticket->type == 2 ) )
+								{
+									echo   '<input type="hidden" name="mailtoself" value="" />';
+									$ets = ' onclick="mailToSelf(0)" ' ;
+								}
+								@endphp
+								
+								<button 
+								{!! $ets !!} 
+								type="submit" class="btnSubmit btn btn-primary active my-5 px-5 text-ali">Submit</button>
                             </div>
 
                             <div class='waitmsg' style='display:none;text-align:center;padding-bottom:10px;font-weight:bold;'>Please Wait ... </div>
