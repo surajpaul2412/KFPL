@@ -565,7 +565,7 @@ class TicketController extends Controller
 				{
 					// BUY - CASH cases
 					$request->validate([
-						"refund"      => ["required", "numeric", "lt:" . $actual_total_amt],
+						"refund"      => ["required", "numeric"],
 						"deal_ticket" => "nullable",
 						"screenshot"  => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
 					]);
@@ -854,8 +854,6 @@ class TicketController extends Controller
 						return redirect()->back()->with("error", "Received Units value is wrong");
 					}
 				}
-
-				
 				
 				// Deal Ticket Workings
                 if ($request->hasFile("deal_ticket") && $ticket->deal_ticket) {

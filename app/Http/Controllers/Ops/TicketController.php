@@ -281,7 +281,7 @@ class TicketController extends Controller
 				{
 					// BUY - CASH cases
 					$request->validate([
-						"refund"      => ["required", "numeric", "lt:" . $actual_total_amt],
+						"refund"      => ["required", "numeric"],
 						"deal_ticket" => "nullable",
 						"screenshot"  => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
 					]);

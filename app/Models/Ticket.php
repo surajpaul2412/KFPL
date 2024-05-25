@@ -27,9 +27,9 @@ class Ticket extends Model
         'refund',
         'totalstampduty',
         'expected_refund',
-		    'cashcomp',  // Cash Component Amount
+        'cashcomp',  // Cash Component Amount
         'deal_ticket',
-		    'basketfile', // Basket File Upload
+        'basketfile', // Basket File Upload
         'utr_no',
         'screenshot',
         'remark','dispute',
@@ -63,7 +63,7 @@ class Ticket extends Model
 
     public function getTotalAmtAttribute()
     {
-        return totalTicketAmt($this);
+        return totalTicketAmt($this); 
     }
 
     /*

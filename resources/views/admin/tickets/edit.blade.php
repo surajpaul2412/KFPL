@@ -246,7 +246,7 @@
                                             Actual Trade Value
                                         </div>
                                         <div class="w-75">
-                                            <input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
+                                            <input type="number" step=".01" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
                                         </div>
                                     </div>
 
@@ -321,14 +321,14 @@
 												Refund Amount
 											</div>
 											<div class="w-75">
-												<input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
-												  value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
+												<input type="number" step=".01" class="form-control w-100" placeholder="Refund Amount" name="refund"
+												  value="{{$ticket->total_amt - ($ticket->basket_no * $ticket->basket_size * $ticket->nav) }}" required>
 											</div>
 										</div>
 										@endif
 
 										@if($ticket->screenshot == null && $ticket->payment_type != 2)
-										<div class="col-6 my-3">
+										<div class="col-6 my-3"> 
 											<div class="w-25 pb-1">
 												Upload Screenshot
 											</div>

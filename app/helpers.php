@@ -7,8 +7,10 @@ use App\Models\QuickTicket;
 
 function totalTicketAmt(Ticket $ticket) {
     $amt = 0;
-    $amt = ($ticket->basket_no * $ticket->basket_size * $ticket->rate) + ($ticket->basket_no * $ticket->basket_size * $ticket->rate) * $ticket->markup_percentage / 100;
-
+    $amt =  ($ticket->basket_no * $ticket->basket_size * $ticket->rate) + 
+            ($ticket->basket_no * $ticket->basket_size * $ticket->rate) * $ticket->markup_percentage / 100;
+    
+    $amt = $amt < 1000 ? $amt : round($amt, -3);
     $amt = number_format($amt, 2, '.', '');
     return $amt;
 }

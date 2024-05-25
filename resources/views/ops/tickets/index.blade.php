@@ -84,15 +84,13 @@ Ticket Management
                                     <td>
                                         @if( $ticket->status_id == 2 || $ticket->status_id == 5 || $ticket->status_id == 9 || 
 										$ticket->status_id == 10 || $ticket->status_id == 13 || 
-										( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->status_id == 14) 
+										  ( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->status_id == 14) || 
+										  ( $ticket->type == 1 && $ticket->payment_type == 1 && $ticket->status_id == 14) 
 										)
                                         <a href="{{url('/ops/tickets/' . $ticket->id . '/edit')}}" title="Edit">
                                             <i class="ri-pencil-fill"></i>
                                         </a>
-                                        @elseif( $ticket->status_id == 6 || 
-										  ( $ticket->type == 1 && $ticket->payment_type == 1 && $ticket->status_id == 14) 
-										)
-										
+                                        @elseif( $ticket->status_id == 6 )
                                         <a href="{{ route('ops.tickets.show', $ticket->id) }}" title="View">
                                             <i class="ri-pencil-fill"></i>
                                         </a>

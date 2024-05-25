@@ -117,7 +117,8 @@ Ticket Management
                                     Actual Trade Value
                                 </div>
                                 <div class="">
-                                    <input type="number" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="{{ $ticket->actual_total_amt }}" required>
+                                    <input type="number" class="form-control w-100" placeholder="Add Actual Trade Value" step=".01" name="actual_total_amt" 
+									value="{{ number_format($ticket->actual_total_amt,2) }}" required>
                                     @error('total_amt')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

@@ -18,7 +18,7 @@ Ticket Management
 		<script>
 		function mailToSelf(mode)
 		{
-			jQuery("[name='mailtoself']").val(mode);
+            jQuery("[name='mailtoself']").val(mode);
 			if(mode)
 			{
 				jQuery(".btnmailtoself").hide();
@@ -136,8 +136,8 @@ Ticket Management
 										Refund Amount
 									</div>
 									<div class="w-75">
-										<input type="text" class="form-control w-100" placeholder="Refund Amount" name="refund"
-										  value="{{$ticket->total_amt - $ticket->actual_total_amt}}" readonly  required>
+										<input type="number" step=".01" class="form-control w-100" placeholder="Refund Amount" name="refund"
+										  value="{{$ticket->total_amt - ($ticket->basket_no * $ticket->basket_size * $ticket->nav) }}"  required>
 									</div>
 								</div>
 								@endif
@@ -345,7 +345,24 @@ Ticket Management
 						@endif
 
                         <!-- Update button text for edit page -->
-						@if($ticket->status_id <= 14)
+                        @php 
+                            $isClosed = 0;
+                            if( $ticket->status_id == 15 || 
+                                ( $ticket->status_id == 14 && $ticket->payment_type == 1 && $ticket->type == 1 ) 
+                            )
+                            {
+                                $isClosed = 1;
+                            @endphp			
+                                <div class="col-12 my-3" align="center">
+                                    <div class="">
+                                        Congratulations !! your ticket has been closed.
+                                    </div>
+                                </div>
+                            @php 
+                            }
+                        @endphp
+                        
+						@if($ticket->status_id <= 14 && $isClosed == 0)
 						<div class="text-align-center">
 							@php
 							$ets = "";

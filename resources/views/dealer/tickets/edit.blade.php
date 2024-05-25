@@ -43,7 +43,7 @@ Ticket Management
 										Actual Trade Value
 									</div>
 									<div class="w-75">
-										<input type="text" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
+										<input type="number" step=".01" class="form-control w-100" placeholder="Add Actual Trade Value" name="actual_total_amt" value="" required>
 									</div>
 								</div>
 
