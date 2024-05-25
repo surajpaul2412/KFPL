@@ -60,7 +60,7 @@ class QuickTicketController extends Controller
             'payment_type' => $quickTicket->payment_type,
             'basket_no' => $quickTicket->basket_no,
             'basket_size' => $quickTicket->basket_size,
-            'rate' => 0,
+            'rate' => $quickTicket->security->price ?? 0,
             'security_price' => 0,
             'markup_percentage' => 0,
             'actual_total_amt' => $quickTicket->actual_total_amt,

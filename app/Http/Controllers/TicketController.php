@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ticket;
+use App\Models\QuickTicket;
 use Auth;
 
 class TicketController extends Controller
 {
     public function checkNewTicket() {
         $latestTicket = Ticket::orderBy('updated_at', 'desc')->first()->updated_at;
+        return response()->json([
+            'updated_at' => $latestTicket
+        ]);
+    }
+
+    public function checkNewQuickTicket() {
+        $latestTicket = QuickTicket::orderBy('updated_at', 'desc')->first()->updated_at;
         return response()->json([
             'updated_at' => $latestTicket
         ]);

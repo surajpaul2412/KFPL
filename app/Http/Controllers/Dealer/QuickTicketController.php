@@ -60,8 +60,12 @@ class QuickTicketController extends Controller
         // Create a new QuickTicket instance
         $quickTicket = QuickTicket::create($validatedData);
 
-        // purchaseNav
-        $nav_value = purchaseNavValueForQuickTicket($quickTicket, $request->input('actual_total_amt'));
+        if ($quickTicket->type == 1) {
+            $nav_value = purchaseNavValueForQuickTicket($quickTicket, $request->input('actual_total_amt'));
+        } else {
+            $nav_value = sellNavValueForQuickTicket($quickTicket, $request->input('actual_total_amt'));
+        }
+        
         $quickTicket->update(['nav'=> $nav_value]);
         
         return redirect()->route('dealer.quick_tickets.index')
@@ -113,7 +117,12 @@ class QuickTicketController extends Controller
 
         // Update purchaseNav if needed
         if ($request->has('actual_total_amt')) {
-            $nav_value = purchaseNavValueForQuickTicket($quickTicket, $request->input('actual_total_amt'));
+            if ($validatedData['type'] == 1) {
+                $nav_value = purchaseNavValueForQuickTicket($quickTicket, $request->input('actual_total_amt'));
+            } else {
+                $nav_value = sellNavValueForQuickTicket($quickTicket, $request->input('actual_total_amt'));
+            }
+            
             $quickTicket->update(['nav'=> $nav_value]);
         }
         

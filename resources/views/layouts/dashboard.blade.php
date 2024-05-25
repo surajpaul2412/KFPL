@@ -109,8 +109,8 @@
 <script>
 $(document).ready(function(){
     $('.lottie-animation').hide();
-    // var prevTicketId = {{ lastTicket() }};
     var prevUpdatedAt = new Date("{{ lastTicket() }}");
+    var prevQuickUpdatedAt = new Date("{{ lastQuickTicket() }}");
     var audio = new Audio('/notification.mp3');
     
     function checkNewTicket() {
@@ -135,9 +135,67 @@ $(document).ready(function(){
             }
         });
     }
-    
-    // Call checkNewTicket every 5 seconds (you can adjust the interval as needed)
-    setInterval(checkNewTicket, 5000);
+
+    function checkNewQuickTicket() {
+        $.ajax({
+            url: '/check-new-quick-ticket',
+            type: 'GET',
+            success: function(response) {
+                var latestQuickUpdatedAt = new Date(response.updated_at);
+                
+                // Check if the updated_at value has changed
+                if (latestQuickUpdatedAt > prevQuickUpdatedAt) {
+                    $('#lottie-animation-admin-quick').show();  // Assuming you have a different element for quick tickets
+                    audio.play();
+                    alert("New quick ticket inserted!");
+                    
+                    // Update prevQuickUpdatedAt with the latestQuickUpdatedAt
+                    prevQuickUpdatedAt = latestQuickUpdatedAt;
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    setInterval(checkNewTicket, 10000);
+    setInterval(checkNewQuickTicket, 10000);
+});
+</script>
+@endif
+
+@if(auth()->user()->isTrader())
+<script>
+$(document).ready(function(){
+    $('.lottie-animation').hide();
+    var prevQuickUpdatedAt = new Date("{{ lastQuickTicket() }}");
+    var audio = new Audio('/notification.mp3');
+
+    function checkNewQuickTicket() {
+        $.ajax({
+            url: '/check-new-quick-ticket',
+            type: 'GET',
+            success: function(response) {
+                var latestQuickUpdatedAt = new Date(response.updated_at);
+                
+                // Check if the updated_at value has changed
+                if (latestQuickUpdatedAt > prevQuickUpdatedAt) {
+                    $('#lottie-animation-trader-quick').show();  // Assuming you have a different element for quick tickets
+                    audio.play();
+                    alert("New quick ticket inserted!");
+                    
+                    // Update prevQuickUpdatedAt with the latestQuickUpdatedAt
+                    prevQuickUpdatedAt = latestQuickUpdatedAt;
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    setInterval(checkNewQuickTicket, 10000);
 });
 </script>
 @endif

@@ -40,6 +40,9 @@ Route::redirect('/', '/login');
 // Home
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/check-new-ticket', [App\Http\Controllers\TicketController::class, 'checkNewTicket']);
+Route::get('/check-new-quick-ticket', [App\Http\Controllers\TicketController::class, 'checkNewQuickTicket']);
+
+
 Route::get('/check-ops-ticket', [App\Http\Controllers\TicketController::class, 'checkOpsTicket']);
 Route::get('/check-accounts-ticket', [App\Http\Controllers\TicketController::class, 'checkAccountsTicket']);
 Route::get('/check-dealer-ticket', [App\Http\Controllers\TicketController::class, 'checkDealerTicket']);

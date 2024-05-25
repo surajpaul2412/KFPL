@@ -47,9 +47,19 @@ function purchaseNavValueForQuickTicket(QuickTicket $quickTicket, $actualTotalAm
 	return round($nav_value, 4);
 }
 
+function sellNavValueForQuickTicket(QuickTicket $quickTicket, $actualTotalAmt) {
+	$nav_value = sellConsiderationForQuickTicket($quickTicket, $actualTotalAmt)/totalUnitsForQuickTicket($quickTicket);
+	return round($nav_value, 4);
+}
+
 function purchaseConsiderationForQuickTicket(QuickTicket $quickTicket, $actualTotalAmt) {
 	$purchase_consideration = $actualTotalAmt + (($quickTicket->security->amc->expense_percentage)/100 * $actualTotalAmt) + ($quickTicket->security->cash_component * $quickTicket->basket_no);
 	return $purchase_consideration;
+}
+
+function sellConsiderationForQuickTicket(QuickTicket $quickTicket, $actualTotalAmt) {
+	$sell_consideration = $actualTotalAmt - ((($quickTicket->security->amc->expense_percentage)/100 * $actualTotalAmt) + ($quickTicket->security->cash_component * $quickTicket->basket_no));
+	return $sell_consideration;
 }
 
 function totalUnitsForQuickTicket(QuickTicket $quickTicket) {
@@ -67,6 +77,11 @@ function convertToCrore($amount) {
 
 function lastTicket() {
     $latestTicket = Ticket::orderBy('updated_at', 'desc')->first();
+    return $latestTicket ? $latestTicket->updated_at->toISOString() : null;
+}
+
+function lastQuickTicket() {
+    $latestTicket = QuickTicket::orderBy('updated_at', 'desc')->first();
     return $latestTicket ? $latestTicket->updated_at->toISOString() : null;
 }
 
