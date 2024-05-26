@@ -168,9 +168,11 @@ var chart1 = new Chart(ctx1, {
     },
     scales: {
       y: {
-        beginAtZero:false,
+        beginAtZero:true,
+        min: 0,
         max: 10,
         ticks: {
+          stepSize: 1,
           color: '#a1aab3',
           font: {
             size: 10

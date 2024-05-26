@@ -95,20 +95,29 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
     <script>
-      // Load the animation
-      var animation = bodymovin.loadAnimation({
-        container: document.querySelector('.lottie-animation'),
-        renderer: 'svg', // Choose renderer: svg/canvas/html
-        loop: true,
-        autoplay: true,
-        path: '{{ asset('ticket_blink.json') }}' // Path to your JSON animation file
-      });
+      // Function to load animation
+      function loadLottieAnimation(containerSelector, animationPath) {
+        return bodymovin.loadAnimation({
+          container: document.querySelector(containerSelector),
+          renderer: 'svg', // Choose renderer: svg/canvas/html
+          loop: true,
+          autoplay: true,
+          path: animationPath // Path to your JSON animation file
+        });
+      }
+
+      // Load animation for .lottie-animation
+      loadLottieAnimation('.lottie-animation', '{{ asset('ticket_blink.json') }}');
+
+      // Load animation for .lottie-animation-2
+      loadLottieAnimation('.lottie-animation-2', '{{ asset('ticket_blink.json') }}');
     </script>
 
 @if(auth()->user()->isAdmin())
 <script>
 $(document).ready(function(){
     $('.lottie-animation').hide();
+    $('.lottie-animation-2').hide();
     var prevUpdatedAt = new Date("{{ lastTicket() }}");
     var prevQuickUpdatedAt = new Date("{{ lastQuickTicket() }}");
     var audio = new Audio('/notification.mp3');
@@ -169,6 +178,7 @@ $(document).ready(function(){
 <script>
 $(document).ready(function(){
     $('.lottie-animation').hide();
+    $('.lottie-animation-2').hide();
     var prevQuickUpdatedAt = new Date("{{ lastQuickTicket() }}");
     var audio = new Audio('/notification.mp3');
 
