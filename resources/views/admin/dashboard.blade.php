@@ -4,6 +4,14 @@
 Dashboard
 @endsection
 
+@section('style')
+<style>
+#chartJS1 {
+    height: 295px !important; /* Adjust this value as needed */
+}
+</style>
+@endsection
+
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <div>
@@ -142,6 +150,7 @@ Dashboard
 @endsection
 
 @section('script')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript">
 var ctx1 = document.getElementById('chartJS1').getContext('2d');
 var chart1 = new Chart(ctx1, {
@@ -170,7 +179,7 @@ var chart1 = new Chart(ctx1, {
       y: {
         beginAtZero:true,
         min: 0,
-        max: 10,
+        max: 20,
         ticks: {
           stepSize: 1,
           color: '#a1aab3',
