@@ -58,7 +58,7 @@ function purchaseConsiderationForQuickTicket(QuickTicket $quickTicket, $actualTo
 }
 
 function sellConsiderationForQuickTicket(QuickTicket $quickTicket, $actualTotalAmt) {
-	$sell_consideration = $actualTotalAmt - ((($quickTicket->security->amc->expense_percentage)/100 * $actualTotalAmt) + ($quickTicket->security->cash_component * $quickTicket->basket_no));
+	$sell_consideration = $actualTotalAmt - (($quickTicket->security->amc->expense_percentage)/100 * $actualTotalAmt) + ($quickTicket->security->cash_component * $quickTicket->basket_no);
 	return $sell_consideration;
 }
 
