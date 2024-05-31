@@ -736,13 +736,13 @@ class FormService
 
 			if ($payment_type == 1) {  // CASH
 				$images[] =  [
-					  "url" => $checkboxImageData, "x" => 131, "y" => 297, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
+					  "url" => $checkboxImageData, "x" => 135.85, "y" => 292.15, "width" => 17, "height" => 14, "pages" => "0", "keepAspectRatio" => true
 				  ];
 			}
 
 			if ($payment_type == 2) { // BASKET
 			  $images[] =  [
-					"url" => $checkboxImageData, "x" => 185.82, "y" =>  298.92, "width" => 17,   "height" => 14, "pages" =>  "0", "keepAspectRatio" => true
+					"url" => $checkboxImageData, "x" => 190.19, "y" =>  292.15, "width" => 17,   "height" => 14, "pages" =>  "0", "keepAspectRatio" => true
 				];
 			}
 
@@ -752,108 +752,115 @@ class FormService
 		  if ($ticket->type == 2) {
 			if ($payment_type == 1) {  // CASH
 			   $images[] = [
-				"url" => $checkboxImageData, "x" => 404.04, "y" => 297,  "width" => 15, "height" => 14, "pages" => "0", "keepAspectRatio" => true
+				"url" => $checkboxImageData, "x" => 411.67, "y" => 292.15,  "width" => 15, "height" => 14, "pages" => "0", "keepAspectRatio" => true
 			  ];
 			}
 
 			if ($payment_type == 2) { // BASKET
 			  $images[] = [
-			   "url" => $checkboxImageData, "x" => 458.86, "y" => 297.96, "width" => 15, "height" => 14,  "pages" => "0",  "keepAspectRatio" => true
+			   "url" => $checkboxImageData, "x" => 466.01, "y" => 292.15, "width" => 15, "height" => 14,  "pages" => "0",  "keepAspectRatio" => true
 			 ];
 			}
 		  }
 
 		  if(strtolower($sec_name) == 'aditya birla sun life nifty bank etf')
 		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 34.04, "y" => 392.04,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 260.86, "y" => 391.11,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 321.09,  "y"=> 391.94,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 392,"size"=>7,"width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
+			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 382.68,"size"=>7, "width" => 11, "height" =>10, "pages" => "0", "keepAspectRatio" => true];
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 381.03,"size"=>7, "width" => 55.99, "height" => 13.5, "pages" => "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16,  "y"=> 381.03,"size"=>7,"width"=> 73.28, "height"=> 13.5, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 381.03,"size"=>7,"width"=> 170.43, "height"=> 13.5, "pages"=> "0", "type" => "text"];
 		  }
 
 		  else if(strtolower($sec_name) == 'aditya birla sun life gold etf')
 		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 35.58, "y" => 408.45,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 260.86, "y" => 404,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 321.09,  "y"=> 404,"size"=>7, "width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 404,"size"=>7, "width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
+			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 395.84,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 395.85,"size"=>7, "width" => 55.99, "height" => 11.37, "pages" => "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16,  "y"=> 395.85,"size"=>7, "width"=> 73.28, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 395.85,"size"=>7, "width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
 		  }
 		  else if(strtolower($sec_name) == 'aditya birla sun life nifty 50 etf')
 		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 35.58, "y" => 423.45,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 260.86, "y" => 420,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 321.09,  "y"=> 420,"size"=>7, "width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 420,"size"=>7,"width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
+			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 409.83,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 409.02,"size"=>7, "width" => 55.99, "height" => 11.37, "pages" => "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16,  "y"=> 409.02,"size"=>7, "width"=> 73.28, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 409.02,"size"=>7,"width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
 		  }
 		  else if(strtolower($sec_name) == 'aditya birla sun life silver etf')
 		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 35.58, "y" => 435.86,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 260.86, "y" => 435,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 321.09,  "y"=> 435,"size"=>7, "width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 435,"size"=>7, "width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
+			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 423.82,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 423.83,"size"=>7, "width" => 55.99, "height" => 11.37, "pages" => "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16,  "y"=> 423.83,"size"=>7, "width"=> 73.28, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 423.83,"size"=>7, "width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
 		  }
 		  else if(strtolower($sec_name) == 'aditya birla sun life nifty next 50 etf')
 		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 35.58, "y" => 450,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 260.86, "y" => 448,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 321.09, "y"=> 448,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 448,"size"=>7,"width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
+			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 440.28,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 437.82,"size"=>7, "width" => 55.99, "height" => 11.37, "pages" => "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16, "y"=> 437.82,"size"=>7,"width"=> 73.28, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 437.82,"size"=>7,"width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
 		  }
 		  else if(strtolower($sec_name) == 'aditya birla sun life s & p bse sensex etf')
 		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 35.58, "y" => 464,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 260.86, "y" => 461,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 321.09, "y"=> 461,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 461,"size"=>7,"width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
+			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 454.27, "size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 451.81, "size"=>7, "width" => 55.99, "height" => 11.37, "pages" => "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16, "y"=> 451.81, "size"=>7,"width"=> 73.28, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 451.81, "size"=>7,"width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
 		  }
 		  else if(strtolower($sec_name) == 'aditya birla sun life nifty healthcare etf')
 		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 35.58, "y" => 478,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 260.86, "y" => 476,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 321.09, "y"=> 476,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 476,"size"=>7,"width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
+			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 467.44,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 466.62,"size"=>7, "width" => 55.99, "height" => 11.37, "pages" => "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16, "y"=> 466.62,"size"=>7,"width"=> 73.28, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 466.62,"size"=>7,"width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
 		  }
 		  else if(strtolower($sec_name) == 'aditya birla sun life nifty it etf')
 		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 35.58, "y" => 492,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 260.86, "y" => 490,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 321.09, "y"=> 490,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 490,"size"=>7,"width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
+			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 481.43,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 480.61,"size"=>7, "width" => 55.99, "height" => 11.37, "pages" => "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16, "y"=> 480.61,"size"=>7,"width"=> 73.28, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 490,"size"=>7,"width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
 		  }
 		  else if(strtolower($sec_name) == 'aditya birla sun life nifty 200 quality 30 etf')
 		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 35.58, "y" => 506,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 260.86, "y" => 504,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 321.09, "y"=> 504,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 504,"size"=>7,"width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
+			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 496.25,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 494.6,"size"=>7, "width" => 55.99, "height" => 11.37, "pages" => "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16, "y"=> 494.6,"size"=>7,"width"=> 73.28, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 494.6,"size"=>7,"width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
 		  }
 		  else if(strtolower($sec_name) == 'aditya birla sun life nifty 200 momentum 30 etf')
 		  {
-			  $images[] = ["url" => $checkboxImageData, "x" => 35.58, "y" => 520,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
-			  $textannotations[] = ["text" => "$ticket_basket", "x" => 260.86, "y" => 517,"size"=>7, "width" => 57.57, "height" => 11.37, "pages" => "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units", "x"=> 321.09, "y"=> 517,"size"=>7,"width"=> 71.21, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 404, "y"=> 517,"size"=>7,"width"=> 156, "height"=> 13, "pages"=> "0", "type" => "text"];
+			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 510.24,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 508.59,"size"=>7, "width" => 55.99, "height" => 11.37, "pages" => "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16, "y"=> 508.59,"size"=>7,"width"=> 73.28, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 508.59,"size"=>7,"width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
 		  }
-
+		  else if(strtolower($sec_name) == 'aditya birla sun life nifty pse etf')
+		  {
+			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 523.41,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
+			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 522.58,"size"=>7, "width" => 55.99, "height" => 11.37, "pages" => "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16, "y"=> 522.58,"size"=>7,"width"=> 73.28, "height"=> 11.94, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 522.58,"size"=>7,"width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
+		  }
+		  
 		  // IF BUY CASE, add UTR NO, AMOUNT, AMount in WORDS
 		  if( $ticket->type == 1 )
 		  {
 			$utr_no = $ticket->utr_no;
 			if($utr_no !='')
 			{
-				$textannotations[] = ["text"=> "$utr_no", "x"=> 391.48, "y"=> 550.84,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$utr_no", "x"=> 405.91, "y"=> 545.62,"size"=>7,"width"=> 184.43, "height"=> 18.11, "pages"=> "0", "type"=> "text"];
 			}
 			
 			// SHOW TOTAL AMOUNT :: BUY CASH CASES
 		    if ( $ticket->payment_type == 1) {
-				$textannotations[] = ["text"=> "$total_amt", "x"=> 112.92, "y"=> 567.15,"size"=>7,"width"=> 137, "height"=> 10, "pages"=> "0", "type"=> "text"];
-				$textannotations[] = ["text"=> "$word_text", "x"=> 307, "y"=> 566,  "width"=> 300,"size"=>7,"height"=> 13, "pages"=> "0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$total_amt", "x"=> 111.15, "y"=> 567.02,"size"=>7,"width"=> 122.68, "height"=> 11.52, "pages"=> "0", "type"=> "text"];
+				$textannotations[] = ["text"=> "$word_text", "x"=> 308.75, "y"=> 563.73,  "width"=> 276.64,"size"=>7,"height"=> 13, "pages"=> "0", "type"=> "text"];
 			}
 		  }
 
 		   // call API and SAVE the file
 		  Log::info("Birla PDF -- ABout to call API");
-		  $urlToken = "filetoken://e7a129ba2bfb1209f848ad0064ec07635e2f99939ef41e853a";
+		  $urlToken = "filetoken://1b8ee3dcb0e30848bbd1207d690b67a31d0e15d791f46f429f";
 		  self::callAPIandSaveFile($urlToken, $images, $textannotations, $ticket->id);
 	  }
 	  catch (\Exception $e) 
@@ -1612,7 +1619,7 @@ class FormService
 				$textannotations[] = array_merge($config, ["text"=> "$utr_no", "x"=>96.75, "y"=>125.3, "width"=> 279.38, "pages" => "1"]);		
 			}			
 		 
-		    $urlToken = "filetoken://06b4ed19d137360fb55c8f91b76f7ebe1a3db2faa09ce963f6";
+		    $urlToken = "filetoken://8004d7cc7d4e47554b09c857607d576598dd86e8e6bbc79a6d";
 			
 			// call API 
 			Log::info("About to call PDF API");
@@ -1807,7 +1814,7 @@ class FormService
 			}
 			
 		 
-		    $urlToken = "filetoken://2e946494f0495b931735a3a1c7368f50072c92632f3e4b301d";
+		    $urlToken = "filetoken://e035037ce73020bbf3f10248eab17332460a690387f5a7c76e";
 			
 			// call API 
 			Log::info("About to call PDF API");
