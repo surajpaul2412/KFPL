@@ -93,12 +93,12 @@ Ticket Management
                                     </td>
                                     <td>{{$ticket->basket_no * $ticket->basket_size}}</td>
                                     <td>
-                  									@if($ticket->type == 1 && $ticket->payment_type == 2)
-                  										0.00
-                  									@else
-                  										{{$ticket->total_amt}}
-                  									@endif
-                  									</td>
+										@if( $ticket->type == 2 || ($ticket->type == 1 && $ticket->payment_type == 2) )
+											0.00
+										@else
+											{{$ticket->total_amt}}
+										@endif
+									</td>
                                     <td>{{$ticket->created_at->format('d-m-Y')}}</td>
                                     <td>{{$ticket->updated_at->format('d-m-Y')}}</td>
                                     <td>{{$ticket->status_id}}</td>
