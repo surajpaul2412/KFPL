@@ -1339,277 +1339,254 @@ class FormService
 			}
 
 			if(strtolower($sec_name) == 'nippon india etf nifty 50 bees') {
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 469.64]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 469, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>469, "width"=>61.51]);
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 478.76]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 477.48, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>477.48, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>469, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>477.48, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty next 50 junior bees'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 485.64]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 483, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>483, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty next 50 junior bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 492.44]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 491.88, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>491.88, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>483, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>491.88, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty midcap 150'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 498.47]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 495, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>495, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty midcap 150'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 506.84]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 506, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>506, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>495, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>506, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty 100'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 512.57]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 510.64, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>510.64, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty 100'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 520.52]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 518.24, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>518.24, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>510.64, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>518.24, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty 50 shariah bees'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 526.02]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 524.09, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>524.09, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty 50 shariah bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 534.2]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 534.08, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>534.08, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>524.09, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>534.08, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty bank bees'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 540.12]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 538.19, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>538.19, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty bank bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 548.6]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 547.04, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>547.04, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>538.19, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>547.04, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty psu bank bees'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 553.57]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 552.92, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>552.92, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty psu bank bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 561.56]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 561.44, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>561.44, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>552.92, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>561.44, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty 50 value 20'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 567.02]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 565.09, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>565.09, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty 50 value 20'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 576.68]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 574.4, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>574.4, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>565.09, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>574.4, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty infrastructure bees'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 581.12]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 580.47, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>580.47, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty infrastructure bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 589.64]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=> 588.8, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>588.8, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>580.47, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>588.8, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty india consumption'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 595.21]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>593.28, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>593.28, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty india consumption'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 604.04]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>602.07, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>602.07, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>593.28, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>602.07, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty dividend opportunities 50'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 608.66]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>606.73, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>606.73, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty dividend opportunities 50'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 617.91]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>615.03, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>615.03, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>606.73, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>615.03, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty it'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 622.76]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>621.47, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>621.47, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty it'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 631.59]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>630.15, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>630.15, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>621.47, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>630.15, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india nifty pharma etf'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 635.57]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>634.92, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>634.92, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india nifty pharma etf'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 644.55]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>643.11, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>643.11, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>634.92, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>643.11, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india nifty auto etf'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 651.59]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>649.66, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>649.66, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india nifty auto etf'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 658.95]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>657.51, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>657.51, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>649.66, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>657.51, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'cpse etf'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 663.76]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>663.11, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>663.11, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'cpse etf'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 674.07]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>670.47, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>670.47, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>663.11, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>670.47, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf s&p bse sensex next 50'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 677.86]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>677.21, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>677.21, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf s&p bse sensex next 50'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 687.03]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>685.59, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>685.59, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>677.21, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>685.59, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf s&p bse sensex'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 691.31]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>690.66, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>690.66, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf s&p bse sensex'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 700.71]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>699.27, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>699.27, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>690.66, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>699.27, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf hang seng bees'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 707.33]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>704.76, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>704.76, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf hang seng bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 715.39]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>712.95, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>712.95, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>704.76, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>712.95, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty 8-13 yr g-sec long term gilt'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 719.5]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>718.21, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>718.21, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty 8-13 yr g-sec long term gilt'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 729.07]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>728.07, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>728.07, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>718.21, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>728.07, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty 5 yr benchmark g-sec'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 734.24]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>732.95, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>732.95, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty 5 yr benchmark g-sec'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 741.31]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>740.31, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>740.31, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>732.95, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>740.31, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty cpse bond plus sdl sep 2024 50:50'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 747.05]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>745.76, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>745.76, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty cpse bond plus sdl sep 2024 50:50'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 756.43]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>753.99, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>753.99, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>745.76, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>753.99, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf nifty sdl apr 2026 top 20 equal weight'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 761.15]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>761.14, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>761.14, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf nifty sdl apr 2026 top 20 equal weight'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 770.11]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>770.11, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>770.11, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>761.14, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>770.11, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india etf gold bees'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 775.25]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>773.95, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>773.95, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india etf gold bees'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 783.79]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>783.07, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>783.07, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>773.95, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>783.07, "width"=> 85.86]);
 				}
-			}
-			else if(strtolower($sec_name) == 'nippon india silver etf'){
-				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 788.9]);
-				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>787.4, "width"=> 80]);
-				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>787.4, "width"=>61.51]);
+			} else if(strtolower($sec_name) == 'nippon india silver etf'){
+				$images[] = array_merge($imageArr, ["x" => 203.76, "y" => 797.47]);
+				$textannotations[] = array_merge($config, ["text"=>"$ticket_basket", "x"=>342.81, "y"=>797.47, "width"=> 80]);
+				$textannotations[] = array_merge($config, ["text"=>"$total_units_in_float", "x"=>427.39, "y"=>797.47, "width"=>61.51]);
 				
 				// SHOW total amount for BUY-CASH cases
 				if ($ticket->type == 1 && $ticket->payment_type == 1) 
 			    {
-					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>787.4, "width"=> 85.86]);
+					$textannotations[] = array_merge($config, ["text"=>"$total_amt", "x"=>492.75, "y"=>797.47, "width"=> 85.86]);
 				}
 			}
 
 		    // Scheme 
 			$textannotations[] = array_merge($config, ["text"=> "$sec_name", "x"=>76.89, "y"=>80.73, "width"=>279.38, "pages" => "1"]);	
 			
-			if ($ticket->type == 1) {
+			//if ($ticket->type == 1) {
 				
 				// SHOW total amount for BUY-CASH cases
-				if ($ticket->payment_type == 1) 
+				//if ($ticket->payment_type == 1) 
 			    {
 					// Total AMOUNT
 					$textannotations[] = array_merge($config, ["text"=> "$total_amt", "x"=>61.51, "y"=>90.98, "width"=> 279.38, "pages" => "1"]);		
@@ -1617,7 +1594,7 @@ class FormService
 				
 				// UTR
 				$textannotations[] = array_merge($config, ["text"=> "$utr_no", "x"=>96.75, "y"=>125.3, "width"=> 279.38, "pages" => "1"]);		
-			}			
+			//}			
 		 
 		    $urlToken = "filetoken://d114bfa9288de2f2f206e79c52b37cce3a7fbc60c203b7ff43";
 			
