@@ -85,7 +85,7 @@ class TicketController extends Controller
 
         $tickets = $ticketQuery->orderBy("updated_at", "desc")->paginate(10);
         $sql = DB::getQueryLog();
-        // dd($sql);
+        //dd($sql);
         return view(
             "admin.tickets.index",
             compact(
@@ -105,7 +105,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $securities = Security::whereStatus(1)->get();
+        $securities = Security::whereStatus(1)->orderBy("amc_id", "asc")->get();
         return view("admin.tickets.create", compact("securities"));
     }
 
