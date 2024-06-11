@@ -71,14 +71,11 @@ class TicketController extends Controller
           compact(
               "tickets",
               "roles",
-
               "sel_from_date",
               "sel_to_date",
-
               "sel_query"
           )
       );
-
     }
 
     /**
@@ -86,7 +83,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $securities = Security::whereStatus(1)->get();
+        $securities = Security::whereStatus(1)->orderBy("amc_id", "asc")->get();
         return view('trader.tickets.create', compact('securities'));
     }
 
@@ -96,13 +93,13 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            "security_id" => "required|exists:securities,id",
-            "type" => "required|integer|in:1,2",
-            "payment_type" => "required|integer|in:1,2,3",
-            "basket_no" => "required|integer",
-            "basket_size" => "required|integer",
-            "rate" => "required|numeric",
-            "security_price" => "required|numeric",
+            "security_id"    => "required|exists:securities,id",
+            "type"           => "required|integer|in:1,2",
+            "payment_type"   => "required|integer|in:1,2,3",
+            "basket_no"      => "required|integer",
+            "basket_size"    => "required|integer",
+            "rate"           => "required|numeric",
+            "security_price"    => "required|numeric",
             "markup_percentage" => "required|numeric"
         ]);
 
