@@ -818,7 +818,7 @@ class FormService
 			  $images[] = ["url" => $checkboxImageData, "x" => 36.23, "y" => 481.43,"size"=>7, "width" => 11, "height" => 10, "pages" => "0", "keepAspectRatio" => true];
 			  $textannotations[] = ["text" => "$ticket_basket", "x" => 285.7, "y" => 480.61,"size"=>7, "width" => 55.99, "height" => 11.37, "pages" => "0", "type" => "text"];
 			  $textannotations[] = ["text"=> "$total_units", "x"=> 344.16, "y"=> 480.61,"size"=>7,"width"=> 73.28, "height"=> 11.94, "pages"=> "0", "type" => "text"];
-			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 490,"size"=>7,"width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
+			  $textannotations[] = ["text"=> "$total_units_in_words", "x"=> 419.9, "y"=> 480.61,"size"=>7,"width"=> 170.43, "height"=> 13, "pages"=> "0", "type" => "text"];
 		  }
 		  else if(strtolower($sec_name) == 'aditya birla sun life nifty 200 quality 30 etf')
 		  {
@@ -1653,19 +1653,19 @@ class FormService
 			// BUY CASES
 			if ($ticket->type == 1) {
 				if ($payment_type == 1) {  // CASH
-					$images[] = array_merge($imageArr, ["x" => 205.47, "y" => 477.01]);
+					$images[] = array_merge($imageArr, ["x" => 203.24, "y" => 477.01]);
 				}
 				if ($payment_type == 2) { // BASKET
-				  $images[] = array_merge($imageArr, ["x" => 255.98, "y" =>  477.01]);
+				  $images[] = array_merge($imageArr, ["x" => 254.7, "y" =>  477.01]);
 				}
 			}
 			// SELL CASES
 			if ($ticket->type == 2) {
 				if ($payment_type == 1) {  // CASH
-					$images[] = array_merge($imageArr, ["x" => 385.86, "y" => 477.01]);
+					$images[] = array_merge($imageArr, ["x" => 383.74, "y" => 477.01]);
 				}
 				if ($payment_type == 2) { // BASKET
-				  $images[] = array_merge($imageArr, ["x" => 439.25, "y" =>  477.01]);
+				  $images[] = array_merge($imageArr, ["x" => 440.58, "y" =>  477.01]);
 				}
 			}
 
