@@ -13,10 +13,11 @@ Ticket Details
         </ol>
         <h4 class="main-title mb-0">{{$ticket->status->stage}}</h4>
     </div>
-	
+	@if($ticket->status_id == 6)
 	<div>
 		<a href="{{route('admin.tickets.mailtoself', $ticket)}}" onclick="showWait()" class="btn btnSubmit btn-primary d-flex align-items-center gap-2">Mail To Self </a>
 	</div>
+	@endif
 </div>
 
 @include('topmessages')
