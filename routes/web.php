@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\DisputeController;
 use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\Trader\TicketController as TraderTicketController;
+use App\Http\Controllers\Trader\MisController;
 use App\Http\Controllers\Ops\TicketController as OpsTicketController;
 use App\Http\Controllers\Account\TicketController as AccountsTicketController;
 use App\Http\Controllers\Dealer\TicketController as DealerTicketController;
@@ -125,6 +126,10 @@ Route::middleware(['auth', 'isAccounts'])->group(function () {
 // Trader Dashboard
 Route::middleware(['auth', 'isTrader'])->group(function () {
     Route::get('/trader/dashboard', [TraderDashboardController::class, 'index'])->name('trader.dashboard');
+    Route::resource('/trader/mis', MisController::class)->names([
+        'index' => 'trader.mis.index',
+        'show' => 'trader.mis.show',
+    ]);
     Route::resource('/trader/tickets', TraderTicketController::class)->names([
         'index' => 'trader.tickets.index',
         'create' => 'trader.tickets.create',

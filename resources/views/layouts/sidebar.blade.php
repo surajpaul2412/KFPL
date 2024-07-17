@@ -47,6 +47,9 @@
                           <a href="{{ route('trader.dashboard') }}" class="nav-link {{ Request::is('trader/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
                       </li>
                       <li class="nav-item">
+                          <a href="{{ route('trader.mis.index') }}" class="nav-link {{ Request::is('trader/mis*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>MIS</span></a>
+                      </li>
+                      <li class="nav-item">
                           <a href="{{ route('trader.tickets.index') }}" class="nav-link {{ Request::is('trader/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span>  <div class="lottie-animation" id="lottie-animation-trader"></div></a>
                       </li>
                       <li class="nav-item">

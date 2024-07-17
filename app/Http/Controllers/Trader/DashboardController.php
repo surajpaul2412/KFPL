@@ -63,4 +63,8 @@ class DashboardController extends Controller
         ];
         return view('trader.dashboard', compact('data'));
     }
+
+    public function mis() {
+        return view('trader.mis');
+    }
 }
