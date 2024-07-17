@@ -12,6 +12,9 @@
                     <a href="{{ route('admin.dashboard') }}" class="nav-link {{ Request::is('admin/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('admin.mis.index') }}" class="nav-link {{ Request::is('admin/mis*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>MIS</span></a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('employees.index') }}" class="nav-link {{ Request::is('admin/employees*') ? 'active' : '' }}"><i class="ri-group-line"></i> <span>Employee Management</span></a>
                 </li>
                 <li class="nav-item">

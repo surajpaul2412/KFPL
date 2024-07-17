@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\DisputeController;
 use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\Trader\TicketController as TraderTicketController;
+use App\Http\Controllers\Admin\MisController as AdminMisController;
 use App\Http\Controllers\Trader\MisController;
 use App\Http\Controllers\Ops\TicketController as OpsTicketController;
 use App\Http\Controllers\Account\TicketController as AccountsTicketController;
@@ -52,6 +53,11 @@ Route::get('/check-dealer-ticket', [App\Http\Controllers\TicketController::class
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     // Admin Dashboard
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    // MIS
+    Route::resource('/admin/mis', AdminMisController::class)->names([
+        'index' => 'admin.mis.index',
+        'show' => 'admin.mis.show',
+    ]);
     // User (Employee) Management
     Route::resource('/admin/employees', UserController::class);
     Route::get('/admin/toggle/status', [UserController::class, 'togglestatus'])->name('admin.employee.togglestatus');
