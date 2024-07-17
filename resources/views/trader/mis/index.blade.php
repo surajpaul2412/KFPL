@@ -22,14 +22,14 @@ Ticket Management
                                     <th>Type</th>
                                     <th>Quick Ticket (No of Basket)</th>
                                     <th>Quick Ticket Value</th>
-                                    <th>Sum Ticket (No of Basket)</th>
+                                    <th>Baskets Executed</th>
                                     <th>Amount Sent/Received</th>
-                                    <th>Total No. of Units</th>
+                                    <th>Total Units</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>test</td>
+                                    <td>1.</td>
                                     <td>test</td>
                                     <td>test</td>
                                     <td>test</td>
@@ -40,21 +40,10 @@ Ticket Management
                                     <td>test</td>
                                 </tr>
                                 <tr style="background: grey;color: #fff;">
-                                    <td>test</td>
-                                    <td>test</td>
-                                    <td>test</td>
-                                    <td>test</td>
-                                    <td>Sum of all Basket</td>
-                                    <td>Sum of Ticket Value </td>
-                                    <td>Sum of all Basket</td>
-                                    <td>Sum of Ticket Value </td>
-                                    <td>Sum of all units </td>                                    
-                                </tr>
-                                <tr>
-                                    <td>100.00</td>
-                                    <td>100.00</td>
-                                    <td>100.00</td>
-                                    <td>100.00</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
                                     <td>100.00</td>
                                     <td>100.00</td>
                                     <td>100.00</td>
