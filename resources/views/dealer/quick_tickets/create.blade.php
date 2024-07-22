@@ -142,6 +142,7 @@ Ticket Management
                                 <div class="calcField">
                                     <select id="select2B" name="trader_id" class="form-select mobile-w-100 @error('security_id') is-invalid @enderror" required>
                                         <option value="">Select Trader</option>
+										<option value="0" selected="selected">-- All Traders --</option>
                                         @foreach($traders as $trader)
                                         <option value="{{$trader->id}}">{{$trader->name}}</option>
                                         @endforeach

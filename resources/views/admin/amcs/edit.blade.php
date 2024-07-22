@@ -52,15 +52,32 @@
                                     </div>
                                 </div>
 
-                                <div class="col-6 my-3">
+                                <div class="col-3 my-3">
                                     <div class="pb-1">
                                         Demat Account PDF
                                     </div>
                                     <div class="">
                                         <select name="pdf_id" class="form-select mobile-w-100 @error('pdf_id') is-invalid @enderror">
-                                            @foreach($pdfs as $pdf)
+											@foreach($pdfs as $pdf)
                                                 <option value="{{ $pdf->id }}" {{ $amc->pdf_id == $pdf->id ? 'selected' : '' }}>{{ $pdf->name }}</option>
                                             @endforeach
+                                        </select>
+                                        @error('pdf_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+								
+								<div class="col-3 my-3">
+                                    <div class="pb-1">
+                                        AMC Form PDF
+                                    </div>
+                                    <div class="">
+                                        <select name="amc_pdf" class="form-select mobile-w-100 @error('amc_pdf') is-invalid @enderror">
+                                                <option value="0" {{ $amc->amc_pdf == '0' ? 'selected' : '' }}>InActive</option>
+                                                <option value="1" {{ $amc->amc_pdf == '1' ? 'selected' : '' }}>Active</option>
                                         </select>
                                         @error('pdf_id')
                                             <span class="invalid-feedback" role="alert">

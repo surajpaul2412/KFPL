@@ -23,7 +23,7 @@ class AmcController extends Controller
 
     public function create()
     {
-        $pdfs = Pdf::all();
+        $pdfs = Pdf::all()->orderBy;
         return view('admin.amcs.create', compact('pdfs'));
     }
 
@@ -57,6 +57,7 @@ class AmcController extends Controller
             'expense_percentage' => 'required|numeric',
             'pdf_id' => 'nullable|exists:pdfs,id', // Validate that the selected PDF exists in the 'pdfs' table
             'status' => 'nullable|in:0,1',
+			'amc_pdf' => 'required|between:0,1',
         ]);
 
         $amc = Amc::findOrFail($id);

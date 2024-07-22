@@ -58,7 +58,18 @@ Ticket Management
                                     <td>{{$ticket->nav}}</td>
                                     <td>{{$ticket->created_at->format('Y-m-d')}}</td>
                                     <td>{{$ticket->updated_at->format('Y-m-d')}}</td>
-                                    <td>{{$ticket->trader->name}}</td>
+                                    <td>
+									  @php 
+									  if( $ticket->trader_id == 0 )
+									  {
+										  echo "All Traders";
+									  }
+									  else 
+									  {
+										  echo $ticket->trader->name;
+									  }
+									  @endphp 
+									</td>
                                     <td>
                                         <a href="{{url('/dealer/quick_tickets/' . $ticket->id . '/edit')}}" title="Edit">
                                             <i class="ri-pencil-fill"></i>

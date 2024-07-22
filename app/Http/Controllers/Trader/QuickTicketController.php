@@ -19,8 +19,12 @@ class QuickTicketController extends Controller
      */
     public function index()
     {
-        $tickets = QuickTicket::whereTraderId(Auth::user()->id)->orderBy("updated_at", "desc")->paginate(10);
-        return view(
+        $tickets = QuickTicket::where("trader_id", Auth::user()->id)
+		                      ->orWhere("trader_id", 0)
+							  ->orderBy("updated_at", "desc")
+							  ->paginate(10);
+        
+		return view(
             "trader.quick_tickets.index",
             compact(
                 "tickets"

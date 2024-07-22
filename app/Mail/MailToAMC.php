@@ -125,7 +125,7 @@ class MailToAMC extends Mailable
 		// SPECIAL case when TICKET UPDATED at STATUS_ID = 13
 		if( $this->splCase == 13 )
 		{
-			Log::info("MAilSending in a special case 13 :: Buy Basket");
+			Log::info("MailSending in a special case 13 :: Buy Basket");
 
 			$subject = "Basket Creation request " . now()->format('d-m-Y');
 
@@ -152,14 +152,68 @@ class MailToAMC extends Mailable
 
 		$subject = $this->ticket->payment_type == 1 ? 'Cash Creation request ' : 'Basket Creation request ';
         $subject .= now()->format('Y-m-d');
-
-        $amc_path = public_path($this->ticket->security->amc->pdf->path);
-        $amc_name = $this->ticket->security->amc->pdf->name . '.pdf';
-
-        $pdfPath = 'ticketpdfs/' . 'ticket-' . $this->ticket->id . '.pdf';
-        $filePath = storage_path('app/public/' . $pdfPath);
-
-        if (file_exists($filePath)) {
+		
+		try 
+		{
+			$mail = $this->subject($subject)
+						 ->view('emails.mail_to_amc');
+						 
+			$amc_path = '';
+			$amc_name = '';
+			
+			// ATTACH DEMAT PDF only if it is not NONE
+			if( $this->ticket->security->amc->pdf->name != 'None' )
+			{
+			  $amc_path = public_path($this->ticket->security->amc->pdf->path);
+			  $amc_name = $this->ticket->security->amc->pdf->name . '.pdf';
+			}
+			
+			// ATTACH TICKET PDF
+			$pdfPath = '';
+			$filePath = '';
+			if($this->ticket->security->amc->amc_pdf == 1)
+			{
+			   $pdfPath = 'ticketpdfs/' . 'ticket-' . $this->ticket->id . '.pdf';
+			   $filePath = storage_path('app/public/' . $pdfPath);
+			}
+			
+			if( $amc_name!='' && $amc_path != '' && file_exists($amc_path) )
+			{
+				$mail->attach($amc_path, [
+								 'as' => $amc_name,
+								 'mime' => 'application/pdf',
+							 ]);
+			}
+			
+			if( $pdfPath!='' && $filePath != '' && file_exists($filePath) )
+			{
+				$mail->attach($filePath, [
+							 'as' => 'AMC.pdf',
+							 'mime' => 'application/pdf',
+						 ]);
+			}
+			
+			// Check if the screenshot file exists
+			if($this->ticket->screenshot != null){
+				if (file_exists(storage_path('app/public/' . $this->ticket->screenshot))) {
+					$mail->attach(storage_path('app/public/' . $this->ticket->screenshot), [
+						'as' => 'screenshot.jpg', // Change the file extension accordingly
+						'mime' => 'image/jpeg', // Change the MIME type accordingly
+					]);
+				}
+			}
+			
+			return $mail;
+			
+		} catch (\Exception $e) {
+            
+			return $this->subject($subject)
+                        ->view('emails.mail_to_amc')
+                        ->withError("Some Error : " . $e->getMessage());
+        }	
+        
+		/*
+		if ( file_exists($filePath)) {
             $mail = $this->subject($subject)
                      ->view('emails.mail_to_amc')
                      ->attach($amc_path, [
@@ -171,15 +225,7 @@ class MailToAMC extends Mailable
                          'mime' => 'application/pdf',
                      ]);
 
-            // Check if the screenshot file exists
-            if($this->ticket->screenshot != null){
-                if (file_exists(storage_path('app/public/' . $this->ticket->screenshot))) {
-                    $mail->attach(storage_path('app/public/' . $this->ticket->screenshot), [
-                        'as' => 'screenshot.jpg', // Change the file extension accordingly
-                        'mime' => 'image/jpeg', // Change the MIME type accordingly
-                    ]);
-                }
-            }
+            
 
             return $mail;
         } else {
@@ -187,5 +233,6 @@ class MailToAMC extends Mailable
                         ->view('emails.mail_to_amc')
                         ->withError("File not found: $pdfPath");
         }
+		*/
     }
 }

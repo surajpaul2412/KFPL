@@ -9,7 +9,7 @@ class Amc extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'expense_percentage', 'pdf_id', 'status'];
+    protected $fillable = ['name', 'email', 'expense_percentage', 'pdf_id', 'status', 'amc_pdf'];
 
     public function pdf()
     {
