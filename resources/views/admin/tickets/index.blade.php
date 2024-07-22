@@ -102,7 +102,14 @@ Ticket Management
                                     <td>{{$ticket->created_at->format('d-m-Y')}}</td>
                                     <td>{{$ticket->updated_at->format('d-m-Y')}}</td>
                                     <td>{{$ticket->status_id}}</td>
-                                    <td>{{$ticket->user->name}}</td>
+                                    <td>
+									@php 
+									if($ticket->user)
+									{
+										echo $ticket->user->name;
+									}
+									@endphp
+									</td>
                                     <td>
                                         @if($ticket->status_id == 6 || $ticket->status_id == 7)
                                         <a href="{{ route('admin.tickets.show', $ticket->id) }}" title="View">
