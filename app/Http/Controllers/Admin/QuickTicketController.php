@@ -54,7 +54,7 @@ class QuickTicketController extends Controller
         // Create a new Ticket instance
         $ticket = new Ticket();
         $ticket->fill([
-            'user_id' => $quickTicket->trader_id,
+            'user_id' => ( $quickTicket->trader_id != 0 ? $quickTicket->trader_id : Auth::user()->id ),
             'security_id' => $quickTicket->security_id,
             'type' => $quickTicket->type,
             'payment_type' => $quickTicket->payment_type,
