@@ -128,10 +128,11 @@ Route::middleware(['auth', 'isDealer'])->group(function () {
 Route::middleware(['auth', 'isAccounts'])->group(function () {
     Route::get('/accounts/dashboard', [AccountDashboardController::class, 'index'])->name('accounts.dashboard');
     // MIS
+    Route::get('/accounts/mis/ajax', [AccountMisController::class, 'getMisData'])->name('accounts.mis.ajax');
     Route::resource('/accounts/mis', AccountMisController::class)->names([
         'index' => 'accounts.mis.index',
         'show' => 'accounts.mis.show',
-    ]);
+    ]);    
     Route::resource('/accounts/tickets', AccountsTicketController::class)->names([
         'index' => 'accounts.tickets.index',
         'create' => 'accounts.tickets.create',
