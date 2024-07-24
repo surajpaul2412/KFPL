@@ -14,6 +14,9 @@ use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\Trader\TicketController as TraderTicketController;
 use App\Http\Controllers\Admin\MisController as AdminMisController;
+use App\Http\Controllers\Account\MisController as AccountMisController;
+use App\Http\Controllers\Dealer\MisController as DealerMisController;
+use App\Http\Controllers\Ops\MisController as OpsMisController;
 use App\Http\Controllers\Trader\MisController;
 use App\Http\Controllers\Ops\TicketController as OpsTicketController;
 use App\Http\Controllers\Account\TicketController as AccountsTicketController;
@@ -105,6 +108,11 @@ Route::middleware(['auth', 'isDealer'])->group(function () {
         'update' => 'dealer.tickets.update',
     ]);
     Route::get('/dealer/tickets/{ticket}/statusUpdate', [DealerTicketController::class, 'statusUpdate'])->name('dealer.tickets.statusUpdate');
+    // MIS
+    Route::resource('/dealer/mis', DealerMisController::class)->names([
+        'index' => 'dealer.mis.index',
+        'show' => 'dealer.mis.show',
+    ]);
     // quick ticket
     Route::resource('/dealer/quick_tickets', DealerQuickTicketController::class)->names([
         'index' => 'dealer.quick_tickets.index',
@@ -119,6 +127,11 @@ Route::middleware(['auth', 'isDealer'])->group(function () {
 // Accounts Dashboard
 Route::middleware(['auth', 'isAccounts'])->group(function () {
     Route::get('/accounts/dashboard', [AccountDashboardController::class, 'index'])->name('accounts.dashboard');
+    // MIS
+    Route::resource('/accounts/mis', AccountMisController::class)->names([
+        'index' => 'accounts.mis.index',
+        'show' => 'accounts.mis.show',
+    ]);
     Route::resource('/accounts/tickets', AccountsTicketController::class)->names([
         'index' => 'accounts.tickets.index',
         'create' => 'accounts.tickets.create',
@@ -156,6 +169,11 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
 // Ops Dashboard
 Route::middleware(['auth', 'isOps'])->group(function () {
     Route::get('/ops/dashboard', [OpsDashboardController::class, 'index'])->name('ops.dashboard');
+    // MIS
+    Route::resource('/ops/mis', OpsMisController::class)->names([
+        'index' => 'ops.mis.index',
+        'show' => 'ops.mis.show',
+    ]);
     Route::resource('/ops/tickets', OpsTicketController::class)->names([
         'index' => 'ops.tickets.index',
         'create' => 'ops.tickets.create',
