@@ -20,7 +20,7 @@ Ticket Management
                                     <th>Security Name</th>
                                     <th>Buy/Sell</th>
                                     <th>Payment Mode</th>
-                                    <th>No of Units</th>
+                                    <th>No of Basket</th>
                                     <th>NAV</th>
                                     <th>Created On</th>
                                     <th>Ticket Creator</th>
@@ -43,7 +43,7 @@ Ticket Management
                                             Net Settlement
                                         @endif
                                     </td>
-                                    <td>{{$ticket->basket_no * $ticket->basket_size}}</td>
+                                    <td>{{$ticket->basket_no}}</td>
                                     <td>{{$ticket->nav}}</td>
                                     <td>{{$ticket->created_at->format('Y-m-d')}}</td>
                                     <td>{{$ticket->user->name}}</td>
