@@ -109,6 +109,7 @@ Route::middleware(['auth', 'isDealer'])->group(function () {
     ]);
     Route::get('/dealer/tickets/{ticket}/statusUpdate', [DealerTicketController::class, 'statusUpdate'])->name('dealer.tickets.statusUpdate');
     // MIS
+    Route::get('/dealer/mis/ajax', [DealerMisController::class, 'getMisData'])->name('dealer.mis.ajax');
     Route::resource('/dealer/mis', DealerMisController::class)->names([
         'index' => 'dealer.mis.index',
         'show' => 'dealer.mis.show',
@@ -171,6 +172,7 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
 Route::middleware(['auth', 'isOps'])->group(function () {
     Route::get('/ops/dashboard', [OpsDashboardController::class, 'index'])->name('ops.dashboard');
     // MIS
+    Route::get('/ops/mis/ajax', [OpsMisController::class, 'getMisData'])->name('ops.mis.ajax');
     Route::resource('/ops/mis', OpsMisController::class)->names([
         'index' => 'ops.mis.index',
         'show' => 'ops.mis.show',

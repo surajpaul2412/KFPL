@@ -23,16 +23,21 @@ class MisController extends Controller
     {
         $setType = $request->input('sel_role_id');
         $currentDate = Carbon::today();
+        $startOfDay = $currentDate->copy()->startOfDay();
+        $endOfDay = $currentDate->copy()->endOfDay();
 
         if ($setType == 1) { // BUY case
             $data = Ticket::where('type', $setType)
-                ->whereDate('created_at', $currentDate)
+                ->whereBetween('created_at', [$startOfDay, $endOfDay])
                 ->with('security', 'security.amc')
                 ->get();
         } else { // SELL case
             $previousDate = Carbon::yesterday();
+            $startOfPreviousDay = $previousDate->startOfDay();
+            $endOfCurrentDay = $currentDate->endOfDay();
+            
             $data = Ticket::where('type', $setType)
-                ->whereBetween('created_at', [$previousDate, $currentDate])
+                ->whereBetween('created_at', [$startOfPreviousDay, $endOfCurrentDay])
                 ->with('security', 'security.amc')
                 ->get();
         }

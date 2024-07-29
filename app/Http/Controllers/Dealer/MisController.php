@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dealer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Ticket;
+use Carbon\Carbon;
 
 class MisController extends Controller
 {
@@ -15,6 +17,26 @@ class MisController extends Controller
         return view(
             "dealer.mis.index"
         );
+    }
+
+    public function getMisData(Request $request)
+    {
+        $setType = $request->input('sel_role_id');
+        $currentDate = Carbon::today();
+
+        if ($setType == 1) { // BUY case
+            $data = Ticket::where('type', $setType)
+                ->whereDate('created_at', $currentDate)
+                ->with('security', 'security.amc')
+                ->get();
+        } else { // SELL case
+            $data = Ticket::where('type', $setType)
+                ->whereDate('created_at', $currentDate)
+                ->with('security', 'security.amc')
+                ->get();
+        }
+
+        return response()->json($data);
     }
 
     /**
