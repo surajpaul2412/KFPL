@@ -7,6 +7,11 @@ Ticket Management
 @section('content')
 
 @include('topmessages')
+<style>
+    .icon-large {
+        font-size: 24px; /* Adjust the size as needed */
+    }
+</style>
 <div class="row justify-content-center g-3">
     <form method="get" action="">
         <div style="display:inline-flex;margin-right:10px;">
@@ -75,9 +80,11 @@ Ticket Management
                     tbody.empty();
 
                     // Initialize the total amount
-                    var totalAmount = 0;
-                    var totalRefund = 0;
+                    var totalBasket = 0;
+                    var totalQty = 0;
                     var amountReceived = 0;
+                    var check = '<i class="ri-check-fill text-success icon-large"></i>';
+                    var cross = '<i class="ri-close-fill text-danger icon-large"></i>';
 
                     // Change table headers based on the selected value
                     if (selectedValue == 1) { // BUY case
@@ -102,23 +109,25 @@ Ticket Management
                         );
 
                         data.forEach(function(row) {
-                            totalAmount += parseFloat(row.total_amt);
-                            totalRefund += parseFloat(row.refund);
+                            totalBasket += parseFloat(row.basket_no);
+                            totalQty += parseFloat(row.basket_no * row.basket_size);
+                            
                             var tr = '<tr>' +
                                 '<td>' + row.id + '. </td>' +  // Assuming id is the Ticket ID
                                 '<td>' + formatDate(row.created_at) + '. </td>' +  // Assuming id is the Ticket ID
                                 '<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
                                 '<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
                                 '<td>' + row.security.isin + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + 'no of basket' + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + 'qty' + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + 'deal Accept' + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + '' + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + '' + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + '' + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + '' + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + '' + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + '' + '</td>' +  // Placeholder for Symbol, update with correct key
+                                '<td>' + row.basket_no + '</td>' +  // Placeholder for Symbol, update with correct key
+                                '<td>' + row.basket_no * row.basket_size + '</td>' +  // Placeholder for Symbol, update with correct key
+                                '<td>' + (row.status_id > 2 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                '<td>' + (row.utr_number ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                '<td>' + (row.status_id > 6 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                '<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                '<td>' + (row.status_id > 9 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                '<td>' + (row.status_id > 11 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                '<td>' + (row.status_id > 13 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                '<td></td>' + 
                                 '</tr>';
                             tbody.append(tr);
                         });
@@ -128,8 +137,8 @@ Ticket Management
                             '<td colspan="3">Sub Total</td>' +
                             '<td></td>' +
                             '<td></td>' +
-                            '<td>' + totalAmount.toFixed(2) + '</td>' +
-                            '<td>' + totalRefund.toFixed(2) + '</td>' +
+                            '<td>' + totalBasket.toFixed(2) + '</td>' +
+                            '<td>' + totalQty.toFixed(2) + '</td>' +
                             '<td></td>' +
                             '<td></td>' +
                             '<td></td>' +
@@ -157,28 +166,26 @@ Ticket Management
                                 '<th class="bg-danger text-white">Deal Recd</th>' +
                                 '<th class="bg-danger text-white">Unit Trf</th>' +
                                 '<th class="bg-danger text-white">Amt Recd</th>' +
-                                '<th class="bg-danger text-white"></th>' +
                             '</tr>'
                         );
 
                         data.forEach(function(row) {
-                            totalAmount += parseFloat(row.total_amt);
-                            amountReceived += parseFloat(row.actual_total_amt);
+                            totalBasket += parseFloat(row.basket_no);
+                            totalQty += parseFloat(row.basket_no * row.basket_size);
                             var tr = '<tr>' +
                                     '<td>' + row.id + '. </td>' +  // Assuming id is the Ticket ID
                                     '<td>' + formatDate(row.created_at) + '</td>' +  // Assuming created_at is the Deal Date
                                     '<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
                                     '<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
                                     '<td>' + row.security.isin + '</td>' +  // Placeholder for isin, update with correct key
-                                    '<td>' + 'no basket' + '</td>' +  // Assuming total_amt is the Ticket Amount
-                                    '<td>' + 'qty' + '</td>' +  // Assuming actual_total_amt is the Amount Received
-                                    '<td>' + '' + '</td>' +  // Assuming actual_total_amt is the Amount Received
-                                    '<td>' + '' + '</td>' +  // Assuming actual_total_amt is the Amount Received
-                                    '<td>' + '' + '</td>' +  // Assuming actual_total_amt is the Amount Received
-                                    '<td>' + '' + '</td>' +  // Assuming actual_total_amt is the Amount Received
-                                    '<td>' + '' + '</td>' +  // Assuming actual_total_amt is the Amount Received
-                                    '<td>' + '' + '</td>' +  // Assuming actual_total_amt is the Amount Received
-                                    '<td>' + '' + '</td>' +  // Assuming actual_total_amt is the Amount Received
+                                    '<td>' + row.basket_no + '</td>' +  // Assuming total_amt is the Ticket Amount
+                                    '<td>' + row.basket_no * row.basket_size + '</td>' +  // Assuming actual_total_amt is the Amount Received
+                                    '<td>' + '' + '</td>' +  // Placeholder for Symbol, update with correct key
+                                    '<td>' + (row.status_id > 6 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                    '<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                    '<td>' + (row.status_id > 9 ? ''+check+'' : ''+cross+'') + '</td>' +                                     
+                                    '<td>' + (row.status_id > 13 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                    '<td>' + (row.status_id > 12 ? ''+check+'' : ''+cross+'') + '</td>' + 
                                 '</tr>';
                             tbody.append(tr);
                         });
@@ -188,10 +195,8 @@ Ticket Management
                                 '<td colspan="3">Sub Total</td>' +
                                 '<td></td>' +
                                 '<td></td>' +
-                                '<td>' + totalAmount.toFixed(2) + '</td>' +
-                                '<td>' + amountReceived.toFixed(2) + '</td>' +
-                                '<td></td>' +
-                                '<td></td>' +
+                                '<td>' + totalBasket.toFixed(2) + '</td>' +
+                                '<td>' + totalQty.toFixed(2) + '</td>' +
                                 '<td></td>' +
                                 '<td></td>' +
                                 '<td></td>' +
