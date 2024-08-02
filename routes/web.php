@@ -147,6 +147,8 @@ Route::middleware(['auth', 'isAccounts'])->group(function () {
 // Trader Dashboard
 Route::middleware(['auth', 'isTrader'])->group(function () {
     Route::get('/trader/dashboard', [TraderDashboardController::class, 'index'])->name('trader.dashboard');
+    // MIS
+    Route::get('/trader/mis/ajax', [MisController::class, 'getMisData'])->name('trader.mis.ajax');
     Route::resource('/trader/mis', MisController::class)->names([
         'index' => 'trader.mis.index',
         'show' => 'trader.mis.show',

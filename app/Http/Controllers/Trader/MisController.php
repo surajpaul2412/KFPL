@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Trader;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Ticket;
+use App\Models\QuickTicket;
+use Carbon\Carbon;
 
 class MisController extends Controller
 {
@@ -16,6 +19,48 @@ class MisController extends Controller
             "trader.mis.index"
         );
     }
+
+    public function getMisData(Request $request)
+{
+    $setType = $request->input('sel_role_id');
+    $currentDate = Carbon::today();
+    $startOfDay = $currentDate->copy()->startOfDay();
+    $endOfDay = $currentDate->copy()->endOfDay();
+
+    if ($setType == 1) { // BUY case
+        $data = QuickTicket::selectRaw('
+                security_id, 
+                SUM(basket_no) as total_basket_no, 
+                SUM(nav) as total_nav, 
+                SUM(actual_total_amt) as total_amt, 
+                SUM(basket_no * basket_size) as total_units
+            ')
+            ->where('type', $setType)
+            ->whereBetween('created_at', [$startOfDay, $endOfDay])
+            ->with('security', 'security.amc')
+            ->groupBy('security_id')
+            ->get();
+    } else { // SELL case
+        $previousDate = Carbon::yesterday();
+        $startOfPreviousDay = $previousDate->startOfDay();
+        $endOfCurrentDay = $currentDate->endOfDay();
+
+        $data = QuickTicket::selectRaw('
+                security_id, 
+                SUM(basket_no) as total_basket_no, 
+                SUM(nav) as total_nav, 
+                SUM(actual_total_amt) as total_amt, 
+                SUM(basket_no * basket_size) as total_units
+            ')
+            ->where('type', $setType)
+            ->whereBetween('created_at', [$startOfPreviousDay, $endOfCurrentDay])
+            ->with('security', 'security.amc')
+            ->groupBy('security_id')
+            ->get();
+    }
+
+    return response()->json($data);
+}
 
     /**
      * Show the form for creating a new resource.
