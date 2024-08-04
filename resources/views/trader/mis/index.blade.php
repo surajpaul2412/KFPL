@@ -68,8 +68,9 @@ Ticket Management
                     tbody.empty();
 
                     // Initialize the total amount
-                    var totalAmount = 0;
-                    var totalRefund = 0;
+                    var totalTicket = 0;
+                    var totalQuickTicketVal = 0;
+                    var totalQuickTicketUnits = 0;
                     var amountReceived = 0;
 
                     // Change table headers based on the selected value
@@ -88,17 +89,27 @@ Ticket Management
                         );
 
                         data.forEach(function(row) {
-                            totalAmount += parseFloat(row.total_amt);
-                            totalRefund += parseFloat(row.refund);
+                            totalTicket += parseFloat(row.total_basket_no);
+                            totalQuickTicketVal += parseFloat(row.total_amt);
+                            totalQuickTicketUnits += parseFloat(row.total_units)
+
+                            var totalNavPerClubbed = (row.total_nav / row.total_clubbed) === 0 ? '-' : (row.total_nav / row.total_clubbed);
+                            var totalBasketNo = row.total_basket_no;
+
+                            var navPerClubbedCell = row.source === 'quick_ticket' ? totalNavPerClubbed : '-';
+                            var basketNoCell = row.source === 'quick_ticket' ? totalBasketNo : '-';
+                            var ticketBasketNoCell = row.source === 'ticket' ? totalBasketNo : '-';
+                            var ticketActualAmt = row.source === 'ticket' ? row.total_amt : '-';
+
                             var tr = '<tr>' +
-                                '<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
-                                '<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + row.total_amt + '</td>' +  // Assuming total_amt is the Ticket Amount
-                                '<td>' + 'hi' + '</td>' +  // Assuming utr_no is the UTR Number
-                                '<td>' + 'hi' + '</td>' +  // Assuming refund is the Refund Received
-                                '<td>' + 'hi' + '</td>' +  // Assuming refund is the Refund Received
-                                '<td>' + 'hi' + '</td>' +  // Assuming refund is the Refund Received
-                                '<td>' + 'hi' + '</td>' +  // Assuming refund is the Refund Received
+                                '<td>' + row.security.amc.name + '</td>' +  // AMC Name
+                                '<td>' + row.security.symbol + '</td>' +  // Symbol
+                                '<td>' + basketNoCell + '</td>' +  // Total Basket No
+                                '<td>' + navPerClubbedCell + '</td>' +  // NAV / Clubbed
+                                '<td>' + (row.total_amt == 0 ? '-' : row.total_amt) + '</td>' +
+                                '<td>' + ticketBasketNoCell + '</td>' +  // Placeholder for additional fields
+                                '<td>' + ticketActualAmt + '</td>' +  // Placeholder for additional fields
+                                '<td>' + row.total_units + '</td>' +  // Total Units
                                 '</tr>';
                             tbody.append(tr);
                         });
@@ -106,12 +117,12 @@ Ticket Management
                         // Append the total row
                         var totalRow = '<tr style="background: grey; color: white;">' +
                             '<td colspan="2">Total</td>' +
-                            '<td>' + totalAmount.toFixed(2) + '</td>' +
+                            '<td>' + totalTicket.toFixed(2) + '</td>' +
                             '<td></td>' +
-                            '<td>' + totalRefund.toFixed(2) + '</td>' +
-                            '<td>' + totalRefund.toFixed(2) + '</td>' +
-                            '<td>' + totalRefund.toFixed(2) + '</td>' +
-                            '<td>' + totalRefund.toFixed(2) + '</td>' +
+                            '<td>' + totalQuickTicketVal.toFixed(2) + '</td>' +
+                            '<td>' + '' + '</td>' +
+                            '<td>' + '' + '</td>' +
+                            '<td>' + totalQuickTicketUnits.toFixed(2) + '</td>' +
                             '</tr>';
                         tbody.append(totalRow);
 
@@ -130,17 +141,27 @@ Ticket Management
                         );
 
                         data.forEach(function(row) {
-                            totalAmount += parseFloat(row.total_amt);
-                            amountReceived += parseFloat(row.actual_total_amt);
+                            totalTicket += parseFloat(row.total_basket_no);
+                            totalQuickTicketVal += parseFloat(row.total_amt);
+                            totalQuickTicketUnits += parseFloat(row.total_units)
+
+                            var totalNavPerClubbed = (row.total_nav / row.total_clubbed) === 0 ? '-' : (row.total_nav / row.total_clubbed);
+                            var totalBasketNo = row.total_basket_no;
+
+                            var navPerClubbedCell = row.source === 'quick_ticket' ? totalNavPerClubbed : '-';
+                            var basketNoCell = row.source === 'quick_ticket' ? totalBasketNo : '-';
+                            var ticketBasketNoCell = row.source === 'ticket' ? totalBasketNo : '-';
+                            var ticketActualAmt = row.source === 'ticket' ? row.total_amt : '-';
+
                             var tr = '<tr>' +
-                                '<td>' + row.id + '. </td>' +  // Assuming id is the Ticket ID
-                                '<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
-                                '<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + row.total_amt + '</td>' +  // Assuming total_amt is the Ticket Amount
-                                '<td>' + 'hi' + '</td>' +  // Assuming utr_no is the UTR Number
-                                '<td>' + 'hi' + '</td>' +  // Assuming refund is the Refund Received
-                                '<td>' + 'hi' + '</td>' +  // Assuming refund is the Refund Received
-                                '<td>' + 'hi' + '</td>' +  // Assuming refund is the Refund Received
+                                '<td>' + row.security.amc.name + '</td>' +  // AMC Name
+                                '<td>' + row.security.symbol + '</td>' +  // Symbol
+                                '<td>' + basketNoCell + '</td>' +  // Total Basket No
+                                '<td>' + navPerClubbedCell + '</td>' +  // NAV / Clubbed
+                                '<td>' + (row.total_amt == 0 ? '-' : row.total_amt) + '</td>' +
+                                '<td>' + ticketBasketNoCell + '</td>' +  // Placeholder for additional fields
+                                '<td>' + ticketActualAmt + '</td>' +  // Placeholder for additional fields
+                                '<td>' + row.total_units + '</td>' +  // Total Units
                                 '</tr>';
                             tbody.append(tr);
                         });
@@ -148,12 +169,12 @@ Ticket Management
                         // Append the total row
                         var totalRow = '<tr style="background: grey; color: white;">' +
                             '<td colspan="2">Total</td>' +
-                            '<td>' + totalAmount.toFixed(2) + '</td>' +
+                            '<td>' + '-' + '</td>' +
                             '<td></td>' +
-                            '<td>' + totalRefund.toFixed(2) + '</td>' +
-                            '<td>' + totalRefund.toFixed(2) + '</td>' +
-                            '<td>' + totalRefund.toFixed(2) + '</td>' +
-                            '<td>' + totalRefund.toFixed(2) + '</td>' +
+                            '<td>' + '-' + '</td>' +
+                            '<td>' + '-' + '</td>' +
+                            '<td>' + '-' + '</td>' +
+                            '<td>' + '-' + '</td>' +
                             '</tr>';
                         tbody.append(totalRow);
                     }

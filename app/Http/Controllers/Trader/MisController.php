@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Models\QuickTicket;
 use Carbon\Carbon;
+use Auth;
 
 class MisController extends Controller
 {
@@ -20,43 +21,107 @@ class MisController extends Controller
         );
     }
 
-    public function getMisData(Request $request)
+public function getMisData(Request $request)
 {
     $setType = $request->input('sel_role_id');
     $currentDate = Carbon::today();
     $startOfDay = $currentDate->copy()->startOfDay();
     $endOfDay = $currentDate->copy()->endOfDay();
+    $userId = Auth::user()->id; // Get the authenticated user's ID
 
     if ($setType == 1) { // BUY case
-        $data = QuickTicket::selectRaw('
-                security_id, 
-                SUM(basket_no) as total_basket_no, 
-                SUM(nav) as total_nav, 
-                SUM(actual_total_amt) as total_amt, 
-                SUM(basket_no * basket_size) as total_units
-            ')
-            ->where('type', $setType)
-            ->whereBetween('created_at', [$startOfDay, $endOfDay])
-            ->with('security', 'security.amc')
-            ->groupBy('security_id')
-            ->get();
-    } else { // SELL case
-        $previousDate = Carbon::yesterday();
-        $startOfPreviousDay = $previousDate->startOfDay();
-        $endOfCurrentDay = $currentDate->endOfDay();
+        // Fetch data from QuickTicket
+        $quickTicketData = QuickTicket::selectRaw('
+                    security_id, 
+                    COUNT(security_id) as total_clubbed,
+                    SUM(basket_no) as total_basket_no, 
+                    SUM(nav) as total_nav, 
+                    SUM(actual_total_amt) as total_amt, 
+                    SUM(basket_no * basket_size) as total_units
+                ')
+                ->where('type', $setType)
+                ->where(function ($query) use ($userId) {
+                    $query->where('trader_id', $userId)
+                          ->orWhere('trader_id', 0);
+                })
+                ->whereBetween('created_at', [$startOfDay, $endOfDay])
+                ->groupBy('security_id')
+                ->with('security', 'security.amc') // Load relationships
+                ->get()
+                ->map(function ($item) {
+                    $item->source = 'quick_ticket';
+                    return $item;
+                });
 
-        $data = QuickTicket::selectRaw('
-                security_id, 
-                SUM(basket_no) as total_basket_no, 
-                SUM(nav) as total_nav, 
-                SUM(actual_total_amt) as total_amt, 
-                SUM(basket_no * basket_size) as total_units
-            ')
-            ->where('type', $setType)
-            ->whereBetween('created_at', [$startOfPreviousDay, $endOfCurrentDay])
-            ->with('security', 'security.amc')
-            ->groupBy('security_id')
-            ->get();
+        $ticketData = Ticket::selectRaw('
+                    security_id, 
+                    COUNT(security_id) as total_clubbed,
+                    SUM(basket_no) as total_basket_no, 
+                    SUM(nav) as total_nav, 
+                    SUM(actual_total_amt) as total_amt, 
+                    SUM(basket_no * basket_size) as total_units
+                ')
+                ->whereUserId($userId)
+                ->where('type', $setType)
+                ->whereBetween('created_at', [$startOfDay, $endOfDay])
+                ->groupBy('security_id')
+                ->with('security', 'security.amc') // Load relationships
+                ->get()
+                ->map(function ($item) {
+                    $item->source = 'ticket';
+                    return $item;
+                });
+
+        // Combine the data from QuickTicket and Ticket
+        $data = $quickTicketData->concat($ticketData);
+
+
+    } else { // SELL case
+        // Fetch data from QuickTicket
+        $quickTicketData = QuickTicket::selectRaw('
+                    security_id, 
+                    COUNT(security_id) as total_clubbed,
+                    SUM(basket_no) as total_basket_no, 
+                    SUM(nav) as total_nav, 
+                    SUM(actual_total_amt) as total_amt, 
+                    SUM(basket_no * basket_size) as total_units
+                ')
+                ->where('type', $setType)
+                ->where(function ($query) use ($userId) {
+                    $query->where('trader_id', $userId)
+                          ->orWhere('trader_id', 0);
+                })
+                ->whereBetween('created_at', [$startOfDay, $endOfDay])
+                ->groupBy('security_id')
+                ->with('security', 'security.amc') // Load relationships
+                ->get()
+                ->map(function ($item) {
+                    $item->source = 'quick_ticket';
+                    return $item;
+                });
+
+        $ticketData = Ticket::selectRaw('
+                    security_id, 
+                    COUNT(security_id) as total_clubbed,
+                    SUM(basket_no) as total_basket_no, 
+                    SUM(nav) as total_nav, 
+                    SUM(actual_total_amt) as total_amt, 
+                    SUM(basket_no * basket_size) as total_units
+                ')
+                ->where('user_id', $userId)
+                ->where('type', $setType)
+                ->whereBetween('created_at', [$startOfDay, $endOfDay])
+                ->groupBy('security_id')
+                ->with('security', 'security.amc') // Load relationships
+                ->get()
+                ->map(function ($item) {
+                    $item->source = 'ticket';
+                    return $item;
+                });
+
+        // Combine the data from QuickTicket and Ticket
+        $data = $quickTicketData->concat($ticketData);
+
     }
 
     return response()->json($data);
