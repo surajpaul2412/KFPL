@@ -68,7 +68,7 @@ Ticket Management
                     tbody.empty();
 
                     // Initialize the total amount
-                    var totalTicket = 0;
+                    var totalQuickTicket = 0;
                     var totalQuickTicketVal = 0;
                     var totalQuickTicketUnits = 0;
                     var amountReceived = 0;
@@ -89,7 +89,9 @@ Ticket Management
                         );
 
                         data.forEach(function(row) {
-                            totalTicket += parseFloat(row.total_basket_no);
+                            if (row.source === 'quick_ticket') {
+                                totalQuickTicket += parseFloat(row.total_basket_no);
+                            }
                             totalQuickTicketVal += parseFloat(row.total_amt);
                             totalQuickTicketUnits += parseFloat(row.total_units)
 
@@ -117,7 +119,7 @@ Ticket Management
                         // Append the total row
                         var totalRow = '<tr style="background: grey; color: white;">' +
                             '<td colspan="2">Total</td>' +
-                            '<td>' + totalTicket.toFixed(2) + '</td>' +
+                            '<td>' + totalQuickTicket.toFixed(2) + '</td>' +
                             '<td></td>' +
                             '<td>' + totalQuickTicketVal.toFixed(2) + '</td>' +
                             '<td>' + '' + '</td>' +
