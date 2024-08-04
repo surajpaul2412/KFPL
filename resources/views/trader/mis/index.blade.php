@@ -72,6 +72,8 @@ Ticket Management
                     var totalQuickTicketVal = 0;
                     var totalQuickTicketUnits = 0;
                     var amountReceived = 0;
+                    var totalTicket = 0;
+                    var amtSent = 0;
 
                     // Change table headers based on the selected value
                     if (selectedValue == 1) { // BUY case
@@ -88,10 +90,7 @@ Ticket Management
                             '</tr>'
                         );
 
-                        data.forEach(function(row) {
-                            if (row.source === 'quick_ticket') {
-                                totalQuickTicket += parseFloat(row.total_basket_no);
-                            }
+                        data.forEach(function(row) {                            
                             totalQuickTicketVal += parseFloat(row.total_amt);
                             totalQuickTicketUnits += parseFloat(row.total_units)
 
@@ -101,7 +100,14 @@ Ticket Management
                             var navPerClubbedCell = row.source === 'quick_ticket' ? totalNavPerClubbed : '-';
                             var basketNoCell = row.source === 'quick_ticket' ? totalBasketNo : '-';
                             var ticketBasketNoCell = row.source === 'ticket' ? totalBasketNo : '-';
-                            var ticketActualAmt = row.source === 'ticket' ? row.total_amt : '-';
+                            var ticketActualAmt = row.source === 'ticket' ? row.total_actual_amt : '-';
+                            if (row.source === 'quick_ticket') {
+                                totalQuickTicket += parseFloat(row.total_basket_no);
+                            }
+                            if (row.source === 'ticket') {
+                                totalTicket += parseFloat(row.total_basket_no);
+                                amtSent += parseFloat(row.total_actual_amt);
+                            }
 
                             var tr = '<tr>' +
                                 '<td>' + row.security.amc.name + '</td>' +  // AMC Name
@@ -119,11 +125,11 @@ Ticket Management
                         // Append the total row
                         var totalRow = '<tr style="background: grey; color: white;">' +
                             '<td colspan="2">Total</td>' +
-                            '<td>' + totalQuickTicket.toFixed(2) + '</td>' +
+                            '<td>' + totalQuickTicket + '</td>' +
                             '<td></td>' +
                             '<td>' + totalQuickTicketVal.toFixed(2) + '</td>' +
-                            '<td>' + '' + '</td>' +
-                            '<td>' + '' + '</td>' +
+                            '<td>' + totalTicket + '</td>' +
+                            '<td>' + amtSent.toFixed(2) + '</td>' +
                             '<td>' + totalQuickTicketUnits.toFixed(2) + '</td>' +
                             '</tr>';
                         tbody.append(totalRow);
@@ -143,7 +149,6 @@ Ticket Management
                         );
 
                         data.forEach(function(row) {
-                            totalTicket += parseFloat(row.total_basket_no);
                             totalQuickTicketVal += parseFloat(row.total_amt);
                             totalQuickTicketUnits += parseFloat(row.total_units)
 
@@ -153,7 +158,14 @@ Ticket Management
                             var navPerClubbedCell = row.source === 'quick_ticket' ? totalNavPerClubbed : '-';
                             var basketNoCell = row.source === 'quick_ticket' ? totalBasketNo : '-';
                             var ticketBasketNoCell = row.source === 'ticket' ? totalBasketNo : '-';
-                            var ticketActualAmt = row.source === 'ticket' ? row.total_amt : '-';
+                            var ticketActualAmt = row.source === 'ticket' ? row.total_actual_amt : '-';
+                            if (row.source === 'quick_ticket') {
+                                totalQuickTicket += parseFloat(row.total_basket_no);
+                            }
+                            if (row.source === 'ticket') {
+                                totalTicket += parseFloat(row.total_basket_no);
+                                amtSent += parseFloat(row.total_actual_amt);
+                            }
 
                             var tr = '<tr>' +
                                 '<td>' + row.security.amc.name + '</td>' +  // AMC Name
@@ -171,12 +183,12 @@ Ticket Management
                         // Append the total row
                         var totalRow = '<tr style="background: grey; color: white;">' +
                             '<td colspan="2">Total</td>' +
-                            '<td>' + '-' + '</td>' +
+                            '<td>' + totalQuickTicket + '</td>' +
                             '<td></td>' +
-                            '<td>' + '-' + '</td>' +
-                            '<td>' + '-' + '</td>' +
-                            '<td>' + '-' + '</td>' +
-                            '<td>' + '-' + '</td>' +
+                            '<td>' + totalQuickTicketVal.toFixed(2) + '</td>' +
+                            '<td>' + totalTicket + '</td>' +
+                            '<td>' + amtSent.toFixed(2) + '</td>' +
+                            '<td>' + totalQuickTicketUnits.toFixed(2) + '</td>' +
                             '</tr>';
                         tbody.append(totalRow);
                     }

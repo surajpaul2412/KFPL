@@ -58,7 +58,7 @@ public function getMisData(Request $request)
                     COUNT(security_id) as total_clubbed,
                     SUM(basket_no) as total_basket_no, 
                     SUM(nav) as total_nav, 
-                    SUM(actual_total_amt) as total_amt, 
+                    SUM(actual_total_amt) as total_actual_amt, 
                     SUM(basket_no * basket_size) as total_units
                 ')
                 ->whereUserId($userId)
@@ -74,7 +74,6 @@ public function getMisData(Request $request)
 
         // Combine the data from QuickTicket and Ticket
         $data = $quickTicketData->concat($ticketData);
-
 
     } else { // SELL case
         // Fetch data from QuickTicket
@@ -105,7 +104,7 @@ public function getMisData(Request $request)
                     COUNT(security_id) as total_clubbed,
                     SUM(basket_no) as total_basket_no, 
                     SUM(nav) as total_nav, 
-                    SUM(actual_total_amt) as total_amt, 
+                    SUM(actual_total_amt) as total_actual_amt, 
                     SUM(basket_no * basket_size) as total_units
                 ')
                 ->where('user_id', $userId)
@@ -121,7 +120,6 @@ public function getMisData(Request $request)
 
         // Combine the data from QuickTicket and Ticket
         $data = $quickTicketData->concat($ticketData);
-
     }
 
     return response()->json($data);
