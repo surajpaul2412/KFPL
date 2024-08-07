@@ -68,6 +68,14 @@ Ticket Management
             return date.toLocaleDateString('en-CA', options); // 'en-CA' gives YYYY-MM-DD format
         }
 
+        function getCurrentDate() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
         function loadData(selectedValue) {
             $.ajax({
                 url: '{{ route("ops.mis.ajax") }}',
@@ -85,6 +93,11 @@ Ticket Management
                     var amountReceived = 0;
                     var check = '<i class="ri-check-fill text-success icon-large"></i>';
                     var cross = '<i class="ri-close-fill text-danger icon-large"></i>';
+
+                    // Get current date
+                    const currentDate = getCurrentDate();
+                    const selFromDate = `${currentDate}T00:00:00`;
+                    const selToDate = `${currentDate}T23:59:59`;
 
                     // Change table headers based on the selected value
                     if (selectedValue == 1) { // BUY case
@@ -104,7 +117,7 @@ Ticket Management
                                 '<th class="bg-success text-white">Deal Recd</th>' +
                                 '<th class="bg-success text-white">Amt Recd</th>' +
                                 '<th class="bg-success text-white">Units Recd</th>' +
-                                '<th class="bg-success text-white"></th>' +
+                                '<th class="bg-success text-white">View</th>' +
                             '</tr>'
                         );
 
@@ -113,7 +126,7 @@ Ticket Management
                             totalQty += parseFloat(row.basket_no * row.basket_size);
                             
                             var tr = '<tr>' +
-                                '<td>' + row.id + '. </td>' +  // Assuming id is the Ticket ID
+                                '<td>' + row.id + '</td>' +
                                 '<td>' + formatDate(row.created_at) + '. </td>' +  // Assuming id is the Ticket ID
                                 '<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
                                 '<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
@@ -121,13 +134,13 @@ Ticket Management
                                 '<td>' + row.basket_no + '</td>' +  // Placeholder for Symbol, update with correct key
                                 '<td>' + row.basket_no * row.basket_size + '</td>' +  // Placeholder for Symbol, update with correct key
                                 '<td>' + (row.status_id > 2 ? ''+check+'' : ''+cross+'') + '</td>' + 
-                                '<td>' + (row.utr_number ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                '<td>' + (row.utr_no ? check : cross) + '</td>' + 
                                 '<td>' + (row.status_id > 6 ? ''+check+'' : ''+cross+'') + '</td>' + 
                                 '<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
                                 '<td>' + (row.status_id > 9 ? ''+check+'' : ''+cross+'') + '</td>' + 
                                 '<td>' + (row.status_id > 11 ? ''+check+'' : ''+cross+'') + '</td>' + 
                                 '<td>' + (row.status_id > 13 ? ''+check+'' : ''+cross+'') + '</td>' + 
-                                '<td></td>' + 
+                                '<td><a class="text-info" href="/ops/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
                                 '</tr>';
                             tbody.append(tr);
                         });
@@ -166,6 +179,7 @@ Ticket Management
                                 '<th class="bg-danger text-white">Deal Recd</th>' +
                                 '<th class="bg-danger text-white">Unit Trf</th>' +
                                 '<th class="bg-danger text-white">Amt Recd</th>' +
+                                '<th class="bg-danger text-white">View</th>' +
                             '</tr>'
                         );
 
@@ -186,6 +200,7 @@ Ticket Management
                                     '<td>' + (row.status_id > 9 ? ''+check+'' : ''+cross+'') + '</td>' +                                     
                                     '<td>' + (row.status_id > 13 ? ''+check+'' : ''+cross+'') + '</td>' + 
                                     '<td>' + (row.status_id > 12 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                    '<td><a class="text-info" href="/ops/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
                                 '</tr>';
                             tbody.append(tr);
                         });
@@ -197,6 +212,7 @@ Ticket Management
                                 '<td></td>' +
                                 '<td>' + totalBasket.toFixed(2) + '</td>' +
                                 '<td>' + totalQty.toFixed(2) + '</td>' +
+                                '<td></td>' +
                                 '<td></td>' +
                                 '<td></td>' +
                                 '<td></td>' +

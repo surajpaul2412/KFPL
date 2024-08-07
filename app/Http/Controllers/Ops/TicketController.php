@@ -34,6 +34,8 @@ class TicketController extends Controller
             ? $request["sel_to_date"]
             : "";
         $sel_query = isset($request["sel_query"]) ? $request["sel_query"] : "";
+        
+        $type = isset($request["type"]) ? $request["type"] : "";
 
         // GET ALL ROLES
         $roles = Role::where("id", "<>", 1)->get();
@@ -60,6 +62,10 @@ class TicketController extends Controller
                     ->orWhere("securities.symbol", "LIKE", "%{$sel_query}%")
                     ->orWhere("securities.isin", "LIKE", "%{$sel_query}%");
             });
+        }
+
+        if ($type != "") {
+            $ticketQuery->whereType($type);
         }
 
         $tickets = $ticketQuery->whereIn('status_id', [2, 5, 6, 9, 10, 13, 14])
