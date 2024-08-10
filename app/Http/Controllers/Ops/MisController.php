@@ -22,16 +22,25 @@ class MisController extends Controller
     public function getMisData(Request $request)
     {
         $setType = $request->input('sel_role_id');
-        $currentDate = Carbon::today();
+        $currentDate = Carbon::now();
+        $startOf48HoursAgo = $currentDate->copy()->subHours(48);
 
         if ($setType == 1) { // BUY case
             $data = Ticket::where('type', $setType)
-                ->whereDate('created_at', $currentDate)
+                ->where(function ($query) use ($startOf48HoursAgo) {
+                    // Show records within the last 48 hours or status_id <= 13
+                    $query->where('status_id', '<', 13)
+                          ->orWhereBetween('created_at', [$startOf48HoursAgo, Carbon::now()]);
+                })
                 ->with('security', 'security.amc')
                 ->get();
         } else { // SELL case
             $data = Ticket::where('type', $setType)
-                ->whereDate('created_at', $currentDate)
+                ->where(function ($query) use ($startOf48HoursAgo) {
+                    // Show records within the last 48 hours or status_id <= 13
+                    $query->where('status_id', '<', 13)
+                          ->orWhereBetween('created_at', [$startOf48HoursAgo, Carbon::now()]);
+                })
                 ->with('security', 'security.amc')
                 ->get();
         }

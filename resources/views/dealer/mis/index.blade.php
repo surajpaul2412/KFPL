@@ -54,6 +54,14 @@ Ticket Management
             return date.toLocaleDateString('en-CA', options); // 'en-CA' gives YYYY-MM-DD format
         }
 
+        function getCurrentDate() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
         function loadData(selectedValue) {
             $.ajax({
                 url: '{{ route("dealer.mis.ajax") }}',
@@ -68,6 +76,11 @@ Ticket Management
                     // Initialize the total amount
                     var totalAmount = 0;
 
+                    // Get current date
+                    const currentDate = getCurrentDate();
+                    const selFromDate = `${currentDate}T00:00:00`;
+                    const selToDate = `${currentDate}T23:59:59`;
+
                     // Change table headers based on the selected value
                     if (selectedValue == 1) { // BUY case
                         thead.html(
@@ -78,6 +91,7 @@ Ticket Management
                                 '<th class="bg-success text-white">Deal Accepted</th>' +
                                 '<th class="bg-success text-white">Value</th>' +
                                 '<th class="bg-success text-white">NAV</th>' +
+                                '<th class="bg-success text-white">View</th>' +
                             '</tr>'
                         );
 
@@ -92,6 +106,7 @@ Ticket Management
                                 '<td>' + actualTotalAmtText + '</td>' +  // Assuming total_amt is the Ticket Amount
                                 '<td>' + (row.total_amt || 'N/A') + '</td>' +  // Assuming utr_no is the UTR Number
                                 '<td>' + (row.nav || 'N/A') + '</td>' +  // Assuming refund is the Refund Received
+                                '<td><a class="text-info" href="/dealer/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
                                 '</tr>';
                             tbody.append(tr);
                         });
@@ -101,6 +116,7 @@ Ticket Management
                             '<td colspan="3">Total</td>' +
                             '<td></td>' +
                             '<td>' + totalAmount.toFixed(2) + '</td>' +
+                            '<td></td>' +
                             '<td></td>' +
                             '</tr>';
                         tbody.append(totalRow);
@@ -114,6 +130,7 @@ Ticket Management
                                 '<th class="bg-danger text-white">Deal Accepted</th>' +
                                 '<th class="bg-danger text-white">Value</th>' +
                                 '<th class="bg-danger text-white">NAV</th>' +
+                                '<th class="bg-danger text-white">View</th>' +
                             '</tr>'
                         );
 
@@ -128,6 +145,7 @@ Ticket Management
                                 '<td>' + actualTotalAmtText + '</td>' +  // Assuming total_amt is the Ticket Amount
                                 '<td>' + row.total_amt + '</td>' +  // Assuming total_amt is the Ticket Amount
                                 '<td>' + row.nav + '</td>' +  // Assuming actual_total_amt is the Amount Received
+                                '<td><a class="text-info" href="/dealer/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
                                 '</tr>';
                             tbody.append(tr);
                         });
@@ -136,6 +154,7 @@ Ticket Management
                         var totalRow = '<tr style="background: grey; color: white;">' +
                             '<td colspan="4">Total</td>' +
                             '<td>' + totalAmount.toFixed(2) + '</td>' +
+                            '<td></td>' +
                             '<td></td>' +
                             '</tr>';
                         tbody.append(totalRow);
