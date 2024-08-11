@@ -1,12 +1,42 @@
 @extends('layouts.dashboard')
 
 @section('breadcrum')
-Ticket Management
+Quick Ticket Management
 @endsection
 
 @section('content')
 
 @include('topmessages')
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+
+        <form method="get" action="">
+          <div style="display:inline-flex;margin-right:10px;">
+
+            <input type="date" class="form-select" name="sel_from_date" placeholder="From Date" style="margin-right:10px;" value="{{$sel_from_date}}"/>
+            <input type="date" class="form-select" name="sel_to_date" placeholder="To Date" value="{{$sel_to_date}}"/>
+            <input type="text" class="form-input form-control" name="sel_query" placeholder="Enter Name, Symbol, ISIN code or Ticket ID"
+            value="{{$sel_query}}" style="margin-left:10px;"/>
+          </div>
+
+          <button type="submit" class="btn btn-primary" title="Search">
+            <i class="ri-search-line"></i> Search
+          </button>
+
+          <button type="reset" class="btn btn-primary actn-bttn" title="Reset Search" onclick="resetsearch()">
+            <i class="ri-refresh-line"></i>
+          </button>
+
+        </form>
+
+
+    <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
+        <a type="button" href="{{route('trader.tickets.create')}}" class="btn btn-primary d-flex align-items-center gap-2">
+            <i class="ri-bar-chart-2-line fs-18 lh-1"></i><span class="d-none d-sm-inline">Raise Ticket</span>
+        </a>
+    </div>
+</div>
+
+
 <div class="row justify-content-center g-3">
     <div class="col-xl-12">
         <div class="row g-3">
@@ -78,6 +108,6 @@ Ticket Management
 </form>
 
 <script>
-	    var base_url = "@php echo url('/admin/employees'); @endphp";
+    var base_url = "@php echo url('/trader/quick_tickets'); @endphp";
 </script>
 @endsection

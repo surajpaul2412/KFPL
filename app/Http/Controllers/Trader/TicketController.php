@@ -24,7 +24,6 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
-
       // SEARCH PArameters
       $sel_from_date = isset($request["sel_from_date"])
           ? $request["sel_from_date"]

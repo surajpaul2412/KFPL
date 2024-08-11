@@ -17,19 +17,65 @@ class QuickTicketController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tickets = QuickTicket::where("trader_id", Auth::user()->id)
-		                      ->orWhere("trader_id", 0)
-							  ->orderBy("updated_at", "desc")
-							  ->paginate(10);
-        
-		return view(
-            "trader.quick_tickets.index",
-            compact(
-                "tickets"
-            )
-        );
+        $sel_from_date = isset($request["sel_from_date"])
+          ? $request["sel_from_date"]
+          : "";
+        $sel_to_date = isset($request["sel_to_date"])
+          ? $request["sel_to_date"]
+          : "";
+        $sel_query = isset($request["sel_query"]) ? $request["sel_query"] : "";
+
+        $type = isset($request["type"]) ? $request["type"] : "";
+
+        // GET ALL ROLES
+        $roles = Role::where('id', '<>', 1)->get();
+
+        DB::enableQueryLog();
+
+        // Initialize the query for QuickTicket
+        $ticketQuery = QuickTicket::with('security');
+
+        // Apply date filters
+        if ($sel_from_date) {
+            $ticketQuery->where('updated_at', '>=', $sel_from_date . ' 00:00:00');
+        }
+        if ($sel_to_date) {
+            $ticketQuery->where('updated_at', '<=', $sel_to_date . ' 23:59:59');
+        }
+
+        // Apply search query filter | Chandan's requirement
+        // if ($sel_query) {
+        //     $ticketQuery->whereHas('security', function ($query) use ($sel_query) {
+        //         $query->where('security.name', 'LIKE', "%{$sel_query}%")
+        //               ->orWhere('security.symbol', 'LIKE', "%{$sel_query}%")
+        //               ->orWhere('security.isin', 'LIKE', "%{$sel_query}%");
+        //     });
+        // }
+
+        // Apply type filter
+        if ($type) {
+            $ticketQuery->where('type', $type);
+        }
+
+        // Apply user-related filters
+        $tickets = $ticketQuery->where('trader_id', Auth::user()->id)
+                               ->orWhere('trader_id', 0)
+                               ->orderBy('updated_at', 'desc')
+                               ->paginate(10);
+
+        $sql = DB::getQueryLog();
+
+        // Pass the data to the view
+        return view('trader.quick_tickets.index', compact(
+            'tickets',
+            'roles',
+            'sel_from_date',
+            'sel_to_date',
+            'sel_query',
+            'type'
+        ));
     }
 
     /**
