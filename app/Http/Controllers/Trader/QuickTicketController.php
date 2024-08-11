@@ -46,13 +46,18 @@ class QuickTicketController extends Controller
         }
 
         // Apply search query filter | Chandan's requirement
-        // if ($sel_query) {
-        //     $ticketQuery->whereHas('security', function ($query) use ($sel_query) {
-        //         $query->where('security.name', 'LIKE', "%{$sel_query}%")
-        //               ->orWhere('security.symbol', 'LIKE', "%{$sel_query}%")
-        //               ->orWhere('security.isin', 'LIKE', "%{$sel_query}%");
-        //     });
-        // }
+        if ($sel_query) {
+             $ticketQuery->whereHas('security', function ($query) use ($sel_query) {
+                 $query->where('securities.name', 'LIKE', "%{$sel_query}%")
+                       ->orWhere('securities.symbol', 'LIKE', "%{$sel_query}%")
+                       ->orWhere('securities.isin', 'LIKE', "%{$sel_query}%")
+					   ->orWhere('quick_tickets.basket_size', 'LIKE', "%{$sel_query}%")
+					   ->orWhere('quick_tickets.actual_total_amt', 'LIKE', "%{$sel_query}%")
+					   ->orWhere('quick_tickets.nav', 'LIKE', "%{$sel_query}%")
+					   
+					   ;
+             });
+        }
 
         // Apply type filter
         if ($type) {
@@ -65,8 +70,8 @@ class QuickTicketController extends Controller
                                ->orderBy('updated_at', 'desc')
                                ->paginate(10);
 
-        $sql = DB::getQueryLog();
-
+        //$sql = DB::getQueryLog();
+		//dd( $sql );
         // Pass the data to the view
         return view('trader.quick_tickets.index', compact(
             'tickets',
