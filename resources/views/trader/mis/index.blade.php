@@ -56,6 +56,14 @@ Ticket Management
             return date.toLocaleDateString('en-CA', options); // 'en-CA' gives YYYY-MM-DD format
         }
 
+        function getCurrentDate() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
         function loadData(selectedValue) {
             $.ajax({
                 url: '{{ route("trader.mis.ajax") }}',
@@ -75,6 +83,11 @@ Ticket Management
                     var totalTicket = 0;
                     var amtSent = 0;
 
+                    // Get current date
+                    const currentDate = getCurrentDate();
+                    const selFromDate = `${currentDate}T00:00:00`;
+                    const selToDate = `${currentDate}T23:59:59`;
+
                     // Change table headers based on the selected value
                     if (selectedValue == 1) { // BUY case
                         thead.html(
@@ -82,42 +95,42 @@ Ticket Management
                                 '<th class="bg-success text-white">AMC Name</th>' +
                                 '<th class="bg-success text-white">Symbol</th>' +
                                 '<th class="bg-success text-white">Quick Ticket </th>' +
+                                '<th class="bg-warning text-white">View QT </th>' +
                                 '<th class="bg-success text-white">NAV</th>' +
                                 '<th class="bg-success text-white">Quick Ticket Value</th>' +
                                 '<th class="bg-success text-white">Ticket Raised</th>' +
+                                '<th class="bg-warning text-white">Pending Tickets</th>' +
                                 '<th class="bg-success text-white">Amount Sent</th>' +
                                 '<th class="bg-success text-white">Total Units</th>' +
+                                '<th class="bg-warning text-white">View </th>' +
                             '</tr>'
                         );
 
-                        data.forEach(function(row) {                            
-                            totalQuickTicketVal += parseFloat(row.total_amt);
-                            totalQuickTicketUnits += parseFloat(row.total_units)
-
-                            var totalNavPerClubbed = (row.total_nav / row.total_clubbed) === 0 ? '-' : (row.total_nav / row.total_clubbed);
-                            var totalBasketNo = row.total_basket_no;
-
-                            var navPerClubbedCell = row.source === 'quick_ticket' ? totalNavPerClubbed : '-';
-                            var basketNoCell = row.source === 'quick_ticket' ? totalBasketNo : '-';
-                            var ticketBasketNoCell = row.source === 'ticket' ? totalBasketNo : '-';
-                            var ticketActualAmt = row.source === 'ticket' ? row.total_actual_amt : '-';
-                            if (row.source === 'quick_ticket') {
-                                totalQuickTicket += parseFloat(row.total_basket_no);
-                            }
-                            if (row.source === 'ticket') {
-                                totalTicket += parseFloat(row.total_basket_no);
-                                amtSent += parseFloat(row.total_actual_amt);
-                            }
+                        data.forEach(function(row) {
+                            totalQuickTicket += parseFloat(row.total_quick_basket_no || 0);
+                            totalQuickTicketVal += parseFloat(row.total_quick_amt || 0);
+                            totalQuickTicketUnits += parseFloat(row.total_quick_units + row.total_ticket_units || 0);
+                            totalTicket += parseFloat(row.total_ticket_basket_no || 0);
+                            amtSent += parseFloat(row.total_ticket_actual_amt || 0);
 
                             var tr = '<tr>' +
-                                '<td>' + row.security.amc.name + '</td>' +  // AMC Name
-                                '<td>' + row.security.symbol + '</td>' +  // Symbol
-                                '<td>' + basketNoCell + '</td>' +  // Total Basket No
-                                '<td>' + navPerClubbedCell + '</td>' +  // NAV / Clubbed
-                                '<td>' + (row.total_amt == 0 ? '-' : row.total_amt) + '</td>' +
-                                '<td>' + ticketBasketNoCell + '</td>' +  // Placeholder for additional fields
-                                '<td>' + ticketActualAmt + '</td>' +  // Placeholder for additional fields
-                                '<td>' + row.total_units + '</td>' +  // Total Units
+                                '<td>' + (row.security ? row.security.amc.name : '-') + '</td>' +  // AMC Name
+                                '<td>' + (row.security ? row.security.symbol : '-') + '</td>' +  // Symbol
+                                '<td>' + (row.total_quick_basket_no == 0 ? '-' : row.total_quick_basket_no) + '</td>' +  // Total Basket No
+                                '<td>' + (row.total_quick_basket_no == 0 
+                                    ? '-' 
+                                    : '<a class="text-info" href="/trader/quick_tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a>'
+                                ) + '</td>' +
+                                '<td>' + (row.total_quick_nav == 0 ? '-' : (row.total_quick_nav / row.total_quick_clubbed)) + '</td>' +  // NAV / Clubbed
+                                '<td>' + (row.total_quick_amt == 0 ? '-' : row.total_quick_amt) + '</td>' +
+                                '<td>' + (row.total_ticket_basket_no == 0 ? '-' : row.total_ticket_basket_no) + '</td>' +
+                                '<td>' + (row.total_quick_basket_no - row.total_ticket_basket_no) + '</td>' +
+                                '<td>' + (row.total_ticket_actual_amt == 0 ? '-' : row.total_ticket_actual_amt) + '</td>' +
+                                '<td>' + (row.total_quick_units + row.total_ticket_units) + '</td>' +
+                                '<td>' + (row.total_ticket_basket_no == 0 
+                                    ? '-' 
+                                    : '<a class="text-info" href="/trader/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a>'
+                                ) + '</td>' +
                                 '</tr>';
                             tbody.append(tr);
                         });
@@ -127,10 +140,13 @@ Ticket Management
                             '<td colspan="2">Total</td>' +
                             '<td>' + totalQuickTicket + '</td>' +
                             '<td></td>' +
+                            '<td></td>' +
                             '<td>' + totalQuickTicketVal.toFixed(2) + '</td>' +
                             '<td>' + totalTicket + '</td>' +
+                            '<td></td>' +
                             '<td>' + amtSent.toFixed(2) + '</td>' +
                             '<td>' + totalQuickTicketUnits.toFixed(2) + '</td>' +
+                            '<td></td>' +
                             '</tr>';
                         tbody.append(totalRow);
 
@@ -140,42 +156,42 @@ Ticket Management
                                 '<th class="bg-danger text-white">AMC Name</th>' +
                                 '<th class="bg-danger text-white">Symbol</th>' +
                                 '<th class="bg-danger text-white">Quick Ticket </th>' +
+                                '<th class="bg-warning text-white">View QT </th>' +
                                 '<th class="bg-danger text-white">NAV</th>' +
                                 '<th class="bg-danger text-white">Quick Ticket Value</th>' +
                                 '<th class="bg-danger text-white">Ticket Raised</th>' +
+                                '<th class="bg-warning text-white">Pending Tickets</th>' +
                                 '<th class="bg-danger text-white">Amount Sent</th>' +
                                 '<th class="bg-danger text-white">Total Units</th>' +
+                                '<th class="bg-warning text-white">View </th>' +
                             '</tr>'
                         );
 
                         data.forEach(function(row) {
-                            totalQuickTicketVal += parseFloat(row.total_amt);
-                            totalQuickTicketUnits += parseFloat(row.total_units)
-
-                            var totalNavPerClubbed = (row.total_nav / row.total_clubbed) === 0 ? '-' : (row.total_nav / row.total_clubbed);
-                            var totalBasketNo = row.total_basket_no;
-
-                            var navPerClubbedCell = row.source === 'quick_ticket' ? totalNavPerClubbed : '-';
-                            var basketNoCell = row.source === 'quick_ticket' ? totalBasketNo : '-';
-                            var ticketBasketNoCell = row.source === 'ticket' ? totalBasketNo : '-';
-                            var ticketActualAmt = row.source === 'ticket' ? row.total_actual_amt : '-';
-                            if (row.source === 'quick_ticket') {
-                                totalQuickTicket += parseFloat(row.total_basket_no);
-                            }
-                            if (row.source === 'ticket') {
-                                totalTicket += parseFloat(row.total_basket_no);
-                                amtSent += parseFloat(row.total_actual_amt);
-                            }
+                            totalQuickTicket += parseFloat(row.total_quick_basket_no || 0);
+                            totalQuickTicketVal += parseFloat(row.total_quick_amt || 0);
+                            totalQuickTicketUnits += parseFloat(row.total_quick_units + row.total_ticket_units || 0);
+                            totalTicket += parseFloat(row.total_ticket_basket_no || 0);
+                            amtSent += parseFloat(row.total_ticket_actual_amt || 0);
 
                             var tr = '<tr>' +
-                                '<td>' + row.security.amc.name + '</td>' +  // AMC Name
-                                '<td>' + row.security.symbol + '</td>' +  // Symbol
-                                '<td>' + basketNoCell + '</td>' +  // Total Basket No
-                                '<td>' + navPerClubbedCell + '</td>' +  // NAV / Clubbed
-                                '<td>' + (row.total_amt == 0 ? '-' : row.total_amt) + '</td>' +
-                                '<td>' + ticketBasketNoCell + '</td>' +  // Placeholder for additional fields
-                                '<td>' + ticketActualAmt + '</td>' +  // Placeholder for additional fields
-                                '<td>' + row.total_units + '</td>' +  // Total Units
+                                '<td>' + (row.security ? row.security.amc.name : '-') + '</td>' +  // AMC Name
+                                '<td>' + (row.security ? row.security.symbol : '-') + '</td>' +  // Symbol
+                                '<td>' + (row.total_quick_basket_no == 0 ? '-' : row.total_quick_basket_no) + '</td>' +  // Total Basket No
+                                '<td>' + (row.total_quick_basket_no == 0 
+                                    ? '-' 
+                                    : '<a class="text-info" href="/trader/quick_tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a>'
+                                ) + '</td>' +
+                                '<td>' + (row.total_quick_nav == 0 ? '-' : (row.total_quick_nav / row.total_quick_clubbed)) + '</td>' +  // NAV / Clubbed
+                                '<td>' + (row.total_quick_amt == 0 ? '-' : row.total_quick_amt) + '</td>' +
+                                '<td>' + (row.total_ticket_basket_no == 0 ? '-' : row.total_ticket_basket_no) + '</td>' +
+                                '<td>' + (row.total_quick_basket_no - row.total_ticket_basket_no) + '</td>' +
+                                '<td>' + (row.total_ticket_actual_amt == 0 ? '-' : row.total_ticket_actual_amt) + '</td>' +                                
+                                '<td>' + (row.total_quick_units + row.total_ticket_units) + '</td>' +
+                                '<td>' + (row.total_ticket_basket_no == 0 
+                                    ? '-' 
+                                    : '<a class="text-info" href="/trader/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a>'
+                                ) + '</td>' +
                                 '</tr>';
                             tbody.append(tr);
                         });
@@ -185,10 +201,13 @@ Ticket Management
                             '<td colspan="2">Total</td>' +
                             '<td>' + totalQuickTicket + '</td>' +
                             '<td></td>' +
+                            '<td></td>' +
                             '<td>' + totalQuickTicketVal.toFixed(2) + '</td>' +
                             '<td>' + totalTicket + '</td>' +
+                            '<td></td>' +
                             '<td>' + amtSent.toFixed(2) + '</td>' +
                             '<td>' + totalQuickTicketUnits.toFixed(2) + '</td>' +
+                            '<td></td>' +
                             '</tr>';
                         tbody.append(totalRow);
                     }

@@ -140,7 +140,7 @@ Ticket Management
                                 '<td>' + (row.status_id > 9 ? ''+check+'' : ''+cross+'') + '</td>' + 
                                 '<td>' + (row.status_id > 11 ? ''+check+'' : ''+cross+'') + '</td>' + 
                                 '<td>' + (row.status_id > 13 ? ''+check+'' : ''+cross+'') + '</td>' + 
-                                '<td><a class="text-info" href="/ops/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
+                                '<td><a class="text-info" href="/ops/tickets?sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
                                 '</tr>';
                             tbody.append(tr);
                         });
@@ -200,7 +200,7 @@ Ticket Management
                                     '<td>' + (row.status_id > 9 ? ''+check+'' : ''+cross+'') + '</td>' +                                     
                                     '<td>' + (row.status_id > 13 ? ''+check+'' : ''+cross+'') + '</td>' + 
                                     '<td>' + (row.status_id > 12 ? ''+check+'' : ''+cross+'') + '</td>' + 
-                                    '<td><a class="text-info" href="/ops/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
+                                    '<td><a class="text-info" href="/ops/tickets?sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
                                 '</tr>';
                             tbody.append(tr);
                         });
