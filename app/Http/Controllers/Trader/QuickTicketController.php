@@ -65,8 +65,10 @@ class QuickTicketController extends Controller
         }
 
         // Apply user-related filters
-        $tickets = $ticketQuery->where('trader_id', Auth::user()->id)
-                               ->orWhere('trader_id', 0)
+        $tickets = $ticketQuery->where( function( $q ){
+									$q->where('trader_id', Auth::user()->id);
+								    $q->orWhere('trader_id', 0);	
+								} )
                                ->orderBy('updated_at', 'desc')
                                ->paginate(10);
 
