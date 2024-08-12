@@ -75,6 +75,8 @@ Ticket Management
 
                     // Initialize the total amount
                     var totalAmount = 0;
+                    var check = '<i class="ri-check-fill text-success icon-large"></i>';
+                    var cross = '<i class="ri-close-fill text-danger icon-large"></i>';
 
                     // Get current date
                     const currentDate = getCurrentDate();
@@ -96,15 +98,14 @@ Ticket Management
                         );
 
                         data.forEach(function(row) {
-                            totalAmount += parseFloat(row.total_amt);
-                            var actualTotalAmtText = row.actual_total_amt == 0 ? 'NO' : 'YES';
+                            totalAmount += parseFloat(row.actual_total_amt);
 
                             var tr = '<tr>' +
                                 '<td>' + row.id + '. </td>' +  // Assuming id is the Ticket ID
                                 '<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
                                 '<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + actualTotalAmtText + '</td>' +  // Assuming total_amt is the Ticket Amount
-                                '<td>' + (row.total_amt || 'N/A') + '</td>' +  // Assuming utr_no is the UTR Number
+                                '<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                '<td>' + (row.actual_total_amt || 'N/A') + '</td>' +  // Assuming utr_no is the UTR Number
                                 '<td>' + (row.nav || 'N/A') + '</td>' +  // Assuming refund is the Refund Received
                                 '<td><a class="text-info" href="/dealer/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
                                 '</tr>';
@@ -135,15 +136,14 @@ Ticket Management
                         );
 
                         data.forEach(function(row) {
-                            totalAmount += parseFloat(row.total_amt);
-                            var actualTotalAmtText = row.actual_total_amt == 0 ? 'NO' : 'YES';
+                            totalAmount += parseFloat(row.actual_total_amt);
 
                             var tr = '<tr>' +
                                 '<td>' + row.id + '. </td>' +  // Assuming id is the Ticket ID
                                 '<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
                                 '<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
-                                '<td>' + actualTotalAmtText + '</td>' +  // Assuming total_amt is the Ticket Amount
-                                '<td>' + row.total_amt + '</td>' +  // Assuming total_amt is the Ticket Amount
+                                '<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
+                                '<td>' + row.actual_total_amt + '</td>' +  // Assuming total_amt is the Ticket Amount
                                 '<td>' + row.nav + '</td>' +  // Assuming actual_total_amt is the Amount Received
                                 '<td><a class="text-info" href="/dealer/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
                                 '</tr>';

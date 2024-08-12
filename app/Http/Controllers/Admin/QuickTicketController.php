@@ -63,8 +63,8 @@ class QuickTicketController extends Controller
             'rate' => $quickTicket->security->price ?? 0,
             'security_price' => 0,
             'markup_percentage' => $quickTicket->security->markup_percentage ?? 0,
-            'actual_total_amt' => $quickTicket->actual_total_amt,
-            'nav' => $quickTicket->nav,
+            'actual_total_amt' => 0,
+            'nav' => 0,
             'status_id' => 1
         ]);
 
