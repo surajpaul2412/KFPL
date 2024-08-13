@@ -57,6 +57,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     // Admin Dashboard
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     // MIS
+	Route::get('/admin/mis/ajax', [AdminMisController::class, 'getMisData'])->name('admin.mis.ajax');
     Route::resource('/admin/mis', AdminMisController::class)->names([
         'index' => 'admin.mis.index',
         'show' => 'admin.mis.show',
