@@ -188,7 +188,7 @@ function loadData(selectedValue)
 				const selToDate = `${currentDate}T23:59:59`;
 
 				// Change table headers based on the selected value
-				if (selectedValue == 1) { // BUY case
+				if (mode == 1) { // BUY case
 					thead.html(
 						'<tr>' +
 							'<th class="bg-success text-white">Ticket ID</th>' +
@@ -226,7 +226,7 @@ function loadData(selectedValue)
 						'</tr>';
 					tbody.append(totalRow);
 
-				} else if (selectedValue == 2) { // SELL case
+				} else if (mode == 2) { // SELL case
 					thead.html(
 						'<tr>' +
 							'<th class="bg-danger text-white">Ticket ID</th>' +
@@ -584,7 +584,7 @@ function loadData(selectedValue)
 				const selToDate = `${currentDate}T23:59:59`;
 
 				// Change table headers based on the selected value
-				if (selectedValue == 1) { // BUY case
+				if (mode == 1) { // BUY case
 					thead.html(
 						'<tr>' +
 							'<th class="bg-success text-white">Ticket ID</th>' +
@@ -622,7 +622,7 @@ function loadData(selectedValue)
 						'</tr>';
 					tbody.append(totalRow);
 
-				} else if (selectedValue == 2) { // SELL case
+				} else if (mode == 2) { // SELL case
 					thead.html(
 						'<tr>' +
 							'<th class="bg-danger text-white">Deal Date</th>' +
