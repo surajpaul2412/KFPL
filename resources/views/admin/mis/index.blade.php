@@ -211,7 +211,7 @@ function loadData(selectedValue)
 							'<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
 							'<td>' + (row.actual_total_amt || 'N/A') + '</td>' +  // Assuming utr_no is the UTR Number
 							'<td>' + (row.nav || 'N/A') + '</td>' +  // Assuming refund is the Refund Received
-							'<td><a class="text-info" href="/dealer/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
+							'<td><a class="text-info" href="/admin/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
 							'</tr>';
 						tbody.append(tr);
 					});
@@ -249,7 +249,7 @@ function loadData(selectedValue)
 							'<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
 							'<td>' + row.actual_total_amt + '</td>' +  // Assuming total_amt is the Ticket Amount
 							'<td>' + row.nav + '</td>' +  // Assuming actual_total_amt is the Amount Received
-							'<td><a class="text-info" href="/dealer/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
+							'<td><a class="text-info" href="/admin/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
 							'</tr>';
 						tbody.append(tr);
 					});
@@ -328,7 +328,7 @@ function loadData(selectedValue)
 							'<td>' + (row.status_id > 9 ? ''+check+'' : ''+cross+'') + '</td>' + 
 							'<td>' + (row.status_id > 11 ? ''+check+'' : ''+cross+'') + '</td>' + 
 							'<td>' + (row.status_id > 13 ? ''+check+'' : ''+cross+'') + '</td>' + 
-							'<td><a class="text-info" href="/ops/tickets?sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
+							'<td><a class="text-info" href="/admin/tickets?sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
 							'</tr>';
 						tbody.append(tr);
 					});
@@ -388,7 +388,7 @@ function loadData(selectedValue)
 								'<td>' + (row.status_id > 9 ? ''+check+'' : ''+cross+'') + '</td>' +                                     
 								'<td>' + (row.status_id > 13 ? ''+check+'' : ''+cross+'') + '</td>' + 
 								'<td>' + (row.status_id > 12 ? ''+check+'' : ''+cross+'') + '</td>' + 
-								'<td><a class="text-info" href="/ops/tickets?sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
+								'<td><a class="text-info" href="/admin/tickets?sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
 							'</tr>';
 						tbody.append(tr);
 					});
