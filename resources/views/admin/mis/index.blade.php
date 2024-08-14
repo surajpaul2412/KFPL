@@ -37,7 +37,8 @@ Ticket Management
             <div class="col-12 col-md-12 col-xl-12 pt-3">
                 <div class="card card-one card-product text-center">
                     <div class="card-body p-0">
-                        <table class="table">
+                        <!-- TRADER TABLE -->
+						<table class="table tradertable">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -57,7 +58,67 @@ Ticket Management
 								</tr>
                             </tbody>
                         </table>
-
+						
+						<!-- OPS TABLE -->
+						<table class="table opstable" style="display:none">
+                            <thead>
+                                <tr>
+                                    <th class="bg-success text-white">Ticket ID</th>
+                                    <th class="bg-success text-white">Date</th>
+                                    <th class="bg-success text-white">AMC Name </th>
+                                    <th class="bg-success text-white">Symbol</th>
+                                    <th class="bg-success text-white">ISIN</th>
+                                    <th class="bg-success text-white">No Of baskets</th>
+                                    <th class="bg-success text-white">Qty</th>
+                                    <th class="bg-success text-white">Deal Accept</th>
+                                    <th class="bg-success text-white">Fund Remitted</th>
+                                    <th class="bg-success text-white">Appl Sent</th>
+                                    <th class="bg-success text-white">Order Recd</th>
+                                    <th class="bg-success text-white">Deal Recd</th>
+                                    <th class="bg-success text-white">Amt Recd</th>
+                                    <th class="bg-success text-white">Units Recd</th>
+                                    <th class="bg-success text-white"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic content will be loaded here -->
+                            </tbody>
+                        </table>
+						
+						<!-- Accounts TABLE -->
+						<table class="table accountstable" style="display:none">
+                            <thead>
+                                <tr>
+                                    <th class="bg-success text-white">Ticket ID</th>
+                                    <th class="bg-success text-white">AMC Name</th>
+                                    <th class="bg-success text-white">Symbol</th>
+                                    <th class="bg-success text-white">Ticket Amount</th>
+                                    <th class="bg-success text-white">UTR Number</th>
+                                    <th class="bg-success text-white">Refund Received</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic content will be loaded here -->
+                            </tbody>
+                        </table>
+						
+						<!-- DEALER TABLE -->
+						<table class="table dealertable" style="display:none">
+                            <thead>
+                                <tr>
+                                    <th class="bg-success text-white">Ticket ID</th>
+                                    <th class="bg-success text-white">AMC Name</th>
+                                    <th class="bg-success text-white">Symbol</th>
+                                    <th class="bg-success text-white">Deal Accepted</th>
+                                    <th class="bg-success text-white">Value</th>
+                                    <th class="bg-success text-white">NAV</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic content will be loaded here -->
+                            </tbody>
+                        </table>
+						
                     </div>
                 </div>
             </div>
@@ -103,146 +164,502 @@ function loadData(selectedValue)
 		type: 'GET',
 		data: { sel_role_id: mode, usertype : selectedValue }, // Decide, Is it a BUY or SELL data
 		success: function(data) {
-			var table = $('table.table');
-			var thead = table.find('thead');
-			var tbody = table.find('tbody');
-			tbody.empty();
+			
+			console.log("AJAX SUCCESS : " + selectedValue);
+			
+			if( selectedValue == 'dealer')
+			{
+				$(".table").hide(); 
+				$(".dealertable").show();
+				
+				var table = $('table.dealertable');
+				var thead = table.find('thead');
+				var tbody = table.find('tbody');
+				tbody.empty();
 
-			// Initialize the total amount
-			var totalQuickTicket = 0;
-			var totalQuickTicketVal = 0;
-			var totalQuickTicketUnits = 0;
-			var amountReceived = 0;
-			var totalTicket = 0;
-			var amtSent = 0;
+				// Initialize the total amount
+				var totalAmount = 0;
+				var check = '<i class="ri-check-fill text-success icon-large"></i>';
+				var cross = '<i class="ri-close-fill text-danger icon-large"></i>';
 
-			// Get current date
-			const currentDate = getCurrentDate();
-			const selFromDate = `${currentDate}T00:00:00`;
-			const selToDate = `${currentDate}T23:59:59`;
+				// Get current date
+				const currentDate = getCurrentDate();
+				const selFromDate = `${currentDate}T00:00:00`;
+				const selToDate = `${currentDate}T23:59:59`;
 
-			// Change table headers based on the selected value
-			if (mode == 1) { // BUY case
-				thead.html(
-					'<tr>' +
-						'<th class="bg-success text-white">AMC Name</th>' +
-						'<th class="bg-success text-white">Symbol</th>' +
-						'<th class="bg-success text-white">Quick Ticket </th>' +
-						'<th class="bg-warning text-white">View QT </th>' +
-						'<th class="bg-success text-white">NAV</th>' +
-						'<th class="bg-success text-white">Quick Ticket Value</th>' +
-						'<th class="bg-success text-white">Ticket Raised</th>' +
-						'<th class="bg-warning text-white">Pending Tickets</th>' +
-						'<th class="bg-success text-white">Amount Sent</th>' +
-						'<th class="bg-success text-white">Total Units</th>' +
-						'<th class="bg-warning text-white">View </th>' +
-					'</tr>'
-				);
+				// Change table headers based on the selected value
+				if (selectedValue == 1) { // BUY case
+					thead.html(
+						'<tr>' +
+							'<th class="bg-success text-white">Ticket ID</th>' +
+							'<th class="bg-success text-white">AMC Name</th>' +
+							'<th class="bg-success text-white">Symbol</th>' +
+							'<th class="bg-success text-white">Deal Accepted</th>' +
+							'<th class="bg-success text-white">Value</th>' +
+							'<th class="bg-success text-white">NAV</th>' +
+							'<th class="bg-success text-white">View</th>' +
+						'</tr>'
+					);
 
-				data.forEach(function(row) {
-					totalQuickTicket += parseFloat(row.total_quick_basket_no || 0);
-					totalQuickTicketVal += parseFloat(row.total_quick_amt || 0);
-					totalQuickTicketUnits += parseFloat(row.total_quick_units + row.total_ticket_units || 0);
-					totalTicket += parseFloat(row.total_ticket_basket_no || 0);
-					amtSent += parseFloat(row.total_ticket_actual_amt || 0);
+					data.forEach(function(row) {
+						totalAmount += parseFloat(row.actual_total_amt);
 
-					var tr = '<tr>' +
-						'<td>' + (row.security ? row.security.amc.name : '-') + '</td>' +  // AMC Name
-						'<td>' + (row.security ? row.security.symbol : '-') + '</td>' +  // Symbol
-						'<td>' + (row.total_quick_basket_no == 0 ? '-' : row.total_quick_basket_no) + '</td>' +  // Total Basket No
-						'<td>' + (row.total_quick_basket_no == 0 
-							? '-' 
-							: '<a class="text-info" href="/trader/quick_tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a>'
-						) + '</td>' +
-						'<td>' + (row.total_quick_nav == 0 ? '-' : (row.total_quick_nav / row.total_quick_clubbed)) + '</td>' +  // NAV / Clubbed
-						'<td>' + (row.total_quick_amt == 0 ? '-' : row.total_quick_amt) + '</td>' +
-						'<td>' + (row.total_ticket_basket_no == 0 ? '-' : row.total_ticket_basket_no) + '</td>' +
-						'<td>' + (row.total_quick_basket_no - row.total_ticket_basket_no) + '</td>' +
-						'<td>' + (row.total_ticket_actual_amt == 0 ? '-' : row.total_ticket_actual_amt) + '</td>' +
-						'<td>' + (row.total_quick_units + row.total_ticket_units) + '</td>' +
-						'<td>' + (row.total_ticket_basket_no == 0 
-							? '-' 
-							: '<a class="text-info" href="/trader/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a>'
-						) + '</td>' +
+						var tr = '<tr>' +
+							'<td>' + row.id + '. </td>' +  // Assuming id is the Ticket ID
+							'<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
+							'<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
+							'<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
+							'<td>' + (row.actual_total_amt || 'N/A') + '</td>' +  // Assuming utr_no is the UTR Number
+							'<td>' + (row.nav || 'N/A') + '</td>' +  // Assuming refund is the Refund Received
+							'<td><a class="text-info" href="/dealer/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
+							'</tr>';
+						tbody.append(tr);
+					});
+
+					// Append the total row
+					var totalRow = '<tr style="background: grey; color: white;">' +
+						'<td colspan="3">Total</td>' +
+						'<td></td>' +
+						'<td>' + totalAmount.toFixed(2) + '</td>' +
+						'<td></td>' +
+						'<td></td>' +
 						'</tr>';
-					tbody.append(tr);
-				});
+					tbody.append(totalRow);
 
-				// Append the total row
-				var totalRow = '<tr style="background: grey; color: white;">' +
-					'<td colspan="2">Total</td>' +
-					'<td>' + totalQuickTicket + '</td>' +
-					'<td></td>' +
-					'<td></td>' +
-					'<td>' + totalQuickTicketVal.toFixed(2) + '</td>' +
-					'<td>' + totalTicket + '</td>' +
-					'<td></td>' +
-					'<td>' + amtSent.toFixed(2) + '</td>' +
-					'<td>' + totalQuickTicketUnits.toFixed(2) + '</td>' +
-					'<td></td>' +
-					'</tr>';
-				tbody.append(totalRow);
+				} else if (selectedValue == 2) { // SELL case
+					thead.html(
+						'<tr>' +
+							'<th class="bg-danger text-white">Ticket ID</th>' +
+							'<th class="bg-danger text-white">AMC Name</th>' +
+							'<th class="bg-danger text-white">Symbol</th>' +
+							'<th class="bg-danger text-white">Deal Accepted</th>' +
+							'<th class="bg-danger text-white">Value</th>' +
+							'<th class="bg-danger text-white">NAV</th>' +
+							'<th class="bg-danger text-white">View</th>' +
+						'</tr>'
+					);
 
-			} else if (mode == 2) { // SELL case
-				thead.html(
-					'<tr>' +
-						'<th class="bg-danger text-white">AMC Name</th>' +
-						'<th class="bg-danger text-white">Symbol</th>' +
-						'<th class="bg-danger text-white">Quick Ticket </th>' +
-						'<th class="bg-warning text-white">View QT </th>' +
-						'<th class="bg-danger text-white">NAV</th>' +
-						'<th class="bg-danger text-white">Quick Ticket Value</th>' +
-						'<th class="bg-danger text-white">Ticket Raised</th>' +
-						'<th class="bg-warning text-white">Pending Tickets</th>' +
-						'<th class="bg-danger text-white">Amount Sent</th>' +
-						'<th class="bg-danger text-white">Total Units</th>' +
-						'<th class="bg-warning text-white">View </th>' +
-					'</tr>'
-				);
+					data.forEach(function(row) {
+						totalAmount += parseFloat(row.actual_total_amt);
 
-				data.forEach(function(row) {
-					totalQuickTicket += parseFloat(row.total_quick_basket_no || 0);
-					totalQuickTicketVal += parseFloat(row.total_quick_amt || 0);
-					totalQuickTicketUnits += parseFloat(row.total_quick_units + row.total_ticket_units || 0);
-					totalTicket += parseFloat(row.total_ticket_basket_no || 0);
-					amtSent += parseFloat(row.total_ticket_actual_amt || 0);
+						var tr = '<tr>' +
+							'<td>' + row.id + '. </td>' +  // Assuming id is the Ticket ID
+							'<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
+							'<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
+							'<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
+							'<td>' + row.actual_total_amt + '</td>' +  // Assuming total_amt is the Ticket Amount
+							'<td>' + row.nav + '</td>' +  // Assuming actual_total_amt is the Amount Received
+							'<td><a class="text-info" href="/dealer/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
+							'</tr>';
+						tbody.append(tr);
+					});
 
-					var tr = '<tr>' +
-						'<td>' + (row.security ? row.security.amc.name : '-') + '</td>' +  // AMC Name
-						'<td>' + (row.security ? row.security.symbol : '-') + '</td>' +  // Symbol
-						'<td>' + (row.total_quick_basket_no == 0 ? '-' : row.total_quick_basket_no) + '</td>' +  // Total Basket No
-						'<td>' + (row.total_quick_basket_no == 0 
-							? '-' 
-							: '<a class="text-info" href="/trader/quick_tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a>'
-						) + '</td>' +
-						'<td>' + (row.total_quick_nav == 0 ? '-' : (row.total_quick_nav / row.total_quick_clubbed)) + '</td>' +  // NAV / Clubbed
-						'<td>' + (row.total_quick_amt == 0 ? '-' : row.total_quick_amt) + '</td>' +
-						'<td>' + (row.total_ticket_basket_no == 0 ? '-' : row.total_ticket_basket_no) + '</td>' +
-						'<td>' + (row.total_quick_basket_no - row.total_ticket_basket_no) + '</td>' +
-						'<td>' + (row.total_ticket_actual_amt == 0 ? '-' : row.total_ticket_actual_amt) + '</td>' +                                
-						'<td>' + (row.total_quick_units + row.total_ticket_units) + '</td>' +
-						'<td>' + (row.total_ticket_basket_no == 0 
-							? '-' 
-							: '<a class="text-info" href="/trader/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a>'
-						) + '</td>' +
+					// Append the total row
+					var totalRow = '<tr style="background: grey; color: white;">' +
+						'<td colspan="4">Total</td>' +
+						'<td>' + totalAmount.toFixed(2) + '</td>' +
+						'<td></td>' +
+						'<td></td>' +
 						'</tr>';
-					tbody.append(tr);
-				});
+					tbody.append(totalRow);
+				}
+			}
+			
+			if( selectedValue == 'ops')
+			{
+				$(".table").hide(); 
+				$(".opstable").show();
+				
+				var table = $('table.opstable');
+				var thead = table.find('thead');
+				var tbody = table.find('tbody');
+				tbody.empty();
 
-				// Append the total row
-				var totalRow = '<tr style="background: grey; color: white;">' +
-					'<td colspan="2">Total</td>' +
-					'<td>' + totalQuickTicket + '</td>' +
-					'<td></td>' +
-					'<td></td>' +
-					'<td>' + totalQuickTicketVal.toFixed(2) + '</td>' +
-					'<td>' + totalTicket + '</td>' +
-					'<td></td>' +
-					'<td>' + amtSent.toFixed(2) + '</td>' +
-					'<td>' + totalQuickTicketUnits.toFixed(2) + '</td>' +
-					'<td></td>' +
-					'</tr>';
-				tbody.append(totalRow);
+				// Initialize the total amount
+				var totalBasket = 0;
+				var totalQty = 0;
+				var amountReceived = 0;
+				var check = '<i class="ri-check-fill text-success icon-large"></i>';
+				var cross = '<i class="ri-close-fill text-danger icon-large"></i>';
+
+				// Get current date
+				const currentDate = getCurrentDate();
+				const selFromDate = `${currentDate}T00:00:00`;
+				const selToDate = `${currentDate}T23:59:59`;
+
+				// Change table headers based on the selected value
+				if (mode == 1) { // BUY case
+					thead.html(
+						'<tr>' +
+							'<th class="bg-success text-white">Ticket ID</th>' +
+							'<th class="bg-success text-white">Date</th>' +
+							'<th class="bg-success text-white">AMC Name </th>' +
+							'<th class="bg-success text-white">Symbol</th>' +
+							'<th class="bg-success text-white">ISIN</th>' +
+							'<th class="bg-success text-white">No Of baskets</th>' +
+							'<th class="bg-success text-white">Qty</th>' +
+							'<th class="bg-success text-white">Deal Accept</th>' +
+							'<th class="bg-success text-white">Fund Remitted</th>' +
+							'<th class="bg-success text-white">Appl Sent</th>' +
+							'<th class="bg-success text-white">Order Recd</th>' +
+							'<th class="bg-success text-white">Deal Recd</th>' +
+							'<th class="bg-success text-white">Amt Recd</th>' +
+							'<th class="bg-success text-white">Units Recd</th>' +
+							'<th class="bg-success text-white">View</th>' +
+						'</tr>'
+					);
+
+					data.forEach(function(row) {
+						totalBasket += parseFloat(row.basket_no);
+						totalQty += parseFloat(row.basket_no * row.basket_size);
+						
+						var tr = '<tr>' +
+							'<td>' + row.id + '</td>' +
+							'<td>' + formatDate(row.created_at) + '. </td>' +  // Assuming id is the Ticket ID
+							'<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
+							'<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
+							'<td>' + row.security.isin + '</td>' +  // Placeholder for Symbol, update with correct key
+							'<td>' + row.basket_no + '</td>' +  // Placeholder for Symbol, update with correct key
+							'<td>' + row.basket_no * row.basket_size + '</td>' +  // Placeholder for Symbol, update with correct key
+							'<td>' + (row.status_id > 2 ? ''+check+'' : ''+cross+'') + '</td>' + 
+							'<td>' + (row.utr_no ? check : cross) + '</td>' + 
+							'<td>' + (row.status_id > 6 ? ''+check+'' : ''+cross+'') + '</td>' + 
+							'<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
+							'<td>' + (row.status_id > 9 ? ''+check+'' : ''+cross+'') + '</td>' + 
+							'<td>' + (row.status_id > 11 ? ''+check+'' : ''+cross+'') + '</td>' + 
+							'<td>' + (row.status_id > 13 ? ''+check+'' : ''+cross+'') + '</td>' + 
+							'<td><a class="text-info" href="/ops/tickets?sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
+							'</tr>';
+						tbody.append(tr);
+					});
+
+					// Append the total row
+					var totalRow = '<tr style="background: grey; color: white;">' +
+						'<td colspan="3">Sub Total</td>' +
+						'<td></td>' +
+						'<td></td>' +
+						'<td>' + totalBasket.toFixed(2) + '</td>' +
+						'<td>' + totalQty.toFixed(2) + '</td>' +
+						'<td></td>' +
+						'<td></td>' +
+						'<td></td>' +
+						'<td></td>' +
+						'<td></td>' +
+						'<td></td>' +
+						'<td></td>' +
+						'<td></td>' +
+						'</tr>';
+					tbody.append(totalRow);
+
+				} else if (mode == 2) { // SELL case
+					thead.html(
+						'<tr>' +
+							'<th class="bg-danger text-white">Ticket ID</th>' +
+							'<th class="bg-danger text-white">Date</th>' +
+							'<th class="bg-danger text-white">AMC Name </th>' +
+							'<th class="bg-danger text-white">Symbol</th>' +
+							'<th class="bg-danger text-white">ISIN</th>' +
+							'<th class="bg-danger text-white">No Of baskets</th>' +
+							'<th class="bg-danger text-white">Qty</th>' +
+							'<th class="bg-danger text-white">Units Sent</th>' +
+							'<th class="bg-danger text-white">Appl Sent</th>' +
+							'<th class="bg-danger text-white">Order Recd</th>' +
+							'<th class="bg-danger text-white">Deal Recd</th>' +
+							'<th class="bg-danger text-white">Unit Trf</th>' +
+							'<th class="bg-danger text-white">Amt Recd</th>' +
+							'<th class="bg-danger text-white">View</th>' +
+						'</tr>'
+					);
+
+					data.forEach(function(row) {
+						totalBasket += parseFloat(row.basket_no);
+						totalQty += parseFloat(row.basket_no * row.basket_size);
+						var tr = '<tr>' +
+								'<td>' + row.id + '. </td>' +  // Assuming id is the Ticket ID
+								'<td>' + formatDate(row.created_at) + '</td>' +  // Assuming created_at is the Deal Date
+								'<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
+								'<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
+								'<td>' + row.security.isin + '</td>' +  // Placeholder for isin, update with correct key
+								'<td>' + row.basket_no + '</td>' +  // Assuming total_amt is the Ticket Amount
+								'<td>' + row.basket_no * row.basket_size + '</td>' +  // Assuming actual_total_amt is the Amount Received
+								'<td>' + '' + '</td>' +  // Placeholder for Symbol, update with correct key
+								'<td>' + (row.status_id > 6 ? ''+check+'' : ''+cross+'') + '</td>' + 
+								'<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
+								'<td>' + (row.status_id > 9 ? ''+check+'' : ''+cross+'') + '</td>' +                                     
+								'<td>' + (row.status_id > 13 ? ''+check+'' : ''+cross+'') + '</td>' + 
+								'<td>' + (row.status_id > 12 ? ''+check+'' : ''+cross+'') + '</td>' + 
+								'<td><a class="text-info" href="/ops/tickets?sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
+							'</tr>';
+						tbody.append(tr);
+					});
+
+					// Append the total row
+					var totalRow = '<tr style="background: grey; color: white;">' +
+							'<td colspan="3">Sub Total</td>' +
+							'<td></td>' +
+							'<td></td>' +
+							'<td>' + totalBasket.toFixed(2) + '</td>' +
+							'<td>' + totalQty.toFixed(2) + '</td>' +
+							'<td></td>' +
+							'<td></td>' +
+							'<td></td>' +
+							'<td></td>' +
+							'<td></td>' +
+							'<td></td>' +
+							'<td></td>' +
+						'</tr>';
+					tbody.append(totalRow);
+				}
+
+			}
+			
+			if( selectedValue == 'trader' )
+			{
+				
+				$(".table").hide(); 
+				$(".tradertable").show();
+				
+				var table = $('table.tradertable');
+				var thead = table.find('thead');
+				var tbody = table.find('tbody');
+				tbody.empty();
+
+				// Initialize the total amount
+				var totalQuickTicket = 0;
+				var totalQuickTicketVal = 0;
+				var totalQuickTicketUnits = 0;
+				var amountReceived = 0;
+				var totalTicket = 0;
+				var amtSent = 0;
+
+				// Get current date
+				const currentDate = getCurrentDate();
+				const selFromDate = `${currentDate}T00:00:00`;
+				const selToDate = `${currentDate}T23:59:59`;
+
+				// Change table headers based on the selected value
+				if (mode == 1) { // BUY case
+					thead.html(
+						'<tr>' +
+							'<th class="bg-success text-white">AMC Name</th>' +
+							'<th class="bg-success text-white">Symbol</th>' +
+							'<th class="bg-success text-white">Quick Ticket </th>' +
+							'<th class="bg-warning text-white">View QT </th>' +
+							'<th class="bg-success text-white">NAV</th>' +
+							'<th class="bg-success text-white">Quick Ticket Value</th>' +
+							'<th class="bg-success text-white">Ticket Raised</th>' +
+							'<th class="bg-warning text-white">Pending Tickets</th>' +
+							'<th class="bg-success text-white">Amount Sent</th>' +
+							'<th class="bg-success text-white">Total Units</th>' +
+							'<th class="bg-warning text-white">View </th>' +
+						'</tr>'
+					);
+
+					data.forEach(function(row) {
+						totalQuickTicket += parseFloat(row.total_quick_basket_no || 0);
+						totalQuickTicketVal += parseFloat(row.total_quick_amt || 0);
+						totalQuickTicketUnits += parseFloat(row.total_quick_units + row.total_ticket_units || 0);
+						totalTicket += parseFloat(row.total_ticket_basket_no || 0);
+						amtSent += parseFloat(row.total_ticket_actual_amt || 0);
+
+						var tr = '<tr>' +
+							'<td>' + (row.security ? row.security.amc.name : '-') + '</td>' +  // AMC Name
+							'<td>' + (row.security ? row.security.symbol : '-') + '</td>' +  // Symbol
+							'<td>' + (row.total_quick_basket_no == 0 ? '-' : row.total_quick_basket_no) + '</td>' +  // Total Basket No
+							'<td>' + (row.total_quick_basket_no == 0 
+								? '-' 
+								: '<a class="text-info" href="/trader/quick_tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a>'
+							) + '</td>' +
+							'<td>' + (row.total_quick_nav == 0 ? '-' : (row.total_quick_nav / row.total_quick_clubbed)) + '</td>' +  // NAV / Clubbed
+							'<td>' + (row.total_quick_amt == 0 ? '-' : row.total_quick_amt) + '</td>' +
+							'<td>' + (row.total_ticket_basket_no == 0 ? '-' : row.total_ticket_basket_no) + '</td>' +
+							'<td>' + (row.total_quick_basket_no - row.total_ticket_basket_no) + '</td>' +
+							'<td>' + (row.total_ticket_actual_amt == 0 ? '-' : row.total_ticket_actual_amt) + '</td>' +
+							'<td>' + (row.total_quick_units + row.total_ticket_units) + '</td>' +
+							'<td>' + (row.total_ticket_basket_no == 0 
+								? '-' 
+								: '<a class="text-info" href="/trader/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a>'
+							) + '</td>' +
+							'</tr>';
+						tbody.append(tr);
+					});
+
+					// Append the total row
+					var totalRow = '<tr style="background: grey; color: white;">' +
+						'<td colspan="2">Total</td>' +
+						'<td>' + totalQuickTicket + '</td>' +
+						'<td></td>' +
+						'<td></td>' +
+						'<td>' + totalQuickTicketVal.toFixed(2) + '</td>' +
+						'<td>' + totalTicket + '</td>' +
+						'<td></td>' +
+						'<td>' + amtSent.toFixed(2) + '</td>' +
+						'<td>' + totalQuickTicketUnits.toFixed(2) + '</td>' +
+						'<td></td>' +
+						'</tr>';
+					tbody.append(totalRow);
+
+				} else if (mode == 2) { // SELL case
+					thead.html(
+						'<tr>' +
+							'<th class="bg-danger text-white">AMC Name</th>' +
+							'<th class="bg-danger text-white">Symbol</th>' +
+							'<th class="bg-danger text-white">Quick Ticket </th>' +
+							'<th class="bg-warning text-white">View QT </th>' +
+							'<th class="bg-danger text-white">NAV</th>' +
+							'<th class="bg-danger text-white">Quick Ticket Value</th>' +
+							'<th class="bg-danger text-white">Ticket Raised</th>' +
+							'<th class="bg-warning text-white">Pending Tickets</th>' +
+							'<th class="bg-danger text-white">Amount Sent</th>' +
+							'<th class="bg-danger text-white">Total Units</th>' +
+							'<th class="bg-warning text-white">View </th>' +
+						'</tr>'
+					);
+
+					data.forEach(function(row) {
+						totalQuickTicket += parseFloat(row.total_quick_basket_no || 0);
+						totalQuickTicketVal += parseFloat(row.total_quick_amt || 0);
+						totalQuickTicketUnits += parseFloat(row.total_quick_units + row.total_ticket_units || 0);
+						totalTicket += parseFloat(row.total_ticket_basket_no || 0);
+						amtSent += parseFloat(row.total_ticket_actual_amt || 0);
+
+						var tr = '<tr>' +
+							'<td>' + (row.security ? row.security.amc.name : '-') + '</td>' +  // AMC Name
+							'<td>' + (row.security ? row.security.symbol : '-') + '</td>' +  // Symbol
+							'<td>' + (row.total_quick_basket_no == 0 ? '-' : row.total_quick_basket_no) + '</td>' +  // Total Basket No
+							'<td>' + (row.total_quick_basket_no == 0 
+								? '-' 
+								: '<a class="text-info" href="/trader/quick_tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a>'
+							) + '</td>' +
+							'<td>' + (row.total_quick_nav == 0 ? '-' : (row.total_quick_nav / row.total_quick_clubbed)) + '</td>' +  // NAV / Clubbed
+							'<td>' + (row.total_quick_amt == 0 ? '-' : row.total_quick_amt) + '</td>' +
+							'<td>' + (row.total_ticket_basket_no == 0 ? '-' : row.total_ticket_basket_no) + '</td>' +
+							'<td>' + (row.total_quick_basket_no - row.total_ticket_basket_no) + '</td>' +
+							'<td>' + (row.total_ticket_actual_amt == 0 ? '-' : row.total_ticket_actual_amt) + '</td>' +                                
+							'<td>' + (row.total_quick_units + row.total_ticket_units) + '</td>' +
+							'<td>' + (row.total_ticket_basket_no == 0 
+								? '-' 
+								: '<a class="text-info" href="/trader/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a>'
+							) + '</td>' +
+							'</tr>';
+						tbody.append(tr);
+					});
+
+					// Append the total row
+					var totalRow = '<tr style="background: grey; color: white;">' +
+						'<td colspan="2">Total</td>' +
+						'<td>' + totalQuickTicket + '</td>' +
+						'<td></td>' +
+						'<td></td>' +
+						'<td>' + totalQuickTicketVal.toFixed(2) + '</td>' +
+						'<td>' + totalTicket + '</td>' +
+						'<td></td>' +
+						'<td>' + amtSent.toFixed(2) + '</td>' +
+						'<td>' + totalQuickTicketUnits.toFixed(2) + '</td>' +
+						'<td></td>' +
+						'</tr>';
+					tbody.append(totalRow);
+				}
+			}
+			
+			if( selectedValue == 'accounts' )
+			{
+				
+				$(".table").hide(); 
+				$(".accountstable").show();
+				
+				var table = $('table.accountstable');
+				var thead = table.find('thead');
+				var tbody = table.find('tbody');
+				tbody.empty();
+
+				// Initialize the total amount
+				var totalAmount = 0;
+				var totalRefund = 0;
+				var amountReceived = 0;
+
+				// Get current date
+				const currentDate = getCurrentDate();
+				const selFromDate = `${currentDate}T00:00:00`;
+				const selToDate = `${currentDate}T23:59:59`;
+
+				// Change table headers based on the selected value
+				if (selectedValue == 1) { // BUY case
+					thead.html(
+						'<tr>' +
+							'<th class="bg-success text-white">Ticket ID</th>' +
+							'<th class="bg-success text-white">AMC Name</th>' +
+							'<th class="bg-success text-white">Symbol</th>' +
+							'<th class="bg-success text-white">Ticket Amount</th>' +
+							'<th class="bg-success text-white">UTR Number</th>' +
+							'<th class="bg-success text-white">Refund Received</th>' +
+							'<th class="bg-success text-white">View</th>' +
+						'</tr>'
+					);
+
+					data.forEach(function(row) {
+						totalAmount += parseFloat(row.total_amt);
+						totalRefund += parseFloat(row.refund);
+						var tr = '<tr>' +
+							'<td>' + row.id + '. </td>' +  // Assuming id is the Ticket ID
+							'<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
+							'<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
+							'<td>' + row.total_amt + '</td>' +  // Assuming total_amt is the Ticket Amount
+							'<td>' + (row.utr_no || 'N/A') + '</td>' +  // Assuming utr_no is the UTR Number
+							'<td>' + (row.refund || 'N/A') + '</td>' +  // Assuming refund is the Refund Received
+							'<td><a class="text-info" href="/accounts/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a></td>' +
+							'</tr>';
+						tbody.append(tr);
+					});
+
+					// Append the total row
+					var totalRow = '<tr style="background: grey; color: white;">' +
+						'<td colspan="3">Total</td>' +
+						'<td>' + totalAmount.toFixed(2) + '</td>' +
+						'<td></td>' +
+						'<td>' + totalRefund.toFixed(2) + '</td>' +
+						'<td></td>' +
+						'</tr>';
+					tbody.append(totalRow);
+
+				} else if (selectedValue == 2) { // SELL case
+					thead.html(
+						'<tr>' +
+							'<th class="bg-danger text-white">Deal Date</th>' +
+							'<th class="bg-danger text-white">Ticket ID</th>' +
+							'<th class="bg-danger text-white">AMC Name</th>' +
+							'<th class="bg-danger text-white">Symbol</th>' +
+							'<th class="bg-danger text-white">Ticket Amount</th>' +
+							'<th class="bg-danger text-white">Amount Received</th>' +
+							'<th class="bg-danger text-white">View</th>' +
+						'</tr>'
+					);
+
+					data.forEach(function(row) {
+						totalAmount += parseFloat(row.total_amt);
+						amountReceived += parseFloat(row.actual_total_amt);
+						var tr = '<tr>' +
+							'<td>' + formatDate(row.created_at) + '</td>' +  // Assuming created_at is the Deal Date
+							'<td>' + row.id + '. </td>' +  // Assuming id is the Ticket ID
+							'<td>' + row.security.amc.name + '</td>' +  // Placeholder for AMC Name, update with correct key
+							'<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
+							'<td>' + row.total_amt + '</td>' +  // Assuming total_amt is the Ticket Amount
+							'<td>' + row.actual_total_amt + '</td>' +  // Assuming actual_total_amt is the Amount Received
+							'<td><a class="text-info" href="/accounts/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a></td>' +
+							'</tr>';
+						tbody.append(tr);
+					});
+
+					// Append the total row
+					var totalRow = '<tr style="background: grey; color: white;">' +
+						'<td colspan="4">Total</td>' +
+						'<td>' + totalAmount.toFixed(2) + '</td>' +
+						'<td>' + amountReceived.toFixed(2) + '</td>' +
+						'<td></td>' +
+						'</tr>';
+					tbody.append(totalRow);
+				}
+				
 			}
 		},
 		error: function(xhr, status, error) {
