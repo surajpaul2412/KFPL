@@ -30,6 +30,7 @@ class MisController extends Controller
             $data = Ticket::where('type', $setType)
                 ->whereBetween('created_at', [$startOfDay, $endOfDay])
                 ->with('security', 'security.amc')
+				->orderBy('created_at', 'desc')
                 ->get();
         } else { // SELL case
             $previousDate = Carbon::yesterday();
@@ -39,6 +40,7 @@ class MisController extends Controller
             $data = Ticket::where('type', $setType)
                 ->whereBetween('created_at', [$startOfPreviousDay, $endOfCurrentDay])
                 ->with('security', 'security.amc')
+				->orderBy('created_at', 'desc')
                 ->get();
         }
 

@@ -33,6 +33,7 @@ class MisController extends Controller
                           ->orWhereBetween('created_at', [$startOf48HoursAgo, Carbon::now()]);
                 })
                 ->with('security', 'security.amc')
+				->orderBy('created_at', 'desc')
                 ->get();
         } else { // SELL case
             $data = Ticket::where('type', $setType)
@@ -42,6 +43,7 @@ class MisController extends Controller
                           ->orWhereBetween('created_at', [$startOf48HoursAgo, Carbon::now()]);
                 })
                 ->with('security', 'security.amc')
+				->orderBy('created_at', 'desc')
                 ->get();
         }
 
