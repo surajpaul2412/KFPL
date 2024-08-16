@@ -614,6 +614,58 @@
                                     </div>
                                 @endif
 
+
+								@if($ticket->status_id == 12)
+								
+                                    <div class="col-6 my-3">
+                                        <div class="pb-1">
+                                            Refund Verification
+                                        </div>
+                                        <div class="">
+                                            <input type="hidden" name="verification" value="1" required>
+                                            <span class='verification' onclick="setVerification2(0,1);setmandatory('dispute', 0);clearField('dispute');">Accept</span>
+                                            <span class='verification' onclick="setVerification2(1,2);setmandatory('dispute', 1);">Reject</span>
+                                            @error('verification')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Redemption Received
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="text" class="form-control w-100" placeholder="Enter Amount" name="expected_refund"
+                                              value="{{$ticket->refund??$ticket->expected_refund}}" disabled>
+                                        </div>
+                                    </div>
+
+                                    @if($ticket->deal_ticket == null)
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Upload Deal Ticket
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                              value="" >
+                                        </div>
+                                    </div>
+                                    @endif
+
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Dispute Comment
+                                        </div>
+                                        <div class="w-75">
+                                            <textarea class="form-control w-100" name="dispute" placeholder="Write here">{{Session::get('error')??$ticket->dispute}}</textarea>
+                                        </div>
+                                    </div>
+                                @endif
+								
+								
                                 @if($ticket->status_id == 13)
 
 									<!-- BUY BASKET cases where Basket File Upload is Missing -->
@@ -740,7 +792,22 @@
     var ticketType = {{ $ticket->type }} ;  // 1 Buy, 2 Sell
     var paymentType = {{ $ticket->payment_type }} ;
 	
-
+	function clearField(target)
+	{
+		jQuery("[name='"+target+"']").val('');
+	}
+	
+	function setmandatory(target, mode)
+	{
+		if(mode)
+		{
+			jQuery("[name='"+target+"']").attr("required", "required");
+		}
+		else 
+		{
+			jQuery("[name='"+target+"']").removeAttr("required");
+		}
+	}
 	// Make Mandatory
 	function mm(m, target)
 	{
@@ -849,8 +916,17 @@
     }
 
     $(document).ready(function () {
-
-      // Attach a change event listener to the actual_total_amt input
+		
+	  @if($ticket->status_id == 12)
+		// CLICK ACCEPT/REJECT on STEP 12 on Page Load
+	    @if( trim($ticket->dispute) == '' )
+		setVerification2(0,1);		
+		@else 
+		setVerification2(1,2);setmandatory('dispute', 1);		
+		@endif
+	  @endif										
+      
+	  // Attach a change event listener to the actual_total_amt input
       $('input[name="actual_total_amt"]').on('input', function() {
           // Get the entered value
           var actualTotalAmt = $(this).val();

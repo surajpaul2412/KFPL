@@ -748,7 +748,38 @@ class TicketController extends Controller
                 }
 
                 $ticket->save();
-
+			
+			} elseif ($ticket->status_id == 12) {
+				
+				//dd($request->all());
+				
+				if ($ticket->type == 2 && $ticket->payment_type == 1) {
+					$arr = [];
+					
+					// ACCEPT
+					if($request->verification == 1)
+					{
+						$arr['expected_refund'] = 'required';	
+						$request->validate( $arr );
+						
+						$ticket->expected_refund = $request->expected_refund;
+						$ticket->status_id = 14;
+						$ticket->save();
+						
+					}
+					
+					// REJECT
+					if($request->verification == 2)
+					{
+						$arr['dispute'] = 'required';	
+						$request->validate( $arr );
+						$ticket->dispute = $request->dispute;
+						$ticket->save();
+					}
+					
+					
+				}
+				
 			} elseif ($ticket->status_id == 13) {
 
 				$arr = [];
