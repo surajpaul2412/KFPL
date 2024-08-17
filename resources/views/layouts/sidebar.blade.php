@@ -8,11 +8,13 @@
         <div class="nav-group show">
             <ul class="nav nav-sidebar">
                 @if(auth()->user()->isAdmin())
-                <li class="nav-item">
+                {{--
+				<li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link {{ Request::is('admin/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
                 </li>
+				--}}
                 <li class="nav-item">
-                    <a href="{{ route('admin.mis.index') }}" class="nav-link {{ Request::is('admin/mis*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>MIS</span></a>
+                    <a href="{{ route('admin.mis.index') }}" class="nav-link {{ Request::is('admin/mis*') ? 'active' : '' }}"><i class="ri-dashboard-line"></i> <span>MIS</span></a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('employees.index') }}" class="nav-link {{ Request::is('admin/employees*') ? 'active' : '' }}"><i class="ri-group-line"></i> <span>Employee Management</span></a>
@@ -46,11 +48,13 @@
 
                     @if($roleCount == 1)
                       @if(auth()->user()->isTrader())
-                      <li class="nav-item">
+                      {{--
+					  <li class="nav-item">
                           <a href="{{ route('trader.dashboard') }}" class="nav-link {{ Request::is('trader/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
                       </li>
+					  --}}
                       <li class="nav-item">
-                          <a href="{{ route('trader.mis.index') }}" class="nav-link {{ Request::is('trader/mis*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>MIS</span></a>
+                          <a href="{{ route('trader.mis.index') }}" class="nav-link {{ Request::is('trader/mis*') ? 'active' : '' }}"><i class="ri-dashboard-line"></i> <span>MIS</span></a>
                       </li>
                       <li class="nav-item">
                           <a href="{{ route('trader.tickets.index') }}" class="nav-link {{ Request::is('trader/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span>  <div class="lottie-animation" id="lottie-animation-trader"></div></a>
@@ -60,33 +64,38 @@
                       </li>
                       @endif
                       @if(auth()->user()->isOps())
-                      <li class="nav-item">
+                      {{--
+					  <li class="nav-item">
                           <a href="{{ route('ops.dashboard') }}" class="nav-link {{ Request::is('ops/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
                       </li>
+					  --}}
                       <li class="nav-item">
-                          <a href="{{ route('ops.mis.index') }}" class="nav-link {{ Request::is('ops/mis*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>MIS</span></a>
+                          <a href="{{ route('ops.mis.index') }}" class="nav-link {{ Request::is('ops/mis*') ? 'active' : '' }}"><i class="ri-dashboard-line"></i> <span>MIS</span></a>
                       </li>
                       <li class="nav-item">
                           <a href="{{ route('ops.tickets.index') }}" class="nav-link {{ Request::is('ops/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span> <div class="lottie-animation" id="lottie-animation-ops"></div></a>
                       </li>
                       @endif
                       @if(auth()->user()->isAccounts())
-                      <li class="nav-item">
+                      {{--
+					  <li class="nav-item">
                           <a href="{{ route('accounts.dashboard') }}" class="nav-link {{ Request::is('accounts/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
                       </li>
+					  --}}
                       <li class="nav-item">
-                          <a href="{{ route('accounts.mis.index') }}" class="nav-link {{ Request::is('accounts/mis*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>MIS</span></a>
+                          <a href="{{ route('accounts.mis.index') }}" class="nav-link {{ Request::is('accounts/mis*') ? 'active' : '' }}"><i class="ri-dashboard-line"></i> <span>MIS</span></a>
                       </li>
                       <li class="nav-item">
                           <a href="{{ route('accounts.tickets.index') }}" class="nav-link {{ Request::is('accounts/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span> <div class="lottie-animation" id="lottie-animation-accounts"></div></a>
                       </li>
                       @endif
                       @if(auth()->user()->isDealer())
-                      <li class="nav-item">
+                      {{-- <li class="nav-item">
                           <a href="{{ route('dealer.dashboard') }}" class="nav-link {{ Request::is('dealer/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
                       </li>
+					  --}}
                       <li class="nav-item">
-                          <a href="{{ route('dealer.mis.index') }}" class="nav-link {{ Request::is('dealer/mis*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>MIS</span></a>
+                          <a href="{{ route('dealer.mis.index') }}" class="nav-link {{ Request::is('dealer/mis*') ? 'active' : '' }}"><i class="ri-dashboard-line"></i> <span>MIS</span></a>
                       </li>
                       <li class="nav-item">
                           <a href="{{ route('dealer.tickets.index') }}" class="nav-link {{ Request::is('dealer/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span> <div class="lottie-animation" id="lottie-animation-dealer"></div></a>
@@ -96,9 +105,10 @@
                       </li>
                       @endif
                       @if(auth()->user()->isBackoffice())
-                        <li class="nav-item">
+					  {{-- <li class="nav-item">
                             <a href="{{ route('backoffice.dashboard') }}" class="nav-link {{ Request::is('backoffice/dashboard*') ? 'active' : '' }}"><i class="ri-home-5-line"></i> <span>Dashboard</span></a>
                         </li>
+					  --}}
                       @endif
                     @endif
 
@@ -120,12 +130,14 @@
                          if( $current_role !='' && in_array($current_role, $roles_names) )
                          {
                       @endphp
+						  {{--
                           <li class="nav-item MULTI-ROLED-USER">
                             <a href="{{ route( $current_role . '.dashboard') }}"
                             class="nav-link {{ Request::is( $current_role . '/dashboard*') ? 'active' : '' }}">
                              <i class="ri-home-5-line"></i> <span>Dashboard</span></a>
                           </li>
-                          <li class="nav-item MULTI-ROLED-USER">
+                          --}}
+						  <li class="nav-item MULTI-ROLED-USER">
                              <a href="{{ route( $current_role . '.tickets.index') }}"
                              class="nav-link {{ Request::is( $current_role . '/tickets*') ? 'active' : '' }}">
                              <i class="ri-flag-2-line"></i> <span>Tickets</span></a>

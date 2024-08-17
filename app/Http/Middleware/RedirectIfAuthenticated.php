@@ -31,17 +31,17 @@ class RedirectIfAuthenticated
 
                 // Check the user's role and redirect accordingly
                 if ($user->isAdmin()) {
-                    return redirect()->route('admin.dashboard');
+                    return redirect()->route('admin.mis.index');
                 } elseif ($user->isDealer()) {
-                    return redirect()->route('dealer.dashboard');
+                    return redirect()->route('dealer.mis.index');
                 } elseif ($user->isAccounts()) {
-                    return redirect()->route('accounts.dashboard');
+                    return redirect()->route('accounts.mis.index');
                 } elseif ($user->isTrader()) {
-                    return redirect()->route('trader.dashboard');
+                    return redirect()->route('trader.mis.index');
                 } elseif ($user->isOps()) {
-                    return redirect()->route('ops.dashboard');
+                    return redirect()->route('ops.mis.index');
                 } elseif ($user->isBackoffice()) {
-                    return redirect()->route('backoffice.dashboard');
+                    return redirect()->route('backoffice.mis.index');
                 }
 
                 // Default redirection for users without a specific role

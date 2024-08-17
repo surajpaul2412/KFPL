@@ -63,10 +63,18 @@ Ticket Management
 <script>
     $(document).ready(function() {
         function formatDate(dateString) {
-            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-CA', options); // 'en-CA' gives YYYY-MM-DD format
-        }
+			const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+			const date = new Date(dateString);
+			var m = date.getMonth();
+			var d = date.getDate() ;
+			var y = date.getFullYear() ;
+			if(date.getMonth() < 10)
+			{
+				m = "0" + (date.getMonth() + 1);
+			}
+			return d + "-" + m + "-" + y;
+			//return date.toLocaleDateString('en-CA', options); // 'en-CA' gives YYYY-MM-DD format
+		}
 
         function getCurrentDate() {
             const date = new Date();
