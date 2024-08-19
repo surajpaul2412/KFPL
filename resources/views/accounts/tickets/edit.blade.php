@@ -172,6 +172,56 @@
                                         </div>
                                     </div>
                                 @endif
+								
+								@if($ticket->status_id == 12)
+                                    <div class="col-6 my-3">
+                                        <div class="pb-1">
+                                            Refund Verification
+                                        </div>
+                                        <div class="">
+                                            <input type="hidden" name="verification" value="1" required>
+                                            <span class='verification' onclick="setVerification2(0,1);mm(0, 'dispute');clearField('dispute');">Accept</span>
+                                            <span class='verification' onclick="setVerification2(1,2);mm(1, 'dispute');">Reject</span>
+                                            @error('verification')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Redemption Received
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="text" class="form-control w-100" placeholder="Enter Amount" name="expected_refund"
+                                              value="{{$ticket->refund??$ticket->expected_refund}}" disabled>
+                                        </div>
+                                    </div>
+
+                                    @if($ticket->deal_ticket == null)
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Upload Deal Ticket
+                                        </div>
+                                        <div class="w-75">
+                                            <input type="file" class="form-control w-100" placeholder="Upload" name="deal_ticket"
+                                              value="" >
+                                        </div>
+                                    </div>
+                                    @endif
+
+                                    <div class="col-6 my-3">
+                                        <div class="w-25 pb-1">
+                                            Dispute Comment
+                                        </div>
+                                        <div class="w-75">
+                                            <textarea class="form-control w-100" name="dispute" placeholder="Write here">{{Session::get('error')??$ticket->dispute}}</textarea>
+                                        </div>
+                                    </div>
+                                @endif
+								
                             </div>
 
                             <div class="text-align-center">
@@ -209,6 +259,24 @@
       jQuery('.waitmsg').show();
     }
 
+	function clearField(target)
+	{
+		jQuery("[name='"+target+"']").val('');
+	}
+	
+	// Make Mandatory
+	function mm(m, target)
+	{
+		if(m)
+		{
+			jQuery("[name='"+target+"']").attr("required", "required");
+		}
+		else 
+		{
+			jQuery("[name='"+target+"']").removeAttr("required");
+		}
+	}
+	
     function setVerification1(x, y) {
         var verificationInput = document.querySelector("[name='verification']");
         var rateInput = document.querySelector("[name='expected_refund']");
@@ -250,5 +318,17 @@
 
         document.querySelectorAll(".verification")[x].classList.add('selected');
     }
+	
+	$(document).ready(function () {
+	  @if($ticket->status_id == 12)
+		// CLICK ACCEPT/REJECT on STEP 12 on Page Load
+	    @if( trim($ticket->dispute) == '' )
+		setVerification2(0,1);		
+		@else 
+		setVerification2(1,2);
+	    mm(1,'dispute');		
+		@endif
+	  @endif				
+	});
 </script>
 @endsection

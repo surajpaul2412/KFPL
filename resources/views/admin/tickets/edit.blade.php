@@ -623,8 +623,8 @@
                                         </div>
                                         <div class="">
                                             <input type="hidden" name="verification" value="1" required>
-                                            <span class='verification' onclick="setVerification2(0,1);setmandatory('dispute', 0);clearField('dispute');">Accept</span>
-                                            <span class='verification' onclick="setVerification2(1,2);setmandatory('dispute', 1);">Reject</span>
+                                            <span class='verification' onclick="setVerification2(0,1);mm(0,'dispute');clearField('dispute');">Accept</span>
+                                            <span class='verification' onclick="setVerification2(1,2);mm(1,'dispute');">Reject</span>
                                             @error('verification')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -797,17 +797,6 @@
 		jQuery("[name='"+target+"']").val('');
 	}
 	
-	function setmandatory(target, mode)
-	{
-		if(mode)
-		{
-			jQuery("[name='"+target+"']").attr("required", "required");
-		}
-		else 
-		{
-			jQuery("[name='"+target+"']").removeAttr("required");
-		}
-	}
 	// Make Mandatory
 	function mm(m, target)
 	{
@@ -922,7 +911,8 @@
 	    @if( trim($ticket->dispute) == '' )
 		setVerification2(0,1);		
 		@else 
-		setVerification2(1,2);setmandatory('dispute', 1);		
+		setVerification2(1,2);
+	    mm(1,'dispute');		
 		@endif
 	  @endif										
       
