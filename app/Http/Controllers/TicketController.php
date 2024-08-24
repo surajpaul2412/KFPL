@@ -25,7 +25,7 @@ class TicketController extends Controller
 
     public function checkOpsTicket()
     {
-        $userId = Auth::user()->id;
+        //$userId = Auth::user()->id;
         
         $ticketCount = Ticket::whereIn('status_id', [2, 5, 6, 9, 10, 13])
             // ->where('user_id', $userId)
@@ -36,7 +36,7 @@ class TicketController extends Controller
 
     public function checkAccountsTicket()
     {
-        $userId = Auth::user()->id;
+        //$userId = Auth::user()->id;
         
         $ticketCount = Ticket::whereIn('status_id', [3,11,12])
             // ->where('user_id', $userId)
@@ -46,7 +46,8 @@ class TicketController extends Controller
     }
 
     public function checkDealerTicket() {
-        $userId = Auth::user()->id;
+        
+		//$userId = Auth::user()->id;
         
         $ticketCount = Ticket::whereIn('status_id', [7,8])
             // ->where('user_id', $userId)

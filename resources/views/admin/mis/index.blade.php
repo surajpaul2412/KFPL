@@ -476,7 +476,7 @@ function loadData(selectedValue)
 							'<td>' + (row.total_quick_basket_no == 0 ? '-' : row.total_quick_basket_no) + '</td>' +  // Total Basket No
 							'<td>' + (row.total_quick_basket_no == 0 
 								? '-' 
-								: '<a class="text-info" href="/trader/quick_tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a>'
+								: '<a class="text-info" href="/admin/quick_tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a>'
 							) + '</td>' +
 							'<td>' + (row.total_quick_nav == 0 ? '-' : (row.total_quick_nav / row.total_quick_clubbed)) + '</td>' +  // NAV / Clubbed
 							'<td>' + (row.total_quick_amt == 0 ? '-' : row.total_quick_amt) + '</td>' +
@@ -486,7 +486,7 @@ function loadData(selectedValue)
 							'<td>' + (row.total_quick_units + row.total_ticket_units) + '</td>' +
 							'<td>' + (row.total_ticket_basket_no == 0 
 								? '-' 
-								: '<a class="text-info" href="/trader/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a>'
+								: '<a class="text-info" href="/admin/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=1"><i class="ri-eye-fill"></i></a>'
 							) + '</td>' +
 							'</tr>';
 						tbody.append(tr);
@@ -537,7 +537,7 @@ function loadData(selectedValue)
 							'<td>' + (row.total_quick_basket_no == 0 ? '-' : row.total_quick_basket_no) + '</td>' +  // Total Basket No
 							'<td>' + (row.total_quick_basket_no == 0 
 								? '-' 
-								: '<a class="text-info" href="/trader/quick_tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a>'
+								: '<a class="text-info" href="/admin/quick_tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a>'
 							) + '</td>' +
 							'<td>' + (row.total_quick_nav == 0 ? '-' : (row.total_quick_nav / row.total_quick_clubbed)) + '</td>' +  // NAV / Clubbed
 							'<td>' + (row.total_quick_amt == 0 ? '-' : row.total_quick_amt) + '</td>' +
@@ -547,7 +547,7 @@ function loadData(selectedValue)
 							'<td>' + (row.total_quick_units + row.total_ticket_units) + '</td>' +
 							'<td>' + (row.total_ticket_basket_no == 0 
 								? '-' 
-								: '<a class="text-info" href="/trader/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a>'
+								: '<a class="text-info" href="/admin/tickets?sel_from_date=' + selFromDate + '&sel_to_date=' + selToDate + '&sel_query='+ row.security.isin +'&type=2"><i class="ri-eye-fill"></i></a>'
 							) + '</td>' +
 							'</tr>';
 						tbody.append(tr);
