@@ -11,7 +11,7 @@ Ticket Management
             <li class="breadcrumb-item"><a href="/dealer/quick_tickets">Ticket Management</a></li>
             <li class="breadcrumb-item active" aria-current="page">Edit Quick Ticket</li>
         </ol>
-        <h4 class="main-title mb-0">Add Ticket</h4>
+        <h4 class="main-title mb-0">Edit Quick Ticket</h4>
     </div>
 </div>
 
@@ -150,7 +150,7 @@ Ticket Management
                         </div>
 
                         <div class="text-align-center">
-                            <button type="submit" class="btn btn-primary active mb-4 px-5 text-ali">Create Ticket</button>
+                            <button type="submit" class="btn btn-primary active mb-4 px-5 text-ali">Update Quick Ticket</button>
                         </div>
                     </div><!-- card-body -->
                 </div><!-- card -->

@@ -116,12 +116,19 @@ class QuickTicketController extends Controller
             'basket_size' => 'nullable|string',
             'actual_total_amt' => 'required|numeric',
             'nav' => 'nullable|numeric',
-            'trader_id' => 'required|exists:users,id',
+            'trader_id' => 'required|integer',
         ])->validate();
 
         // Update the QuickTicket instance
         $quickTicket->update($validatedData);
-
+		
+		// Make Sure, Trader ID exists in users table
+		if($request->trader_id != 0)
+		{
+			$user = User::where("id", $request->trader_id)->first();
+			if(!$user) abort(404);
+		}
+		
         // Update purchaseNav if needed
         if ($request->has('actual_total_amt')) {
             if ($validatedData['type'] == 1) {
