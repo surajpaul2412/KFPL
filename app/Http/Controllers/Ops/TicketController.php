@@ -69,7 +69,7 @@ class TicketController extends Controller
         }
 
         $tickets = $ticketQuery->whereIn('status_id', [2, 5, 6, 9, 10, 13, 14])
-                               ->orderBy('updated_at', 'desc')
+                               ->orderBy('created_at', 'desc')
                                ->paginate(10);
 
         //$sql = DB::getQueryLog();

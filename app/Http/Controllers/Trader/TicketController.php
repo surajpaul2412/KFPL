@@ -65,7 +65,7 @@ class TicketController extends Controller
         }
 
       $tickets = $ticketQuery->whereUserId(Auth::user()->id)
-                             ->orderBy("updated_at", "desc")
+                             ->orderBy("created_at", "desc")
                              ->paginate(10);
 
       $sql = DB::getQueryLog();

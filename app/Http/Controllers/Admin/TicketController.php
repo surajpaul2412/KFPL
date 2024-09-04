@@ -89,7 +89,7 @@ class TicketController extends Controller
             });
         }
 
-        $tickets = $ticketQuery->orderBy("updated_at", "desc")->paginate(10);
+        $tickets = $ticketQuery->orderBy("created_at", "desc")->paginate(10);
         $sql = DB::getQueryLog();
         //dd($sql);
         return view(
