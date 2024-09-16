@@ -23,7 +23,7 @@ class AmcController extends Controller
 
     public function create()
     {
-        $pdfs = Pdf::all()->orderBy;
+        $pdfs = Pdf::orderBy('name')->get();
         return view('admin.amcs.create', compact('pdfs'));
     }
 
