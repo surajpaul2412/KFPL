@@ -30,6 +30,7 @@
                     <nav class="nav nav-sub" style="{{ Request::is('admin/amcs*') || Request::is('admin/securities*') ? 'display: block;' : 'display: none;' }}">
                         <a href="{{ route('amcs.index') }}" class="nav-sub-link">AMC</a>
                         <a href="{{ route('securities.index') }}" class="nav-sub-link">Security</a>
+						<a href="{{ route('admin.emailtemplates.index') }}" class="nav-sub-link">Email Templates</a>
                     </nav>
                 </li>
                 <li class="nav-item">

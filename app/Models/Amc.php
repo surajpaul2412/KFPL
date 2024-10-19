@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Emailtemplate;
 
 class Amc extends Model
 {
@@ -19,5 +20,10 @@ class Amc extends Model
     public function securities()
     {
         return $this->hasMany(Security::class);
+    }
+	
+	public function emailtemplates()
+    {
+        return $this->hasMany(Emailtemplate::class);
     }
 }

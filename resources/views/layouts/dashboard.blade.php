@@ -355,5 +355,9 @@
     @endif
 
     @yield('script')
+	
+	<!-- Extra Scripts in Layout STARTS -->
+	@yield('extrascripts')
+	<!-- Extra Scripts in Layout ENDS -->
   </body>
 </html>

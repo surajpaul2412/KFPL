@@ -24,6 +24,7 @@ use App\Http\Controllers\Dealer\TicketController as DealerTicketController;
 use App\Http\Controllers\Dealer\QuickTicketController as DealerQuickTicketController;
 use App\Http\Controllers\Trader\QuickTicketController as TraderQuickTicketController;
 use App\Http\Controllers\Admin\QuickTicketController as AdminQuickTicketController;
+use App\Http\Controllers\Admin\EmailtemplateController as EmailtemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,6 +89,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::post('/admin/upload-securities', [SecurityController::class, 'uploadCSV']);
     Route::get('/admin/download-csv', [SecurityController::class, 'downloadCSV'])->name('download.csv');
     Route::resource('/admin/securities', SecurityController::class);
+    Route::resource('/admin/emailtemplates', EmailtemplateController::class)->names('admin.emailtemplates');
     // Disputes
     Route::resource('/admin/disputes', DisputeController::class);
     // quick ticket
