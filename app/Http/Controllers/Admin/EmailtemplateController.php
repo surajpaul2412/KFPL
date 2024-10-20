@@ -58,6 +58,7 @@ class EmailtemplateController extends Controller
             'name' => 'required',
             'type' => 'required|in:1,2',
             'status' => 'required|in:0,1',
+            'template' => 'required', // Validation added
         ]);
 
         Emailtemplate::create($request->all());
@@ -95,6 +96,7 @@ class EmailtemplateController extends Controller
             'name' => 'required',
             'type' => 'required|in:1,2',
             'status' => 'required|in:0,1',
+            'template' => 'required',
         ]);
 
         $emailtemplate->update($request->all());

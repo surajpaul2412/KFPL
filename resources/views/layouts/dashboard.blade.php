@@ -24,6 +24,9 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+
+    <!-- Summernote CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     @yield('style')
   </head>
   <body>
@@ -354,10 +357,9 @@
         </script>
     @endif
 
+    <!-- Summernote JS -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
     @yield('script')
-	
-	<!-- Extra Scripts in Layout STARTS -->
-	@yield('extrascripts')
-	<!-- Extra Scripts in Layout ENDS -->
   </body>
 </html>

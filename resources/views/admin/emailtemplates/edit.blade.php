@@ -93,7 +93,7 @@
                                         Email Message 
                                     </div>
                                     <div class="">
-                                        <textarea name="template" style="width:100%;height:300px;">{{ $emailtemplate->template }}</textarea>
+                                        <textarea name="template" class="form-control" id="summernote" style="width:100%;height:300px;">{{ $emailtemplate->template }}</textarea>
                                     </div>
                                 </div>
 								
@@ -108,4 +108,25 @@
             </div><!-- row -->
         </div><!-- col -->
     </div><!-- row -->
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            height: 300,  // Set the height of the editor
+            toolbar: [
+                // Customize your toolbar here
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+</script>
 @endsection
