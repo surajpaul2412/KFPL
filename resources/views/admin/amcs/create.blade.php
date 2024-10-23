@@ -95,6 +95,114 @@
                                         </select>
                                     </div>
                                 </div>
+								
+								<div class="col-6 my-3">
+                                    <div class="pb-1">
+                                        Investor Details
+                                    </div>
+                                    <div class="">
+                                        <textarea name="investordetails" style="width:100%;height:100px" value="{{old('investordetails')}}"></textarea>
+                                    </div>
+									@error('investordetails')
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $message }}</strong>
+										</span>
+                                    @enderror
+                                </div>
+								
+								<div class="col-6 my-3">
+                                    <div class="pb-1">
+                                        Bank Details
+                                    </div>
+                                    <div class="">
+                                        <textarea name="bankdetails" style="width:100%;height:100px" value="{{old('bankdetails')}}"></textarea>
+                                    </div>
+									@error('bankdetails')
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $message }}</strong>
+										</span>
+                                    @enderror
+                                </div>
+								
+								<hr/>
+								
+								<h5>Email Template Assignments</h5>
+								
+								<div class="col-3 my-3">
+                                    <div class="pb-1">
+                                        Buy - Cash
+                                    </div>
+                                    <div class="">
+                                        <select name="buycashtmpl" class="form-select mobile-w-100 @error('buycashtmpl') is-invalid @enderror">
+											<option value="">Select an Option</option>
+											@foreach($emailtemplates as $emailtemplate)
+                                                <option value="{{ $emailtemplate->id }}">{{ $emailtemplate->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('buycashtmpl')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+								
+								<div class="col-3 my-3">
+                                    <div class="pb-1">
+                                        Sell - Cash
+                                    </div>
+                                    <div class="">
+                                        <select name="sellcashtmpl" class="form-select mobile-w-100 @error('sellcashtmpl') is-invalid @enderror">
+											<option value="">Select an Option</option>
+											@foreach($emailtemplates as $emailtemplate)
+                                                <option value="{{ $emailtemplate->id }}">{{ $emailtemplate->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('sellcashtmpl')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+								
+								<div class="col-3 my-3">
+                                    <div class="pb-1">
+                                        Sell - Cash (Without SS)
+                                    </div>
+                                    <div class="">
+                                        <select name="sellcashwosstmpl" class="form-select mobile-w-100 @error('sellcashwosstmpl') is-invalid @enderror">
+											<option value="">Select an Option</option>
+											@foreach($emailtemplates as $emailtemplate)
+                                                <option value="{{ $emailtemplate->id }}">{{ $emailtemplate->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('sellcashwosstmpl')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+								
+								<div class="col-3 my-3">
+                                    <div class="pb-1">
+                                        Mail To Self
+                                    </div>
+                                    <div class="">
+                                        <select name="mailtoselftmpl" class="form-select mobile-w-100 @error('mailtoselftmpl') is-invalid @enderror">
+											<option value="">Select an Option</option>
+											@foreach($emailtemplates as $emailtemplate)
+                                                <option value="{{ $emailtemplate->id }}">{{ $emailtemplate->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('mailtoselftmpl')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="text-align-center">

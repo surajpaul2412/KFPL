@@ -10,7 +10,11 @@ class Amc extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'expense_percentage', 'pdf_id', 'status', 'amc_pdf'];
+    protected $fillable = [
+	'name', 'email', 'expense_percentage', 'pdf_id', 'status', 'amc_pdf',
+	'buycashtmpl', 'sellcashtmpl', 'sellcashwosstmpl', 'mailtoselftmpl', 
+	'investordetails', 'bankdetails'
+	]; 		
 
     public function pdf()
     {
@@ -22,8 +26,4 @@ class Amc extends Model
         return $this->hasMany(Security::class);
     }
 	
-	public function emailtemplates()
-    {
-        return $this->hasMany(Emailtemplate::class);
-    }
 }

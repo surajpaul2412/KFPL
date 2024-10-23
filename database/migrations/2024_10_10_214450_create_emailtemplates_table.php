@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('emailtemplates', function (Blueprint $table) {
             $table->id();
-			
-			$table->integer('amc_id');
 			$table->string('name');
-			$table->integer('type')->nullable()->comment('1=>buy, 2=>sell');
+			$table->string('subject')->nullable();
 			$table->integer('status')->default(1);
 			$table->text('template')->nullable();
             $table->timestamps();

@@ -11,17 +11,10 @@ class Emailtemplate extends Model
     use HasFactory;
 
     protected $fillable = [
-        'amc_id',
-        'type',
+        'subject',
         'name',
         'template',
 		'status'
     ];
-
-    // Define the relationship with AMC
-    public function amc()
-    {
-        return $this->belongsTo(Amc::class);
-    }
 
 }

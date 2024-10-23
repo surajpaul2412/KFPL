@@ -35,9 +35,8 @@
                                 <thead>
                                     <tr>
                                         <th>ID#</th>
-										<th>AMC Name</th>
                                         <th>Template Name</th>
-                                        <th>Type</th>
+                                        <th>Subject</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -46,9 +45,8 @@
                                     @forelse ($emailtemplates as $emailtemplate)
                                         <tr>
                                             <td>{{ $emailtemplate->id }}</td>
-                                            <td>{{ $emailtemplate->amc->name }}</td>
-											<td>{{ $emailtemplate->name }}</td>
-                                            <td>{{ $emailtemplate->type }}</td>
+                                            <td>{{ $emailtemplate->name }}</td>
+											<td>{{ $emailtemplate->subject }}</td>
                                             <td>
                                                 @if ($emailtemplate->status == 1)
                                                     <span class="badge badge-pill bg-success">Active</span>

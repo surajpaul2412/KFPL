@@ -5,6 +5,29 @@
 @endsection
 
 @section('content')
+    <style>
+	.variables
+	{
+	  text-align: center;
+	  font-size: 10px;
+	  padding: 6px;
+	  background: #dbdada;
+	  border-radius: 12px;
+	  cursor: pointer;
+	  font-weight:bold;
+	  display:inline-block;
+	}
+	
+	.msg 
+	{
+		margin-top: 4px;
+	    margin-bottom: 4px;
+	    background: #8bf1cb;
+	    padding: 10px;
+	    font-weight: bold;
+	    font-size: 13px;
+	}
+	</style>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div>
             <ol class="breadcrumb fs-sm mb-3">
@@ -24,24 +47,6 @@
                         <div class="card-body p-3">
                             <div class="row px-md-4">
 
-                                <div class="col-6 my-3">
-                                    <div class="pb-1">
-                                        AMC Name <span class="required">*</span>
-                                    </div>
-                                    <div class="">
-                                        <select name="amc_id" class="form-select mobile-w-100 @error('name') is-invalid @enderror" required>
-                                            @foreach($amcs as $amc)
-                                                <option value="{{ $amc->id }}">{{ $amc->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('amc_id')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
 								<div class="col-6 my-3">
                                     <div class="pb-1">
                                         Template Name <span class="required">*</span>
@@ -49,23 +54,6 @@
                                     <div class="">
                                         <input type="text" name="name" class="form-control w-100 @error('name') is-invalid @enderror" placeholder="Enter Template Name" value="{{ old('name') }}" required>
                                         @error('name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-								
-								<div class="col-6 my-3">
-                                    <div class="pb-1">
-                                        Type <span class="required">*</span>
-                                    </div>
-                                    <div class="">
-                                        <select name="type" class="form-select mobile-w-100 @error('type') is-invalid @enderror" required>
-                                            <option value='1'>Buy</option>
-                                            <option value='2'>Sell</option>
-                                        </select>
-                                        @error('type')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -88,12 +76,36 @@
 								
 								<div class="col-12 my-3">
                                     <div class="pb-1">
-                                        Email Message 
+                                        Variables ( Click to Copy )
+                                    </div>
+									<div class='variables' onclick="putthru('AMC Name', 'amcname')" style='width:100px'>AMC Name</div>
+									<div class='variables' onclick="putthru('Current Date', 'currentdate')" style='width:100px'>Current Date</div>
+									<div class='variables' onclick="putthru('Current Time', 'currenttime')" style='width:100px'>Current Time</div>
+                                </div>
+								
+								<div class="col-12 msg" style="display:none;">
+                                    
+                                </div>
+								
+								<div class="col-12 my-3">
+                                    <div class="pb-1">
+                                        Email Subject (Variables Supported)
+                                    </div>
+                                    <div class="">
+                                        <input type="text" name="subject" class="form-control w-100 @error('subject') is-invalid @enderror" placeholder="Enter Subject" id="subject"  value="{{ old('subject') }}">
+                                    </div>
+                                </div>
+								
+								<div class="col-12 my-3">
+                                    <div class="pb-1">
+                                        Email Message (Variables Supported)
                                     </div>
                                     <div class="">
                                         <textarea name="template" class="form-control" id="summernote" style="width:100%;height:300px;">{{ old('template') }}</textarea>
                                     </div>
-                                </div>
+                                    <div class="pb-1" style="font-size:13px;"><b>Note ::</b> Variables will be parsed when they are used in '<b>Subject</b>' and '<b>Message</b>'</div>
+								</div>
+								
                             </div>
 
                             <div class="text-align-center">
@@ -126,5 +138,17 @@
             ]
         });
     });
+	
+	function putthru(title, code)
+	{
+		if(navigator && navigator.clipboard)
+		{
+			if(code == 'amcname' || code == 'currentdate' || code == 'currenttime')
+			{
+			   navigator.clipboard.writeText("[[--" + code + "--]]");
+			   jQuery(".msg").html(title + " Copied !!!").show().fadeOut(1000);
+			}
+		}
+	}
 </script>
 @endsection

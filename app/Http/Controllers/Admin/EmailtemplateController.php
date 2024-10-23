@@ -28,6 +28,7 @@ class EmailtemplateController extends Controller
 		if( $search != '')
 		{
             $etquery->where('name', 'like', '%' . $search . '%')  
+					->orWhere('subject', 'like', '%' . $search . '%')
 				    ->orWhere('template', 'like', '%' . $search . '%')
 			;				
 		}
@@ -54,9 +55,8 @@ class EmailtemplateController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'amc_id' => 'required|exists:amcs,id',
             'name' => 'required',
-            'type' => 'required|in:1,2',
+            'subject' => 'required',
             'status' => 'required|in:0,1',
             'template' => 'required', // Validation added
         ]);
@@ -80,8 +80,7 @@ class EmailtemplateController extends Controller
     public function edit($id)
     {
         $emailtemplate = Emailtemplate::findOrFail($id);
-        $amcs = Amc::all();
-        return view('admin.emailtemplates.edit', compact('emailtemplate', 'amcs'));
+        return view('admin.emailtemplates.edit', compact('emailtemplate'));
     }
 
     /**
@@ -92,11 +91,10 @@ class EmailtemplateController extends Controller
         $emailtemplate = Emailtemplate::findOrFail($id);
 
         $request->validate([
-		    'amc_id' => 'required|exists:amcs,id',
-            'name' => 'required',
-            'type' => 'required|in:1,2',
+			'name' => 'required',
+            'subject' => 'required',
             'status' => 'required|in:0,1',
-            'template' => 'required',
+            'template' => 'required', // Validation added
         ]);
 
         $emailtemplate->update($request->all());

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Amc;
 use App\Models\Pdf;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Emailtemplate;
 
 class AmcController extends Controller
 {
@@ -24,7 +25,8 @@ class AmcController extends Controller
     public function create()
     {
         $pdfs = Pdf::orderBy('name')->get();
-        return view('admin.amcs.create', compact('pdfs'));
+		$emailtemplates = Emailtemplate::where('status',1)->get();
+        return view('admin.amcs.create', compact('pdfs', 'emailtemplates'));
     }
 
     public function store(Request $request)
@@ -46,7 +48,8 @@ class AmcController extends Controller
     {
         $amc = Amc::findOrFail($id);
         $pdfs = Pdf::all();
-        return view('admin.amcs.edit', compact('amc','pdfs'));
+		$emailtemplates = Emailtemplate::where('status',1)->get();
+        return view('admin.amcs.edit', compact('amc','pdfs','emailtemplates'));
     }
 
     public function update(Request $request, $id)
