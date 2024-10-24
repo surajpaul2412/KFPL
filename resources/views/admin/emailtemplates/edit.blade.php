@@ -9,11 +9,11 @@
 	.variables
 	{
 	  text-align: center;
-	  font-size: 10px;
+	  font-size: 11px;
 	  padding: 6px;
 	  background: #dbdada;
 	  border-radius: 12px;
-	  cursor: pointer;
+	  cursor: normal;
 	  font-weight:bold;
 	  display:inline-block;
 	}
@@ -76,11 +76,11 @@
 								
 								<div class="col-12 my-3">
                                     <div class="pb-1">
-                                        Variables ( Click to Copy )
+                                        Variables ( Manually Copy/Paste into Variable Supported Fields below )
                                     </div>
-									<div class='variables' onclick="putthru('AMC Name', 'amcname')" style='width:100px'>AMC Name</div>
-									<div class='variables' onclick="putthru('Current Date', 'currentdate')" style='width:100px'>Current Date</div>
-									<div class='variables' onclick="putthru('Current Time', 'currenttime')" style='width:100px'>Current Time</div>
+									<div class='variables'  style='width:120px'>[[-AMCName-]]</div>
+									<div class='variables'  style='width:120px'>[[-CurrentDate-]]</div>
+									<div class='variables'  style='width:120px'>[[-CurrentTime-]]</div>
                                 </div>
 								
 								<div class="col-12 msg" style="display:none;">
@@ -141,7 +141,7 @@
 	{
 		if(navigator && navigator.clipboard)
 		{
-			if(code == 'amcname' || code == 'today' || code == 'currenttime')
+			if(code == 'amcname' || code == 'currentdate' || code == 'currenttime')
 			{
 			   navigator.clipboard.writeText("[[--" + code + "--]]");
 			   jQuery(".msg").html(title + " Copied !!!").show().fadeOut(1000);
