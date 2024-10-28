@@ -24,17 +24,17 @@ class TemplateBasedMailToAMC extends Mailable
      * @var Ticket
      */
     public $ticket;
-    public $splCase;
+    public $selfMail;
 
     /**
      * Create a new message instance.
      *
      * @param Ticket $ticket
      */
-    public function __construct(Ticket $ticket, $splCase = '')
+    public function __construct(Ticket $ticket, $selfMail = '')
     {
           $this->ticket = $ticket;
-		  $this->splCase = $splCase != '' ? $splCase : 0;
+		  $this->selfMail = $selfMail != '' ? $selfMail : 0;
     }
 
     /**
@@ -181,35 +181,47 @@ class TemplateBasedMailToAMC extends Mailable
 		{
 			$email_template_id = "";
 			
-			// BUY, CASH CASE and EMAIL TEMPLATE was SELECTED
-			if( $this->ticket->type == 1 &&  $this->ticket->payment_type == 1 && $this->ticket->security->amc->buycashtmpl != null )
+			// MAIL to SELF
+			if( $this->selfMail == 1 )
 			{
-				$email_template_id = $this->ticket->security->amc->buycashtmpl;
-			}
-			
-			// SELL, CASH CASE and EMAIL TEMPLATE was SELECTED
-			if( $this->ticket->type == 2 &&  $this->ticket->payment_type == 1 )
-			{
-				// HAS SCREENSHOT 
-				if($this->ticket->screenshot != null)
+				if ( $this->ticket->security->amc->mailtoselftmpl != null )
 				{
-				    if ( $this->ticket->security->amc->sellcashtmpl != null )
-					{
-						$email_template_id = $this->ticket->security->amc->sellcashtmpl;
-					}
-				
+					$email_template_id = $this->ticket->security->amc->mailtoselftmpl;
 				}
-				else // NO Screenshot 
+			}
+			else 
+			{
+				// BUY, CASH CASE and EMAIL TEMPLATE was SELECTED
+				if( $this->ticket->type == 1 &&  $this->ticket->payment_type == 1 && $this->ticket->security->amc->buycashtmpl != null )
 				{
-					if ( $this->ticket->security->amc->sellcashwosstmpl != null )
+					$email_template_id = $this->ticket->security->amc->buycashtmpl;
+				}
+				
+				// SELL, CASH CASE and EMAIL TEMPLATE was SELECTED
+				if( $this->ticket->type == 2 &&  $this->ticket->payment_type == 1 )
+				{
+					// HAS SCREENSHOT 
+					if($this->ticket->screenshot != null)
 					{
-						$email_template_id = $this->ticket->security->amc->sellcashwosstmpl;
+						if ( $this->ticket->security->amc->sellcashtmpl != null )
+						{
+							$email_template_id = $this->ticket->security->amc->sellcashtmpl;
+						}
+					
+					}
+					else // NO Screenshot 
+					{
+						if ( $this->ticket->security->amc->sellcashwosstmpl != null )
+						{
+							$email_template_id = $this->ticket->security->amc->sellcashwosstmpl;
+						}
+						
 					}
 					
 				}
-				
+		    
 			}
-		
+			
 			if($email_template_id)
 			{
 				$emailTemplate = Emailtemplate::where("id", $email_template_id)->first();

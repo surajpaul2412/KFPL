@@ -9,14 +9,14 @@
 	.variables
 	{
 	  text-align: center;
-	  font-size: 11px;
+	  font-size: 13px;
 	  padding: 6px 9px;
 	  border: 1px solid #dbdada;
 	  border-radius: 12px;
 	  cursor: normal;
-	  font-weight:bold;
 	  display:inline-block;
 	  margin-bottom:10px;
+	  margin-right:10px;
 	}
 	
 	.msg 

@@ -1005,6 +1005,8 @@ class TicketController extends Controller
     {
         // sell case with null screenshot check
         $sendMail = 0;
+		$loadTemplate = 0; // To Identify CAses where EMAIL templates can be loaded from AMC table
+		
         // CASH
 		if( $ticket->payment_type == 1)
 		{
@@ -1015,6 +1017,10 @@ class TicketController extends Controller
 				$sendMail = 1;
 				$ticket->status_id = 7;
 			}
+			
+			// In both BUY CASH and SELL CASH cases, templates need to be loaded
+			$loadTemplate = 1;
+			
 		} elseif ( $ticket->payment_type == 2) { // BASKET
 
 			// BUY + BASKET
@@ -1040,7 +1046,16 @@ class TicketController extends Controller
           $emailString = env("MAILTOSELF");
           $emailArray = explode(", ", $emailString);
           $toEmail = array_map("trim", $emailArray);
-          Mail::to($toEmail)->send(new MailToAMC($ticket));
+          
+		  if( $loadTemplate )
+		  {
+			Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 1));
+		  }
+		  else 
+		  {	
+			Mail::to($toEmail)->send(new MailToAMC($ticket));
+		  }
+
         }
 
         return redirect()
