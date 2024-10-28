@@ -696,7 +696,10 @@ class TicketController extends Controller
 						
                         $emailArray = explode(", ", $emailString);
                         $toEmail = array_map("trim", $emailArray);
-                        Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
+                        
+						// Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
+						Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
+						
                         $ticket->status_id = 12;
                         $ticket->update();
                     }
