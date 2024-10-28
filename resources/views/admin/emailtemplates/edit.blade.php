@@ -10,12 +10,13 @@
 	{
 	  text-align: center;
 	  font-size: 11px;
-	  padding: 6px;
-	  background: #dbdada;
+	  padding: 6px 9px;
+	  border: 1px solid #dbdada;
 	  border-radius: 12px;
 	  cursor: normal;
 	  font-weight:bold;
 	  display:inline-block;
+	  margin-bottom:10px;
 	}
 	
 	.msg 
@@ -62,7 +63,7 @@
                                     </div>
                                 </div>
 								
-                                <div class="col-4 my-3">
+                                <div class="col-6 my-3">
                                     <div class="pb-1">
                                         Status
                                     </div>
@@ -78,9 +79,22 @@
                                     <div class="pb-1">
                                         Variables ( Manually Copy/Paste into Variable Supported Fields below )
                                     </div>
-									<div class='variables'  style='width:120px'>[[-AMCName-]]</div>
-									<div class='variables'  style='width:120px'>[[-CurrentDate-]]</div>
-									<div class='variables'  style='width:120px'>[[-CurrentTime-]]</div>
+									
+									<div class='variables'>[[-CurrentDate-]]</div>
+									<div class='variables'>[[-CurrentTime-]]</div>
+									<div class='variables'>[[-AMCName-]]</div>
+									<div class='variables'>[[-AMCInvestorDetails-]]</div>
+									<div class='variables'>[[-AMCBankDetails-]]</div>
+									<div class='variables'>[[-TicketID-]]</div>
+									<div class='variables'>[[-TicketDate-]]</div>
+									<div class='variables'>[[-TicketScheme-]]</div>
+									<div class='variables'>[[-TicketSymbol-]]</div>
+									<div class='variables'>[[-TicketBasketSize-]]</div>
+									<div class='variables'>[[-TicketBasketNumber-]]</div>
+									<div class='variables'>[[-TicketTotalUnits-]]</div>
+									<div class='variables'>[[-TicketUTRNumber-]]</div>
+									<div class='variables'>[[-TicketTotalAmt-]]</div>
+									
                                 </div>
 								
 								<div class="col-12 msg" style="display:none;">
@@ -126,13 +140,15 @@
             toolbar: [
                 // Customize your toolbar here
                 ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
+                ['font', ['strikethrough'  /*, 'superscript', 'subscript'*/]],
+                //['fontsize', ['fontsize']],
+                //['color', ['color']],
+                ['para', ['ul', 'ol', /*'paragraph'*/]],
+				/*
                 ['height', ['height']],
                 ['insert', ['link', 'picture', 'video']],
                 ['view', ['fullscreen', 'codeview', 'help']]
+				*/
             ]
         });
     });

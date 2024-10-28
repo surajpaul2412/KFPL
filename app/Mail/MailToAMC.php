@@ -9,7 +9,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Amc;
 use App\Models\Ticket;
+use App\Models\Emailtemplate;
 use Illuminate\Support\Facades\Log;
 
 class MailToAMC extends Mailable
@@ -32,7 +34,7 @@ class MailToAMC extends Mailable
     public function __construct(Ticket $ticket, $splCase = '')
     {
           $this->ticket = $ticket;
-		      $this->splCase = $splCase != '' ? $splCase : 0;
+		  $this->splCase = $splCase != '' ? $splCase : 0;
     }
 
     /**
@@ -60,18 +62,35 @@ class MailToAMC extends Mailable
         }
 
         $subject .= " Request " . now()->format('d-m-Y');
-
+        
+		// TEMPLATE BASED SUBJECTS
+		/*
+		if( 
+		   ( $this->ticket->type == 1 &&  $this->ticket->payment_type == 1 ) // Buy CASH
+		   ||
+		   ( $this->ticket->type == 2 &&  $this->ticket->payment_type == 1 ) // SELL CASH
+	    )
+		{
+			$sub = $this->fetchAMCSubject( );
+			if( $sub!= "" )
+			{
+				$subject = $sub;	
+			}
+		}
+	    */
+	
         return new Envelope(
             subject: $subject,
         );
     }
 
+	
     /**
      * Get the message content definition.
      */
     public function content(): Content
     {
-        if( $this->splCase == 3) // STEP 3 EMAILs for Buy SELL Basket
+        if( $this->splCase == 3) // STEP 3 EMAILs for BUY/SELL Basket
 		{
 			return new Content(
 				view: 'emails.spl_case_mail3',

@@ -14,6 +14,7 @@ use Auth;
 use Storage;
 use App\Services\FormService;
 use App\Mail\MailToAMC;
+use App\Mail\TemplateBasedMailToAMC;
 use App\Mail\MailScreenshotToAMC;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
@@ -939,16 +940,22 @@ class TicketController extends Controller
     {
         // sell case with null screenshot check
         $sendMail = 0;
-        // CASH
+        $loadTemplate = 0; // To Identify CAses where EMAIL templates can be loaded from AMC table
+		
+		// CASH cases
 		if( $ticket->payment_type == 1)
 		{
-			if ($ticket->type == 2) {
+			if ($ticket->type == 2) { // Sell Cases
 				$sendMail = 1;
 				$ticket->status_id = 7;
-			} else {
+			} else {  // BUY cases 
 				$sendMail = 1;
 				$ticket->status_id = 7;
 			}
+			
+			// In both BUY CASH and SELL CASH cases, templates need to be loaded
+			$loadTemplate = 1;
+			
 		} elseif ( $ticket->payment_type == 2) { // BASKET
 
 			// BUY + BASKET
@@ -971,10 +978,19 @@ class TicketController extends Controller
 
 		// MAIL Trigger
         if ($sendMail) {
-          $emailString = $ticket->security->amc->email ?? null;
-          $emailArray = explode(", ", $emailString);
-          $toEmail = array_map("trim", $emailArray);
-          Mail::to($toEmail)->send(new MailToAMC($ticket));
+
+			$emailString = $ticket->security->amc->email ?? null;
+			$emailArray = explode(", ", $emailString);
+			$toEmail = array_map("trim", $emailArray);
+				
+			if( $loadTemplate )
+			{
+				Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
+			}
+			else 
+			{	
+				Mail::to($toEmail)->send(new MailToAMC($ticket));
+			}
         }
 
         return redirect()
