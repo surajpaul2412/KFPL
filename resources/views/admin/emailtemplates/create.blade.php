@@ -92,8 +92,10 @@
 									<div class='variables'>[[-TicketBasketSize-]]</div>
 									<div class='variables'>[[-TicketBasketNumber-]]</div>
 									<div class='variables'>[[-TicketTotalUnits-]]</div>
+									<div class='variables'>[[-TicketTotalUnitsInWords-]]</div>
 									<div class='variables'>[[-TicketUTRNumber-]]</div>
 									<div class='variables'>[[-TicketTotalAmt-]]</div>
+									<div class='variables'>[[-TicketTotalAmtInWords-]]</div>
                                 </div>
 								
 								<div class="col-12 msg" style="display:none;">

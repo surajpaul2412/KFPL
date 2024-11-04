@@ -285,6 +285,12 @@ Ticket Management
             if (basketNo && basketSize && rate && markupPercentage) {
                 var totalAmount = (basketNo * basketSize * rate) + (basketNo * basketSize * rate) * markupPercentage / 100;
                 var markupPrice = rate + rate * markupPercentage/100;
+				
+				if( totalAmount >= 1000 )
+				{
+					totalAmount = Math.round(totalAmount / 1000) * 1000 ;
+				}
+				
                 totalAmount = Math.round(totalAmount);
                 markupPrice = parseFloat(markupPrice.toFixed(2));
 

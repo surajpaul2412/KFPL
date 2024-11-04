@@ -293,6 +293,11 @@ Ticket Management
                 totalAmount = Math.round(totalAmount);
                 markupPrice = parseFloat(markupPrice.toFixed(2));
 
+				if( totalAmount >= 1000 )
+				{
+					totalAmount = Math.round(totalAmount / 1000) * 1000 ;
+				}
+				
                 $('input[name="total_amt"]').val(totalAmount);
                 $('input[name="total_qty"]').val(basketNo * basketSize);
                 $('input[name="markup_price"]').val(markupPrice);
