@@ -686,19 +686,44 @@ class TicketController extends Controller
                     if ($request->hasFile("screenshot")) {
                         
 						$emailString = $ticket->security->amc->email;
+						$mailToSelf = 0;
 						
 						// MAILTOSELF :: SELL CASH cases
 						$ets = $request->get('mailtoself');
 						if($ets == 1 && $ticket->payment_type == 1)
 						{
 							$emailString = env("MAILTOSELF");
+							$mailToSelf = 1;
 						}
 						
                         $emailArray = explode(", ", $emailString);
                         $toEmail = array_map("trim", $emailArray);
                         
-						// Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
-						Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
+						// MAIL to SELF
+						if( $mailToSelf )
+						{
+							if( $ticket->security->amc->mailtoselftmpl != null )
+							{
+							   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 1));
+							}
+							else 
+							{
+							   Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
+							}							   
+						}
+						else // NOT MAIL to SELF
+						{
+							// SELL CASH case with SCREENSHOT
+							if( $this->ticket->payment_type == 1 && $ticket->security->amc->sellcashtmpl != null )
+							{
+								Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
+							}
+							else 
+							{
+							   Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
+							}
+						}
+						
 						
                         $ticket->status_id = 12;
                         $ticket->update();
@@ -988,7 +1013,20 @@ class TicketController extends Controller
 				
 			if( $loadTemplate )
 			{
-				Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
+				// SELL CASH CASES 
+				if( $ticket->type == 2 && $ticket->security->amc->sellcashwosstmpl != null )
+				{
+				   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
+				}
+				// BUY CASH CASES
+				else if( $ticket->type == 1 && $ticket->security->amc->buycashtmpl != null )
+				{
+				   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
+				} 
+				else 
+				{	
+					Mail::to($toEmail)->send(new MailToAMC($ticket));
+				}
 			}
 			else 
 			{	
@@ -1047,7 +1085,7 @@ class TicketController extends Controller
           $emailArray = explode(", ", $emailString);
           $toEmail = array_map("trim", $emailArray);
           
-		  if( $loadTemplate )
+		  if( $loadTemplate && $ticket->security->amc->mailtoselftmpl != null)
 		  {
 			Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 1));
 		  }
