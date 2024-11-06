@@ -712,8 +712,19 @@ class TicketController extends Controller
           $emailString = env("MAILTOSELF");
           $emailArray = explode(", ", $emailString);
           $toEmail = array_map("trim", $emailArray);
-          //Mail::to($toEmail)->send(new MailToAMC($ticket));
-		  if( $loadTemplate && $ticket->security->amc->mailtoselftmpl != null)
+          
+		  //Mail::to($toEmail)->send(new MailToAMC($ticket));
+		  $templateExists = 0;
+		  if(
+		      ( $ticket->type == 1 && $ticket->payment_type == 1 && $ticket->security->amc->buycashtmpl != null ) ||
+			  ( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot != null && $ticket->security->amc->sellcashtmpl != null ) || 
+			  ( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot == null && $ticket->security->amc->sellcashwosstmpl != null ) 
+		  )
+		  {
+			  $templateExists = 1;
+		  }
+		  
+		  if( $loadTemplate && $templateExists )
 		  {
 			Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 1));
 		  }

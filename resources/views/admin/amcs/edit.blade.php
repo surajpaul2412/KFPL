@@ -194,7 +194,7 @@
 								
 								<div class="col-3 my-3">
                                     <div class="pb-1">
-                                        Mail To Self
+                                        Miscellaneous
                                     </div>
                                     <div class="">
                                         <select name="mailtoselftmpl" class="form-select mobile-w-100 @error('mailtoselftmpl') is-invalid @enderror">
