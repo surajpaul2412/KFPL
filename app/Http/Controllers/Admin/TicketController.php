@@ -702,9 +702,14 @@ class TicketController extends Controller
 						// MAIL to SELF
 						if( $mailToSelf )
 						{
-							if( $ticket->security->amc->mailtoselftmpl != null )
+							
+							// CHECK if TEMPLATE exists
+							if(
+							  ( $ticket->type == 1 && $ticket->payment_type == 1 && $ticket->security->amc->buycashtmpl != null ) ||
+							  ( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot != null && $ticket->security->amc->sellcashtmpl != null ) 
+							)
 							{
-							   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 1));
+							   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
 							}
 							else 
 							{
@@ -1098,7 +1103,7 @@ class TicketController extends Controller
 		  
 		  if( $loadTemplate && $templateExists )
 		  {
-			Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 1));
+			Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
 		  }
 		  else 
 		  {	
