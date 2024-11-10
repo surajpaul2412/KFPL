@@ -24,17 +24,17 @@ class TemplateBasedMailToAMC extends Mailable
      * @var Ticket
      */
     public $ticket;
-    public $selfMail;
+    public $forceEmailTemplate;
 
     /**
      * Create a new message instance.
      *
      * @param Ticket $ticket
      */
-    public function __construct(Ticket $ticket, $selfMail = '')
+    public function __construct(Ticket $ticket, $forceEmailTemplate = '')
     {
           $this->ticket = $ticket;
-		  $this->selfMail = $selfMail != '' ? $selfMail : 0;
+		  $this->forceEmailTemplate = $forceEmailTemplate;
     }
 
     /**
@@ -217,13 +217,24 @@ class TemplateBasedMailToAMC extends Mailable
 		{
 			$email_template_id = "";
 			
-			// MAIL to SELF
-			if( $this->selfMail == 1 )
+			// FORCING a TEMPLATE
+			if( $this->forceEmailTemplate != '' )
 			{
-				if ( $this->ticket->security->amc->mailtoselftmpl != null )
+				if ( $this->forceEmailTemplate == '1' && $this->ticket->security->amc->buycashtmpl != null )
 				{
-					$email_template_id = $this->ticket->security->amc->mailtoselftmpl;
+					$email_template_id = $this->ticket->security->amc->buycashtmpl;
 				}
+				
+				if ( $this->forceEmailTemplate == '2' && $this->ticket->security->amc->sellcashtmpl != null )
+				{
+					$email_template_id = $this->ticket->security->amc->sellcashtmpl;
+				}
+				
+				if ( $this->forceEmailTemplate == '3' && $this->ticket->security->amc->sellcashwosstmpl != null )
+				{
+					$email_template_id = $this->ticket->security->amc->sellcashwosstmpl;
+				}
+
 			}
 			else 
 			{

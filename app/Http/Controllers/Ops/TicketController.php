@@ -429,7 +429,7 @@ class TicketController extends Controller
 						else // NOT MAIL to SELF
 						{
 							// SELL CASH case with SCREENSHOT
-							if( $ticket->payment_type == 1 && $ticket->security->amc->sellcashtmpl != null )
+							if( $this->ticket->payment_type == 1 && $ticket->security->amc->sellcashtmpl != null )
 							{
 								Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
 							}
@@ -646,9 +646,9 @@ class TicketController extends Controller
 		    if( $loadTemplate )
 			{
 				// SELL CASH CASES 
-				if( $ticket->type == 2 && $ticket->security->amc->sellcashwosstmpl != null )
+				if( $ticket->type == 2 && $ticket->security->amc->sellcashtmpl != null )
 				{
-				   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
+				   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 2)); // 2 = Forching sellcashtmpl template
 				}
 				// BUY CASH CASES
 				else if( $ticket->type == 1 && $ticket->security->amc->buycashtmpl != null )
@@ -720,10 +720,12 @@ class TicketController extends Controller
           
 		  //Mail::to($toEmail)->send(new MailToAMC($ticket));
 		  $templateExists = 0;
-		  if(
+		  if
+		  (
 		      ( $ticket->type == 1 && $ticket->payment_type == 1 && $ticket->security->amc->buycashtmpl != null ) ||
-			  ( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot != null && $ticket->security->amc->sellcashtmpl != null ) || 
-			  ( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot == null && $ticket->security->amc->sellcashwosstmpl != null ) 
+			  ( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->security->amc->sellcashtmpl != null )
+			  //( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot != null && $ticket->security->amc->sellcashtmpl != null ) || 
+			  //( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot == null && $ticket->security->amc->sellcashwosstmpl != null ) 
 		  )
 		  {
 			  $templateExists = 1;
