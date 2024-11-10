@@ -718,7 +718,7 @@ class TicketController extends Controller
 						else // NOT MAIL to SELF
 						{
 							// SELL CASH case with SCREENSHOT
-							if( $ticket->payment_type == 1 && $ticket->security->amc->sellcashtmpl != null )
+							if( $ticket->payment_type == 1 && $ticket->security->amc->sellcashwosstmpl != null )
 							{
 								Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
 							}

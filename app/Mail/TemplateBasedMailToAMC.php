@@ -246,7 +246,7 @@ class TemplateBasedMailToAMC extends Mailable
 				
 				// SELL, CASH CASE and EMAIL TEMPLATE was SELECTED
 				if( $this->ticket->type == 2 &&  $this->ticket->payment_type == 1 )
-				{
+				{.
 					// HAS SCREENSHOT 
 					if($this->ticket->screenshot != null)
 					{
