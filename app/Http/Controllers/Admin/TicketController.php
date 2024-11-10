@@ -705,7 +705,7 @@ class TicketController extends Controller
 							// CHECK if TEMPLATE exists
 							if(
 							  ( $ticket->type == 1 && $ticket->payment_type == 1 && $ticket->security->amc->buycashtmpl != null ) ||
-							  ( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot != null && $ticket->security->amc->sellcashtmpl != null ) 
+							  ( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot != null && $ticket->security->amc->sellcashwosstmpl != null ) 
 							)
 							{
 							   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
