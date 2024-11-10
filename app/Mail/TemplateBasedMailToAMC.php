@@ -111,7 +111,7 @@ class TemplateBasedMailToAMC extends Mailable
         // GET SUBJECT and BODY
 		$data = $this->fetchAMCEmailSubjectAndBody();
 		
-		dd($data);
+		// dd($data);
 		
 		try 
 		{
