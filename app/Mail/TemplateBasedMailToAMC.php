@@ -25,16 +25,18 @@ class TemplateBasedMailToAMC extends Mailable
      */
     public $ticket;
     public $forceEmailTemplate;
+	public $addDematPDF;
 
     /**
      * Create a new message instance.
      *
      * @param Ticket $ticket
      */
-    public function __construct(Ticket $ticket, $forceEmailTemplate = '')
+    public function __construct(Ticket $ticket, $forceEmailTemplate = '', $addDematPDF = 1 )
     {
           $this->ticket = $ticket;
 		  $this->forceEmailTemplate = $forceEmailTemplate;
+		  $this->addDematPDF = $addDematPDF;
     }
 
     /**
@@ -146,38 +148,43 @@ class TemplateBasedMailToAMC extends Mailable
 			// AMC PDF
 			$amc_path = '';
 			$amc_name = '';
-			
-			// ATTACH DEMAT PDF only if it is not NONE
-			if( $this->ticket->security->amc->pdf->name != 'None' )
-			{
-			  $amc_path = public_path($this->ticket->security->amc->pdf->path);
-			  $amc_name = $this->ticket->security->amc->pdf->name . '.pdf';
-			}
-			
-			// ATTACH TICKET PDF
 			$pdfPath = '';
 			$filePath = '';
-			if($this->ticket->security->amc->amc_pdf == 1)
-			{
-			   $pdfPath = 'ticketpdfs/' . 'ticket-' . $this->ticket->id . '.pdf';
-			   $filePath = storage_path('app/public/' . $pdfPath);
-			}
 			
-			if( $amc_name!='' && $amc_path != '' && file_exists($amc_path) )
+			// ATTACH DEMAT PDF only if it is not NONE
+			if( $this->addDematPDF == 1 && $this->ticket->security->amc->pdf->name != 'None' )
 			{
-				$mail->attach($amc_path, [
+			    $amc_path = public_path($this->ticket->security->amc->pdf->path);
+			    $amc_name = $this->ticket->security->amc->pdf->name . '.pdf';
+			  
+			    if( $amc_name!='' && $amc_path != '' && file_exists($amc_path) )
+			    {
+				    $mail->attach($amc_path, [
 								 'as' => $amc_name,
 								 'mime' => 'application/pdf',
 							 ]);
+			    }
 			}
 			
-			if( $pdfPath!='' && $filePath != '' && file_exists($filePath) )
+			
+			
+			// ATTACH TICKET PDF
+			if($this->ticket->security->amc->amc_pdf == 1)
 			{
-				$mail->attach($filePath, [
-							 'as' => 'AMC.pdf',
-							 'mime' => 'application/pdf',
-						 ]);
+			    $pdfPath = 'ticketpdfs/' . 'ticket-' . $this->ticket->id . '.pdf';
+			    $filePath = storage_path('app/public/' . $pdfPath);
+			    if( $pdfPath!='' && $filePath != '' && file_exists($filePath) )
+			    {
+					$mail->attach($filePath, [
+								 'as' => 'AMC.pdf',
+								 'mime' => 'application/pdf',
+							 ]);
+				}
 			}
+			
+			
+			
+			
 			
 			return $mail;
 			
