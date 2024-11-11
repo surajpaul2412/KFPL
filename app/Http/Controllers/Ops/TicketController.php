@@ -418,7 +418,7 @@ class TicketController extends Controller
 							  ( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot != null && $ticket->security->amc->sellcashwosstmpl != null )  
 							)
 							{
-							   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 3, 0));
+							   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 3, 0, 0));
 							}
 							else 
 							{
@@ -431,7 +431,7 @@ class TicketController extends Controller
 							// SELL CASH case with SCREENSHOT
 							if( $this->ticket->payment_type == 1 && $ticket->security->amc->sellcashwosstmpl != null )
 							{
-								Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 3, 0));
+								Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 3, 0, 0));
 							}
 							else 
 							{

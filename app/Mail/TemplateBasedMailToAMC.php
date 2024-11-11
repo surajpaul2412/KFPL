@@ -26,17 +26,19 @@ class TemplateBasedMailToAMC extends Mailable
     public $ticket;
     public $forceEmailTemplate;
 	public $addDematPDF;
+	public $addTicketPDF;
 
     /**
      * Create a new message instance.
      *
      * @param Ticket $ticket
      */
-    public function __construct(Ticket $ticket, $forceEmailTemplate = '', $addDematPDF = 1 )
+    public function __construct(Ticket $ticket, $forceEmailTemplate = '', $addDematPDF = 1, $addTicketPDF = 1 )
     {
           $this->ticket = $ticket;
 		  $this->forceEmailTemplate = $forceEmailTemplate;
 		  $this->addDematPDF = $addDematPDF;
+		  $this->addTicketPDF = $addTicketPDF;
     }
 
     /**
@@ -165,11 +167,9 @@ class TemplateBasedMailToAMC extends Mailable
 							 ]);
 			    }
 			}
-			
-			
-			
+				
 			// ATTACH TICKET PDF
-			if($this->ticket->security->amc->amc_pdf == 1)
+			if( $this->addTicketPDF == 1 && $this->ticket->security->amc->amc_pdf == 1)
 			{
 			    $pdfPath = 'ticketpdfs/' . 'ticket-' . $this->ticket->id . '.pdf';
 			    $filePath = storage_path('app/public/' . $pdfPath);
@@ -181,10 +181,6 @@ class TemplateBasedMailToAMC extends Mailable
 							 ]);
 				}
 			}
-			
-			
-			
-			
 			
 			return $mail;
 			
