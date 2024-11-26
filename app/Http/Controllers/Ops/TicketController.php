@@ -639,9 +639,9 @@ class TicketController extends Controller
 
 		// MAIL Trigger
         if ($sendMail) {
-          $emailString = $ticket->security->amc->email ?? null;
-          $emailArray = explode(", ", $emailString);
-          $toEmail = array_map("trim", $emailArray);
+			$emailString = $ticket->security->amc->email ?? null;
+			$emailArray = explode(", ", $emailString);
+			$toEmail = array_map("trim", $emailArray);
           
 		    if( $loadTemplate )
 			{
@@ -714,31 +714,32 @@ class TicketController extends Controller
 
 		// MAIL Trigger
         if ($sendMail) {
-          $emailString = env("MAILTOSELF");
-          $emailArray = explode(", ", $emailString);
-          $toEmail = array_map("trim", $emailArray);
+			
+			$emailString = env("MAILTOSELF");
+			$emailArray = explode(", ", $emailString);
+			$toEmail = array_map("trim", $emailArray);
           
-		  //Mail::to($toEmail)->send(new MailToAMC($ticket));
-		  $templateExists = 0;
-		  if
-		  (
-		      ( $ticket->type == 1 && $ticket->payment_type == 1 && $ticket->security->amc->buycashtmpl != null ) ||
-			  ( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->security->amc->sellcashtmpl != null )
-			  //( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot != null && $ticket->security->amc->sellcashtmpl != null ) || 
-			  //( $ticket->type == 2 && $ticket->payment_type == 1 && $ticket->screenshot == null && $ticket->security->amc->sellcashwosstmpl != null ) 
-		  )
-		  {
-			  $templateExists = 1;
-		  }
-		  
-		  if( $loadTemplate && $templateExists )
-		  {
-			Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
-		  }
-		  else 
-		  {	
-			Mail::to($toEmail)->send(new MailToAMC($ticket));
-		  }
+		    if( $loadTemplate )
+			{
+				// SELL CASH CASES 
+				if( $ticket->type == 2 && $ticket->security->amc->sellcashtmpl != null )
+				{
+				    Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 2)); // 2 = Forching sellcashtmpl template
+				}
+				// BUY CASH CASES
+				else if( $ticket->type == 1 && $ticket->security->amc->buycashtmpl != null )
+				{
+				    Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
+				} 
+				else 
+				{	
+					Mail::to($toEmail)->send(new MailToAMC($ticket));
+				}
+			}
+			else 
+			{	
+				Mail::to($toEmail)->send(new MailToAMC($ticket));
+			}
         }
 
         return redirect()

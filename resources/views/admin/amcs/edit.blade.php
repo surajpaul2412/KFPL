@@ -137,7 +137,7 @@
 								
 								<div class="col-3 my-3">
                                     <div class="pb-1">
-                                        Buy - Cash
+                                        Buy - Cash ( Step 6 )
                                     </div>
                                     <div class="">
                                         <select name="buycashtmpl" class="form-select mobile-w-100 @error('buycashtmpl') is-invalid @enderror">
@@ -156,7 +156,7 @@
 								
 								<div class="col-3 my-3">
                                     <div class="pb-1">
-                                        Sell - Cash
+                                        Sell - Cash ( Step 6 )
                                     </div>
                                     <div class="">
                                         <select name="sellcashtmpl" class="form-select mobile-w-100 @error('sellcashtmpl') is-invalid @enderror">
@@ -175,7 +175,7 @@
 								
 								<div class="col-3 my-3">
                                     <div class="pb-1">
-                                        Sell - Cash (Without SS)
+                                        Sell - Cash W/O SS ( Step 10 )
                                     </div>
                                     <div class="">
                                         <select name="sellcashwosstmpl" class="form-select mobile-w-100 @error('sellcashwosstmpl') is-invalid @enderror">
