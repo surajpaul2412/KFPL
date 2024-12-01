@@ -33,6 +33,7 @@ class MisController extends Controller
             // Fetch data from QuickTicket
             $quickTicketData = QuickTicket::selectRaw('
                         security_id, 
+                        trader_id as user_id, 
                         COUNT(security_id) as total_quick_clubbed,
                         SUM(basket_no) as total_quick_basket_no, 
                         SUM(nav) as total_quick_nav, 
@@ -40,12 +41,12 @@ class MisController extends Controller
                         SUM(basket_no * basket_size) as total_quick_units
                     ')
                     ->where('type', $setType)
-                    ->where(function ($query) use ($userId) {
-                        $query->where('trader_id', $userId)
-                              ->orWhere('trader_id', 0);
-                    })
+                    // ->where(function ($query) use ($userId) {
+                    //     $query->where('trader_id', $userId)
+                    //           ->orWhere('trader_id', 0);
+                    // })
                     ->whereBetween('created_at', [$startOfDay, $endOfDay])
-                    ->groupBy('security_id')
+                    ->groupBy('security_id','trader_id')
                     ->with('security', 'security.amc') // Load relationships
                     ->get()
                     ->map(function ($item) {
@@ -56,16 +57,17 @@ class MisController extends Controller
             // Fetch data from Ticket
             $ticketData = Ticket::selectRaw('
                         security_id, 
+                        user_id, 
                         COUNT(security_id) as total_ticket_clubbed,
                         SUM(basket_no) as total_ticket_basket_no, 
                         SUM(nav) as total_ticket_nav, 
                         SUM(actual_total_amt) as total_ticket_actual_amt, 
                         SUM(basket_no * basket_size) as total_ticket_units
                     ')
-                    ->whereUserId($userId)
+                    // ->whereUserId($userId)
                     ->where('type', $setType)
                     ->whereBetween('created_at', [$startOfDay, $endOfDay])
-                    ->groupBy('security_id')
+                    ->groupBy('security_id','user_id')
                     ->with('security', 'security.amc') // Load relationships
                     ->get()
                     ->map(function ($item) {
@@ -77,6 +79,7 @@ class MisController extends Controller
             // Fetch data from QuickTicket
             $quickTicketData = QuickTicket::selectRaw('
                         security_id, 
+                        trader_id as user_id, 
                         COUNT(security_id) as total_quick_clubbed,
                         SUM(basket_no) as total_quick_basket_no, 
                         SUM(nav) as total_quick_nav, 
@@ -84,12 +87,12 @@ class MisController extends Controller
                         SUM(basket_no * basket_size) as total_quick_units
                     ')
                     ->where('type', $setType)
-                    ->where(function ($query) use ($userId) {
-                        $query->where('trader_id', $userId)
-                              ->orWhere('trader_id', 0);
-                    })
+                    // ->where(function ($query) use ($userId) {
+                    //     $query->where('trader_id', $userId)
+                    //           ->orWhere('trader_id', 0);
+                    // })
                     ->whereBetween('created_at', [$startOfDay, $endOfDay])
-                    ->groupBy('security_id')
+                    ->groupBy('security_id','trader_id')
                     ->with('security', 'security.amc') // Load relationships
                     ->get()
                     ->map(function ($item) {
@@ -100,16 +103,17 @@ class MisController extends Controller
             // Fetch data from Ticket
             $ticketData = Ticket::selectRaw('
                         security_id, 
+                        user_id, 
                         COUNT(security_id) as total_ticket_clubbed,
                         SUM(basket_no) as total_ticket_basket_no, 
                         SUM(nav) as total_ticket_nav, 
                         SUM(actual_total_amt) as total_ticket_actual_amt, 
                         SUM(basket_no * basket_size) as total_ticket_units
                     ')
-                    ->where('user_id', $userId)
+                    // ->where('user_id', $userId)
                     ->where('type', $setType)
                     ->whereBetween('created_at', [$startOfDay, $endOfDay])
-                    ->groupBy('security_id')
+                    ->groupBy('security_id','user_id')
                     ->with('security', 'security.amc') // Load relationships
                     ->get()
                     ->map(function ($item) {
@@ -119,7 +123,7 @@ class MisController extends Controller
         }
 
         // Combine the data from QuickTicket and Ticket
-        $combinedData = $quickTicketData->concat($ticketData)->groupBy('security_id')->map(function ($group) {
+        $combinedData = $quickTicketData->concat($ticketData)->groupBy('security_id','user_id')->map(function ($group) {
             $firstItem = $group->first();
             $combinedItem = $firstItem->replicate();
             $combinedItem->total_quick_clubbed = $group->sum('total_quick_clubbed');
@@ -127,11 +131,13 @@ class MisController extends Controller
             $combinedItem->total_quick_nav = $group->sum('total_quick_nav');
             $combinedItem->total_quick_amt = $group->sum('total_quick_amt');
             $combinedItem->total_quick_units = $group->sum('total_quick_units');
+
             $combinedItem->total_ticket_clubbed = $group->sum('total_ticket_clubbed');
             $combinedItem->total_ticket_basket_no = $group->sum('total_ticket_basket_no');
             $combinedItem->total_ticket_nav = $group->sum('total_ticket_nav');
             $combinedItem->total_ticket_actual_amt = $group->sum('total_ticket_actual_amt');
             $combinedItem->total_ticket_units = $group->sum('total_ticket_units');
+
             return $combinedItem;
         });
 
