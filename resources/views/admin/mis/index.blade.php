@@ -140,17 +140,14 @@ Ticket Management
 <script>
 
 function formatDate(dateString) {
-	const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+	// Convert the date string to a JavaScript Date object
 	const date = new Date(dateString);
-	var m = date.getMonth();
-	var d = date.getDate() ;
-	var y = date.getFullYear() ;
-	if(date.getMonth() < 10)
-	{
-		m = "0" + (date.getMonth() + 1);
-	}
-	return d + "-" + m + "-" + y;
-	//return date.toLocaleDateString('en-CA', options); // 'en-CA' gives YYYY-MM-DD format
+
+	// Format the date in a fixed timezone (e.g., UTC)
+	const options = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'UTC' };
+
+	// Use Intl.DateTimeFormat to format the date correctly
+	return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
 function getCurrentDate() {
@@ -320,6 +317,7 @@ function loadData(selectedValue)
 					data.forEach(function(row) {
 						totalBasket += parseFloat(row.basket_no);
 						totalQty += parseFloat(row.basket_no * row.basket_size);
+						console.log(row.created_at);
 						
 						var tr = '<tr>' +
 							'<td>' + row.id + '</td>' +
