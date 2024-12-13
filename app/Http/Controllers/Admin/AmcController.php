@@ -61,6 +61,8 @@ class AmcController extends Controller
             'pdf_id' => 'nullable|exists:pdfs,id', // Validate that the selected PDF exists in the 'pdfs' table
             'status' => 'nullable|in:0,1',
 			'amc_pdf' => 'required|between:0,1',
+			'generate_form_pdf' => 'required|between:0,1',
+			
         ]);
 
         $amc = Amc::findOrFail($id);

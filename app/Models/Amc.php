@@ -11,7 +11,7 @@ class Amc extends Model
     use HasFactory;
 
     protected $fillable = [
-	'name', 'email', 'expense_percentage', 'pdf_id', 'status', 'amc_pdf',
+	'name', 'email', 'expense_percentage', 'pdf_id', 'status', 'amc_pdf', 'generate_form_pdf',
 	'buycashtmpl', 'sellcashtmpl', 'sellcashwosstmpl', 'mailtoselftmpl', 
 	'investordetails', 'bankdetails'
 	]; 		

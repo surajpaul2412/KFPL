@@ -52,7 +52,21 @@
                                     </div>
                                 </div>
 
-                                <div class="col-3 my-3">
+								<div class="col-2 my-3">
+                                    <div class="pb-1">
+                                        Expense Percentage
+                                    </div>
+                                    <div class="">
+                                        <input type="text" name="expense_percentage" class="form-control w-100" placeholder="Enter Expense Percentage" value="{{ old('expense_percentage', $amc->expense_percentage) }}" required>
+                                        @error('expense_percentage')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+								
+                                <div class="col-2 my-3">
                                     <div class="pb-1">
                                         Demat Account PDF
                                     </div>
@@ -70,9 +84,26 @@
                                     </div>
                                 </div>
 								
+								<div class="col-2 my-3">
+                                    <div class="pb-1">
+                                        Generate Form PDF
+                                    </div>
+                                    <div class="">
+                                        <select name="generate_form_pdf" class="form-select mobile-w-100 @error('generate_form_pdf') is-invalid @enderror">
+											<option value="0" {{ $amc->generate_form_pdf == '0' ? 'selected' : '' }}>No</option>
+                                            <option value="1" {{ $amc->generate_form_pdf == '1' ? 'selected' : '' }}>Yes</option>
+                                        </select>
+                                        @error('generate_form_pdf')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+								
 								<div class="col-3 my-3">
                                     <div class="pb-1">
-                                        AMC Form PDF
+                                       Attach AMC Form PDF to Email
                                     </div>
                                     <div class="">
                                         <select name="amc_pdf" class="form-select mobile-w-100 @error('amc_pdf') is-invalid @enderror">
@@ -87,19 +118,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-3 my-3">
-                                    <div class="pb-1">
-                                        Expense Percentage
-                                    </div>
-                                    <div class="">
-                                        <input type="text" name="expense_percentage" class="form-control w-100" placeholder="Enter Expense Percentage" value="{{ old('expense_percentage', $amc->expense_percentage) }}" required>
-                                        @error('expense_percentage')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
+                                
 
                                 <div class="col-3 my-3">
                                     <div class="pb-1">

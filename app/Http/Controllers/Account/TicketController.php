@@ -262,7 +262,10 @@ class TicketController extends Controller
 			// Prevent PDF generation in STEP 3 for BUY BASKET CASES
 			if( ! ( $ticket->type == 1 && $ticket->payment_type == 2) )
 			{
-				FormService::GenerateDocument($ticket);
+				if($ticket->security->amc->generate_form_pdf == 1)
+				{
+					FormService::GenerateDocument($ticket);
+				}
 			}
 
 			// SEND EMAIL on BASKET CASES

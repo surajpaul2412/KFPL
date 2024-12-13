@@ -254,7 +254,10 @@ class TicketController extends Controller
 					if($ticket->payment_type == 2 || ($ticket->type == 2 && $ticket->payment_type == 1) )
 					{
 						// Pdf Workings :: START
-						FormService::GenerateDocument($ticket);
+						if($ticket->security->amc->generate_form_pdf == 1)
+						{
+							FormService::GenerateDocument($ticket);
+						}
 					}
 				}
 
@@ -407,7 +410,10 @@ class TicketController extends Controller
 				// Prevent PDF generation in STEP 3 for BUY BASKET CASES
 				if( ! ( $ticket->type == 1 && $ticket->payment_type == 2) )
 				{
-					FormService::GenerateDocument($ticket);
+					if($ticket->security->amc->generate_form_pdf == 1)
+					{
+						FormService::GenerateDocument($ticket);
+					}
 				}
 
 				// SEND EMAIL on BASKET CASES
@@ -678,7 +684,11 @@ class TicketController extends Controller
 
                     $ticket->status_id = 12; // SELL CASE
                     // mailing for sell
-                    FormService::GenerateDocument($ticket);
+					if($ticket->security->amc->generate_form_pdf == 1)
+					{
+						FormService::GenerateDocument($ticket);
+					}
+					
                     $ticket->save();
 
                     // Trigger mail if SS uploaded
