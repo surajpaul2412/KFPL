@@ -65,11 +65,12 @@ class TicketController extends Controller
         }
 
       $tickets = $ticketQuery->whereUserId(Auth::user()->id)
+                             ->where('is_active', '1')
                              ->orderBy("created_at", "desc")
                              ->paginate(10);
 
-      $sql = DB::getQueryLog();
-      // dd($sql);
+      //$sql = DB::getQueryLog();
+      //dd($sql);
 
       return view(
           "trader.tickets.index",
@@ -128,6 +129,7 @@ class TicketController extends Controller
     public function show(string $id)
     {
         $ticket = Ticket::findOrFail($id);
+        if($ticket->is_active == 0) abort(404); // can Not EDIT Hidden Items
         return view('trader.tickets.show', compact('ticket'));
     }
 
@@ -137,6 +139,7 @@ class TicketController extends Controller
     public function edit(string $id)
     {
         $ticket = Ticket::findOrFail($id);
+        if($ticket->is_active == 0) abort(404); // can Not EDIT Hidden Items
         $securities = Security::whereStatus(1)->get();
         return view('trader.tickets.edit', compact('ticket', 'securities'));
     }

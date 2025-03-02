@@ -24,6 +24,7 @@ class Ticket extends Model
         'markup_percentage',
         'actual_total_amt',
         'nav',
+        'is_active',
         'refund',
         'totalstampduty',
         'expected_refund',

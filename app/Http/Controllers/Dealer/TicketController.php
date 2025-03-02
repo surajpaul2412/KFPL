@@ -64,6 +64,7 @@ class TicketController extends Controller
         }
 
 		$tickets = $ticketQuery->whereIn('status_id', [7, 8])
+                     ->where('is_active', '1')
 					 ->orderBy('created_at', 'desc')
 					 ->paginate(10);
 
@@ -98,6 +99,7 @@ class TicketController extends Controller
     public function show(string $id)
     {
         $ticket = Ticket::findOrFail($id);
+        if($ticket->is_active == 0) abort(404); // can Not EDIT Hidden Items
         return view('dealer.tickets.show', compact('ticket'));
     }
 
@@ -113,6 +115,7 @@ class TicketController extends Controller
     public function edit(string $id)
     {
         $ticket = Ticket::findOrFail($id);
+        if($ticket->is_active == 0) abort(404); // can Not EDIT Hidden Items
         return view('dealer.tickets.edit', compact('ticket'));
     }
 
