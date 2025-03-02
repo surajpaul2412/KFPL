@@ -4,7 +4,15 @@
 Ticket Management
 @endsection
 
+@section('breadcrum-btn')
+<a href="javascript:void(0)" class="btn btn-outline-primary csvExportButton" title="CSV Export" onclick="csvExport()">
+    <i class="ri-download-2-line pe-2"></i>Download as CSV
+</a>
+@endsection
+
+
 @section('content')
+
 
 @include('topmessages')
 
@@ -29,9 +37,11 @@ Ticket Management
         <i class="ri-search-line"></i> Search
       </button>
 	  
+	  <!---
 	  <button type="button" class="btn csvExportButton btn-primary" title="CSV Export" onclick="csvExport()">
         <i class="ri-download-2-fill"></i> CSV Export
       </button>
+      -->
 
     </form>
 </div>
@@ -718,11 +728,11 @@ function showCSVBtn()
 	var t = jQuery("[name='sel_role_id'] option:selected").val();
     if( t == 'trader' || t == 'ops' )
     {
-    	jQuery('.csvExportButton').show();
+    	jQuery('.csvExportButton').removeClass("disabled pe-none");
     }
     else 
     {
-     	jQuery('.csvExportButton').hide();   	
+     	jQuery('.csvExportButton').addClass("disabled pe-none");   	
     }
 	
 }
@@ -740,6 +750,15 @@ function csvExport()
     	jQuery(".csvExporForm").attr("action", action);
     	jQuery(".csvExporForm").submit();
     }
+    else 
+    {
+    	alert("CSV Export available for OPS and TRADERS only");
+    }
 }
+
+// Activate/De-Activate on Page LOAD
+jQuery(document).ready(function(){
+	showCSVBtn();
+});
 </script>
 @endsection
