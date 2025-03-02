@@ -967,7 +967,7 @@ class TicketController extends Controller
             return redirect()->back()
                 ->with("error", $e->getMessage());
         }
-    }ssdf
+    }
 
     /**
      * Remove the specified resource from storage.
