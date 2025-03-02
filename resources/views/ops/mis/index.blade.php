@@ -4,6 +4,12 @@
 Ticket Management
 @endsection
 
+@section('breadcrum-btn')
+<a href="javascript:void(0)" class="btn btn-outline-primary csvExportButton" title="CSV Export" onclick="csvExport()">
+    <i class="ri-download-2-line pe-2"></i>Download as CSV
+</a>
+@endsection
+
 @section('content')
 
 @include('topmessages')
@@ -57,6 +63,10 @@ Ticket Management
         </div><!-- row -->
     </div>
 </div>
+
+<form class="csvExporForm" method="get" target="_blank" action="">
+    <input type="hidden" name="datamode" value="">
+</form>
 @endsection
 
 @section('script')
@@ -243,5 +253,23 @@ Ticket Management
             loadData(selectedValue);
         });
     });
+
+    // Trigger new URL to start the CSV download
+    function csvExport()
+    {
+        var mode = jQuery("[name='sel_role_id'] option:selected").val();
+        if( mode != '')
+        {
+            
+            var action = "<?php echo url('/ops/mis/csvexport');?>";
+            jQuery("[name='datamode']").val(mode);
+            jQuery(".csvExporForm").attr("action", action);
+            jQuery(".csvExporForm").submit();
+        }
+        else 
+        {
+            alert("CSV Export Error as Buy/Sell was not Selected");
+        }
+    }
 </script>
 @endsection

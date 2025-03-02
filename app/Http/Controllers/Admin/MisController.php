@@ -149,15 +149,15 @@ class MisController extends Controller
 						$amtSent += ($row->total_ticket_actual_amt || 0);
 
 				        fputcsv($file, [
-				            ( $row->security ? row->security->amc->name : '-' ),
-							( $row->security ? row->security->symbol : '-' ),
-							( $row->total_quick_basket_no == 0 ? '-' : row->total_quick_basket_no ),
-							( $row->total_quick_nav == 0 ? '-' : (row->total_quick_nav / row->total_quick_clubbed ) ),
-							( $row->total_quick_amt == 0 ? '-' : row->total_quick_amt ),
-							( $row->total_ticket_basket_no == 0 ? '-' : row->total_ticket_basket_no ),
-							( $row->total_quick_basket_no - row->total_ticket_basket_no ),
-							( $row->total_ticket_actual_amt == 0 ? '-' : row->total_ticket_actual_amt ),
-							( $row->total_quick_units + row->total_ticket_units )
+				            ( $row->security ? $row->security->amc->name : '-' ),
+							( $row->security ? $row->security->symbol : '-' ),
+							( $row->total_quick_basket_no == 0 ? '-' : $row->total_quick_basket_no ),
+							( $row->total_quick_nav == 0 ? '-' : ($row->total_quick_nav / $row->total_quick_clubbed ) ),
+							( $row->total_quick_amt == 0 ? '-' : $row->total_quick_amt ),
+							( $row->total_ticket_basket_no == 0 ? '-' : $row->total_ticket_basket_no ),
+							( $row->total_quick_basket_no - $row->total_ticket_basket_no ),
+							( $row->total_ticket_actual_amt == 0 ? '-' : $row->total_ticket_actual_amt ),
+							( $row->total_quick_units + $row->total_ticket_units )
 				        ]);
 				    }
 
@@ -220,15 +220,15 @@ class MisController extends Controller
 						$amtSent += ($row->total_ticket_actual_amt || 0);
 
 				        fputcsv($file, [
-				            ( $row->security ? row->security->amc->name : '-' ),
-							( $row->security ? row->security->symbol : '-' ),
-							( $row->total_quick_basket_no == 0 ? '-' : row->total_quick_basket_no ),
-							( $row->total_quick_nav == 0 ? '-' : (row->total_quick_nav / row->total_quick_clubbed ) ),
-							( $row->total_quick_amt == 0 ? '-' : row->total_quick_amt ),
-							( $row->total_ticket_basket_no == 0 ? '-' : row->total_ticket_basket_no ),
-							( $row->total_quick_basket_no - row->total_ticket_basket_no ),
-							( $row->total_ticket_actual_amt == 0 ? '-' : row->total_ticket_actual_amt ),
-							( $row->total_quick_units + row->total_ticket_units )
+				            ( $row->security ? $row->security->amc->name : '-' ),
+							( $row->security ? $row->security->symbol : '-' ),
+							( $row->total_quick_basket_no == 0 ? '-' : $row->total_quick_basket_no ),
+							( $row->total_quick_nav == 0 ? '-' : ($row->total_quick_nav / $row->total_quick_clubbed ) ),
+							( $row->total_quick_amt == 0 ? '-' : $row->total_quick_amt ),
+							( $row->total_ticket_basket_no == 0 ? '-' : $row->total_ticket_basket_no ),
+							( $row->total_quick_basket_no - $row->total_ticket_basket_no ),
+							( $row->total_ticket_actual_amt == 0 ? '-' : $row->total_ticket_actual_amt ),
+							( $row->total_quick_units + $row->total_ticket_units )
 				        ]);
 				    }
 

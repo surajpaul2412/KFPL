@@ -155,6 +155,7 @@ Route::middleware(['auth', 'isTrader'])->group(function () {
     Route::get('/trader/dashboard', [TraderDashboardController::class, 'index'])->name('trader.dashboard');
     // MIS
     Route::get('/trader/mis/ajax', [MisController::class, 'getMisData'])->name('trader.mis.ajax');
+    Route::get('/trader/mis/csvexport', [MisController::class, 'exportMisDataToCSV'])->name('trader.mis.csvexport');
     Route::resource('/trader/mis', MisController::class)->names([
         'index' => 'trader.mis.index',
         'show' => 'trader.mis.show',
@@ -181,6 +182,8 @@ Route::middleware(['auth', 'isOps'])->group(function () {
     Route::get('/ops/dashboard', [OpsDashboardController::class, 'index'])->name('ops.dashboard');
     // MIS
     Route::get('/ops/mis/ajax', [OpsMisController::class, 'getMisData'])->name('ops.mis.ajax');
+    Route::get('/ops/mis/csvexport', [OpsMisController::class, 'exportMisDataToCSV'])->name('ops.mis.csvexport');
+
     Route::resource('/ops/mis', OpsMisController::class)->names([
         'index' => 'ops.mis.index',
         'show' => 'ops.mis.show',
