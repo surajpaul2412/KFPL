@@ -195,17 +195,17 @@ class MisController extends Controller
 				    // Iterate over each row and write to the CSV
 				    foreach ($rows as $row) {
 
-				    	$totalQuickTicket += ($row->total_quick_basket_no || 0);
-						$totalQuickTicketVal += ($row->total_quick_amt || 0);
-						$totalQuickTicketUnits += ($row->total_quick_units + ($row->total_ticket_units || 0) );
-						$totalTicket += ($row->total_ticket_basket_no || 0);
-						$amtSent += ($row->total_ticket_actual_amt || 0);
+				    	$totalQuickTicket += doubleval($row->total_quick_basket_no);
+						$totalQuickTicketVal += doubleval($row->total_quick_amt);
+						$totalQuickTicketUnits += doubleval($row->total_quick_units) + doubleval($row->total_ticket_units);
+						$totalTicket += doubleval($row->total_ticket_basket_no);
+						$amtSent += doubleval($row->total_ticket_actual_amt);
 
 				        fputcsv($file, [
 				            ( $row->security ? $row->security->amc->name : '-' ),
 							( $row->security ? $row->security->symbol : '-' ),
 							( $row->total_quick_basket_no == 0 ? '-' : $row->total_quick_basket_no ),
-							( $row->total_quick_nav == 0 ? '-' : ($row->total_quick_nav / $row->total_quick_clubbed ) ),
+							( $row->total_quick_nav == 0 ? '-' : ($row->total_quick_nav / $row->total_quick_clubbed) ),
 							( $row->total_quick_amt == 0 ? '-' : $row->total_quick_amt ),
 							( $row->total_ticket_basket_no == 0 ? '-' : $row->total_ticket_basket_no ),
 							( $row->total_quick_basket_no - $row->total_ticket_basket_no ),
@@ -266,11 +266,11 @@ class MisController extends Controller
 				    // Iterate over each row and write to the CSV
 				    foreach ($rows as $row) {
 
-				    	$totalQuickTicket += ($row->total_quick_basket_no || 0);
-						$totalQuickTicketVal += ($row->total_quick_amt || 0);
-						$totalQuickTicketUnits += ($row->total_quick_units + ($row->total_ticket_units || 0) );
-						$totalTicket += ($row->total_ticket_basket_no || 0);
-						$amtSent += ($row->total_ticket_actual_amt || 0);
+				    	$totalQuickTicket += doubleval($row->total_quick_basket_no);
+						$totalQuickTicketVal += doubleval($row->total_quick_amt);
+						$totalQuickTicketUnits += doubleval($row->total_quick_units) + doubleval($row->total_ticket_units);
+						$totalTicket += doubleval($row->total_ticket_basket_no);
+						$amtSent += doubleval($row->total_ticket_actual_amt);
 
 				        fputcsv($file, [
 				            ( $row->security ? $row->security->amc->name : '-' ),
