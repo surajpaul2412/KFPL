@@ -90,7 +90,8 @@ class TicketController extends Controller
             });
         }
 
-        $tickets = $ticketQuery->orderBy("created_at", "desc")->paginate(10);
+        // SHOW ONLY ACTIVE Tickets, remove "INACTIVE" Tickets from UI
+        $tickets = $ticketQuery->where('is_active', '1')->orderBy("created_at", "desc")->paginate(10);
         $sql = DB::getQueryLog();
         //dd($sql);
         return view(
@@ -153,7 +154,8 @@ class TicketController extends Controller
      */
     public function show(string $id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = Ticket::findOrFail($id); 
+        if($ticket->is_active == 0) abort(404); // can Not SHOW Hidden Items
         return view("admin.tickets.show", compact("ticket"));
     }
 
@@ -163,6 +165,7 @@ class TicketController extends Controller
     public function edit(string $id)
     {   
 		$ticket = Ticket::findOrFail($id);
+		if($ticket->is_active == 0) abort(404); // can Not EDIT Hidden Items
 		$securities = Security::whereStatus(1)->get();
         return view("admin.tickets.edit", compact("ticket", "securities"));
     }
@@ -174,6 +177,7 @@ class TicketController extends Controller
     {
         try {
             $ticket = Ticket::findOrFail($id);
+            if($ticket->is_active == 0) abort(404); // can Not Update Hidden Items
             $data = $request->all();
 
             // SET STATUS as per OTHER PARAMETERS
@@ -970,11 +974,13 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
+        
         try {
-            $ticket->delete();
-            return redirect()->route('admin.tickets.index')->with('success', 'Ticket deleted successfully.');
+            $ticket->is_active = 0;
+            $ticket->save();
+            return redirect()->back()->with('success', 'Ticket deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('admin.tickets.index')->with('error', 'Failed to delete ticket.');
+            return redirect()->back()->with('error', 'Failed to delete ticket.');
         }
     }
 

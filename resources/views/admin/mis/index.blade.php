@@ -7,11 +7,12 @@ Ticket Management
 @section('content')
 
 @include('topmessages')
+
 <div class="d-sm-flex align-items-center justify-content-between">
     <form method="get" action="">
       <div style="display:inline-flex;margin-right:10px;">
         
-        <select class="form-select mx-2" name="sel_role_id" style="display:inline;width:auto !important;">
+        <select class="form-select mx-2" name="sel_role_id" onclick="showCSVBtn()" style="display:inline;width:auto !important;">
             <option value="trader" selected="selected">Trader </option>
             <option value="accounts">Accounts </option>
             <option value="dealer">Dealer </option>
@@ -28,6 +29,10 @@ Ticket Management
         <i class="ri-search-line"></i> Search
       </button>
 	  
+	  <button type="button" class="btn csvExportButton btn-primary" title="CSV Export" onclick="csvExport()">
+        <i class="ri-download-2-fill"></i> CSV Export
+      </button>
+
     </form>
 </div>
 
@@ -129,6 +134,11 @@ Ticket Management
 <form id="toggleStatusForm" style="display:none" action="{{route('admin.employee.togglestatus')}}">
   <input name="item" value="">
   <input name="action" value="togglestatus">
+</form>
+
+<form class="csvExporForm" method="get" target="_blank" action="">
+	<input type="hidden" name="usertype" value="">
+    <input type="hidden" name="datamode" value="">
 </form>
 
 <script>
@@ -700,6 +710,36 @@ function search()
 	{
 		loadData(selectedValue);
 	}
+}
+
+// SHOW Download CSV Button
+function showCSVBtn()
+{
+	var t = jQuery("[name='sel_role_id'] option:selected").val();
+    if( t == 'trader' || t == 'ops' )
+    {
+    	jQuery('.csvExportButton').show();
+    }
+    else 
+    {
+     	jQuery('.csvExportButton').hide();   	
+    }
+	
+}
+
+// Trigger new URL to start the CSV download
+function csvExport()
+{
+	var t = jQuery("[name='sel_role_id'] option:selected").val();
+    if( t == 'trader' || t == 'ops' )
+    {
+    	var mode = jQuery("[name='mode']").val();
+    	var action = base_url + "/csvexport";
+    	jQuery("[name='usertype']").val(t);
+    	jQuery("[name='datamode']").val(mode);
+    	jQuery(".csvExporForm").attr("action", action);
+    	jQuery(".csvExporForm").submit();
+    }
 }
 </script>
 @endsection

@@ -59,6 +59,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     // MIS
 	Route::get('/admin/mis/ajax', [AdminMisController::class, 'getMisData'])->name('admin.mis.ajax');
+    Route::get('/admin/mis/csvexport', [AdminMisController::class, 'exportMisDataToCSV'])->name('admin.mis.csvexport');
+
     Route::resource('/admin/mis', AdminMisController::class)->names([
         'index' => 'admin.mis.index',
         'show' => 'admin.mis.show',
@@ -76,8 +78,9 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
         'edit' => 'admin.tickets.edit',
         'update' => 'admin.tickets.update',
         'show' => 'admin.tickets.show',
+        'destroy' => 'admin.tickets.destroy'
     ])->except([
-        'destroy' // Exclude the destroy method from the resourceful routes
+        // 'destroy' // Exclude the destroy method from the resourceful routes
     ]);
     Route::get('/admin/tickets/{ticket}/mail', [AdminTicketController::class, 'mail'])->name('admin.tickets.mail');
 	Route::get('/admin/tickets/{ticket}/mailtoself', [AdminTicketController::class, 'mailtoself'])->name('admin.tickets.mailtoself');
