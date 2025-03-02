@@ -37,8 +37,16 @@ class MisController extends Controller
 				    // Write the headers
 				    fputcsv($file, $headers);
 
+				    // Declare Variables 
+				    $totalBasket = 0;
+					$totalQty  = 0;
+
 				    // Iterate over each row and write to the CSV
 				    foreach ($rows as $row) {
+
+				    	$totalBasket += doubleval($row->basket_no);
+						$totalQty += doubleval($row->basket_no * $row->basket_size);
+
 				        fputcsv($file, [
 				            $row->id,
 				            date("d-M-Y", strtotime($row->created_at)),
@@ -56,6 +64,25 @@ class MisController extends Controller
 				            $row->status_id > 13 ? 'Yes' : 'No',
 				        ]);
 				    }
+
+				    // Write the bottom ROW
+				    fputcsv($file, [
+							'Total',
+							'',
+							'',
+							'',
+							'',
+							number_format($totalBasket, 2),
+							number_format($totalQty, 2),
+							'',
+							'',
+							'',
+							'',
+							'',
+							'',
+							''
+					]);
+
 				    fclose($file);
 				};
 
@@ -68,7 +95,6 @@ class MisController extends Controller
 		];
 
 		return response()->stream($callback, 200, $responseHeaders);				
-
 	}
 
 
@@ -85,8 +111,16 @@ class MisController extends Controller
 				    // Write the headers
 				    fputcsv($file, $headers);
 
+				    // Declare Variables 
+				    $totalBasket = 0;
+					$totalQty  = 0;
+
 				    // Iterate over each row and write to the CSV
 				    foreach ($rows as $row) {
+
+				    	$totalBasket += doubleval($row->basket_no);
+						$totalQty += doubleval($row->basket_no * $row->basket_size);
+				        
 				        fputcsv($file, [
 				            $row->id,
 							date("d-M-Y", strtotime($row->created_at)),
@@ -103,6 +137,25 @@ class MisController extends Controller
 							$row->status_id > 12 ? 'Yes' : 'No' 
 				        ]);
 				    }
+
+				    // Write the bottom ROW
+				    fputcsv($file, [
+							'Total',
+							'',
+							'',
+							'',
+							'',
+							number_format($totalBasket, 2),
+							number_format($totalQty, 2),
+							'',
+							'',
+							'',
+							'',
+							'',
+							'',
+							''
+					]);
+
 				    fclose($file);
 				};
 
