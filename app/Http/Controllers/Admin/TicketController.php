@@ -91,7 +91,7 @@ class TicketController extends Controller
         }
 
         // SHOW ONLY ACTIVE Tickets, remove "INACTIVE" Tickets from UI
-        $tickets = $ticketQuery->where('is_active', '1')->orderBy("created_at", "desc")->paginate(10);
+        $tickets = $ticketQuery->where('is_active', '1')->orderBy("updated_at", "desc")->paginate(10);
         $sql = DB::getQueryLog();
         //dd($sql);
         return view(
@@ -113,7 +113,15 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $securities = Security::whereStatus(1)->orderBy("amc_id", "asc")->get();
+        //$securities = Security::whereStatus(1)->orderBy("amc_id", "asc")->get();
+        $securities = Security::with('amc')
+					    ->where('status', 1)
+					    ->whereHas('amc', function ($query) {
+					        $query->where('status', 1);
+					    })
+					    ->orderBy('amc_id', 'asc')
+					    ->get();
+
         return view("admin.tickets.create", compact("securities"));
     }
 
@@ -276,7 +284,7 @@ class TicketController extends Controller
 						$request->validate([
 							"total_amt_input" => "required|numeric",
 							"utr_no" => "required|string",
-							"screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+							"screenshot" => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 						]);
 					}
 					else if($ticket->payment_type == 2) 
@@ -285,7 +293,7 @@ class TicketController extends Controller
 							//"total_amt_input" => "required|numeric",
 							"cashcomp" => "required|numeric",
 							"utr_no" => "required|string",
-							"screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+							"screenshot" => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 						]);
 
 						// if cashcomponent not matching
@@ -372,8 +380,7 @@ class TicketController extends Controller
 					else
 					{
 						$request->validate([
-							"screenshot" =>
-								"nullable|image|mimes:jpeg,png,jpg,gif,webp",
+							"screenshot" => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 						]);
 					}
 
@@ -474,16 +481,14 @@ class TicketController extends Controller
 					{
 						// SELL BASKET CASES :: Screenshots are not mandatory
 						$request->validate([
-							"screenshot" =>
-								"image|mimes:jpeg,png,jpg,gif,webp",
+							"screenshot" => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 						]);
 
 					}
 					else
 					{
 						$request->validate([
-							"screenshot" =>
-								"nullable|image|mimes:jpeg,png,jpg,gif,webp",
+							"screenshot" => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 						]);
 					}
 
@@ -568,7 +573,7 @@ class TicketController extends Controller
 					if( empty($ticket->screenshot) )
 					{
 						$arr = [
-							"screenshot"     => "required|image|mimes:jpeg,png,jpg,gif,webp",
+							"screenshot"     => "required|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 						];
 					}
 
@@ -584,7 +589,7 @@ class TicketController extends Controller
 					$request->validate([
 						"refund"      => ["required", "numeric"],
 						"deal_ticket" => "nullable",
-						"screenshot"  => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+						"screenshot"  => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 					]);
 
 					$ticket->refund = $request->refund;
@@ -651,7 +656,7 @@ class TicketController extends Controller
             } elseif ($ticket->status_id == 10) {
                 if ($ticket->type == 2) {
                     $request->validate([
-                        "screenshot"  => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+                        "screenshot"  => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
                         "deal_ticket" => "nullable",
                     ]);
 

@@ -333,7 +333,7 @@
 												Upload Screenshot
 											</div>
 											<div class="w-75">
-												<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*">
+												<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot">
 												@error('screenshot')
 													<span class="invalid-feedback" role="alert">
 														<strong>{{ $message }}</strong>
@@ -402,7 +402,7 @@
 													Upload Screenshot
 												</div>
 												<div class="w-75">
-													<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*" required>
+													<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" required>
 													@error('screenshot')
 														<span class="invalid-feedback" role="alert">
 															<strong>{{ $message }}</strong>
@@ -520,7 +520,7 @@
                                         Upload Screenshot
                                       </div>
                                       <div class="w-75">
-                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*"
+                                        <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" 
 										{{$ticket->payment_type == 2 || ( $ticket->type == 2 && $ticket->payment_type == 1 ) ? '' : 'required'}}
 										>
                                         @error('screenshot')
@@ -541,7 +541,7 @@
                                             Upload Screenshot
                                           </div>
                                           <div class="w-75">
-                                            <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*" required>
+                                            <input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot"  required>
                                             @error('screenshot')
                                               <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -689,7 +689,7 @@
 										Upload Screenshot
 									  </div>
 									  <div class="w-75">
-										<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" accept="image/*" required>
+										<input type="file" class="form-control w-100 @error('screenshot') is-invalid @enderror" placeholder="Upload Screenshot" name="screenshot" required>
 										@error('screenshot')
 										  <span class="invalid-feedback" role="alert">
 											<strong>{{ $message }}</strong>

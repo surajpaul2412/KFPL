@@ -335,6 +335,7 @@ class MisController extends Controller
 
 			if ($setType == 1) { // BUY case
 				$data = Ticket::where('type', $setType)
+					->where('is_active', 1)
 					->where(function ($query) use ($startOf48HoursAgo) {
 						// Show records within the last 48 hours or status_id <= 13
 						$query->where('status_id', '<', 13)
@@ -348,6 +349,7 @@ class MisController extends Controller
 				
 			} else { // SELL case
 				$data = Ticket::where('type', $setType)
+					->where('is_active', 1)
 					->where(function ($query) use ($startOf48HoursAgo) {
 						// Show records within the last 48 hours or status_id <= 13
 						$query->where('status_id', '<', 13)
@@ -415,6 +417,7 @@ class MisController extends Controller
 						')
 						->whereIn('user_id', $userArr )
 						->where('type', $setType)
+						->where('is_active', 1)
 						->whereBetween('created_at', [$startOfDay, $endOfDay])
 						->groupBy('security_id')
 						->with('security', 'security.amc') // Load relationships
@@ -459,6 +462,7 @@ class MisController extends Controller
 						')
 						->whereIn('user_id', $userArr )
 						->where('type', $setType)
+						->where('is_active', 1)
 						->whereBetween('created_at', [$startOfDay, $endOfDay])
 						->groupBy('security_id')
 						->with('security', 'security.amc') // Load relationships
@@ -518,12 +522,14 @@ class MisController extends Controller
 
 			if ($setType == 1) { // BUY case
 				$data = Ticket::where('type', $setType)
+				    ->where('is_active', 1)
 					->whereDate('created_at', $currentDate)
 					->with('security', 'security.amc')
 					->orderBy('created_at', 'desc')
 					->get();
 			} else { // SELL case
 				$data = Ticket::where('type', $setType)
+					->where('is_active', 1)
 					->whereDate('created_at', $currentDate)
 					->with('security', 'security.amc')
 					->orderBy('created_at', 'desc')
@@ -540,7 +546,8 @@ class MisController extends Controller
 
 			if ($setType == 1) { // BUY case
 				$data = Ticket::where('type', $setType)
-					->where(function ($query) use ($startOf48HoursAgo) {
+						->where('is_active', 1)
+						->where(function ($query) use ($startOf48HoursAgo) {
 						// Show records within the last 48 hours or status_id <= 13
 						$query->where('status_id', '<', 13)
 							  ->orWhereBetween('created_at', [$startOf48HoursAgo, Carbon::now()]);
@@ -550,6 +557,7 @@ class MisController extends Controller
 					->get();
 			} else { // SELL case
 				$data = Ticket::where('type', $setType)
+					->where('is_active', 1)
 					->where(function ($query) use ($startOf48HoursAgo) {
 						// Show records within the last 48 hours or status_id <= 13
 						$query->where('status_id', '<', 13)
@@ -571,6 +579,7 @@ class MisController extends Controller
 
 			if ($setType == 1) { // BUY case
 				$data = Ticket::where('type', $setType)
+					->where('is_active', 1)
 					->whereBetween('created_at', [$startOfDay, $endOfDay])
 					->with('security', 'security.amc')
 					->orderBy('created_at', 'desc')
@@ -581,6 +590,7 @@ class MisController extends Controller
 				$endOfCurrentDay = $currentDate->endOfDay();
 				
 				$data = Ticket::where('type', $setType)
+					->where('is_active', 1)
 					->whereBetween('created_at', [$startOfPreviousDay, $endOfCurrentDay])
 					->with('security', 'security.amc')
 					->orderBy('created_at', 'desc')
@@ -642,6 +652,7 @@ class MisController extends Controller
 						')
 						->whereIn('user_id', $userArr )
 						->where('type', $setType)
+						->where('is_active', 1)
 						->whereBetween('created_at', [$startOfDay, $endOfDay])
 						->groupBy('security_id')
 						->with('security', 'security.amc') // Load relationships
@@ -686,6 +697,7 @@ class MisController extends Controller
 						')
 						->whereIn('user_id', $userArr )
 						->where('type', $setType)
+						->where('is_active', 1)
 						->whereBetween('created_at', [$startOfDay, $endOfDay])
 						->groupBy('security_id')
 						->with('security', 'security.amc') // Load relationships

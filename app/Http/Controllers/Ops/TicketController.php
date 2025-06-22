@@ -71,7 +71,7 @@ class TicketController extends Controller
 
         $tickets = $ticketQuery->whereIn('status_id', [2, 5, 6, 9, 10, 13, 14])
         					   ->where('is_active', '1')
-                               ->orderBy('created_at', 'desc')
+                               ->orderBy('updated_at', 'desc')
                                ->paginate(10);
 
         //$sql = DB::getQueryLog();
@@ -198,7 +198,7 @@ class TicketController extends Controller
 						// SELL BASKET CASES :: Screenshots are not mandatory
 						$request->validate([
 							"screenshot" =>
-								"image|mimes:jpeg,png,jpg,gif,webp",
+								"nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 						]);
 
 					}
@@ -206,7 +206,7 @@ class TicketController extends Controller
 					{
 						$request->validate([
 							"screenshot" =>
-								"nullable|image|mimes:jpeg,png,jpg,gif,webp",
+								"nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 						]);
 					}
 
@@ -296,7 +296,7 @@ class TicketController extends Controller
 					$request->validate([
 						"refund"      => ["required", "numeric"],
 						"deal_ticket" => "nullable",
-						"screenshot"  => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+						"screenshot"  => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 					]);
 
 					$ticket->refund = $request->refund;
@@ -359,8 +359,7 @@ class TicketController extends Controller
             } elseif ($ticket->status_id == 10) {
                 if ($ticket->type == 2) {
                     $request->validate([
-                        "screenshot"  => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
-                        "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+                        "screenshot"  => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
                         "deal_ticket" => "nullable",
                     ]);
 
@@ -465,7 +464,7 @@ class TicketController extends Controller
 				}
 				else 
 				{
-					$arr["screenshot"] = "required|image|mimes:jpeg,png,jpg,gif,webp";
+					$arr["screenshot"] = "required|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls";
 				}
 
 				if( $ticket->type == 1 && $ticket->payment_type == 2 && $ticket->basketfile == null ) {

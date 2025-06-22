@@ -13,7 +13,7 @@ class Amc extends Model
     protected $fillable = [
 	'name', 'email', 'expense_percentage', 'pdf_id', 'status', 'amc_pdf', 'generate_form_pdf',
 	'buycashtmpl', 'sellcashtmpl', 'sellcashwosstmpl', 'mailtoselftmpl', 
-	'investordetails', 'bankdetails'
+	'investordetails', 'bankdetails', 'is_active'
 	]; 		
 
     public function pdf()

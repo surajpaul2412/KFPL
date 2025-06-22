@@ -33,7 +33,7 @@ class SecurityController extends Controller
      */
     public function create()
     {
-        $amcs = Amc::all();
+        $amcs = Amc::where('status', 1)->orderBy('name', 'asc')->get();
         return view('admin.securities.create', ['amcs' => $amcs]);
     }
 

@@ -56,11 +56,16 @@
                                                 <a href="{{ route('amcs.edit', $amc->id) }}" title="Edit">
                                                     <i class="ri-pencil-fill"></i>
                                                 </a>
-                                                <form action="{{ route('amcs.destroy', $amc->id) }}" method="POST" class="d-inline">
+                                                <form id='deleteForm{{$amc->id}}' action="{{ route('amcs.destroy', $amc->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <a type="submit" class="" onclick="return confirm('Are you sure you want to delete?')">
-                                                        <i class="ri-delete-bin-5-fill text-danger"></i>
+                                                    <a type="submit" class="" title="Activate / DeActivate AMC"
+                                                        onclick="deletePrompt({{$amc->id}}, {{$amc->status}})">
+                                                        @if($amc->status)
+                                                         <i class="ri-delete-bin-5-fill text-danger" title="DeActivate"></i>
+                                                        @else 
+                                                         <i class="ri-arrow-go-back-fill text-success" title="Activate"></i>
+                                                        @endif 
                                                     </a>
                                                 </form>
                                             </td>
@@ -79,4 +84,15 @@
             </div>
         </div>
     </div>
+    <script>
+        function deletePrompt(formid, mode)
+        {
+            var text = mode == 1 ? "DeActivate" : "Activate"; 
+            var k = confirm('Are you sure you want to ' + text + '?');
+            if(k)
+            {
+                document.getElementById('deleteForm' + formid).submit();
+            }
+        }
+    </script>script>    
 @endsection

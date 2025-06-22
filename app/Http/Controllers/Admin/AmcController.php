@@ -17,7 +17,8 @@ class AmcController extends Controller
         $amcs = Amc::when($search, function ($query) use ($search) {
             $query->where('name', 'like', '%' . $search . '%')
                 ->orWhere('email', 'like', '%' . $search . '%');
-        })->paginate(10);
+        })
+        ->paginate(10);
 
         return view('admin.amcs.index', compact('amcs', 'search'));
     }
@@ -76,7 +77,9 @@ class AmcController extends Controller
     public function destroy($id)
     {
         $amc = Amc::findOrFail($id);
-        $amc->delete();
-        return redirect()->route('amcs.index')->with('success', 'AMC deleted successfully.');
+        $oldStatus = $amc->status;
+        $amc->status = !$amc->status;
+        $amc->save();
+        return back()->with('success', 'AMC ' . ($oldStatus==1?'De-':'') . 'Activated successfully.');
     }
 }

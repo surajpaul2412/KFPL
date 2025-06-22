@@ -26,12 +26,14 @@ class MisController extends Controller
 
         if ($setType == 1) { // BUY case
             $data = Ticket::where('type', $setType)
+                ->where('is_active', 1)
                 ->whereDate('created_at', $currentDate)
                 ->with('security', 'security.amc')
 				->orderBy('created_at', 'desc')
                 ->get();
         } else { // SELL case
             $data = Ticket::where('type', $setType)
+                ->where('is_active', 1)
                 ->whereDate('created_at', $currentDate)
                 ->with('security', 'security.amc')
 				->orderBy('created_at', 'desc')

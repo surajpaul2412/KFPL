@@ -65,7 +65,7 @@ class TicketController extends Controller
 
         $tickets = $ticketQuery->whereIn('status_id', [3, 11, 12])
         			 ->where('is_active', '1')
-    				 ->orderBy('created_at', 'desc')
+    				 ->orderBy('updated_at', 'desc')
     				 ->paginate(10);
 
         //$sql = DB::getQueryLog();
@@ -132,7 +132,7 @@ class TicketController extends Controller
 					$request->validate([
 						"total_amt_input" => "required|numeric",
 						"utr_no" => "required|string",
-						"screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+						"screenshot" => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 					]);
 				}
 				else if($ticket->payment_type == 2)
@@ -141,7 +141,7 @@ class TicketController extends Controller
 						//"total_amt_input" => "required|numeric",
 						"cashcomp" => "required|numeric",
 						"utr_no" => "required|string",
-						"screenshot" => "nullable|image|mimes:jpeg,png,jpg,gif,webp",
+						"screenshot" => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 					]);
 
 					// if cashcomponent not matching
@@ -224,8 +224,7 @@ class TicketController extends Controller
 				else
 				{
 					$request->validate([
-						"screenshot" =>
-							"nullable|image|mimes:jpeg,png,jpg,gif,webp",
+						"screenshot" => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
 					]);
 				}
 

@@ -66,7 +66,7 @@ class TicketController extends Controller
 
       $tickets = $ticketQuery->whereUserId(Auth::user()->id)
                              ->where('is_active', '1')
-                             ->orderBy("created_at", "desc")
+                             ->orderBy("updated_at", "desc")
                              ->paginate(10);
 
       //$sql = DB::getQueryLog();
@@ -89,7 +89,15 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $securities = Security::whereStatus(1)->orderBy("amc_id", "asc")->get();
+        //$securities = Security::whereStatus(1)->orderBy("amc_id", "asc")->get();
+        $securities = Security::with('amc')
+                        ->where('status', 1)
+                        ->whereHas('amc', function ($query) {
+                            $query->where('status', 1);
+                        })
+                        ->orderBy('amc_id', 'asc')
+                        ->get();
+
         return view('trader.tickets.create', compact('securities'));
     }
 

@@ -28,6 +28,7 @@ class MisController extends Controller
 
         if ($setType == 1) { // BUY case
             $data = Ticket::where('type', $setType)
+                ->where('is_active', 1)
                 ->whereBetween('created_at', [$startOfDay, $endOfDay])
                 ->with('security', 'security.amc')
 				->orderBy('created_at', 'desc')
@@ -38,6 +39,7 @@ class MisController extends Controller
             $endOfCurrentDay = $currentDate->endOfDay();
             
             $data = Ticket::where('type', $setType)
+                ->where('is_active', 1)
                 ->whereBetween('created_at', [$startOfPreviousDay, $endOfCurrentDay])
                 ->with('security', 'security.amc')
 				->orderBy('created_at', 'desc')

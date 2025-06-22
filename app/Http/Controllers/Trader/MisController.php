@@ -208,6 +208,7 @@ class MisController extends Controller
                     ')
                     // ->whereUserId($userId)
                     ->where('type', $setType)
+                    ->where('is_active', 1)
                     ->whereBetween('created_at', [$startOfDay, $endOfDay])
                     ->groupBy('security_id','user_id')
                     ->with('security', 'security.amc') // Load relationships
@@ -254,6 +255,7 @@ class MisController extends Controller
                     ')
                     // ->where('user_id', $userId)
                     ->where('type', $setType)
+                    ->where('is_active', 1)
                     ->whereBetween('created_at', [$startOfDay, $endOfDay])
                     ->groupBy('security_id','user_id')
                     ->with('security', 'security.amc') // Load relationships
@@ -337,6 +339,7 @@ class MisController extends Controller
                     ')
                     // ->whereUserId($userId)
                     ->where('type', $setType)
+                    ->where('is_active', 1)
                     ->whereBetween('created_at', [$startOfDay, $endOfDay])
                     ->groupBy('security_id','user_id')
                     ->with('security', 'security.amc') // Load relationships
@@ -383,6 +386,7 @@ class MisController extends Controller
                     ')
                     // ->where('user_id', $userId)
                     ->where('type', $setType)
+                    ->where('is_active', 1)
                     ->whereBetween('created_at', [$startOfDay, $endOfDay])
                     ->groupBy('security_id','user_id')
                     ->with('security', 'security.amc') // Load relationships
