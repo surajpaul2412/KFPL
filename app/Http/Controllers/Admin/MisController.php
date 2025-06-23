@@ -26,7 +26,7 @@ class MisController extends Controller
     public function exportOpsBuyCasesToCSV($rows)
 	{
 		$headers = [
-				    'Ticket ID', 'Date', 'AMC Name', 'Symbol', 'ISIN', 'No Of baskets',  'Qty',
+				    'Ticket ID', 'Date', 'AMC Name', 'Symbol', 'ISIN', 'No Of baskets',  'Qty', 'Total Amt.',
 				    'Deal Accept',  'Fund Remitted', 'Appl Sent',  'Order Recd',  'Deal Recd',
 				    'Amt Recd',   'Units Recd',
 				];
@@ -40,13 +40,15 @@ class MisController extends Controller
 				    // Declare Variables 
 				    $totalBasket = 0;
 					$totalQty  = 0;
+					$finalTotalAmt = 0;
 
 				    // Iterate over each row and write to the CSV
 				    foreach ($rows as $row) {
 
 				    	$totalBasket += doubleval($row->basket_no);
 						$totalQty += doubleval($row->basket_no * $row->basket_size);
-
+						$finalTotalAmt += doubleval($row->actual_total_amt);
+				        
 				        fputcsv($file, [
 				            $row->id,
 				            date("d-M-Y", strtotime($row->created_at)),
@@ -55,6 +57,7 @@ class MisController extends Controller
 				            $row->security->isin ?? '',
 				            $row->basket_no,
 				            $row->basket_no * $row->basket_size,
+				            $row->actual_total_amt, 
 				            $row->status_id > 2 ? 'Yes' : 'No',
 				            $row->utr_no ? 'Yes' : 'No',
 				            $row->status_id > 6 ? 'Yes' : 'No',
@@ -74,6 +77,7 @@ class MisController extends Controller
 							'',
 							number_format($totalBasket, 2),
 							number_format($totalQty, 2),
+							number_format($finalTotalAmt, 2),
 							'',
 							'',
 							'',
@@ -101,7 +105,7 @@ class MisController extends Controller
     public function exportOpsSaleCasesToCSV($rows)
 	{
 		$headers = [
-					'Ticket ID', 'Date', 'AMC Name', 'Symbol', 'ISIN', 'No Of baskets', 'Qty',
+					'Ticket ID', 'Date', 'AMC Name', 'Symbol', 'ISIN', 'No Of baskets', 'Qty', 'Total Amt.',
 					'Units Sent', 'Appl Sent', 'Order Recd', 'Deal Recd', 'Unit Trf', 'Amt Recd'
 		];
 
@@ -114,13 +118,15 @@ class MisController extends Controller
 				    // Declare Variables 
 				    $totalBasket = 0;
 					$totalQty  = 0;
-
+					$finalTotalAmt = 0;
+				    
 				    // Iterate over each row and write to the CSV
 				    foreach ($rows as $row) {
 
 				    	$totalBasket += doubleval($row->basket_no);
 						$totalQty += doubleval($row->basket_no * $row->basket_size);
-				        
+				        $finalTotalAmt += doubleval($row->actual_total_amt);
+
 				        fputcsv($file, [
 				            $row->id,
 							date("d-M-Y", strtotime($row->created_at)),
@@ -129,6 +135,7 @@ class MisController extends Controller
 							$row->security->isin,
 							$row->basket_no,
 							$row->basket_no * $row->basket_size,
+							$row->actual_total_amt, 
 							'',
 							$row->status_id > 6 ? 'Yes' : 'No',
 							$row->status_id > 7 ? 'Yes' : 'No',
@@ -147,6 +154,7 @@ class MisController extends Controller
 							'',
 							number_format($totalBasket, 2),
 							number_format($totalQty, 2),
+							number_format($finalTotalAmt, 2),
 							'',
 							'',
 							'',

@@ -217,7 +217,7 @@ Ticket Management
                                     '<td>' + row.security.isin + '</td>' +  // Placeholder for isin, update with correct key
                                     '<td>' + row.basket_no + '</td>' +  // Assuming total_amt is the Ticket Amount
                                     '<td>' + row.basket_no * row.basket_size + '</td>' +  // Assuming actual_total_amt is the Amount Received
-                                     '<td>' + row.actual_total_amt + '</td>' +  
+                                    '<td>' + row.actual_total_amt + '</td>' +  
                                     '<td>' + '' + '</td>' +  // Placeholder for Symbol, update with correct key
                                     '<td>' + (row.status_id > 6 ? ''+check+'' : ''+cross+'') + '</td>' + 
                                     '<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 

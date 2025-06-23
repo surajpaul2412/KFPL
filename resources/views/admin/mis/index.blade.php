@@ -85,6 +85,7 @@ Ticket Management
                                     <th class="bg-success text-white">ISIN</th>
                                     <th class="bg-success text-white">No Of baskets</th>
                                     <th class="bg-success text-white">Qty</th>
+                                    <th class="bg-success text-white">Ticket Amt</th>
                                     <th class="bg-success text-white">Deal Accept</th>
                                     <th class="bg-success text-white">Fund Remitted</th>
                                     <th class="bg-success text-white">Appl Sent</th>
@@ -304,6 +305,8 @@ function loadData(selectedValue)
 				var totalBasket = 0;
 				var totalQty = 0;
 				var amountReceived = 0;
+				var final_total_amt = 0;
+
 				var check = '<i class="ri-check-fill text-success icon-large"></i>';
 				var cross = '<i class="ri-close-fill text-danger icon-large"></i>';
 
@@ -323,6 +326,7 @@ function loadData(selectedValue)
 							'<th class="bg-success text-white">ISIN</th>' +
 							'<th class="bg-success text-white">No Of baskets</th>' +
 							'<th class="bg-success text-white">Qty</th>' +
+							'<th class="bg-success text-white">Ticket Amt.</th>' +
 							'<th class="bg-success text-white">Deal Accept</th>' +
 							'<th class="bg-success text-white">Fund Remitted</th>' +
 							'<th class="bg-success text-white">Appl Sent</th>' +
@@ -337,6 +341,8 @@ function loadData(selectedValue)
 					data.forEach(function(row) {
 						totalBasket += parseFloat(row.basket_no);
 						totalQty += parseFloat(row.basket_no * row.basket_size);
+						final_total_amt += parseFloat(row.actual_total_amt);
+
 						console.log(row.created_at);
 						
 						var tr = '<tr>' +
@@ -346,7 +352,8 @@ function loadData(selectedValue)
 							'<td>' + row.security.symbol + '</td>' +  // Placeholder for Symbol, update with correct key
 							'<td>' + row.security.isin + '</td>' +  // Placeholder for Symbol, update with correct key
 							'<td>' + row.basket_no + '</td>' +  // Placeholder for Symbol, update with correct key
-							'<td>' + row.basket_no * row.basket_size + '</td>' +  // Placeholder for Symbol, update with correct key
+							'<td>' + row.basket_no * row.basket_size + '</td>' +  // Placeholder for Symbol
+							 '<td>' + row.actual_total_amt + '</td>' +  
 							'<td>' + (row.status_id > 2 ? ''+check+'' : ''+cross+'') + '</td>' + 
 							'<td>' + (row.utr_no ? check : cross) + '</td>' + 
 							'<td>' + (row.status_id > 6 ? ''+check+'' : ''+cross+'') + '</td>' + 
@@ -366,6 +373,7 @@ function loadData(selectedValue)
 						'<td></td>' +
 						'<td>' + totalBasket.toFixed(2) + '</td>' +
 						'<td>' + totalQty.toFixed(2) + '</td>' +
+						'<td>' + final_total_amt.toFixed(2) + '</td>' +
 						'<td></td>' +
 						'<td></td>' +
 						'<td></td>' +
@@ -387,6 +395,7 @@ function loadData(selectedValue)
 							'<th class="bg-danger text-white">ISIN</th>' +
 							'<th class="bg-danger text-white">No Of baskets</th>' +
 							'<th class="bg-danger text-white">Qty</th>' +
+							 '<th class="bg-danger text-white">Total Amt.</th>' +
 							'<th class="bg-danger text-white">Units Sent</th>' +
 							'<th class="bg-danger text-white">Appl Sent</th>' +
 							'<th class="bg-danger text-white">Order Recd</th>' +
@@ -408,6 +417,7 @@ function loadData(selectedValue)
 								'<td>' + row.security.isin + '</td>' +  // Placeholder for isin, update with correct key
 								'<td>' + row.basket_no + '</td>' +  // Assuming total_amt is the Ticket Amount
 								'<td>' + row.basket_no * row.basket_size + '</td>' +  // Assuming actual_total_amt is the Amount Received
+								'<td>' + row.actual_total_amt + '</td>' +  
 								'<td>' + '' + '</td>' +  // Placeholder for Symbol, update with correct key
 								'<td>' + (row.status_id > 6 ? ''+check+'' : ''+cross+'') + '</td>' + 
 								'<td>' + (row.status_id > 7 ? ''+check+'' : ''+cross+'') + '</td>' + 
@@ -426,6 +436,7 @@ function loadData(selectedValue)
 							'<td></td>' +
 							'<td>' + totalBasket.toFixed(2) + '</td>' +
 							'<td>' + totalQty.toFixed(2) + '</td>' +
+							'<td>' + final_total_amt.toFixed(2) + '</td>' +
 							'<td></td>' +
 							'<td></td>' +
 							'<td></td>' +
