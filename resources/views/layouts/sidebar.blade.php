@@ -17,6 +17,9 @@
                     <a href="{{ route('admin.mis.index') }}" class="nav-link {{ Request::is('admin/mis*') ? 'active' : '' }}"><i class="ri-dashboard-line"></i> <span>MIS</span></a>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link {{ Request::is('admin/summary*') ? 'active' : '' }}"><i class="ri-file-list-3-line"></i> <span>Summary</span></a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('employees.index') }}" class="nav-link {{ Request::is('admin/employees*') ? 'active' : '' }}"><i class="ri-group-line"></i> <span>Employee Management</span></a>
                 </li>
                 <li class="nav-item">
@@ -24,6 +27,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.quick_tickets.index') }}" class="nav-link {{ Request::is('admin/quick_tickets*') ? 'active' : '' }}"><i class="ri-timer-line"></i> <span>Quick Tickets</span> <div class="lottie-animation-2" id="lottie-animation-admin-quick"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link {{ Request::is('admin/merge_tickets*') ? 'active' : '' }}"><i class="ri-node-tree"></i> <span>Merge Tickets</span></a>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link has-sub {{ Request::is('admin/amcs*') ? 'active' : '' }} {{ Request::is('admin/securities*') ? 'active' : '' }}"><i class="ri-user-2-line"></i> <span>AMC Manager</span></a>
@@ -59,10 +65,16 @@
                           <a href="{{ route('trader.mis.index') }}" class="nav-link {{ Request::is('trader/mis*') ? 'active' : '' }}"><i class="ri-dashboard-line"></i> <span>MIS</span></a>
                       </li>
                       <li class="nav-item">
+                          <a href="#" class="nav-link {{ Request::is('trader/summary*') ? 'active' : '' }}"><i class="ri-file-list-3-line"></i> <span>Summary</span></a>
+                      </li>
+                      <li class="nav-item">
                           <a href="{{ route('trader.tickets.index') }}" class="nav-link {{ Request::is('trader/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span>  <div class="lottie-animation" id="lottie-animation-trader"></div></a>
                       </li>
                       <li class="nav-item">
                           <a href="{{ route('trader.quick_tickets.index') }}" class="nav-link {{ Request::is('trader/quick_tickets*') ? 'active' : '' }}"><i class="ri-timer-line"></i> <span>Quick Tickets</span>  <div class="lottie-animation-2" id="lottie-animation-trader-quick"></div></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#" class="nav-link {{ Request::is('trader/merge_tickets*') ? 'active' : '' }}"><i class="ri-node-tree"></i> <span>Merge Tickets</span>  <div class="lottie-animation-2" id="lottie-animation-trader-quick"></div></a>
                       </li>
                       @endif
                       @if(auth()->user()->isOps())
@@ -75,7 +87,13 @@
                           <a href="{{ route('ops.mis.index') }}" class="nav-link {{ Request::is('ops/mis*') ? 'active' : '' }}"><i class="ri-dashboard-line"></i> <span>MIS</span></a>
                       </li>
                       <li class="nav-item">
+                          <a href="#" class="nav-link {{ Request::is('ops/summary*') ? 'active' : '' }}"><i class="ri-file-list-3-line"></i> <span>Summary</span></a>
+                      </li>
+                      <li class="nav-item">
                           <a href="{{ route('ops.tickets.index') }}" class="nav-link {{ Request::is('ops/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span> <div class="lottie-animation" id="lottie-animation-ops"></div></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#" class="nav-link {{ Request::is('ops/merge_tickets*') ? 'active' : '' }}"><i class="ri-node-tree"></i> <span>Merge Tickets</span> <div class="lottie-animation" id="lottie-animation-ops"></div></a>
                       </li>
                       @endif
                       @if(auth()->user()->isAccounts())
@@ -88,6 +106,9 @@
                           <a href="{{ route('accounts.mis.index') }}" class="nav-link {{ Request::is('accounts/mis*') ? 'active' : '' }}"><i class="ri-dashboard-line"></i> <span>MIS</span></a>
                       </li>
                       <li class="nav-item">
+                          <a href="#" class="nav-link {{ Request::is('accounts/summary*') ? 'active' : '' }}"><i class="ri-file-list-3-line"></i> <span>Summary</span></a>
+                      </li>
+                      <li class="nav-item">
                           <a href="{{ route('accounts.tickets.index') }}" class="nav-link {{ Request::is('accounts/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span> <div class="lottie-animation" id="lottie-animation-accounts"></div></a>
                       </li>
                       @endif
@@ -98,6 +119,9 @@
 					  --}}
                       <li class="nav-item">
                           <a href="{{ route('dealer.mis.index') }}" class="nav-link {{ Request::is('dealer/mis*') ? 'active' : '' }}"><i class="ri-dashboard-line"></i> <span>MIS</span></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#" class="nav-link {{ Request::is('dealer/summary*') ? 'active' : '' }}"><i class="ri-file-list-3-line"></i> <span>Summary</span></a>
                       </li>
                       <li class="nav-item">
                           <a href="{{ route('dealer.tickets.index') }}" class="nav-link {{ Request::is('dealer/tickets*') ? 'active' : '' }}"><i class="ri-flag-2-line"></i> <span>Tickets</span> <div class="lottie-animation" id="lottie-animation-dealer"></div></a>
