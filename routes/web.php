@@ -9,6 +9,7 @@ use App\Http\Controllers\Ops\DashboardController as OpsDashboardController;
 use App\Http\Controllers\BackOffice\DashboardController as BackOfficeDashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AmcController;
+use App\Http\Controllers\Admin\SenderemailController;
 use App\Http\Controllers\Admin\DisputeController;
 use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
@@ -89,6 +90,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/admin/tickets/{ticket}/statusUpdate', [AdminTicketController::class, 'statusUpdate'])->name('admin.tickets.statusUpdate');
     // AMC Management
     Route::resource('/admin/amcs', AmcController::class);
+    Route::resource('/admin/senderemail', SenderemailController::class);
     Route::post('/admin/upload-securities', [SecurityController::class, 'uploadCSV']);
     Route::get('/admin/download-csv', [SecurityController::class, 'downloadCSV'])->name('download.csv');
     Route::resource('/admin/securities', SecurityController::class);

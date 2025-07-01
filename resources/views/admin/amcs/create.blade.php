@@ -23,7 +23,7 @@
                     <div class="card card-one card-product">
                         <div class="card-body p-3">
                             <div class="row px-md-4">
-                                <div class="col-6 my-3">
+                                <div class="col-3 my-3">
                                     <div class="pb-1">
                                         Name
                                     </div>
@@ -34,6 +34,21 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-3 my-3">
+                                    <div class="pb-1">
+                                        Email Sender
+                                    </div>
+                                    <div class="">
+                                        <div class="">
+                                        <select name="sender_email_id" class="form-select mb-3">
+                                            @foreach($senderemails as $sender)
+                                                <option value="{{ $sender->id }}">{{ $sender->from_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     </div>
                                 </div>
 

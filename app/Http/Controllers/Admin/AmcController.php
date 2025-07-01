@@ -8,6 +8,7 @@ use App\Models\Amc;
 use App\Models\Pdf;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Emailtemplate;
+use App\Models\Senderemail;
 
 class AmcController extends Controller
 {
@@ -18,6 +19,7 @@ class AmcController extends Controller
             $query->where('name', 'like', '%' . $search . '%')
                 ->orWhere('email', 'like', '%' . $search . '%');
         })
+        ->where("is_deleted", 0)
         ->paginate(10);
 
         return view('admin.amcs.index', compact('amcs', 'search'));
@@ -26,8 +28,9 @@ class AmcController extends Controller
     public function create()
     {
         $pdfs = Pdf::orderBy('name')->get();
+        $senderemails = Senderemail::where("status", 1)->get();
 		$emailtemplates = Emailtemplate::where('status',1)->get();
-        return view('admin.amcs.create', compact('pdfs', 'emailtemplates'));
+        return view('admin.amcs.create', compact('pdfs', 'emailtemplates', 'senderemails'));
     }
 
     public function store(Request $request)
@@ -50,7 +53,8 @@ class AmcController extends Controller
         $amc = Amc::findOrFail($id);
         $pdfs = Pdf::all();
 		$emailtemplates = Emailtemplate::where('status',1)->get();
-        return view('admin.amcs.edit', compact('amc','pdfs','emailtemplates'));
+        $senderemails = Senderemail::where("status", 1)->get();
+        return view('admin.amcs.edit', compact('amc','pdfs','emailtemplates', 'senderemails'));
     }
 
     public function update(Request $request, $id)
@@ -77,9 +81,8 @@ class AmcController extends Controller
     public function destroy($id)
     {
         $amc = Amc::findOrFail($id);
-        $oldStatus = $amc->status;
-        $amc->status = !$amc->status;
+        $amc->is_deleted = 1;
         $amc->save();
-        return back()->with('success', 'AMC ' . ($oldStatus==1?'De-':'') . 'Activated successfully.');
+        return back()->with('success', 'AMC Deleted successfully.');
     }
 }

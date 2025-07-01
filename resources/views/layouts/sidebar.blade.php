@@ -37,7 +37,7 @@
                         <a href="{{ route('amcs.index') }}" class="nav-sub-link">AMC</a>
                         <a href="{{ route('securities.index') }}" class="nav-sub-link">Security</a>
 						<a href="{{ route('admin.emailtemplates.index') }}" class="nav-sub-link">Email Templates</a>
-                        <a href="#" class="nav-sub-link">Sender Email</a>
+                        <a href="{{ route('senderemail.index') }}" class="nav-sub-link">Sender Email</a>
                     </nav>
                 </li>
                 <li class="nav-item">

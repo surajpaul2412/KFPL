@@ -1,19 +1,25 @@
 @extends('layouts.dashboard')
 
 @section('breadcrum')
-    AMC Master
+    Email Senders Master
 @endsection
 
 @section('content')
+    <style>
+	.alert{
+		margin-bottom: -10px;
+		margin-top: 10px;
+	}
+	</style>
     <div class="d-sm-flex align-items-center justify-content-between">
-        <form class="d-flex" method="GET" action="{{ route('amcs.index') }}">
-            <input class="form-control me-2" type="search" name="search" value="{{$search}}" placeholder="Search AMC" aria-label="Search AMC">
+        <form class="d-flex" method="GET" action="{{ route('senderemail.index') }}">
+            <input class="form-control me-2" type="search" name="search" value="{{$search}}" placeholder="Search Email Senders" aria-label="Search Email Senders">
             <button class="btn btn-primary" type="submit">Search</button>
         </form>
 
         <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
-            <a type="button" href="{{ route('amcs.create') }}" class="btn btn-primary d-flex align-items-center gap-2">
-                <i class="ri-add-circle-line fs-18 lh-1"></i><span class="d-none d-sm-inline"> Add AMC</span>
+            <a type="button" href="{{ route('senderemail.create') }}" class="btn btn-primary d-flex align-items-center gap-2">
+                <i class="ri-add-circle-line fs-18 lh-1"></i><span class="d-none d-sm-inline"> Add Email Sender</span>
             </a>
         </div>
     </div>
@@ -31,41 +37,37 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Total No. of securities</th>
-                                        <th>Expense Percentage (%)</th>
+                                        <th>Driver</th>
+                                        <th>From Email</th>
+                                        <th>From Name</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($amcs as $amc)
+                                    @foreach ($senderemails as $emailsender)
                                         <tr>
-                                            <td>{{ $amc->id }}.</td>
-                                            <td>{{ $amc->name }}</td>
-                                            <td>{{ $amc->securities->count() }}</td>
-                                            <td>{{ $amc->expense_percentage??0 }} %</td>
+                                            <td>{{ $emailsender->id }}.</td>
+                                            <td>{{ $emailsender->driver }}</td>
+                                            <td>{{ $emailsender->from_address }}</td>
+                                            <td>{{ $emailsender->from_name }}</td>
                                             <td>
-                                                @if($amc->status == 1)
+                                                @if($emailsender->status == 1)
                                                 <a type="button" class="badge badge-pill text-white bg-success px-4">Active</a>
                                                 @else
                                                 <a type="button" class="badge badge-pill text-white bg-warning px-4">Inactive</a>
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('amcs.edit', $amc->id) }}" title="Edit">
+                                                <a href="{{ route('senderemail.edit', $emailsender->id) }}" title="Edit">
                                                     <i class="ri-pencil-fill"></i>
                                                 </a>
-                                                <form id='deleteForm{{$amc->id}}' action="{{ route('amcs.destroy', $amc->id) }}" method="POST" class="d-inline">
+                                                <form id='deleteForm{{$emailsender->id}}' action="{{ route('senderemail.destroy', $emailsender->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <a type="submit" class="" title="DELETE AMC"
-                                                        onclick="deletePrompt({{$amc->id}}, {{$amc->status}})">
-                                                        @if($amc->status)
-                                                         <i class="ri-delete-bin-5-fill text-danger" title="DeActivate"></i>
-                                                        @else 
-                                                         <i class="ri-arrow-go-back-fill text-success" title="Activate"></i>
-                                                        @endif 
+                                                    <a type="submit" class="" title="DELETE Email Sender"
+                                                        onclick="deletePrompt({{$emailsender->id}}, {{$emailsender->status}})"> 
+													     <i class="ri-delete-bin-line" title="Delete"></i>
                                                     </a>
                                                 </form>
                                             </td>
@@ -76,7 +78,7 @@
 
                             <!-- Pagination links -->
                             <div class="d-flex justify-content-center my-3">
-                                {{ $amcs->links() }}
+                                {{ $senderemails->links() }}
                             </div>
                         </div>
                     </div>
@@ -93,5 +95,5 @@
                 document.getElementById('deleteForm' + formid).submit();
             }
         }
-    </script>   
+    </script>
 @endsection
