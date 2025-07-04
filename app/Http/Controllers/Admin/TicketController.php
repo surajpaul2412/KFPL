@@ -2,23 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Mail\MailManager;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Role;
-use App\Models\User;
-use App\Models\Ticket;
-use App\Models\Security;
 use Exception;
 use Validator;
 use Auth;
 use Storage;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\Ticket;
+use App\Models\Security;
+use App\Models\Senderemail;
 use App\Services\FormService;
 use App\Mail\MailToAMC;
 use App\Mail\TemplateBasedMailToAMC;
 use App\Mail\MailScreenshotToAMC;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+
 
 use Illuminate\Database\Eloquent\Builder;
 
@@ -177,6 +181,38 @@ class TicketController extends Controller
 		$securities = Security::whereStatus(1)->get();
         return view("admin.tickets.edit", compact("ticket", "securities"));
     }
+
+	private function getAMCeMailConfig($ticket)
+	{
+		$sender_email_id = $ticket->security->amc->sender_email_id;
+		if($sender_email_id!='')
+		{
+			$se = Senderemail::where("id", $sender_email_id)->first();
+			if( $se )
+			{
+	  
+				Config::set('mail.mailers.smtp', [
+					'transport'  => 'smtp',
+					'host' 		 => $se->host,
+					'port' 		 => $se->port,
+					'encryption' => $se->encryption,
+					'username'   => $se->username,
+					'password'   => $se->password,
+					'timeout'    => null,
+					'from' 		 => [
+										'address' => $se->from_address,
+										'name'    => $se->from_name,
+									],
+					'auth_mode'  => null,
+				]);
+	  
+			}
+			return true;
+		}
+		
+		return false;
+
+	}
 
     /**
      * Update the specified resource in storage.
@@ -654,13 +690,17 @@ class TicketController extends Controller
 			
 
             } elseif ($ticket->status_id == 10) {
-                if ($ticket->type == 2) {
+                
+				// SELL CASES
+				if ($ticket->type == 2) 
+				{
                     $request->validate([
                         "screenshot"  => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
                         "deal_ticket" => "nullable",
                     ]);
 
-                    if ($request->hasFile("screenshot")) {
+                    if ($request->hasFile("screenshot")) 
+					{
                         // IF Old one exists, remove it
                         if ($ticket->screenshot != "") {
                             if (file_exists($ticket->screenshot)) {
@@ -674,7 +714,6 @@ class TicketController extends Controller
 						$storePath = Storage::put('public/' . $path, $scf);
 						$fileName = basename($storePath);
 						$ticket->screenshot = $path . '/' . $fileName;
-
                     }
 
                     // Deal Ticket Workings
@@ -692,17 +731,19 @@ class TicketController extends Controller
                     }
 
                     $ticket->status_id = 12; // SELL CASE
-                    // mailing for sell
+                    
+					// mailing for sell
 					if($ticket->security->amc->generate_form_pdf == 1)
 					{
 						FormService::GenerateDocument($ticket);
 					}
 					
                     $ticket->save();
-
+					
                     // Trigger mail if SS uploaded
-                    if ($request->hasFile("screenshot")) {
-                        
+                    if ($request->hasFile("screenshot")) 
+					{
+                       
 						$emailString = $ticket->security->amc->email;
 						$mailToSelf = 0;
 						
@@ -720,7 +761,7 @@ class TicketController extends Controller
 						// MAIL to SELF
 						if( $mailToSelf )
 						{
-							
+
 							// CHECK if TEMPLATE exists
 							if(
 							  ( $ticket->type == 1 && $ticket->payment_type == 1 && $ticket->security->amc->buycashtmpl != null ) ||
@@ -736,22 +777,42 @@ class TicketController extends Controller
 						}
 						else // NOT MAIL to SELF
 						{
+							
+							// GET AMC - EMail Sending Config
+							$mailConfigFound = $this->getAMCeMailConfig($ticket);
+
 							// SELL CASH case with SCREENSHOT
 							if( $ticket->payment_type == 1 && $ticket->security->amc->sellcashwosstmpl != null )
 							{
-								Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 3, 0, 0));
+								if( $mailConfigFound )
+								{
+									Mail::mailer('smtp')->to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 3, 0, 0));
+								}
+								else 
+								{
+									//Fallback to DEFAULTs
+									Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 3, 0, 0));
+								}
 							}
 							else 
 							{
-							   Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
+								if( $mailConfigFound )
+								{
+									Mail::mailer('smtp')->to($toEmail)->send(new MailScreenshotToAMC($ticket));
+								}
+								else 
+								{
+									//Fallback to DEFAULTs
+									Mail::to($toEmail)->send(new MailScreenshotToAMC($ticket));
+								}
 							}
 						}
-						
-						
+
                         $ticket->status_id = 12;
                         $ticket->update();
                     }
                 }
+
             } elseif ($ticket->status_id == 11) {
                 if ($request->get("verification") == 1) {
                     $request->validate([

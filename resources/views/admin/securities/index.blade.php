@@ -72,10 +72,12 @@
                                                     <span class="badge badge-pill bg-danger">Inactive</span>
                                                 @endif
                                             </td>
+
                                             <td>
                                                 <a href="{{ route('securities.edit', $security->id) }}" title="Edit">
                                                     <i class="ri-pencil-fill"></i>
                                                 </a>
+                                                <!--
                                                 <form action="{{ route('securities.destroy', $security->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
@@ -83,6 +85,7 @@
                                                         <i class="ri-delete-bin-5-fill text-danger"></i>
                                                     </a>
                                                 </form>
+                                                -->
                                             </td>
                                         </tr>
                                     @endforeach

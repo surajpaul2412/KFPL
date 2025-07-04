@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Ticket;
 use App\Models\QuickTicket;
 
+
 function totalTicketAmt(Ticket $ticket) {
     $amt = 0;
     $amt =  ($ticket->basket_no * $ticket->basket_size * $ticket->rate) + 
@@ -105,5 +106,4 @@ function dealerCount($userId) {
         ->count();
     return $ticketCount;
 }
-
 ?>

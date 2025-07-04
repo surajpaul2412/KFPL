@@ -19,7 +19,6 @@ class AmcController extends Controller
             $query->where('name', 'like', '%' . $search . '%')
                 ->orWhere('email', 'like', '%' . $search . '%');
         })
-        ->where("is_deleted", 0)
         ->paginate(10);
 
         return view('admin.amcs.index', compact('amcs', 'search'));
@@ -75,14 +74,23 @@ class AmcController extends Controller
         // Update amc attributes with validated data
         $amc->update($request->all());
 
+        // IF AMC is being Disabled, DISABLE all Securities under it 
+        if( $request->status == 0 )
+        {
+            foreach ($amc->securities as $security) {
+                $security->status = 0;
+                $security->save();
+            }
+        }
+
         return redirect()->route('amcs.index')->with('success', 'AMC updated successfully.');
     }
 
     public function destroy($id)
     {
-        $amc = Amc::findOrFail($id);
-        $amc->is_deleted = 1;
-        $amc->save();
-        return back()->with('success', 'AMC Deleted successfully.');
+        //$amc = Amc::findOrFail($id);
+        //$amc->is_deleted = 1;
+        //$amc->save();
+        //return back()->with('success', 'AMC Deleted successfully.');
     }
 }

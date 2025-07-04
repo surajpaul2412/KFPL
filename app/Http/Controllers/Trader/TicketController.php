@@ -24,31 +24,31 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
-      // SEARCH PArameters
-      $sel_from_date = isset($request["sel_from_date"])
+        // SEARCH PArameters
+        $sel_from_date = isset($request["sel_from_date"])
           ? $request["sel_from_date"]
           : "";
-      $sel_to_date = isset($request["sel_to_date"])
+        $sel_to_date = isset($request["sel_to_date"])
           ? $request["sel_to_date"]
           : "";
-      $sel_query = isset($request["sel_query"]) ? $request["sel_query"] : "";
+        $sel_query = isset($request["sel_query"]) ? $request["sel_query"] : "";
 
-      $type = isset($request["type"]) ? $request["type"] : "";
+        $type = isset($request["type"]) ? $request["type"] : "";
 
-      // GET ALL ROLES
-      $roles = Role::where("id", "<>", 1)->get();
+        // GET ALL ROLES
+        $roles = Role::where("id", "<>", 1)->get();
 
-      DB::enableQueryLog();
+        DB::enableQueryLog();
 
-      $ticketQuery = Ticket::with("security");
+        $ticketQuery = Ticket::with("security");
 
-      if ($sel_from_date != "") {
+        if ($sel_from_date != "") {
           $ticketQuery->where("updated_at", ">=", $sel_from_date . " 00:00:00");
-      }
-      if ($sel_to_date != "") {
+        }
+        if ($sel_to_date != "") {
           $ticketQuery->where("updated_at", "<=", $sel_to_date . " 23:59:59");
-      }
-      if ($sel_query != "") {
+        }
+        if ($sel_query != "") {
           $ticketQuery->whereHas("security", function ($query) use (
               $sel_query
           ) {
@@ -58,21 +58,21 @@ class TicketController extends Controller
                   ->orWhere("securities.symbol", "LIKE", "%{$sel_query}%")
                   ->orWhere("securities.isin", "LIKE", "%{$sel_query}%");
           });
-      }
+        }
 
         if ($type != "") {
             $ticketQuery->whereType($type);
         }
 
-      $tickets = $ticketQuery->whereUserId(Auth::user()->id)
+        $tickets = $ticketQuery->whereUserId(Auth::user()->id)
                              ->where('is_active', '1')
                              ->orderBy("updated_at", "desc")
                              ->paginate(10);
 
-      //$sql = DB::getQueryLog();
-      //dd($sql);
+        //$sql = DB::getQueryLog();
+        //dd($sql);
 
-      return view(
+        return view(
           "trader.tickets.index",
           compact(
               "tickets",
@@ -81,7 +81,7 @@ class TicketController extends Controller
               "sel_to_date",
               "sel_query"
           )
-      );
+        );
     }
 
     /**

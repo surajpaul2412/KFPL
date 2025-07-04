@@ -37,7 +37,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Driver</th>
+                                        <th>Host</th>
                                         <th>From Email</th>
                                         <th>From Name</th>
                                         <th>Status</th>
@@ -48,7 +48,7 @@
                                     @foreach ($senderemails as $emailsender)
                                         <tr>
                                             <td>{{ $emailsender->id }}.</td>
-                                            <td>{{ $emailsender->driver }}</td>
+                                            <td>{{ $emailsender->host }}</td>
                                             <td>{{ $emailsender->from_address }}</td>
                                             <td>{{ $emailsender->from_name }}</td>
                                             <td>

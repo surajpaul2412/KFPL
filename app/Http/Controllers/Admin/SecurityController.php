@@ -104,10 +104,9 @@ class SecurityController extends Controller
      */
     public function destroy($id)
     {
-        $security = Security::findOrFail($id);
-        $security->delete();
-
-        return redirect()->route('securities.index')->with('success', 'Security deleted successfully.');
+        //$security = Security::findOrFail($id);
+        //$security->delete();
+        //return redirect()->route('securities.index')->with('success', 'Security deleted successfully.');
     }
 
     public function uploadCSV(Request $request)

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('breadcrum')
-    AMC Master
+    AMC Security Master
 @endsection
 
 @section('content')

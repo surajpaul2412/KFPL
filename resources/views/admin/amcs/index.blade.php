@@ -56,6 +56,7 @@
                                                 <a href="{{ route('amcs.edit', $amc->id) }}" title="Edit">
                                                     <i class="ri-pencil-fill"></i>
                                                 </a>
+                                                <!--
                                                 <form id='deleteForm{{$amc->id}}' action="{{ route('amcs.destroy', $amc->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
@@ -68,6 +69,7 @@
                                                         @endif 
                                                     </a>
                                                 </form>
+                                                -->
                                             </td>
                                         </tr>
                                     @endforeach
