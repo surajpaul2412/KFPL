@@ -357,7 +357,9 @@ class TicketController extends Controller
                 $ticket->save();
 
             } elseif ($ticket->status_id == 10) {
-                if ($ticket->type == 2) {
+                
+                if ($ticket->type == 2) 
+                {
                     $request->validate([
                         "screenshot"  => "nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,csv,xls",
                         "deal_ticket" => "nullable",
@@ -651,27 +653,62 @@ class TicketController extends Controller
 			$emailString = $ticket->security->amc->email ?? null;
 			$emailArray = explode(", ", $emailString);
 			$toEmail = array_map("trim", $emailArray);
-          
+          	
+          	// GET AMC - EMail Sending Config
+			$mailConfigFound = $this->getAMCeMailConfig($ticket);
+
 		    if( $loadTemplate )
 			{
 				// SELL CASH CASES 
 				if( $ticket->type == 2 && $ticket->security->amc->sellcashtmpl != null )
 				{
-				   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 2)); // 2 = Forching sellcashtmpl template
+				   if( $mailConfigFound )
+				   {
+						Mail::mailer('smtp')->to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 2));
+				   }
+				   else 
+				   {
+				   		Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket, 2)); // 2 = Forching sellcashtmpl template	
+				   }
+				   
 				}
 				// BUY CASH CASES
 				else if( $ticket->type == 1 && $ticket->security->amc->buycashtmpl != null )
 				{
-				   Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
+				   if( $mailConfigFound )
+				   {
+						Mail::mailer('smtp')->to($toEmail)->send(new TemplateBasedMailToAMC($ticket));
+				   }
+				   else 
+				   {
+				   		Mail::to($toEmail)->send(new TemplateBasedMailToAMC($ticket));	
+				   }
+				   
 				} 
 				else 
 				{	
-					Mail::to($toEmail)->send(new MailToAMC($ticket));
+					if( $mailConfigFound )
+				    {
+				   		Mail::mailer('smtp')->to($toEmail)->send(new MailToAMC($ticket));
+				    }
+				    else 
+				    {
+						Mail::to($toEmail)->send(new MailToAMC($ticket));
+				    }
+					
 				}
 			}
 			else 
 			{	
-				Mail::to($toEmail)->send(new MailToAMC($ticket));
+				if( $mailConfigFound )
+				{
+					Mail::mailer('smtp')->to($toEmail)->send(new MailToAMC($ticket));
+				}
+				else 
+				{
+					Mail::to($toEmail)->send(new MailToAMC($ticket));	
+				}
+				
 			}
         }
 
